@@ -1,0 +1,82 @@
+/* Page wrapper */
+.add-item-page {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 90vh;
+  background-color: #f4f6f8;
+  padding: 40px 500px;
+}
+
+/* Container */
+.add-item-container {
+  width: 100%;
+  max-width: 1100px;
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* Title */
+.add-item-title {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #1e88e5;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+/* --- GRID FORM LAYOUT --- */
+.add-item-form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);  /* two columns */
+  gap: 20px 30px;
+}
+
+/* Full width row (button) */
+.full-width {
+  grid-column: 1 / -1;
+}
+
+/* Label */
+.add-item-label {
+  display: block;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 6px;
+}
+
+/* Input styling */
+.add-item-input {
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fafafa;
+  transition: 0.2s ease;
+}
+
+.add-item-input:focus {
+  background: #fff;
+  border-color: #1e88e5;
+  box-shadow: 0 0 0 2px rgba(30, 136, 229, 0.15);
+}
+
+/* Submit button */
+.add-item-button {
+  width: 100%;
+  padding: 15px;
+  background-color: #1e88e5;
+  color: white;
+  border: none;
+  border-radius: 410px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.add-item-button:hover {
+  background: #1565c0;
+}
