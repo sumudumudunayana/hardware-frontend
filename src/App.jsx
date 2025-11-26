@@ -1,15 +1,23 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import AddItem from "./pages/AddItem";
+import { HashRouter, Routes, Route } from "react-router-dom";
+import LandingPage from "./pages/LandingPage";
+import AddItemPage from "./pages/AddItemPage";
+import OptionPage from "./pages/OptionPage";
+import ItemOptionPage from "./pages/ItemOptionPage";
+import ViewItemPage from "./pages/ViewItemPage";
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
-        <Route path="/" element={<Navigate to="/add-item" />} />
-        <Route path="/add-item" element={<AddItem />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/AddItemPage" element={<AddItemPage />} />
+        <Route path="/OptionPage" element={<OptionPage />} />
+        <Route path="/ItemOptionPage" element={<ItemOptionPage />} />
+        <Route path="/ViewItemPage" element={<ViewItemPage />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
+
 
 export default App;
