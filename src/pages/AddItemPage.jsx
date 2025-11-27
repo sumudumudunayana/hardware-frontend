@@ -14,6 +14,11 @@ export default function AddItemPage() {
     itemDistributor: "",
   });
 
+  // Dummy dropdown values — replace with API values when ready
+  const categories = ["Electronics", "Tools", "Household", "Plumbing", "Electrical"];
+  const companies = ["Singer", "Abans", "Softlogic", "Damro", "Panasonic"];
+  const distributors = ["Local", "Mega Trade", "Hardware Supply", "Ceylon Distributors"];
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -22,15 +27,10 @@ export default function AddItemPage() {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        "http://localhost:8080/item/add-item",  // <-- update if your endpoint differs
-        formData
-      );
+      await axios.post("http://localhost:8080/item/add-item", formData);
 
       alert("Item Added Successfully!");
-      console.log(response.data);
 
-      // Reset form
       setFormData({
         itemName: "",
         itemDescription: "",
@@ -44,7 +44,7 @@ export default function AddItemPage() {
 
     } catch (error) {
       console.error("Error adding item:", error);
-      alert("Failed to add item. Check console.");
+      alert("Failed to add item.");
     }
   };
 
@@ -56,6 +56,7 @@ export default function AddItemPage() {
         <h1 className="add-item-title">Add New Item</h1>
 
         <form className="add-item-form" onSubmit={handleSubmit}>
+          
           <div className="form-row">
             <input
               type="text"
@@ -66,14 +67,18 @@ export default function AddItemPage() {
               required
             />
 
-            <input
-              type="text"
+            {/* Category Select */}
+            <select
               name="itemCategory"
-              placeholder="Category"
               value={formData.itemCategory}
               onChange={handleChange}
               required
-            />
+            >
+              <option value="">Select Category</option>
+              {categories.map((cat, index) => (
+                <option key={index} value={cat}>{cat}</option>
+              ))}
+            </select>
           </div>
 
           <textarea
@@ -82,7 +87,7 @@ export default function AddItemPage() {
             value={formData.itemDescription}
             onChange={handleChange}
             required
-          ></textarea>
+          />
 
           <div className="form-row">
             <input
@@ -113,21 +118,31 @@ export default function AddItemPage() {
           />
 
           <div className="form-row">
-            <input
-              type="text"
+
+            {/* Company Select */}
+            <select
               name="itemCompany"
-              placeholder="Company"
               value={formData.itemCompany}
               onChange={handleChange}
-            />
+            >
+              <option value="">Select Company</option>
+              {companies.map((com, index) => (
+                <option key={index} value={com}>{com}</option>
+              ))}
+            </select>
 
-            <input
-              type="text"
+            {/* Distributor Select */}
+            <select
               name="itemDistributor"
-              placeholder="Distributor"
               value={formData.itemDistributor}
               onChange={handleChange}
-            />
+            >
+              <option value="">Select Distributor</option>
+              {distributors.map((dist, index) => (
+                <option key={index} value={dist}>{dist}</option>
+              ))}
+            </select>
+
           </div>
 
           <button type="submit" className="add-item-btn">
