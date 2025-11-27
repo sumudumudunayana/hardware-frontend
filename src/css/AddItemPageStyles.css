@@ -79,3 +79,24 @@
   background-color: #ffc107;
   transform: scale(1.03);
 }
+
+.add-item-form select {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 18px;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  appearance: none;      /* Removes default arrow */
+  cursor: pointer;
+}
+
+.add-item-form select option {
+  background: #1e1e1e;
+  color: white;
+}
+
+
