@@ -1,0 +1,93 @@
+.view-container {
+  height: 100vh;
+  width: 100vw;
+  background: url("../assets/hardware5.jpeg") center/cover no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.view-overlay {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: rgba(0,0,0,0.65);
+}
+
+/* Card */
+.view-card {
+  position: relative;
+  z-index: 2;
+  width: 1000px;
+  padding: 35px;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 18px;
+  color: white;
+  box-shadow: 0 0 15px rgba(0,0,0,0.35);
+}
+
+.view-title {
+  text-align: center;
+  font-size: 2.2rem;
+  margin-bottom: 25px;
+  font-weight: bold;
+  color: #4da3ff;
+}
+
+/* Search Bar */
+.search-bar {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+}
+
+.search-bar::placeholder {
+  color: #dddddd;
+}
+
+/* Table */
+.table-wrapper {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.item-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(0,0,0,0.25);
+}
+
+.item-table th,
+.item-table td {
+  padding: 12px 10px;
+  text-align: left;
+}
+
+.item-table th {
+  background: rgba(255,255,255,0.15);
+  color: #ffca28;
+  font-size: 1.1rem;
+}
+
+.item-table tr:nth-child(even) {
+  background: rgba(255,255,255,0.08);
+}
+
+.item-table tr:hover {
+  background: rgba(255,255,255,0.12);
+}
+
+.no-items {
+  text-align: center;
+  padding: 20px;
+  font-size: 1.1rem;
+  color: #ddd;
+}
