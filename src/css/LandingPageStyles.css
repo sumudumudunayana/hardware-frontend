@@ -1,0 +1,62 @@
+/* Background */
+.landing-container {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  background: url("../assets/hardware5.jpeg")
+    center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+/* Content */
+.content {
+  position: relative;
+  text-align: center;
+  max-width: 700px;
+  padding: 20px;
+  z-index: 2;
+  color: white;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  opacity: 0.9;
+}
+
+/* Button */
+.start-btn {
+  padding: 12px 32px;
+  background-color: #ffca28;
+  color: #000;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s ease;
+}
+
+.start-btn:hover {
+  background-color: #ffc107;
+  transform: scale(1.05);
+}
