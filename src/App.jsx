@@ -5,6 +5,7 @@ import OptionPage from "./pages/OptionPage";
 import ItemOptionPage from "./pages/ItemOptionPage";
 import ViewItemPage from "./pages/ViewItemPage";
 import UpdateItemPage from "./pages/UpdateItemPage";
+import SupplierOptionPage from "./pages/SupplierOptionPage";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/ItemOptionPage" element={<ItemOptionPage />} />
         <Route path="/ViewItemPage" element={<ViewItemPage />} />
         <Route path="/UpdateItemPage" element={<UpdateItemPage />} />
+        <Route path="/SupplierOptionPage" element={<SupplierOptionPage />} />
       </Routes>
     </HashRouter>
   );
