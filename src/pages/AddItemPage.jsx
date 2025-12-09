@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../css/AddItemPageStyles.css";
 
 export default function AddItemPage() {
+
   const [formData, setFormData] = useState({
     itemName: "",
     itemDescription: "",
@@ -14,10 +15,33 @@ export default function AddItemPage() {
     itemDistributor: "",
   });
 
-  // Dummy dropdown values — replace with API values when ready
-  const categories = ["Electronics", "Tools", "Household", "Plumbing", "Electrical"];
-  const companies = ["Singer", "Abans", "Softlogic", "Damro", "Panasonic"];
-  const distributors = ["Local", "Mega Trade", "Hardware Supply", "Ceylon Distributors"];
+  // 🔥 These will be filled from backend
+  const [categories, setCategories] = useState([]);
+  const [companies, setCompanies] = useState([]);
+  const [distributors, setDistributors] = useState([]);
+
+  // Fetch dropdown data
+  const loadDropdownData = async () => {
+    try {
+      const [catRes, comRes, distRes] = await Promise.all([
+        axios.get("http://localhost:8080/category/get-all"),
+        axios.get("http://localhost:8080/company/get-all"),
+        axios.get("http://localhost:8080/distributor/get-all"),
+      ]);
+
+      setCategories(catRes.data);
+      setCompanies(comRes.data);
+      setDistributors(distRes.data);
+
+    } catch (error) {
+      console.error("Error loading dropdown data:", error);
+      alert("Failed to load dropdown data!");
+    }
+  };
+
+  useEffect(() => {
+    loadDropdownData();
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -31,6 +55,7 @@ export default function AddItemPage() {
 
       alert("Item Added Successfully!");
 
+      // Reset form
       setFormData({
         itemName: "",
         itemDescription: "",
@@ -56,7 +81,7 @@ export default function AddItemPage() {
         <h1 className="add-item-title">Add New Item</h1>
 
         <form className="add-item-form" onSubmit={handleSubmit}>
-          
+
           <div className="form-row">
             <input
               type="text"
@@ -67,7 +92,7 @@ export default function AddItemPage() {
               required
             />
 
-            {/* Category Select */}
+            {/* Category from DB */}
             <select
               name="itemCategory"
               value={formData.itemCategory}
@@ -75,8 +100,11 @@ export default function AddItemPage() {
               required
             >
               <option value="">Select Category</option>
-              {categories.map((cat, index) => (
-                <option key={index} value={cat}>{cat}</option>
+
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.categoryName}>
+                  {cat.categoryName}
+                </option>
               ))}
             </select>
           </div>
@@ -119,27 +147,33 @@ export default function AddItemPage() {
 
           <div className="form-row">
 
-            {/* Company Select */}
+            {/* Company from DB */}
             <select
               name="itemCompany"
               value={formData.itemCompany}
               onChange={handleChange}
             >
               <option value="">Select Company</option>
-              {companies.map((com, index) => (
-                <option key={index} value={com}>{com}</option>
+
+              {companies.map((com) => (
+                <option key={com.id} value={com.companyName}>
+                  {com.companyName}
+                </option>
               ))}
             </select>
 
-            {/* Distributor Select */}
+            {/* Distributor from DB */}
             <select
               name="itemDistributor"
               value={formData.itemDistributor}
               onChange={handleChange}
             >
               <option value="">Select Distributor</option>
-              {distributors.map((dist, index) => (
-                <option key={index} value={dist}>{dist}</option>
+
+              {distributors.map((dist) => (
+                <option key={dist.id} value={dist.distributorName}>
+                  {dist.distributorName}
+                </option>
               ))}
             </select>
 
