@@ -16,7 +16,6 @@
   background: rgba(0,0,0,0.65);
 }
 
-
 /* Main Card */
 .update-item-container {
   position: relative;
@@ -57,21 +56,6 @@
 
 .search-box input::placeholder {
   color: #dddddd;
-}
-
-.search-box button {
-  padding: 12px 18px;
-  background: #ffca28;
-  border: none;
-  border-radius: 8px;
-  font-weight: 700;
-  cursor: pointer;
-  color: black;
-  transition: 0.25s;
-}
-
-.search-box button:hover {
-  background: #e6b021;
 }
 
 /* Alert box */
@@ -126,7 +110,6 @@
   background: rgba(255,255,255,0.12);
 }
 
-
 .no-results {
   text-align: center;
   padding: 20px;
@@ -176,7 +159,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999;        /* FIXED → ensures modal appears above table */
+  z-index: 9999;
 }
 
 .modal-box {
@@ -187,9 +170,8 @@
   border-radius: 14px;
   color: white;
   box-shadow: 0 0 15px rgba(0,0,0,0.35);
-  z-index: 10000;       /* FIXED → ensures modal content is above overlay */
+  z-index: 10000;
 }
-
 
 .modal-box h2 {
   text-align: center;
@@ -209,14 +191,29 @@
   color: #ddd;
 }
 
-.form-group input {
+.form-group input,
+.form-group select {
   padding: 10px;
   border-radius: 8px;
   border: none;
   background: rgba(255,255,255,0.15);
   color: white;
+  outline: none;
+  font-size: 1rem;
 }
 
+/* Dropdown specific styling */
+.form-group select {
+  appearance: none;     /* remove default arrow */
+  cursor: pointer;
+}
+
+.form-group select option {
+  background: #1e1e1e;
+  color: white;
+}
+
+/* Modal Buttons */
 .modal-actions {
   display: flex;
   justify-content: space-between;
