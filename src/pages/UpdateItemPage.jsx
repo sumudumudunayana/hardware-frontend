@@ -7,6 +7,11 @@ export default function UpdateItemPage() {
   const [search, setSearch] = useState("");
   const [filtered, setFiltered] = useState([]);
 
+  // Dropdown data from DB
+  const [categories, setCategories] = useState([]);
+  const [companies, setCompanies] = useState([]);
+  const [distributors, setDistributors] = useState([]);
+
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -21,10 +26,27 @@ export default function UpdateItemPage() {
   });
 
   const [deleteId, setDeleteId] = useState(null);
-
   const [alert, setAlert] = useState({ show: false, type: "", message: "" });
 
-  // Load Items
+  // Load dropdown data
+  const loadDropdownData = async () => {
+    try {
+      const [catRes, comRes, distRes] = await Promise.all([
+        axios.get("http://localhost:8080/category/get-all"),
+        axios.get("http://localhost:8080/company/get-all"),
+        axios.get("http://localhost:8080/distributor/get-all"),
+      ]);
+
+      setCategories(catRes.data);
+      setCompanies(comRes.data);
+      setDistributors(distRes.data);
+
+    } catch (error) {
+      console.error("Failed to load dropdown data", error);
+    }
+  };
+
+  // Load items
   const loadItems = async () => {
     try {
       const res = await axios.get("http://localhost:8080/item/get-all");
@@ -37,16 +59,13 @@ export default function UpdateItemPage() {
 
   useEffect(() => {
     loadItems();
+    loadDropdownData(); // fetch dropdowns from DB
   }, []);
 
-  // 🔥 Automatic Search Function
+  // Auto search
   const autoSearch = (text) => {
     const keyword = text.toLowerCase();
-
-    if (keyword.trim() === "") {
-      setFiltered(items);
-      return;
-    }
+    if (keyword.trim() === "") return setFiltered(items);
 
     const result = items.filter(
       (i) =>
@@ -69,7 +88,7 @@ export default function UpdateItemPage() {
     setEditData({ ...editData, [e.target.name]: e.target.value });
   };
 
-  // Update item
+  // Save update
   const submitUpdate = async () => {
     try {
       const res = await axios.put(
@@ -77,10 +96,9 @@ export default function UpdateItemPage() {
         editData
       );
 
-      if (![200, 202, 204].includes(res.status)) {
-        throw new Error();
-      }
+      if (![200, 202, 204].includes(res.status)) throw new Error();
 
+      // Update UI
       const updated = items.map((item) =>
         item.id === editData.id ? editData : item
       );
@@ -95,7 +113,7 @@ export default function UpdateItemPage() {
       });
 
       setShowUpdateModal(false);
-    } catch (err) {
+    } catch {
       setAlert({
         show: true,
         type: "error",
@@ -106,7 +124,7 @@ export default function UpdateItemPage() {
     setTimeout(() => setAlert({ show: false }), 2500);
   };
 
-  // Delete pop-up
+  // Delete
   const openDeleteModal = (id) => {
     setDeleteId(id);
     setShowDeleteModal(true);
@@ -120,9 +138,7 @@ export default function UpdateItemPage() {
         `http://localhost:8080/item/delete-by-id/${deleteId}`
       );
 
-      if (![200, 202, 204].includes(res.status)) {
-        throw new Error("Delete failed");
-      }
+      if (![200, 202, 204].includes(res.status)) throw new Error();
 
       const updated = items.filter((item) => item.id !== deleteId);
       setItems(updated);
@@ -135,7 +151,7 @@ export default function UpdateItemPage() {
       });
 
       setShowDeleteModal(false);
-    } catch (err) {
+    } catch {
       setAlert({
         show: true,
         type: "error",
@@ -153,11 +169,9 @@ export default function UpdateItemPage() {
       <div className="update-item-container">
         <h1 className="update-item-title">Update Items</h1>
 
-        {alert.show && (
-          <div className={`alert-box ${alert.type}`}>{alert.message}</div>
-        )}
+        {alert.show && <div className={`alert-box ${alert.type}`}>{alert.message}</div>}
 
-        {/* 🔍 Auto Search */}
+        {/* Search */}
         <div className="search-box">
           <input
             type="text"
@@ -198,16 +212,10 @@ export default function UpdateItemPage() {
                     <td>{item.itemCompany}</td>
                     <td>{item.itemDistributor}</td>
                     <td className="action-buttons">
-                      <button
-                        className="update-btn"
-                        onClick={() => openUpdateModal(item)}
-                      >
+                      <button className="update-btn" onClick={() => openUpdateModal(item)}>
                         Update
                       </button>
-                      <button
-                        className="delete-btn"
-                        onClick={() => openDeleteModal(item.id)}
-                      >
+                      <button className="delete-btn" onClick={() => openDeleteModal(item.id)}>
                         Delete
                       </button>
                     </td>
@@ -240,13 +248,55 @@ export default function UpdateItemPage() {
               />
             </div>
 
+            {/* Category Dropdown */}
             <div className="form-group">
               <label>Category</label>
-              <input
+              <select
                 name="itemCategory"
                 value={editData.itemCategory}
                 onChange={handleUpdateChange}
-              />
+              >
+                <option value="">Select Category</option>
+                {categories.map((cat) => (
+                  <option key={cat.id} value={cat.categoryName}>
+                    {cat.categoryName}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Company Dropdown */}
+            <div className="form-group">
+              <label>Company</label>
+              <select
+                name="itemCompany"
+                value={editData.itemCompany}
+                onChange={handleUpdateChange}
+              >
+                <option value="">Select Company</option>
+                {companies.map((com) => (
+                  <option key={com.id} value={com.companyName}>
+                    {com.companyName}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Distributor Dropdown */}
+            <div className="form-group">
+              <label>Distributor</label>
+              <select
+                name="itemDistributor"
+                value={editData.itemDistributor}
+                onChange={handleUpdateChange}
+              >
+                <option value="">Select Distributor</option>
+                {distributors.map((dist) => (
+                  <option key={dist.id} value={dist.distributorName}>
+                    {dist.distributorName}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div className="form-group">
@@ -269,24 +319,6 @@ export default function UpdateItemPage() {
               />
             </div>
 
-            <div className="form-group">
-              <label>Company</label>
-              <input
-                name="itemCompany"
-                value={editData.itemCompany}
-                onChange={handleUpdateChange}
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Distributor</label>
-              <input
-                name="itemDistributor"
-                value={editData.itemDistributor}
-                onChange={handleUpdateChange}
-              />
-            </div>
-
             <div className="modal-actions">
               <button className="cancel-btn" onClick={closeUpdateModal}>
                 Cancel
@@ -299,7 +331,7 @@ export default function UpdateItemPage() {
         </div>
       )}
 
-      {/* DELETE CONFIRMATION */}
+      {/* DELETE MODAL */}
       {showDeleteModal && (
         <div className="modal-bg">
           <div className="modal-box">
