@@ -1,4 +1,3 @@
-/* Background */
 .company-container {
   height: 100vh;
   width: 100vw;
@@ -16,7 +15,6 @@
   background: rgba(0,0,0,0.65);
 }
 
-/* Main Card */
 .company-card {
   position: relative;
   z-index: 2;
