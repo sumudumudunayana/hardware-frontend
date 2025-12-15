@@ -1,4 +1,3 @@
-/* Background */
 .distributor-container {
   height: 100vh;
   width: 100vw;
@@ -16,7 +15,6 @@
   background: rgba(0,0,0,0.65);
 }
 
-/* Main Card */
 .distributor-card {
   position: relative;
   z-index: 2;
@@ -37,14 +35,12 @@
   color: #4da3ff;
 }
 
-/* Grid Layout */
 .distributor-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 25px;
 }
 
-/* Option Box */
 .distributor-box {
   padding: 25px 20px;
   background: rgba(255,255,255,0.12);
