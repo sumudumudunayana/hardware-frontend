@@ -35,14 +35,12 @@
   color: #4da3ff;
 }
 
-/* Grid Layout */
 .company-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 25px;
 }
 
-/* Option Box */
 .company-box {
   padding: 25px 20px;
   background: rgba(255,255,255,0.12);
