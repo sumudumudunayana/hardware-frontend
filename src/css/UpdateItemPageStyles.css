@@ -195,7 +195,6 @@
   font-size: 1rem;
 }
 
-/* Dropdown specific styling */
 .form-group select {
   appearance: none;     /* remove default arrow */
   cursor: pointer;
