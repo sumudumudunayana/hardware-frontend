@@ -196,7 +196,7 @@
 }
 
 .form-group select {
-  appearance: none;     /* remove default arrow */
+  appearance: none;   
   cursor: pointer;
 }
 
