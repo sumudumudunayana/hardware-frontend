@@ -18,7 +18,10 @@ export default function AddDistributorPage() {
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:8080/distributor/add-distributor", formData);
+      await axios.post(
+        "http://localhost:8080/distributor/add-distributor",
+        formData
+      );
 
       alert("Distributor Added Successfully!");
 
@@ -28,7 +31,6 @@ export default function AddDistributorPage() {
         distributorContactNumber: "",
         distributorEmail: "",
       });
-
     } catch (error) {
       console.error("Error adding distributor:", error);
       alert("Failed to add distributor.");
@@ -43,7 +45,6 @@ export default function AddDistributorPage() {
         <h1 className="add-distributor-title">Add New Distributor</h1>
 
         <form className="add-distributor-form" onSubmit={handleSubmit}>
-
           <input
             type="text"
             name="distributorName"
