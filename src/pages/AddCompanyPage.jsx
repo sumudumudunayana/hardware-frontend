@@ -30,7 +30,6 @@ export default function AddCompanyPage() {
         companyContactNumber: "",
         companyEmail: "",
       });
-
     } catch (error) {
       console.error("Error adding company:", error);
       alert("Failed to add company.");
@@ -45,7 +44,6 @@ export default function AddCompanyPage() {
         <h1 className="add-company-title">Add New Company</h1>
 
         <form className="add-company-form" onSubmit={handleSubmit}>
-
           <input
             type="text"
             name="companyName"
