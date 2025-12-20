@@ -13,7 +13,6 @@ export default function CategoryOptionPage() {
         <h1 className="category-title">Category Management</h1>
 
         <div className="category-grid">
-
           <div
             className="category-box"
             onClick={() => navigate("/AddCategoryPage")}
@@ -29,7 +28,6 @@ export default function CategoryOptionPage() {
             <h2>Manage Categories</h2>
             <p>View, update, and delete all categories.</p>
           </div>
-
         </div>
       </div>
     </div>
