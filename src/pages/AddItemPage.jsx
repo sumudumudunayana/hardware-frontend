@@ -3,7 +3,6 @@ import axios from "axios";
 import "../css/AddItemPageStyles.css";
 
 export default function AddItemPage() {
-
   const [formData, setFormData] = useState({
     itemName: "",
     itemDescription: "",
@@ -32,7 +31,6 @@ export default function AddItemPage() {
       setCategories(catRes.data);
       setCompanies(comRes.data);
       setDistributors(distRes.data);
-
     } catch (error) {
       console.error("Error loading dropdown data:", error);
       alert("Failed to load dropdown data!");
@@ -66,7 +64,6 @@ export default function AddItemPage() {
         itemCompany: "",
         itemDistributor: "",
       });
-
     } catch (error) {
       console.error("Error adding item:", error);
       alert("Failed to add item.");
@@ -81,7 +78,6 @@ export default function AddItemPage() {
         <h1 className="add-item-title">Add New Item</h1>
 
         <form className="add-item-form" onSubmit={handleSubmit}>
-
           <div className="form-row">
             <input
               type="text"
@@ -146,7 +142,6 @@ export default function AddItemPage() {
           />
 
           <div className="form-row">
-
             {/* Company from DB */}
             <select
               name="itemCompany"
@@ -176,7 +171,6 @@ export default function AddItemPage() {
                 </option>
               ))}
             </select>
-
           </div>
 
           <button type="submit" className="add-item-btn">
