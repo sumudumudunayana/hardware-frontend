@@ -24,7 +24,6 @@ export default function AddCategoryPage() {
         categoryName: "",
         categoryDescription: "",
       });
-
     } catch (error) {
       console.error("Error adding category:", error);
       alert("Failed to add category.");
@@ -39,7 +38,6 @@ export default function AddCategoryPage() {
         <h1 className="add-category-title">Add New Category</h1>
 
         <form className="add-category-form" onSubmit={handleSubmit}>
-
           <input
             type="text"
             name="categoryName"
