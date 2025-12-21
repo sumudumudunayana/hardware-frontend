@@ -34,7 +34,6 @@ export default function ManageCategoryPage() {
     loadCategories();
   }, []);
 
-  // Auto-search filter
   const autoSearch = (text) => {
     const key = text.toLowerCase();
 
