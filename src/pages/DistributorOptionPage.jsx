@@ -13,7 +13,6 @@ export default function DistributorOptionPage() {
         <h1 className="distributor-title">Distributor Management</h1>
 
         <div className="distributor-grid">
-          {/* Add Distributor */}
           <div
             className="distributor-box"
             onClick={() => navigate("/AddDistributorPage")}
