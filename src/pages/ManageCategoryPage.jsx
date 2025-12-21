@@ -46,8 +46,7 @@ export default function ManageCategoryPage() {
 
     const result = categories.filter(
       (c) =>
-        c.categoryName.toLowerCase().includes(key) ||
-        c.id.toString() === key
+        c.categoryName.toLowerCase().includes(key) || c.id.toString() === key
     );
 
     setFiltered(result);
