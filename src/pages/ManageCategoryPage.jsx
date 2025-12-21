@@ -50,7 +50,6 @@ export default function ManageCategoryPage() {
     setFiltered(result);
   };
 
-  // Open update modal
   const openUpdateModal = (category) => {
     setEditData({ ...category });
     setShowUpdateModal(true);
