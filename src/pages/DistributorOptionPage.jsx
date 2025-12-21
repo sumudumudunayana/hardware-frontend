@@ -13,7 +13,6 @@ export default function DistributorOptionPage() {
         <h1 className="distributor-title">Distributor Management</h1>
 
         <div className="distributor-grid">
-
           {/* Add Distributor */}
           <div
             className="distributor-box"
@@ -31,7 +30,6 @@ export default function DistributorOptionPage() {
             <h2>Manage Distributors</h2>
             <p>View, update, and delete distributor records.</p>
           </div>
-          
         </div>
       </div>
     </div>
