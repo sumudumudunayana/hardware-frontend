@@ -57,7 +57,6 @@ export default function ManageCategoryPage() {
 
   const closeUpdateModal = () => setShowUpdateModal(false);
 
-  // Update form on input change
   const handleUpdateChange = (e) => {
     setEditData({ ...editData, [e.target.name]: e.target.value });
   };
