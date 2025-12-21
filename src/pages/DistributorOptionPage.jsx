@@ -21,7 +21,6 @@ export default function DistributorOptionPage() {
             <p>Add and register new distributor details.</p>
           </div>
 
-          {/* Manage Distributor */}
           <div
             className="distributor-box"
             onClick={() => navigate("/ManageDistributorPage")}
