@@ -102,7 +102,6 @@ export default function ManageCategoryPage() {
 
   const closeDeleteModal = () => setShowDeleteModal(false);
 
-  // Confirm delete
   const confirmDelete = async () => {
     try {
       const res = await axios.delete(
