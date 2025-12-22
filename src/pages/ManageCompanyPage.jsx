@@ -99,7 +99,6 @@ export default function ManageCompanyPage() {
     setTimeout(() => setAlert({ show: false }), 2500);
   };
 
-  // Delete modal
   const openDeleteModal = (id) => {
     setDeleteId(id);
     setShowDeleteModal(true);
