@@ -37,7 +37,6 @@ export default function ManageCompanyPage() {
     loadCompanies();
   }, []);
 
-  // Auto search
   const autoSearch = (text) => {
     const keyword = text.toLowerCase();
 
