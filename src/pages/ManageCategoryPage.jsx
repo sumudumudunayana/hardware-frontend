@@ -201,7 +201,6 @@ export default function ManageCategoryPage() {
         </div>
       </div>
 
-      {/* UPDATE MODAL */}
       {showUpdateModal && (
         <div className="modal-bg">
           <div className="modal-box">
