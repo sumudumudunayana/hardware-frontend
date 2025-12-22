@@ -54,7 +54,6 @@ export default function ManageCompanyPage() {
     setFiltered(result);
   };
 
-  // Open/close update modal
   const openUpdateModal = (company) => {
     setEditData({ ...company });
     setShowUpdateModal(true);
