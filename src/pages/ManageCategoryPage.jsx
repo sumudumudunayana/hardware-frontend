@@ -236,7 +236,6 @@ export default function ManageCategoryPage() {
         </div>
       )}
 
-      {/* DELETE MODAL */}
       {showDeleteModal && (
         <div className="modal-bg">
           <div className="modal-box">
