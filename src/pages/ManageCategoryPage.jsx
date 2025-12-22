@@ -143,7 +143,6 @@ export default function ManageCategoryPage() {
           <div className={`alert-box ${alert.type}`}>{alert.message}</div>
         )}
 
-        {/* Auto Search */}
         <div className="search-box">
           <input
             type="text"
