@@ -155,7 +155,6 @@ export default function ManageCategoryPage() {
           />
         </div>
 
-        {/* Table */}
         <div className="table-wrapper">
           <table className="category-table">
             <thead>
