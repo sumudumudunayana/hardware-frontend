@@ -95,7 +95,6 @@ export default function ManageCategoryPage() {
     setTimeout(() => setAlert({ show: false }), 2500);
   };
 
-  // Delete popup
   const openDeleteModal = (id) => {
     setDeleteId(id);
     setShowDeleteModal(true);
