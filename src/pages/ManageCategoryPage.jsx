@@ -61,7 +61,6 @@ export default function ManageCategoryPage() {
     setEditData({ ...editData, [e.target.name]: e.target.value });
   };
 
-  // Submit update
   const submitUpdate = async () => {
     try {
       const res = await axios.put(
