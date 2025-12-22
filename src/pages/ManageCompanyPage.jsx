@@ -23,7 +23,6 @@ export default function ManageCompanyPage() {
 
   const [alert, setAlert] = useState({ show: false, type: "", message: "" });
 
-  // Load companies
   const loadCompanies = async () => {
     try {
       const res = await axios.get("http://localhost:8080/company/get-all");
