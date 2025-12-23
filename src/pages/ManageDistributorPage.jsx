@@ -22,7 +22,6 @@ export default function ManageDistributorPage() {
 
   const [alert, setAlert] = useState({ show: false, type: "", message: "" });
 
-  // Load distributor list
   const loadDistributors = async () => {
     try {
       const res = await axios.get("http://localhost:8080/distributor/get-all");
