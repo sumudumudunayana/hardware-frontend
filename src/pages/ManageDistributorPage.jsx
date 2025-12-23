@@ -158,7 +158,6 @@ export default function ManageDistributorPage() {
           />
         </div>
 
-        {/* Table */}
         <div className="md-table-wrapper">
           <table className="md-table">
             <thead>
