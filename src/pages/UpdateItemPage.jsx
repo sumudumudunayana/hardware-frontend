@@ -74,7 +74,6 @@ export default function UpdateItemPage() {
     setFiltered(result);
   };
 
-  // Open update modal
   const openUpdateModal = (item) => {
     setEditData({ ...item });
     setShowUpdateModal(true);
