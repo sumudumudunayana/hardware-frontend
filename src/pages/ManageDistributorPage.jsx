@@ -98,7 +98,6 @@ export default function ManageDistributorPage() {
     setTimeout(() => setAlert({ show: false }), 2500);
   };
 
-  // Delete Handling
   const openDeleteModal = (id) => {
     setDeleteId(id);
     setShowDeleteModal(true);
