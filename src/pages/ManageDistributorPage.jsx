@@ -146,7 +146,6 @@ export default function ManageDistributorPage() {
           <div className={`alert-box ${alert.type}`}>{alert.message}</div>
         )}
 
-        {/* Search */}
         <div className="md-search-box">
           <input
             type="text"
