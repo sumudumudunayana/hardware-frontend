@@ -36,7 +36,6 @@ export default function ManageDistributorPage() {
     loadDistributors();
   }, []);
 
-  // Auto Search
   const autoSearch = (text) => {
     const keyword = text.toLowerCase();
 
