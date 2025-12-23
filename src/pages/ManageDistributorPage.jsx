@@ -265,7 +265,6 @@ export default function ManageDistributorPage() {
         </div>
       )}
 
-      {/* DELETE CONFIRMATION */}
       {showDeleteModal && (
         <div className="modal-bg">
           <div className="modal-box">
