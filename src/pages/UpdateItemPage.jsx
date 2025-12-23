@@ -46,7 +46,6 @@ export default function UpdateItemPage() {
     }
   };
 
-  // Load items
   const loadItems = async () => {
     try {
       const res = await axios.get("http://localhost:8080/item/get-all");
