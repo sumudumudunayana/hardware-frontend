@@ -210,7 +210,6 @@ export default function ManageDistributorPage() {
         </div>
       </div>
 
-      {/* UPDATE MODAL */}
       {showUpdateModal && (
         <div className="modal-bg">
           <div className="modal-box">
