@@ -276,7 +276,6 @@ export default function ManageCompanyPage() {
         </div>
       )}
 
-      {/* DELETE MODAL */}
       {showDeleteModal && (
         <div className="modal-bg">
           <div className="modal-box">
