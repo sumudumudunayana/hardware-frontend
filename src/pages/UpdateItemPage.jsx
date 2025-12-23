@@ -61,7 +61,6 @@ export default function UpdateItemPage() {
     loadDropdownData(); // fetch dropdowns
   }, []);
 
-  // Auto search
   const autoSearch = (text) => {
     const keyword = text.toLowerCase();
     if (keyword.trim() === "") return setFiltered(items);
