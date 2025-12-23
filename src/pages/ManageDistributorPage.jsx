@@ -53,7 +53,6 @@ export default function ManageDistributorPage() {
     setFiltered(result);
   };
 
-  // Update Modal Handling
   const openUpdateModal = (d) => {
     setEditData({ ...d });
     setShowUpdateModal(true);
