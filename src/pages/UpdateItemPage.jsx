@@ -175,7 +175,6 @@ export default function UpdateItemPage() {
           />
         </div>
 
-        {/* Table */}
         <div className="table-wrapper">
           <table className="update-item-table">
             <thead>
