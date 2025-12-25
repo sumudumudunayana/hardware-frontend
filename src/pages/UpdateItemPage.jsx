@@ -92,7 +92,6 @@ export default function UpdateItemPage() {
 
       if (![200, 202, 204].includes(res.status)) throw new Error();
 
-      // Update UI
       const updated = items.map((item) =>
         item.id === editData.id ? editData : item
       );
