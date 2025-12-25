@@ -56,7 +56,7 @@ export default function UpdateItemPage() {
 
   useEffect(() => {
     loadItems();
-    loadDropdownData(); // fetch dropdowns
+    loadDropdownData();
   }, []);
 
   const autoSearch = (text) => {
