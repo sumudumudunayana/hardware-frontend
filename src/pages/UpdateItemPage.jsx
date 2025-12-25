@@ -83,7 +83,6 @@ export default function UpdateItemPage() {
     setEditData({ ...editData, [e.target.name]: e.target.value });
   };
 
-  // Save update
   const submitUpdate = async () => {
     try {
       const res = await axios.put(
