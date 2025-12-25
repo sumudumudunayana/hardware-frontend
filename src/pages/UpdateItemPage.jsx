@@ -163,7 +163,6 @@ export default function UpdateItemPage() {
 
         {alert.show && <div className={`alert-box ${alert.type}`}>{alert.message}</div>}
 
-        {/* Search */}
         <div className="search-box">
           <input
             type="text"
