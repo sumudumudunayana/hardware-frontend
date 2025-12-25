@@ -27,7 +27,6 @@ export default function UpdateItemPage() {
   const [deleteId, setDeleteId] = useState(null);
   const [alert, setAlert] = useState({ show: false, type: "", message: "" });
 
-  // Load dropdown data
   const loadDropdownData = async () => {
     try {
       const [catRes, comRes, distRes] = await Promise.all([
