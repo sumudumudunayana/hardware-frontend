@@ -117,7 +117,6 @@ export default function UpdateItemPage() {
     setTimeout(() => setAlert({ show: false }), 2500);
   };
 
-  // Delete
   const openDeleteModal = (id) => {
     setDeleteId(id);
     setShowDeleteModal(true);
