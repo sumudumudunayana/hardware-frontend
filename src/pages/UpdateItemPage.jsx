@@ -237,7 +237,6 @@ export default function UpdateItemPage() {
               />
             </div>
 
-            {/* Category Dropdown */}
             <div className="form-group">
               <label>Category</label>
               <select
