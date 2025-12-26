@@ -18,7 +18,6 @@ export default function AddCategoryPage() {
     try {
       await axios.post("http://localhost:8080/category/add-category", formData);
       alert("Category Added Successfully!");
-
       setFormData({
         categoryName: "",
         categoryDescription: "",
