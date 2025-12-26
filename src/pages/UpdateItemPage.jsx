@@ -317,7 +317,6 @@ export default function UpdateItemPage() {
         </div>
       )}
 
-      {/* DELETE MODAL */}
       {showDeleteModal && (
         <div className="modal-bg">
           <div className="modal-box">
