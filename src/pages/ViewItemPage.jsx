@@ -6,7 +6,6 @@ export default function ViewItemPage() {
   const [items, setItems] = useState([]);
   const [search, setSearch] = useState("");
 
-  // Fetch items from backend
   const loadItems = async () => {
     try {
       const res = await axios.get("http://localhost:8080/item/get-all");
