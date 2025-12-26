@@ -253,7 +253,6 @@ export default function UpdateItemPage() {
               </select>
             </div>
 
-            {/* Company Dropdown */}
             <div className="form-group">
               <label>Company</label>
               <select
