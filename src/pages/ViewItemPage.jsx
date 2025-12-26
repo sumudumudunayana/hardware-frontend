@@ -35,7 +35,6 @@ export default function ViewItemPage() {
       <div className="view-card">
         <h1 className="view-title">View Items</h1>
 
-        {/* 🔍 Live Search */}
         <input
           type="text"
           className="search-bar"
