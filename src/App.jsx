@@ -40,6 +40,4 @@ function App() {
     </HashRouter>
   );
 }
-
-
 export default App;
