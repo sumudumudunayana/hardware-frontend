@@ -19,7 +19,6 @@ export default function ViewItemPage() {
     loadItems();
   }, []);
 
-  // 🔥 Filter by ID OR Name (live search)
   const filteredItems = items.filter((item) => {
     const keyword = search.toLowerCase();
 
