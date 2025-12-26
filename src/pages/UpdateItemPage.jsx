@@ -269,7 +269,6 @@ export default function UpdateItemPage() {
               </select>
             </div>
 
-            {/* Distributor Dropdown */}
             <div className="form-group">
               <label>Distributor</label>
               <select
