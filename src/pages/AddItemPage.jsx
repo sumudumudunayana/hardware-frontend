@@ -147,7 +147,6 @@ export default function AddItemPage() {
               ))}
             </select>
 
-            {/* Distributor from DB */}
             <select
               name="itemDistributor"
               value={formData.itemDistributor}
