@@ -37,7 +37,6 @@ export default function AddDistributorPage() {
   return (
     <div className="add-distributor-container">
       <div className="add-distributor-overlay"></div>
-
       <div className="add-distributor-card">
         <h1 className="add-distributor-title">Add New Distributor</h1>
 
