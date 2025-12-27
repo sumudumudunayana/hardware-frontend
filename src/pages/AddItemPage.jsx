@@ -14,7 +14,6 @@ export default function AddItemPage() {
     itemDistributor: "",
   });
 
-  // 🔥 These will be filled from backend
   const [categories, setCategories] = useState([]);
   const [companies, setCompanies] = useState([]);
   const [distributors, setDistributors] = useState([]);
