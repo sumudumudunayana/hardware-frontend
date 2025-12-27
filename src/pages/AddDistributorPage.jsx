@@ -21,7 +21,6 @@ export default function AddDistributorPage() {
         "http://localhost:8080/distributor/add-distributor",
         formData
       );
-
       alert("Distributor Added Successfully!");
 
       setFormData({
