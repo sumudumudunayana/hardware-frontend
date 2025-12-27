@@ -19,7 +19,6 @@ export default function AddCompanyPage() {
     e.preventDefault();
     try {
       await axios.post("http://localhost:8080/company/add-company", formData);
-
       alert("Company Added Successfully!");
 
       setFormData({
