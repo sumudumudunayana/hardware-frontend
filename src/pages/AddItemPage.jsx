@@ -18,7 +18,6 @@ export default function AddItemPage() {
   const [companies, setCompanies] = useState([]);
   const [distributors, setDistributors] = useState([]);
 
-  // Fetch dropdown data
   const loadDropdownData = async () => {
     try {
       const [catRes, comRes, distRes] = await Promise.all([
