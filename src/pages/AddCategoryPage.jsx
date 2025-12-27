@@ -31,7 +31,6 @@ export default function AddCategoryPage() {
   return (
     <div className="add-category-container">
       <div className="add-category-overlay"></div>
-
       <div className="add-category-card">
         <h1 className="add-category-title">Add New Category</h1>
 
