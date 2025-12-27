@@ -47,7 +47,6 @@ export default function AddItemPage() {
 
     try {
       await axios.post("http://localhost:8080/item/add-item", formData);
-
       alert("Item Added Successfully!");
 
       // Reset form
