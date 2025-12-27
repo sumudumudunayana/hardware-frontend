@@ -66,7 +66,6 @@ export default function AddItemPage() {
   return (
     <div className="add-item-container">
       <div className="add-item-overlay"></div>
-
       <div className="add-item-card">
         <h1 className="add-item-title">Add New Item</h1>
 
