@@ -133,7 +133,6 @@ export default function AddItemPage() {
           />
 
           <div className="form-row">
-            {/* Company from DB */}
             <select
               name="itemCompany"
               value={formData.itemCompany}
