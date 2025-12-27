@@ -139,7 +139,6 @@ export default function AddItemPage() {
               onChange={handleChange}>
 
               <option value="">Select Company</option>
-
               {companies.map((com) => (
                 <option key={com.id} value={com.companyName}>
                   {com.companyName}
