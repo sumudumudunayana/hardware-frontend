@@ -81,7 +81,6 @@ export default function AddItemPage() {
               required
             />
 
-            {/* Category from DB */}
             <select
               name="itemCategory"
               value={formData.itemCategory}
