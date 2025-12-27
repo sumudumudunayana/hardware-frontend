@@ -36,7 +36,6 @@ export default function AddCompanyPage() {
   return (
     <div className="add-company-container">
       <div className="add-company-overlay"></div>
-
       <div className="add-company-card">
         <h1 className="add-company-title">Add New Company</h1>
 
