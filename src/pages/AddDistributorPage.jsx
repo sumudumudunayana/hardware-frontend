@@ -22,7 +22,6 @@ export default function AddDistributorPage() {
         formData
       );
       alert("Distributor Added Successfully!");
-
       setFormData({
         distributorName: "",
         distributorDescription: "",
