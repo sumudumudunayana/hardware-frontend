@@ -8,7 +8,6 @@ export default function CategoryOptionPage() {
   return (
     <div className="category-container">
       <div className="category-overlay"></div>
-
       <div className="category-card">
         <h1 className="category-title">Category Management</h1>
         <div className="category-grid">
