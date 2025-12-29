@@ -8,7 +8,6 @@ export default function CompanyOptionPage() {
   return (
     <div className="company-container">
       <div className="company-overlay"></div>
-
       <div className="company-card">
         <h1 className="company-title">Company Management</h1>
 
