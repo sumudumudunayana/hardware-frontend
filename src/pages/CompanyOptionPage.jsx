@@ -19,7 +19,6 @@ export default function CompanyOptionPage() {
             <h2>Add Company</h2>
             <p>Add and register new company details.</p>
           </div>
-
           <div
             className="company-box"
             onClick={() => navigate("/ManageCompanyPage")}
