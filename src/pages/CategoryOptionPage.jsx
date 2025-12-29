@@ -11,7 +11,6 @@ export default function CategoryOptionPage() {
 
       <div className="category-card">
         <h1 className="category-title">Category Management</h1>
-
         <div className="category-grid">
           <div
             className="category-box"
