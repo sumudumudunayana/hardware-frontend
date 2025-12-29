@@ -10,7 +10,6 @@ export default function CompanyOptionPage() {
       <div className="company-overlay"></div>
       <div className="company-card">
         <h1 className="company-title">Company Management</h1>
-
         <div className="company-grid">
           <div
             className="company-box"
