@@ -20,7 +20,6 @@ export default function CategoryOptionPage() {
             <h2>Add Category</h2>
             <p>Create and register new item categories.</p>
           </div>
-
           <div
             className="category-box"
             onClick={() => navigate("/ManageCategoryPage")}
