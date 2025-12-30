@@ -18,7 +18,6 @@ export default function ItemOptionPage() {
             <h2>View Items</h2>
             <p>View all items with full details and stock info.</p>
           </div>
-
           <div className="item-box" onClick={() => navigate("/UpdateItemPage")}>
             <h2>Update Item</h2>
             <p>Modify item data, prices, categories, etc.</p>
