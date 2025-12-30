@@ -7,7 +7,6 @@ export default function ItemOptionPage() {
   return (
     <div className="item-container">
       <div className="item-overlay"></div>
-
       <div className="item-card">
         <h1 className="item-title">Item Management</h1>
 
