@@ -12,13 +12,15 @@ export default function DistributorOptionPage() {
         <div className="distributor-grid">
           <div
             className="distributor-box"
-            onClick={() => navigate("/AddDistributorPage")}>
+            onClick={() => navigate("/AddDistributorPage")}
+          >
             <h2>Add Distributor</h2>
             <p>Add and register new distributor details.</p>
           </div>
           <div
             className="distributor-box"
-            onClick={() => navigate("/ManageDistributorPage")}>
+            onClick={() => navigate("/ManageDistributorPage")}
+          >
             <h2>Manage Distributors</h2>
             <p>View, update, and delete distributor records.</p>
           </div>
