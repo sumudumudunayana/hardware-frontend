@@ -9,7 +9,6 @@ export default function DistributorOptionPage() {
       <div className="distributor-overlay"></div>
       <div className="distributor-card">
         <h1 className="distributor-title">Distributor Management</h1>
-
         <div className="distributor-grid">
           <div
             className="distributor-box"
