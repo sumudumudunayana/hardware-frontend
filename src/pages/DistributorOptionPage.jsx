@@ -12,8 +12,7 @@ export default function DistributorOptionPage() {
         <div className="distributor-grid">
           <div
             className="distributor-box"
-            onClick={() => navigate("/AddDistributorPage")}
->
+            onClick={() => navigate("/AddDistributorPage")}>
             <h2>Add Distributor</h2>
             <p>Add and register new distributor details.</p>
           </div>
