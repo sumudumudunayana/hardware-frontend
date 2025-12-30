@@ -14,7 +14,6 @@ export default function ItemOptionPage() {
             <h2>Add Item</h2>
             <p>Create and register new inventory items.</p>
           </div>
-
           <div className="item-box" onClick={() => navigate("/ViewItemPage")}>
             <h2>View Items</h2>
             <p>View all items with full details and stock info.</p>
