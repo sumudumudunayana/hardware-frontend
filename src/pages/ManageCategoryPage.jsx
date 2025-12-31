@@ -41,7 +41,6 @@ export default function ManageCategoryPage() {
       (c) =>
         c.categoryName.toLowerCase().includes(key) || c.id.toString() === key
     );
-
     setFiltered(result);
   };
 
