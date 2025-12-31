@@ -31,7 +31,6 @@ export default function ManageCategoryPage() {
 
   const autoSearch = (text) => {
     const key = text.toLowerCase();
-
     if (!key.trim()) {
       setFiltered(categories);
       return;
