@@ -8,7 +8,6 @@ export default function LandingPage() {
   return (
     <div className="landing-container">
       <div className="overlay" />
-
       <div className="content">
         <h1 className="title">Hardware Management System</h1>
         <p className="subtitle">
