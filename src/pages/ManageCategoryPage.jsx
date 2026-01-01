@@ -111,7 +111,6 @@ export default function ManageCategoryPage() {
         message: "Failed to delete category!",
       });
     }
-
     setTimeout(() => setAlert({ show: false }), 2500);
   };
 
