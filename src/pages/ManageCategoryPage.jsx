@@ -71,7 +71,6 @@ export default function ManageCategoryPage() {
         type: "success",
         message: "Category updated successfully!",
       });
-
       setShowUpdateModal(false);
     } catch (err) {
       setAlert({
