@@ -103,7 +103,6 @@ export default function ManageCategoryPage() {
         type: "success",
         message: "Category deleted successfully!",
       });
-
       setShowDeleteModal(false);
     } catch (err) {
       setAlert({
