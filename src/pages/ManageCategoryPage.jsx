@@ -94,7 +94,6 @@ export default function ManageCategoryPage() {
       const res = await axios.delete(
         `http://localhost:8080/category/delete-by-id/${deleteId}`
       );
-
       if (![200, 202, 204].includes(res.status)) throw new Error();
 
       const updated = categories.filter((c) => c.id !== deleteId);
