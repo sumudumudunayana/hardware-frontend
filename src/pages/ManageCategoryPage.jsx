@@ -68,7 +68,6 @@ export default function ManageCategoryPage() {
 
       setCategories(updated);
       setFiltered(updated);
-
       setAlert({
         show: true,
         type: "success",
