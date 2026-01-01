@@ -64,7 +64,6 @@ export default function ManageCategoryPage() {
       const updated = categories.map((c) =>
         c.id === editData.id ? editData : c
       );
-
       setCategories(updated);
       setFiltered(updated);
       setAlert({
