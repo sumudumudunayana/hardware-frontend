@@ -95,7 +95,6 @@ export default function ManageCategoryPage() {
         `http://localhost:8080/category/delete-by-id/${deleteId}`
       );
       if (![200, 202, 204].includes(res.status)) throw new Error();
-
       const updated = categories.filter((c) => c.id !== deleteId);
       setCategories(updated);
       setFiltered(updated);
