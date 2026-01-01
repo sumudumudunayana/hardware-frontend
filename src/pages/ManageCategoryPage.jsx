@@ -60,7 +60,6 @@ export default function ManageCategoryPage() {
         "http://localhost:8080/category/update-category",
         editData
       );
-
       if (![200, 202, 204].includes(res.status)) throw new Error();
 
       const updated = categories.map((c) =>
