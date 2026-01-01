@@ -79,7 +79,6 @@ export default function ManageCategoryPage() {
         message: "Failed to update category!",
       });
     }
-
     setTimeout(() => setAlert({ show: false }), 2500);
   };
 
