@@ -98,7 +98,6 @@ export default function ManageCategoryPage() {
       const updated = categories.filter((c) => c.id !== deleteId);
       setCategories(updated);
       setFiltered(updated);
-
       setAlert({
         show: true,
         type: "success",
