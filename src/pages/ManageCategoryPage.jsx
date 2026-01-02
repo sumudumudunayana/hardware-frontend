@@ -212,7 +212,6 @@ export default function ManageCategoryPage() {
           <div className="modal-box">
             <h2>Delete Category</h2>
             <p>Are you sure you want to delete category ID {deleteId}?</p>
-
             <div className="modal-actions">
               <button className="cancel-btn" onClick={closeDeleteModal}>
                 Cancel
