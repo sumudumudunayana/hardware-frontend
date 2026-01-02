@@ -122,7 +122,6 @@ export default function ManageCategoryPage() {
         {alert.show && (
           <div className={`alert-box ${alert.type}`}>{alert.message}</div>
         )}
-
         <div className="search-box">
           <input
             type="text"
