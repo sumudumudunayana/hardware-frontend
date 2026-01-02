@@ -119,7 +119,6 @@ export default function ManageCategoryPage() {
       <div className="manage-category-overlay"></div>
       <div className="manage-category-container">
         <h1 className="manage-category-title">Manage Categories</h1>
-
         {alert.show && (
           <div className={`alert-box ${alert.type}`}>{alert.message}</div>
         )}
