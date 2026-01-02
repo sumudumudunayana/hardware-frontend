@@ -188,7 +188,6 @@ export default function ManageCategoryPage() {
                 onChange={handleUpdateChange}
               />
             </div>
-
             <div className="form-group">
               <label>Description</label>
               <input
