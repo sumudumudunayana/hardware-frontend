@@ -180,7 +180,6 @@ export default function ManageCategoryPage() {
         <div className="modal-bg">
           <div className="modal-box">
             <h2>Update Category</h2>
-
             <div className="form-group">
               <label>Name</label>
               <input
