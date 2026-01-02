@@ -153,8 +153,7 @@ export default function ManageCategoryPage() {
                     <td className="action-buttons">
                       <button
                         className="update-btn"
-                        onClick={() => openUpdateModal(cat)}
-                      >
+                        onClick={() => openUpdateModal(cat)}>
                         Update
                       </button>
                       <button
