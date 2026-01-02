@@ -143,7 +143,6 @@ export default function ManageCategoryPage() {
                 <th>Action</th>
               </tr>
             </thead>
-
             <tbody>
               {filtered.length > 0 ? (
                 filtered.map((cat) => (
