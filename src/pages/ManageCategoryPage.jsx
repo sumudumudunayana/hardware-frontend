@@ -158,8 +158,7 @@ export default function ManageCategoryPage() {
                       </button>
                       <button
                         className="delete-btn"
-                        onClick={() => openDeleteModal(cat.id)}
-                      >
+                        onClick={() => openDeleteModal(cat.id)}>
                         Delete
                       </button>
                     </td>
