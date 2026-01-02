@@ -117,7 +117,6 @@ export default function ManageCategoryPage() {
   return (
     <div className="manage-category-bg">
       <div className="manage-category-overlay"></div>
-
       <div className="manage-category-container">
         <h1 className="manage-category-title">Manage Categories</h1>
 
