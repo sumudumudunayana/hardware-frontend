@@ -133,7 +133,6 @@ export default function ManageCategoryPage() {
             }}
           />
         </div>
-
         <div className="table-wrapper">
           <table className="category-table">
             <thead>
