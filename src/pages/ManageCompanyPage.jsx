@@ -36,7 +36,6 @@ export default function ManageCompanyPage() {
 
   const autoSearch = (text) => {
     const keyword = text.toLowerCase();
-
     if (keyword.trim() === "") {
       setFiltered(companies);
       return;
