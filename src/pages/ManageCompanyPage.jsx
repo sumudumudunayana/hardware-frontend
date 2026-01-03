@@ -46,7 +46,6 @@ export default function ManageCompanyPage() {
         c.companyName.toLowerCase().includes(keyword) ||
         c.id.toString() === keyword
     );
-
     setFiltered(result);
   };
 
