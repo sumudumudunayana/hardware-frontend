@@ -18,7 +18,6 @@ export default function ManageCompanyPage() {
   });
 
   const [deleteId, setDeleteId] = useState(null);
-
   const [alert, setAlert] = useState({ show: false, type: "", message: "" });
 
   const loadCompanies = async () => {
