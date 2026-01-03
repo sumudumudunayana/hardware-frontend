@@ -70,7 +70,6 @@ export default function ManageCompanyPage() {
       const updated = companies.map((c) =>
         c.id === editData.id ? editData : c
       );
-
       setCompanies(updated);
       setFiltered(updated);
 
