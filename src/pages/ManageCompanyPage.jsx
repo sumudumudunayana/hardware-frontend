@@ -66,7 +66,6 @@ export default function ManageCompanyPage() {
         "http://localhost:8080/company/update-company",
         editData
       );
-
       if (![200, 202, 204].includes(res.status)) throw new Error();
 
       const updated = companies.map((c) =>
