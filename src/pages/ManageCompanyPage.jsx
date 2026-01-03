@@ -72,7 +72,6 @@ export default function ManageCompanyPage() {
       );
       setCompanies(updated);
       setFiltered(updated);
-
       setAlert({
         show: true,
         type: "success",
