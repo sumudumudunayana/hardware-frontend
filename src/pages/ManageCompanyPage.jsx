@@ -177,8 +177,7 @@ export default function ManageCompanyPage() {
                       </button>
                       <button
                         className="delete-btn"
-                        onClick={() => openDeleteModal(company.id)}
-                      >
+                        onClick={() => openDeleteModal(company.id)}>
                         Delete
                       </button>
                     </td>
