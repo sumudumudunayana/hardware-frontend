@@ -124,7 +124,6 @@ export default function ManageCompanyPage() {
         message: "Failed to delete company.",
       });
     }
-
     setTimeout(() => setAlert({ show: false }), 2500);
   };
 
