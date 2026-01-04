@@ -159,7 +159,6 @@ export default function ManageCompanyPage() {
                 <th>Action</th>
               </tr>
             </thead>
-
             <tbody>
               {filtered.length > 0 ? (
                 filtered.map((company) => (
