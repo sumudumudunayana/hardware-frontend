@@ -146,7 +146,6 @@ export default function ManageCompanyPage() {
             }}
           />
         </div>
-
         <div className="table-wrapper">
           <table className="company-table">
             <thead>
