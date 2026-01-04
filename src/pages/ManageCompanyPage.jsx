@@ -172,8 +172,7 @@ export default function ManageCompanyPage() {
                     <td className="action-buttons">
                       <button
                         className="update-btn"
-                        onClick={() => openUpdateModal(company)}
-                      >
+                        onClick={() => openUpdateModal(company)}>
                         Update
                       </button>
                       <button
