@@ -130,7 +130,6 @@ export default function ManageCompanyPage() {
   return (
     <div className="manage-company-bg">
       <div className="manage-company-overlay"></div>
-
       <div className="manage-company-container">
         <h1 className="manage-company-title">Manage Companies</h1>
 
