@@ -132,7 +132,6 @@ export default function ManageCompanyPage() {
       <div className="manage-company-overlay"></div>
       <div className="manage-company-container">
         <h1 className="manage-company-title">Manage Companies</h1>
-
         {alert.show && (
           <div className={`alert-box ${alert.type}`}>{alert.message}</div>
         )}
