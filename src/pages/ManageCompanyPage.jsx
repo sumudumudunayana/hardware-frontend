@@ -194,7 +194,6 @@ export default function ManageCompanyPage() {
           </table>
         </div>
       </div>
-
       {showUpdateModal && (
         <div className="modal-bg">
           <div className="modal-box">
