@@ -26,7 +26,7 @@ export default function ManageDistributorPage() {
       console.error("Failed loading distributors", err);
     }
   };
-
+  
   useEffect(() => {
     loadDistributors();
   }, []);
