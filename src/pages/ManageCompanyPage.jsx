@@ -231,7 +231,6 @@ export default function ManageCompanyPage() {
                 onChange={handleUpdateChange}
               />
             </div>
-
             <div className="form-group">
               <label>Email</label>
               <input
