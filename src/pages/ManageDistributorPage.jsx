@@ -8,7 +8,6 @@ export default function ManageDistributorPage() {
   const [filtered, setFiltered] = useState([]);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-
   const [editData, setEditData] = useState({
     id: "",
     distributorName: "",
