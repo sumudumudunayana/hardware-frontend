@@ -17,7 +17,6 @@ export default function ManageDistributorPage() {
   });
   const [deleteId, setDeleteId] = useState(null);
   const [alert, setAlert] = useState({ show: false, type: "", message: "" });
-
   const loadDistributors = async () => {
     try {
       const res = await axios.get("http://localhost:8080/distributor/get-all");
