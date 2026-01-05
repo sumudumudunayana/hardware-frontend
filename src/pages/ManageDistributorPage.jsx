@@ -6,7 +6,6 @@ export default function ManageDistributorPage() {
   const [distributors, setDistributors] = useState([]);
   const [search, setSearch] = useState("");
   const [filtered, setFiltered] = useState([]);
-
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
