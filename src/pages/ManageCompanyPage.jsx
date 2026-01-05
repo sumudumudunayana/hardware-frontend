@@ -222,7 +222,6 @@ export default function ManageCompanyPage() {
                 onChange={handleUpdateChange}
               />
             </div>
-
             <div className="form-group">
               <label>Contact Number</label>
               <input
