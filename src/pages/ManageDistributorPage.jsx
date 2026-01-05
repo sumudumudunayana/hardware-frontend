@@ -15,7 +15,6 @@ export default function ManageDistributorPage() {
     distributorContactNumber: "",
     distributorEmail: "",
   });
-
   const [deleteId, setDeleteId] = useState(null);
 
   const [alert, setAlert] = useState({ show: false, type: "", message: "" });
