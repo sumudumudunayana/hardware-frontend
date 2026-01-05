@@ -240,7 +240,6 @@ export default function ManageCompanyPage() {
                 onChange={handleUpdateChange}
               />
             </div>
-
             <div className="modal-actions">
               <button className="cancel-btn" onClick={closeUpdateModal}>
                 Cancel
