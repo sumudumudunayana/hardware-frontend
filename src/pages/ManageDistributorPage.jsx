@@ -74,7 +74,6 @@ export default function ManageDistributorPage() {
         type: "success",
         message: "Distributor updated successfully!",
       });
-
       setShowUpdateModal(false);
     } catch (err) {
       setAlert({
