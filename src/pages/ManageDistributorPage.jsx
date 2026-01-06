@@ -64,7 +64,6 @@ export default function ManageDistributorPage() {
         editData
       );
       if (![200, 202, 204].includes(res.status)) throw new Error();
-
       const updated = distributors.map((d) =>
         d.id === editData.id ? editData : d
       );
