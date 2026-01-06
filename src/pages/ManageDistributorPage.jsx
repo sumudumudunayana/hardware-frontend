@@ -26,14 +26,13 @@ export default function ManageDistributorPage() {
       console.error("Failed loading distributors", err);
     }
   };
-  
+
   useEffect(() => {
     loadDistributors();
   }, []);
 
   const autoSearch = (text) => {
     const keyword = text.toLowerCase();
-
     if (keyword.trim() === "") {
       setFiltered(distributors);
       return;
