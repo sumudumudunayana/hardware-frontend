@@ -63,7 +63,6 @@ export default function ManageDistributorPage() {
         "http://localhost:8080/distributor/update-distributor",
         editData
       );
-
       if (![200, 202, 204].includes(res.status)) throw new Error();
 
       const updated = distributors.map((d) =>
