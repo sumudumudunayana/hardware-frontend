@@ -67,7 +67,6 @@ export default function ManageDistributorPage() {
       const updated = distributors.map((d) =>
         d.id === editData.id ? editData : d
       );
-
       setDistributors(updated);
       setFiltered(updated);
 
