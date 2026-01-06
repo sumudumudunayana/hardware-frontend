@@ -82,7 +82,6 @@ export default function ManageDistributorPage() {
         message: "Failed to update distributor!",
       });
     }
-
     setTimeout(() => setAlert({ show: false }), 2500);
   };
 
