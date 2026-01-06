@@ -69,7 +69,6 @@ export default function ManageDistributorPage() {
       );
       setDistributors(updated);
       setFiltered(updated);
-
       setAlert({
         show: true,
         type: "success",
