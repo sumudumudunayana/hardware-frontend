@@ -43,7 +43,6 @@ export default function ManageDistributorPage() {
         d.distributorName.toLowerCase().includes(keyword) ||
         d.id.toString() === keyword
     );
-
     setFiltered(result);
   };
 
