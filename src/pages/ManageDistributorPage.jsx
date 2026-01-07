@@ -159,7 +159,6 @@ export default function ManageDistributorPage() {
                     <td>{d.distributorDescription}</td>
                     <td>{d.distributorContactNumber}</td>
                     <td>{d.distributorEmail}</td>
-
                     <td className="md-actions">
                       <button
                         className="update-btn"
