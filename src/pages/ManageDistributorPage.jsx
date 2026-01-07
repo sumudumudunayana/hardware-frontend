@@ -122,7 +122,6 @@ export default function ManageDistributorPage() {
       <div className="md-overlay"></div>
       <div className="md-container">
         <h1 className="md-title">Manage Distributors</h1>
-
         {alert.show && (
           <div className={`alert-box ${alert.type}`}>{alert.message}</div>
         )}
