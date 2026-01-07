@@ -98,7 +98,6 @@ export default function ManageDistributorPage() {
         `http://localhost:8080/distributor/delete-by-id/${deleteId}`
       );
       if (![200, 202, 204].includes(res.status)) throw new Error();
-
       const updated = distributors.filter((d) => d.id !== deleteId);
       setDistributors(updated);
       setFiltered(updated);
