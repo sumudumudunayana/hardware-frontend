@@ -166,7 +166,6 @@ export default function ManageDistributorPage() {
                       >
                         Update
                       </button>
-
                       <button
                         className="delete-btn"
                         onClick={() => openDeleteModal(d.id)}
