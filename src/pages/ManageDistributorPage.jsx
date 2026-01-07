@@ -114,7 +114,6 @@ export default function ManageDistributorPage() {
         message: "Failed to delete distributor!",
       });
     }
-
     setTimeout(() => setAlert({ show: false }), 2500);
   };
 
