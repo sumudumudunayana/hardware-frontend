@@ -101,7 +101,6 @@ export default function ManageDistributorPage() {
       const updated = distributors.filter((d) => d.id !== deleteId);
       setDistributors(updated);
       setFiltered(updated);
-
       setAlert({
         show: true,
         type: "success",
