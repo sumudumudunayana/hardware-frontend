@@ -125,7 +125,6 @@ export default function ManageDistributorPage() {
         {alert.show && (
           <div className={`alert-box ${alert.type}`}>{alert.message}</div>
         )}
-
         <div className="md-search-box">
           <input
             type="text"
