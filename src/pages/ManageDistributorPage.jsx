@@ -120,7 +120,6 @@ export default function ManageDistributorPage() {
   return (
     <div className="md-bg">
       <div className="md-overlay"></div>
-
       <div className="md-container">
         <h1 className="md-title">Manage Distributors</h1>
 
