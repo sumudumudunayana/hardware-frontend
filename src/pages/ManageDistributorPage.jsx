@@ -106,7 +106,6 @@ export default function ManageDistributorPage() {
         type: "success",
         message: "Distributor deleted successfully!",
       });
-
       setShowDeleteModal(false);
     } catch (err) {
       setAlert({
