@@ -234,7 +234,6 @@ export default function ManageDistributorPage() {
           </div>
         </div>
       )}
-
       {showDeleteModal && (
         <div className="modal-bg">
           <div className="modal-box">
