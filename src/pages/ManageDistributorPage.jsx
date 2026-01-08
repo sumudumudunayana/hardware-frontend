@@ -223,7 +223,6 @@ export default function ManageDistributorPage() {
                 onChange={handleUpdateChange}
               />
             </div>
-
             <div className="modal-actions">
               <button className="cancel-btn" onClick={closeUpdateModal}>
                 Cancel
