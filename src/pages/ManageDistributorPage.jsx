@@ -239,7 +239,6 @@ export default function ManageDistributorPage() {
           <div className="modal-box">
             <h2>Delete Distributor</h2>
             <p>Are you sure you want to delete distributor ID {deleteId}?</p>
-
             <div className="modal-actions">
               <button className="cancel-btn" onClick={closeDeleteModal}>
                 Cancel
