@@ -197,7 +197,6 @@ export default function ManageDistributorPage() {
                 onChange={handleUpdateChange}
               />
             </div>
-
             <div className="form-group">
               <label>Description</label>
               <textarea
