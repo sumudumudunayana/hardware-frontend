@@ -214,7 +214,6 @@ export default function ManageDistributorPage() {
                 onChange={handleUpdateChange}
               />
             </div>
-
             <div className="form-group">
               <label>Email</label>
               <input
