@@ -189,7 +189,6 @@ export default function ManageDistributorPage() {
         <div className="modal-bg">
           <div className="modal-box">
             <h2>Update Distributor</h2>
-
             <div className="form-group">
               <label>Name</label>
               <input
