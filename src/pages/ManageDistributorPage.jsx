@@ -243,7 +243,6 @@ export default function ManageDistributorPage() {
               <button className="cancel-btn" onClick={closeDeleteModal}>
                 Cancel
               </button>
-
               <button className="delete-confirm-btn" onClick={confirmDelete}>
                 Delete
               </button>
