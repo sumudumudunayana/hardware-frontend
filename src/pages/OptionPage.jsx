@@ -4,7 +4,6 @@ import "../css/OptionPageStyles.css";
 
 export default function OptionPage() {
   const navigate = useNavigate();
-
   return (
     <div className="options-container">
       <div className="options-overlay"></div>
