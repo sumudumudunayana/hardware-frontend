@@ -7,7 +7,6 @@ export default function OptionPage() {
   return (
     <div className="options-container">
       <div className="options-overlay"></div>
-
       <div className="options-card">
         <h1 className="options-title">Management Dashboard</h1>
 
