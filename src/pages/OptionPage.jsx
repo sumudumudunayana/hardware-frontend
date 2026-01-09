@@ -24,7 +24,6 @@ export default function OptionPage() {
             <h2>Sales Management</h2>
             <p>Handle sales, billing, and transaction records.</p>
           </div>
-
           <div
             className="option-box"
             onClick={() => navigate("/SupplierOptionPage")}
