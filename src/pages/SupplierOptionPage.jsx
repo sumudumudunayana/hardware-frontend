@@ -17,7 +17,6 @@ export default function SupplierOptionPage() {
             <h2>Manage Company</h2>
             <p>Add, view and update company details.</p>
           </div>
-
           <div
             className="supplier-box"
             onClick={() => navigate("/CategoryOptionPage")}
