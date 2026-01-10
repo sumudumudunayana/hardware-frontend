@@ -10,7 +10,6 @@ export default function SupplierOptionPage() {
       <div className="supplier-overlay"></div>
       <div className="supplier-card">
         <h1 className="supplier-title">Supplier Management</h1>
-
         <div className="supplier-grid">
           <div
             className="supplier-box"
