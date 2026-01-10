@@ -8,7 +8,6 @@ export default function SupplierOptionPage() {
   return (
     <div className="supplier-container">
       <div className="supplier-overlay"></div>
-
       <div className="supplier-card">
         <h1 className="supplier-title">Supplier Management</h1>
 
