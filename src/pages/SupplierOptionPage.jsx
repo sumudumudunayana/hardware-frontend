@@ -13,8 +13,7 @@ export default function SupplierOptionPage() {
         <div className="supplier-grid">
           <div
             className="supplier-box"
-            onClick={() => navigate("/CompanyOptionPage")}
-          >
+            onClick={() => navigate("/CompanyOptionPage")}>
             <h2>Manage Company</h2>
             <p>Add, view and update company details.</p>
           </div>
