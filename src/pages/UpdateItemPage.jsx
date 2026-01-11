@@ -46,7 +46,7 @@ export default function UpdateItemPage() {
       console.error("Failed loading items", err);
     }
   };
-  
+
   useEffect(() => {
     loadItems();
     loadDropdownData();
@@ -61,7 +61,6 @@ export default function UpdateItemPage() {
         i.itemName.toLowerCase().includes(keyword) ||
         i.id.toString() === keyword
     );
-
     setFiltered(result);
   };
 
