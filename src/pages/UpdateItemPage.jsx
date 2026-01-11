@@ -6,7 +6,6 @@ export default function UpdateItemPage() {
   const [items, setItems] = useState([]);
   const [search, setSearch] = useState("");
   const [filtered, setFiltered] = useState([]);
-
   const [categories, setCategories] = useState([]);
   const [companies, setCompanies] = useState([]);
   const [distributors, setDistributors] = useState([]);
