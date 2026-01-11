@@ -32,7 +32,6 @@ export default function UpdateItemPage() {
       setCategories(catRes.data);
       setCompanies(comRes.data);
       setDistributors(distRes.data);
-
     } catch (error) {
       console.error("Failed to load dropdown data", error);
     }
