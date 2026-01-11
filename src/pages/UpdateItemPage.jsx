@@ -20,7 +20,6 @@ export default function UpdateItemPage() {
     itemCompany: "",
     itemDistributor: "",
   });
-
   const [deleteId, setDeleteId] = useState(null);
   const [alert, setAlert] = useState({ show: false, type: "", message: "" });
 
