@@ -11,7 +11,6 @@ export default function UpdateItemPage() {
   const [distributors, setDistributors] = useState([]);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-
   const [editData, setEditData] = useState({
     id: "",
     itemName: "",
