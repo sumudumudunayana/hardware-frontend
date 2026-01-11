@@ -9,7 +9,6 @@ export default function UpdateItemPage() {
   const [categories, setCategories] = useState([]);
   const [companies, setCompanies] = useState([]);
   const [distributors, setDistributors] = useState([]);
-
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
