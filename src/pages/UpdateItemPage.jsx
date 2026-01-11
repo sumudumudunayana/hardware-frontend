@@ -29,7 +29,6 @@ export default function UpdateItemPage() {
         axios.get("http://localhost:8080/company/get-all"),
         axios.get("http://localhost:8080/distributor/get-all"),
       ]);
-
       setCategories(catRes.data);
       setCompanies(comRes.data);
       setDistributors(distRes.data);
