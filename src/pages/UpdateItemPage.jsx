@@ -36,7 +36,6 @@ export default function UpdateItemPage() {
       console.error("Failed to load dropdown data", error);
     }
   };
-
   const loadItems = async () => {
     try {
       const res = await axios.get("http://localhost:8080/item/get-all");
