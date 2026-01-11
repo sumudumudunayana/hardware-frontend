@@ -46,7 +46,6 @@ export default function UpdateItemPage() {
       console.error("Failed loading items", err);
     }
   };
-
   useEffect(() => {
     loadItems();
     loadDropdownData();
