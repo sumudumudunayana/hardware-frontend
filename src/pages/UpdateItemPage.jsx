@@ -118,7 +118,6 @@ export default function UpdateItemPage() {
       const res = await axios.delete(
         `http://localhost:8080/item/delete-by-id/${deleteId}`
       );
-
       if (![200, 202, 204].includes(res.status)) throw new Error();
 
       const updated = items.filter((item) => item.id !== deleteId);
