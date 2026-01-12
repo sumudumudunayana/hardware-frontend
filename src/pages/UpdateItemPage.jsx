@@ -123,7 +123,6 @@ export default function UpdateItemPage() {
       const updated = items.filter((item) => item.id !== deleteId);
       setItems(updated);
       setFiltered(updated);
-
       setAlert({
         show: true,
         type: "success",
