@@ -144,7 +144,6 @@ export default function UpdateItemPage() {
       <div className="update-item-overlay"></div>
       <div className="update-item-container">
         <h1 className="update-item-title">Update Items</h1>
-
         {alert.show && <div className={`alert-box ${alert.type}`}>{alert.message}</div>}
 
         <div className="search-box">
