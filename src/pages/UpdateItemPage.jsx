@@ -137,7 +137,6 @@ export default function UpdateItemPage() {
         message: "Failed to delete item!",
       });
     }
-
     setTimeout(() => setAlert({ show: false }), 2500);
   };
 
