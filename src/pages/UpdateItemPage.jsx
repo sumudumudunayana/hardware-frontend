@@ -142,7 +142,6 @@ export default function UpdateItemPage() {
   return (
     <div className="update-item-bg">
       <div className="update-item-overlay"></div>
-
       <div className="update-item-container">
         <h1 className="update-item-title">Update Items</h1>
 
