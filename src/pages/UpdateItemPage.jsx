@@ -128,7 +128,6 @@ export default function UpdateItemPage() {
         type: "success",
         message: "Item deleted successfully!",
       });
-
       setShowDeleteModal(false);
     } catch {
       setAlert({
