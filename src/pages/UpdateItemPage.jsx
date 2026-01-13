@@ -206,7 +206,6 @@ export default function UpdateItemPage() {
         <div className="modal-bg">
           <div className="modal-box">
             <h2>Update Item</h2>
-
             <div className="form-group">
               <label>Name</label>
               <input
