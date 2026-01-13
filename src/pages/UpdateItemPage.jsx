@@ -244,7 +244,6 @@ export default function UpdateItemPage() {
                 ))}
               </select>
             </div>
-
             <div className="form-group">
               <label>Distributor</label>
               <select
