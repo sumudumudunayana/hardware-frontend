@@ -170,7 +170,6 @@ export default function UpdateItemPage() {
                 <th>Action</th>
               </tr>
             </thead>
-
             <tbody>
               {filtered.length > 0 ? (
                 filtered.map((item) => (
