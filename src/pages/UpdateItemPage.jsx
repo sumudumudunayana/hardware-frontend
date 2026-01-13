@@ -259,7 +259,6 @@ export default function UpdateItemPage() {
                 ))}
               </select>
             </div>
-
             <div className="form-group">
               <label>Selling Price</label>
               <input
