@@ -268,7 +268,6 @@ export default function UpdateItemPage() {
                 onChange={handleUpdateChange}
               />
             </div>
-
             <div className="form-group">
               <label>Cost Price</label>
               <input
