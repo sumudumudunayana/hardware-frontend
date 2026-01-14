@@ -50,7 +50,6 @@ export default function ViewItemPage() {
                 <th>Distributor</th>
               </tr>
             </thead>
-
             <tbody>
               {filteredItems.length > 0 ? (
                 filteredItems.map((item) => (
