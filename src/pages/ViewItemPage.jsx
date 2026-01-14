@@ -13,7 +13,6 @@ export default function ViewItemPage() {
       console.error("Error loading items:", error);
     }
   };
-
   useEffect(() => {
     loadItems();
   }, []);
