@@ -37,7 +37,6 @@ export default function ViewItemPage() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-
         <div className="table-wrapper">
           <table className="item-table">
             <thead>
