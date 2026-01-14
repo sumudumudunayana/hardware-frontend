@@ -144,7 +144,9 @@ export default function UpdateItemPage() {
       <div className="update-item-overlay"></div>
       <div className="update-item-container">
         <h1 className="update-item-title">Update Items</h1>
-        {alert.show && <div className={`alert-box ${alert.type}`}>{alert.message}</div>}
+        {alert.show && (
+          <div className={`alert-box ${alert.type}`}>{alert.message}</div>
+        )}
         <div className="search-box">
           <input
             type="text"
@@ -182,10 +184,16 @@ export default function UpdateItemPage() {
                     <td>{item.itemCompany}</td>
                     <td>{item.itemDistributor}</td>
                     <td className="action-buttons">
-                      <button className="update-btn" onClick={() => openUpdateModal(item)}>
+                      <button
+                        className="update-btn"
+                        onClick={() => openUpdateModal(item)}
+                      >
                         Update
                       </button>
-                      <button className="delete-btn" onClick={() => openDeleteModal(item.id)}>
+                      <button
+                        className="delete-btn"
+                        onClick={() => openDeleteModal(item.id)}
+                      >
                         Delete
                       </button>
                     </td>
