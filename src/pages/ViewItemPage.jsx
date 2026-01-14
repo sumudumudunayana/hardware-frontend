@@ -5,7 +5,6 @@ import "../css/ViewItemPageStyles.css";
 export default function ViewItemPage() {
   const [items, setItems] = useState([]);
   const [search, setSearch] = useState("");
-
   const loadItems = async () => {
     try {
       const res = await axios.get("http://localhost:8080/item/get-all");
