@@ -16,6 +16,7 @@ export default function ViewItemPage() {
   useEffect(() => {
     loadItems();
   }, []);
+  
   const filteredItems = items.filter((item) => {
     const keyword = search.toLowerCase();
     return (
