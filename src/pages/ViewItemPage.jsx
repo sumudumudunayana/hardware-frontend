@@ -16,7 +16,7 @@ export default function ViewItemPage() {
   useEffect(() => {
     loadItems();
   }, []);
-  
+
   const filteredItems = items.filter((item) => {
     const keyword = search.toLowerCase();
     return (
@@ -28,7 +28,6 @@ export default function ViewItemPage() {
   return (
     <div className="view-container">
       <div className="view-overlay"></div>
-
       <div className="view-card">
         <h1 className="view-title">View Items</h1>
 
