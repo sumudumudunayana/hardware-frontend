@@ -18,7 +18,6 @@ export default function ViewItemPage() {
   }, []);
   const filteredItems = items.filter((item) => {
     const keyword = search.toLowerCase();
-
     return (
       item.itemName.toLowerCase().includes(keyword) ||
       item.id.toString() === keyword
