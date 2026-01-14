@@ -30,7 +30,6 @@ export default function ViewItemPage() {
       <div className="view-overlay"></div>
       <div className="view-card">
         <h1 className="view-title">View Items</h1>
-
         <input
           type="text"
           className="search-bar"
