@@ -42,7 +42,6 @@ export default function AddCategoryPage() {
             onChange={handleChange}
             required
           />
-
           <textarea
             name="categoryDescription"
             placeholder="Category Description"
