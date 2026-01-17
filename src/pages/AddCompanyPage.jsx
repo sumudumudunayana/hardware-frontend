@@ -38,7 +38,6 @@ export default function AddCompanyPage() {
       <div className="add-company-overlay"></div>
       <div className="add-company-card">
         <h1 className="add-company-title">Add New Company</h1>
-
         <form className="add-company-form" onSubmit={handleSubmit}>
           <input
             type="text"
