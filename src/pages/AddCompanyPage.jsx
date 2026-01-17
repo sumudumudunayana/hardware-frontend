@@ -70,7 +70,6 @@ export default function AddCompanyPage() {
             onChange={handleChange}
             required
           />
-
           <input
             type="email"
             name="companyEmail"
