@@ -78,7 +78,6 @@ export default function AddCompanyPage() {
             onChange={handleChange}
             required
           />
-
           <button type="submit" className="add-company-btn">
             Add Company
           </button>
