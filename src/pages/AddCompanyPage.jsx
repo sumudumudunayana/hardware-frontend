@@ -47,7 +47,6 @@ export default function AddCompanyPage() {
             onChange={handleChange}
             required
           />
-
           <textarea
             name="companyDescription"
             placeholder="Company Description"
