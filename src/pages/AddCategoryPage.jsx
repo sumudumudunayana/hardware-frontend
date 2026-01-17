@@ -33,7 +33,6 @@ export default function AddCategoryPage() {
       <div className="add-category-overlay"></div>
       <div className="add-category-card">
         <h1 className="add-category-title">Add New Category</h1>
-
         <form className="add-category-form" onSubmit={handleSubmit}>
           <input
             type="text"
