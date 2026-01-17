@@ -49,7 +49,6 @@ export default function AddCategoryPage() {
             onChange={handleChange}
             required
           ></textarea>
-
           <button type="submit" className="add-category-btn">
             Add Category
           </button>
