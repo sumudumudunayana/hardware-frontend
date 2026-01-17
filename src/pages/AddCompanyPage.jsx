@@ -54,7 +54,6 @@ export default function AddCompanyPage() {
             onChange={handleChange}
             required
           ></textarea>
-
           <input
             type="text"
             name="companyAddress"
