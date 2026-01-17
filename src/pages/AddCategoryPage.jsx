@@ -40,8 +40,7 @@ export default function AddCategoryPage() {
             placeholder="Category Name"
             value={formData.categoryName}
             onChange={handleChange}
-            required
-          />
+            required/>
           <textarea
             name="categoryDescription"
             placeholder="Category Description"
