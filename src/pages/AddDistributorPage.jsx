@@ -56,7 +56,6 @@ export default function AddDistributorPage() {
             onChange={handleChange}
             required
           ></textarea>
-
           <input
             type="number"
             name="distributorContactNumber"
