@@ -108,7 +108,6 @@ export default function AddItemPage() {
               onChange={handleChange}
               required
             />
-
             <input
               type="number"
               name="itemSellingPrice"
