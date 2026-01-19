@@ -68,7 +68,6 @@ export default function AddItemPage() {
       <div className="add-item-overlay"></div>
       <div className="add-item-card">
         <h1 className="add-item-title">Add New Item</h1>
-
         <form className="add-item-form" onSubmit={handleSubmit}>
           <div className="form-row">
             <input
