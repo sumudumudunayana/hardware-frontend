@@ -78,7 +78,6 @@ export default function AddItemPage() {
               onChange={handleChange}
               required
             />
-
             <select
               name="itemCategory"
               value={formData.itemCategory}
