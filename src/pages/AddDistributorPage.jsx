@@ -64,7 +64,6 @@ export default function AddDistributorPage() {
             onChange={handleChange}
             required
           />
-
           <input
             type="email"
             name="distributorEmail"
