@@ -72,7 +72,6 @@ export default function AddDistributorPage() {
             onChange={handleChange}
             required
           />
-
           <button type="submit" className="add-distributor-btn">
             Add Distributor
           </button>
