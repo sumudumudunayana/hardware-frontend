@@ -85,7 +85,6 @@ export default function AddItemPage() {
               required
             >
               <option value="">Select Category</option>
-
               {categories.map((cat) => (
                 <option key={cat.id} value={cat.categoryName}>
                   {cat.categoryName}
