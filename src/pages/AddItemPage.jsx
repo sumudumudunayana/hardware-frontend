@@ -117,7 +117,6 @@ export default function AddItemPage() {
               required
             />
           </div>
-
           <input
             type="number"
             name="itemLabeledPrice"
