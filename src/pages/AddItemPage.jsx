@@ -99,7 +99,6 @@ export default function AddItemPage() {
             onChange={handleChange}
             required
           />
-
           <div className="form-row">
             <input
               type="number"
