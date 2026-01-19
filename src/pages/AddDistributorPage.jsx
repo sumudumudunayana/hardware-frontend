@@ -49,7 +49,6 @@ export default function AddDistributorPage() {
             onChange={handleChange}
             required
           />
-
           <textarea
             name="distributorDescription"
             placeholder="Distributor Description"
