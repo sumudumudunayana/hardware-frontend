@@ -92,7 +92,6 @@ export default function AddItemPage() {
               ))}
             </select>
           </div>
-
           <textarea
             name="itemDescription"
             placeholder="Item Description"
