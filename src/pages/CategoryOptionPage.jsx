@@ -13,8 +13,7 @@ export default function CategoryOptionPage() {
         <div className="category-grid">
           <div
             className="category-box"
-            onClick={() => navigate("/AddCategoryPage")}
-          >
+            onClick={() => navigate("/AddCategoryPage")}>
             <h2>Add Category</h2>
             <p>Create and register new item categories.</p>
           </div>
