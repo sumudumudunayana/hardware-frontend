@@ -13,9 +13,10 @@ export default function ManageCategoryPage() {
     categoryName: "",
     categoryDescription: "",
   });
-  
+
   const [deleteId, setDeleteId] = useState(null);
   const [alert, setAlert] = useState({ show: false, type: "", message: "" });
+  
   const loadCategories = async () => {
     try {
       const res = await axios.get("http://localhost:8080/category/get-all");
