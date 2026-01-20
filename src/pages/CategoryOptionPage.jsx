@@ -19,8 +19,7 @@ export default function CategoryOptionPage() {
           </div>
           <div
             className="category-box"
-            onClick={() => navigate("/ManageCategoryPage")}
-          >
+            onClick={() => navigate("/ManageCategoryPage")}>
             <h2>Manage Categories</h2>
             <p>View, update, and delete all categories.</p>
           </div>
