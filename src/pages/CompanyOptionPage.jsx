@@ -19,8 +19,7 @@ export default function CompanyOptionPage() {
           </div>
           <div
             className="company-box"
-            onClick={() => navigate("/ManageCompanyPage")}
-          >
+            onClick={() => navigate("/ManageCompanyPage")}>
             <h2>Manage Companies</h2>
             <p>View, update, and delete company records.</p>
           </div>
