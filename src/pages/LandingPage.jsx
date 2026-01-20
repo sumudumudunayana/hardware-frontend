@@ -4,6 +4,7 @@ import "../css/LandingPageStyles.css";
 
 export default function LandingPage() {
   const navigate = useNavigate();
+  
   return (
     <div className="landing-container">
       <div className="overlay" />
