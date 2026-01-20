@@ -16,7 +16,7 @@ export default function ManageCategoryPage() {
 
   const [deleteId, setDeleteId] = useState(null);
   const [alert, setAlert] = useState({ show: false, type: "", message: "" });
-  
+
   const loadCategories = async () => {
     try {
       const res = await axios.get("http://localhost:8080/category/get-all");
@@ -26,7 +26,6 @@ export default function ManageCategoryPage() {
       console.error("Failed to load categories", error);
     }
   };
-
   useEffect(() => {
     loadCategories();
   }, []);
