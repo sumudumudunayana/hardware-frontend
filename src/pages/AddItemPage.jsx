@@ -149,7 +149,6 @@ export default function AddItemPage() {
               ))}
             </select>
           </div>
-
           <button type="submit" className="add-item-btn">
             Add Item
           </button>
