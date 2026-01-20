@@ -4,6 +4,7 @@ import "../css/DistributorOptionPageStyles.css";
 
 export default function DistributorOptionPage() {
   const navigate = useNavigate();
+  
   return (
     <div className="distributor-container">
       <div className="distributor-overlay"></div>
