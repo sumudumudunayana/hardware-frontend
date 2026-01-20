@@ -16,7 +16,6 @@ export default function ManageCompanyPage() {
     companyContactNumber: "",
     companyEmail: "",
   });
-
   const [deleteId, setDeleteId] = useState(null);
   const [alert, setAlert] = useState({ show: false, type: "", message: "" });
 
