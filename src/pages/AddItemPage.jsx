@@ -124,7 +124,6 @@ export default function AddItemPage() {
             value={formData.itemLabeledPrice}
             onChange={handleChange}
           />
-
           <div className="form-row">
             <select
               name="itemCompany"
