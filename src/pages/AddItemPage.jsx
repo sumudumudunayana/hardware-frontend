@@ -33,7 +33,6 @@ export default function AddItemPage() {
       alert("Failed to load dropdown data!");
     }
   };
-
   useEffect(() => {
     loadDropdownData();
   }, []);
