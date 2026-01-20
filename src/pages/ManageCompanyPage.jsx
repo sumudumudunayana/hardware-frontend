@@ -73,7 +73,6 @@ export default function ManageCompanyPage() {
         type: "success",
         message: "Company updated successfully!",
       });
-
       setShowUpdateModal(false);
     } catch (err) {
       setAlert({
