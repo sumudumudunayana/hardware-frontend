@@ -136,7 +136,6 @@ export default function AddItemPage() {
                 </option>
               ))}
             </select>
-
             <select
               name="itemDistributor"
               value={formData.itemDistributor}
