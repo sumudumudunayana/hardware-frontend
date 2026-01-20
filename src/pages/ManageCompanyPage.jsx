@@ -27,7 +27,6 @@ export default function ManageCompanyPage() {
       console.error("Failed loading companies", err);
     }
   };
-
   useEffect(() => {
     loadCompanies();
   }, []);
