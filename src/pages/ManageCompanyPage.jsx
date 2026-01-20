@@ -37,7 +37,6 @@ export default function ManageCompanyPage() {
       setFiltered(companies);
       return;
     }
-
     const result = companies.filter(
       (c) =>
         c.companyName.toLowerCase().includes(keyword) ||
