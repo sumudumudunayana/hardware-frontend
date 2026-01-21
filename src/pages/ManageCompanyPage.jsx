@@ -206,8 +206,7 @@ export default function ManageCompanyPage() {
               <input
                 name="companyAddress"
                 value={editData.companyAddress}
-                onChange={handleUpdateChange}
-              />
+                onChange={handleUpdateChange}/>
             </div>
             <div className="form-group">
               <label>Contact Number</label>
