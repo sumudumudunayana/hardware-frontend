@@ -192,8 +192,7 @@ export default function ManageCompanyPage() {
               <input
                 name="companyName"
                 value={editData.companyName}
-                onChange={handleUpdateChange}
-              />
+                onChange={handleUpdateChange}/>
             </div>
             <div className="form-group">
               <label>Description</label>
