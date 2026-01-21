@@ -97,7 +97,6 @@ export default function ManageCompanyPage() {
         `http://localhost:8080/company/delete-by-id/${deleteId}`
       );
       if (![200, 202, 204].includes(res.status)) throw new Error();
-
       const updated = companies.filter((c) => c.id !== deleteId);
       setCompanies(updated);
       setFiltered(updated);
