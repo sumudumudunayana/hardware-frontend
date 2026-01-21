@@ -100,7 +100,6 @@ export default function ManageCompanyPage() {
       const updated = companies.filter((c) => c.id !== deleteId);
       setCompanies(updated);
       setFiltered(updated);
-
       setAlert({
         show: true,
         type: "success",
