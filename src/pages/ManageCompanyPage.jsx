@@ -240,7 +240,6 @@ export default function ManageCompanyPage() {
           <div className="modal-box">
             <h2>Delete Company</h2>
             <p>Are you sure you want to delete company ID {deleteId}?</p>
-
             <div className="modal-actions">
               <button className="cancel-btn" onClick={closeDeleteModal}>
                 Cancel
