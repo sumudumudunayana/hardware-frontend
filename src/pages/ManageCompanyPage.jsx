@@ -81,7 +81,6 @@ export default function ManageCompanyPage() {
         message: "Failed to update company.",
       });
     }
-
     setTimeout(() => setAlert({ show: false }), 2500);
   };
 
