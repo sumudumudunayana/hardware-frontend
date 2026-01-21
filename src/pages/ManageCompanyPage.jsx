@@ -222,8 +222,7 @@ export default function ManageCompanyPage() {
                 type="email"
                 name="companyEmail"
                 value={editData.companyEmail}
-                onChange={handleUpdateChange}
-              />
+                onChange={handleUpdateChange}/>
             </div>
             <div className="modal-actions">
               <button className="cancel-btn" onClick={closeUpdateModal}>
