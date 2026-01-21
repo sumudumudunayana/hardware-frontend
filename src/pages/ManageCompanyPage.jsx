@@ -105,7 +105,6 @@ export default function ManageCompanyPage() {
         type: "success",
         message: "Company deleted successfully!",
       });
-
       setShowDeleteModal(false);
     } catch (err) {
       setAlert({
