@@ -199,8 +199,7 @@ export default function ManageCompanyPage() {
               <input
                 name="companyDescription"
                 value={editData.companyDescription}
-                onChange={handleUpdateChange}
-              />
+                onChange={handleUpdateChange}/>
             </div>
             <div className="form-group">
               <label>Address</label>
