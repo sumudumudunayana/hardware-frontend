@@ -146,7 +146,6 @@ export default function ManageDistributorPage() {
                 <th>Action</th>
               </tr>
             </thead>
-
             <tbody>
               {filtered.length > 0 ? (
                 filtered.map((d) => (
