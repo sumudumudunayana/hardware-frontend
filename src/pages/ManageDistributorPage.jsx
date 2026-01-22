@@ -158,8 +158,7 @@ export default function ManageDistributorPage() {
                     <td className="md-actions">
                       <button
                         className="update-btn"
-                        onClick={() => openUpdateModal(d)}
-                      >
+                        onClick={() => openUpdateModal(d)}>
                         Update
                       </button>
                       <button
