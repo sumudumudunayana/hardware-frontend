@@ -204,8 +204,7 @@ export default function ManageDistributorPage() {
                 type="number"
                 name="distributorContactNumber"
                 value={editData.distributorContactNumber}
-                onChange={handleUpdateChange}
-              />
+                onChange={handleUpdateChange}/>
             </div>
             <div className="form-group">
               <label>Email</label>
