@@ -180,7 +180,6 @@ export default function ManageDistributorPage() {
           </table>
         </div>
       </div>
-
       {showUpdateModal && (
         <div className="modal-bg">
           <div className="modal-box">
