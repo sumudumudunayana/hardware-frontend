@@ -189,8 +189,7 @@ export default function ManageDistributorPage() {
               <input
                 name="distributorName"
                 value={editData.distributorName}
-                onChange={handleUpdateChange}
-              />
+                onChange={handleUpdateChange}/>
             </div>
             <div className="form-group">
               <label>Description</label>
