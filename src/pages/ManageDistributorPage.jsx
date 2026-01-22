@@ -30,7 +30,6 @@ export default function ManageDistributorPage() {
   useEffect(() => {
     loadDistributors();
   }, []);
-
   const autoSearch = (text) => {
     const keyword = text.toLowerCase();
     if (keyword.trim() === "") {
