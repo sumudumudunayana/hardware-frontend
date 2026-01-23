@@ -87,7 +87,6 @@ export default function UpdateItemPage() {
       );
       setItems(updated);
       setFiltered(updated);
-
       setAlert({
         show: true,
         type: "success",
