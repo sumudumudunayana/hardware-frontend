@@ -181,8 +181,7 @@ export default function UpdateItemPage() {
                     <td className="action-buttons">
                       <button
                         className="update-btn"
-                        onClick={() => openUpdateModal(item)}
-                      >
+                        onClick={() => openUpdateModal(item)}>
                         Update
                       </button>
                       <button
