@@ -100,7 +100,6 @@ export default function UpdateItemPage() {
         message: "Failed to update item!",
       });
     }
-
     setTimeout(() => setAlert({ show: false }), 2500);
   };
 
