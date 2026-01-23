@@ -92,7 +92,6 @@ export default function UpdateItemPage() {
         type: "success",
         message: "Item updated successfully!",
       });
-
       setShowUpdateModal(false);
     } catch {
       setAlert({
