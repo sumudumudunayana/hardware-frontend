@@ -151,8 +151,7 @@ export default function UpdateItemPage() {
             onChange={(e) => {
               setSearch(e.target.value);
               autoSearch(e.target.value);
-            }}
-          />
+            }}/>
         </div>
         <div className="table-wrapper">
           <table className="update-item-table">
