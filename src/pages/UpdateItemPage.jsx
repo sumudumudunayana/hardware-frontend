@@ -68,7 +68,7 @@ export default function UpdateItemPage() {
     setEditData({ ...item });
     setShowUpdateModal(true);
   };
-  
+
   const closeUpdateModal = () => setShowUpdateModal(false);
 
   const handleUpdateChange = (e) => {
@@ -85,7 +85,6 @@ export default function UpdateItemPage() {
       const updated = items.map((item) =>
         item.id === editData.id ? editData : item
       );
-
       setItems(updated);
       setFiltered(updated);
 
