@@ -4,7 +4,6 @@ import "../css/SupplierOptionPageStyles.css";
 
 export default function SupplierOptionPage() {
   const navigate = useNavigate();
-
   return (
     <div className="supplier-container">
       <div className="supplier-overlay"></div>
