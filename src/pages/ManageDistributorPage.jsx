@@ -212,8 +212,7 @@ export default function ManageDistributorPage() {
                 type="email"
                 name="distributorEmail"
                 value={editData.distributorEmail}
-                onChange={handleUpdateChange}
-              />
+                onChange={handleUpdateChange}/>
             </div>
             <div className="modal-actions">
               <button className="cancel-btn" onClick={closeUpdateModal}>
