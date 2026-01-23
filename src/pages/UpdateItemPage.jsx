@@ -116,7 +116,6 @@ export default function UpdateItemPage() {
         `http://localhost:8080/item/delete-by-id/${deleteId}`
       );
       if (![200, 202, 204].includes(res.status)) throw new Error();
-
       const updated = items.filter((item) => item.id !== deleteId);
       setItems(updated);
       setFiltered(updated);
