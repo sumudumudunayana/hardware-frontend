@@ -186,8 +186,7 @@ export default function UpdateItemPage() {
                       </button>
                       <button
                         className="delete-btn"
-                        onClick={() => openDeleteModal(item.id)}
-                      >
+                        onClick={() => openDeleteModal(item.id)}>
                         Delete
                       </button>
                     </td>
