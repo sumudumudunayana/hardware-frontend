@@ -212,8 +212,7 @@ export default function UpdateItemPage() {
               <input
                 name="itemName"
                 value={editData.itemName}
-                onChange={handleUpdateChange}
-              />
+                onChange={handleUpdateChange}/>
             </div>
             <div className="form-group">
               <label>Category</label>
