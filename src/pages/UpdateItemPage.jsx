@@ -68,6 +68,7 @@ export default function UpdateItemPage() {
     setEditData({ ...item });
     setShowUpdateModal(true);
   };
+  
   const closeUpdateModal = () => setShowUpdateModal(false);
 
   const handleUpdateChange = (e) => {
