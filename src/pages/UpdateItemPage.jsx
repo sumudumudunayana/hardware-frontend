@@ -262,8 +262,7 @@ export default function UpdateItemPage() {
                 type="number"
                 name="itemSellingPrice"
                 value={editData.itemSellingPrice}
-                onChange={handleUpdateChange}
-              />
+                onChange={handleUpdateChange}/>
             </div>
             <div className="form-group">
               <label>Cost Price</label>
