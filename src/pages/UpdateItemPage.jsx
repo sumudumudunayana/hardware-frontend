@@ -219,8 +219,7 @@ export default function UpdateItemPage() {
               <select
                 name="itemCategory"
                 value={editData.itemCategory}
-                onChange={handleUpdateChange}
-              >
+                onChange={handleUpdateChange}>
                 <option value="">Select Category</option>
                 {categories.map((cat) => (
                   <option key={cat.id} value={cat.categoryName}>
