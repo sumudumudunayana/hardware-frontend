@@ -270,8 +270,7 @@ export default function UpdateItemPage() {
                 type="number"
                 name="itemCostPrice"
                 value={editData.itemCostPrice}
-                onChange={handleUpdateChange}
-              />
+                onChange={handleUpdateChange}/>
             </div>
             <div className="modal-actions">
               <button className="cancel-btn" onClick={closeUpdateModal}>
