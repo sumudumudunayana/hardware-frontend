@@ -233,8 +233,7 @@ export default function UpdateItemPage() {
               <select
                 name="itemCompany"
                 value={editData.itemCompany}
-                onChange={handleUpdateChange}
-              >
+                onChange={handleUpdateChange}>
                 <option value="">Select Company</option>
                 {companies.map((com) => (
                   <option key={com.id} value={com.companyName}>
