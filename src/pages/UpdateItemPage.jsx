@@ -247,8 +247,7 @@ export default function UpdateItemPage() {
               <select
                 name="itemDistributor"
                 value={editData.itemDistributor}
-                onChange={handleUpdateChange}
-              >
+                onChange={handleUpdateChange}>
                 <option value="">Select Distributor</option>
                 {distributors.map((dist) => (
                   <option key={dist.id} value={dist.distributorName}>
