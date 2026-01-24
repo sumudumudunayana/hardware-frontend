@@ -35,8 +35,7 @@ export default function ViewItemPage() {
           className="search-bar"
           placeholder="Search by ID or Name..."
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
+          onChange={(e) => setSearch(e.target.value)}/>
         <div className="table-wrapper">
           <table className="item-table">
             <thead>
