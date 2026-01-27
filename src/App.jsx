@@ -16,6 +16,7 @@ import DistributorOptionPage from "./pages/DistributorOptionPage";
 import AddDistributorPage from "./pages/AddDistributorPage";
 import ManageDistributorPage from "./pages/ManageDistributorPage";
 import CustomerOptionPage from "./pages/CustomerOptionPage";
+import AddCustomerPage from "./pages/AddCustomerPage";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
         <Route path="/AddDistributorPage" element={<AddDistributorPage />} />
         <Route path="/ManageDistributorPage" element={<ManageDistributorPage />} />
         <Route path="/CustomerOptionPage" element={<CustomerOptionPage />} />
+        <Route path="/addCustomerPage" element={<AddCustomerPage />} />
       </Routes>
     </HashRouter>
   );
