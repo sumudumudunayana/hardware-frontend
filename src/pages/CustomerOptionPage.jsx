@@ -23,7 +23,7 @@ export default function CustomerOptionPage() {
 
           <div
             className="customer-box"
-            onClick={() => navigate("/UpdateCustomerPage")}
+            onClick={() => navigate("/ManageCustomerPage")}
           >
             <h2>Manage Customer</h2>
             <p>Update customer information or records.</p>
