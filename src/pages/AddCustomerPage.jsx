@@ -15,7 +15,6 @@ export default function AddCustomerPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       await axios.post(
         "http://localhost:8080/customer/add-customer",
