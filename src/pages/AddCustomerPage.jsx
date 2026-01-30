@@ -20,7 +20,6 @@ export default function AddCustomerPage() {
         "http://localhost:8080/customer/add-customer",
         formData
       );
-
       alert("Customer Added Successfully!");
 
       setFormData({
