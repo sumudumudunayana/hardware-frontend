@@ -32,7 +32,6 @@ export default function AddCustomerPage() {
   return (
     <div className="add-customer-container">
       <div className="add-customer-overlay"></div>
-
       <div className="add-customer-card">
         <h1 className="add-customer-title">Add New Customer</h1>
 
