@@ -34,7 +34,6 @@ export default function AddCustomerPage() {
       <div className="add-customer-overlay"></div>
       <div className="add-customer-card">
         <h1 className="add-customer-title">Add New Customer</h1>
-
         <form className="add-customer-form" onSubmit={handleSubmit}>
           <input
             type="text"
