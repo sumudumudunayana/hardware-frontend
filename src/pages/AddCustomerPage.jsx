@@ -16,10 +16,7 @@ export default function AddCustomerPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(
-        "http://localhost:8080/customer/add-customer",
-        formData
-      );
+      await axios.post("http://localhost:8080/customer/add-customer", formData);
       alert("Customer Added Successfully!");
       setFormData({
         customerName: "",
@@ -40,7 +37,6 @@ export default function AddCustomerPage() {
         <h1 className="add-customer-title">Add New Customer</h1>
 
         <form className="add-customer-form" onSubmit={handleSubmit}>
-
           <input
             type="text"
             name="customerName"
