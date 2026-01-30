@@ -21,7 +21,6 @@ export default function AddCustomerPage() {
         formData
       );
       alert("Customer Added Successfully!");
-
       setFormData({
         customerName: "",
         customerContactNumber: "",
