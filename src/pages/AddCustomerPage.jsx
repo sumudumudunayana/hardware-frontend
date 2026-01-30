@@ -26,7 +26,6 @@ export default function AddCustomerPage() {
         customerContactNumber: "",
         customerEmail: "",
       });
-
     } catch (error) {
       console.error("Error adding customer:", error);
       alert("Failed to add customer.");
