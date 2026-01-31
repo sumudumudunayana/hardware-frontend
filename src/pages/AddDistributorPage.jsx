@@ -60,8 +60,7 @@ export default function AddDistributorPage() {
             placeholder="Contact Number"
             value={formData.distributorContactNumber}
             onChange={handleChange}
-            required
-          />
+            required/>
           <input
             type="email"
             name="distributorEmail"
