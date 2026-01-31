@@ -46,8 +46,7 @@ export default function AddDistributorPage() {
             placeholder="Distributor Name"
             value={formData.distributorName}
             onChange={handleChange}
-            required
-          />
+            required/>
           <textarea
             name="distributorDescription"
             placeholder="Distributor Description"
