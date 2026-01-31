@@ -57,7 +57,6 @@ export default function AddCustomerPage() {
             onChange={handleChange}
             required
           />
-
           <button type="submit" className="add-customer-btn">
             Add Customer
           </button>
