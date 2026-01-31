@@ -49,7 +49,6 @@ export default function AddCustomerPage() {
             value={formData.customerContactNumber}
             onChange={handleChange}
             required/>
-
           <input
             type="email"
             name="customerEmail"
