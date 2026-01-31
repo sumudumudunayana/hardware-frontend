@@ -48,8 +48,7 @@ export default function AddCustomerPage() {
             placeholder="Contact Number"
             value={formData.customerContactNumber}
             onChange={handleChange}
-            required
-          />
+            required/>
 
           <input
             type="email"
