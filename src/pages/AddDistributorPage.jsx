@@ -39,7 +39,6 @@ export default function AddDistributorPage() {
       <div className="add-distributor-overlay"></div>
       <div className="add-distributor-card">
         <h1 className="add-distributor-title">Add New Distributor</h1>
-
         <form className="add-distributor-form" onSubmit={handleSubmit}>
           <input
             type="text"
