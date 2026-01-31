@@ -43,7 +43,6 @@ export default function AddCustomerPage() {
             onChange={handleChange}
             required
           />
-
           <input
             type="number"
             name="customerContactNumber"
