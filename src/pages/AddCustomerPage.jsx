@@ -41,8 +41,7 @@ export default function AddCustomerPage() {
             placeholder="Customer Name"
             value={formData.customerName}
             onChange={handleChange}
-            required
-          />
+            required/>
           <input
             type="number"
             name="customerContactNumber"
