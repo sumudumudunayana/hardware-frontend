@@ -67,8 +67,7 @@ export default function AddDistributorPage() {
             placeholder="Distributor Email"
             value={formData.distributorEmail}
             onChange={handleChange}
-            required
-          />
+            required/>
           <button type="submit" className="add-distributor-btn">
             Add Distributor
           </button>
