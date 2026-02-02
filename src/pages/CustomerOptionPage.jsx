@@ -11,7 +11,6 @@ export default function CustomerOptionPage() {
 
       <div className="customer-card">
         <h1 className="customer-title">Customer Management</h1>
-
         <div className="customer-grid">
           <div
             className="customer-box"
