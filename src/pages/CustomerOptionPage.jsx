@@ -8,7 +8,6 @@ export default function CustomerOptionPage() {
   return (
     <div className="customer-container">
       <div className="customer-overlay"></div>
-
       <div className="customer-card">
         <h1 className="customer-title">Customer Management</h1>
         <div className="customer-grid">
