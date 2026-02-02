@@ -19,7 +19,6 @@ export default function CustomerOptionPage() {
             <h2>Add Customer</h2>
             <p>Register new customers into the system.</p>
           </div>
-
           <div
             className="customer-box"
             onClick={() => navigate("/ManageCustomerPage")}
