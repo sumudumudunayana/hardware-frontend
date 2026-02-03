@@ -36,7 +36,6 @@ export default function ManageCustomerPage() {
       setFiltered(customers);
       return;
     }
-
     const result = customers.filter(
       (c) =>
         c.customerName.toLowerCase().includes(keyword) ||
