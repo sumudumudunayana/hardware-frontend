@@ -44,7 +44,6 @@ export default function ManageCustomerPage() {
     setFiltered(result);
   };
 
-  // Update modal
   const openUpdateModal = (c) => {
     setEditData({ ...c });
     setShowUpdateModal(true);
