@@ -65,7 +65,6 @@ export default function ManageCustomerPage() {
       const updated = customers.map((c) =>
         c.id === editData.id ? editData : c
       );
-
       setCustomers(updated);
       setFiltered(updated);
 
