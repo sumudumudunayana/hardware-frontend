@@ -83,7 +83,6 @@ export default function ManageCustomerPage() {
     setTimeout(() => setAlert({ show: false }), 2500);
   };
 
-  // Delete
   const openDeleteModal = (id) => {
     setDeleteId(id);
     setShowDeleteModal(true);
