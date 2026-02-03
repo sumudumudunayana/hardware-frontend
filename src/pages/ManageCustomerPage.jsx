@@ -134,7 +134,6 @@ export default function ManageCustomerPage() {
             }}
           />
         </div>
-
         <div className="mc-table-wrapper">
           <table className="mc-table">
             <thead>
