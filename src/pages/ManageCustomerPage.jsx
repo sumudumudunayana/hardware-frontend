@@ -80,7 +80,6 @@ export default function ManageCustomerPage() {
         message: "Failed to update customer!",
       });
     }
-
     setTimeout(() => setAlert({ show: false }), 2500);
   };
 
