@@ -95,7 +95,6 @@ export default function ManageCustomerPage() {
       const res = await axios.delete(
         `http://localhost:8080/customer/delete-by-id/${deleteId}`
       );
-
       if (![200, 202, 204].includes(res.status)) throw new Error();
 
       const updated = customers.filter((c) => c.id !== deleteId);
