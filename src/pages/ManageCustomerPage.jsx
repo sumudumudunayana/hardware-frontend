@@ -67,7 +67,6 @@ export default function ManageCustomerPage() {
       );
       setCustomers(updated);
       setFiltered(updated);
-
       setAlert({
         show: true,
         type: "success",
