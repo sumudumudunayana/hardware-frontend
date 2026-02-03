@@ -112,7 +112,6 @@ export default function ManageCustomerPage() {
         message: "Failed to delete customer!",
       });
     }
-
     setTimeout(() => setAlert({ show: false }), 2500);
   };
 
