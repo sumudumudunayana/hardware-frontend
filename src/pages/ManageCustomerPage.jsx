@@ -72,7 +72,6 @@ export default function ManageCustomerPage() {
         type: "success",
         message: "Customer updated successfully!",
       });
-
       setShowUpdateModal(false);
     } catch (err) {
       setAlert({
