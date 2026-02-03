@@ -104,7 +104,6 @@ export default function ManageCustomerPage() {
         type: "success",
         message: "Customer deleted successfully!",
       });
-
       setShowDeleteModal(false);
     } catch (err) {
       setAlert({
