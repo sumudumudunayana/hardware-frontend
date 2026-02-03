@@ -41,7 +41,6 @@ export default function ManageCustomerPage() {
         c.customerName.toLowerCase().includes(keyword) ||
         c.id.toString() === keyword
     );
-
     setFiltered(result);
   };
 
