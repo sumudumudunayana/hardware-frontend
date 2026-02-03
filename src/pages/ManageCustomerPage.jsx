@@ -145,7 +145,6 @@ export default function ManageCustomerPage() {
                 <th>Action</th>
               </tr>
             </thead>
-
             <tbody>
               {filtered.length > 0 ? (
                 filtered.map((c) => (
