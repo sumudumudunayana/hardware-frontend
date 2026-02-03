@@ -156,8 +156,7 @@ export default function ManageCustomerPage() {
                     <td className="mc-actions">
                       <button
                         className="update-btn"
-                        onClick={() => openUpdateModal(c)}
-                      >
+                        onClick={() => openUpdateModal(c)}>
                         Update
                       </button>
                       <button
