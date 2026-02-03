@@ -61,7 +61,6 @@ export default function ManageCustomerPage() {
         "http://localhost:8080/customer/update-customer",
         editData
       );
-
       if (![200, 202, 204].includes(res.status)) throw new Error();
 
       const updated = customers.map((c) =>
