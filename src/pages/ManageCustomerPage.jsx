@@ -123,7 +123,6 @@ export default function ManageCustomerPage() {
         {alert.show && (
           <div className={`alert-box ${alert.type}`}>{alert.message}</div>
         )}
-
         <div className="mc-search-box">
           <input
             type="text"
