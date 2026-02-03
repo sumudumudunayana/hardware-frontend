@@ -118,7 +118,6 @@ export default function ManageCustomerPage() {
   return (
     <div className="mc-bg">
       <div className="mc-overlay"></div>
-
       <div className="mc-container">
         <h1 className="mc-title">Manage Customers</h1>
 
