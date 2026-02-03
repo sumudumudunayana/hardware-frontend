@@ -99,7 +99,6 @@ export default function ManageCustomerPage() {
       const updated = customers.filter((c) => c.id !== deleteId);
       setCustomers(updated);
       setFiltered(updated);
-
       setAlert({
         show: true,
         type: "success",
