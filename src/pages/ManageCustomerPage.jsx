@@ -62,7 +62,6 @@ export default function ManageCustomerPage() {
         editData
       );
       if (![200, 202, 204].includes(res.status)) throw new Error();
-
       const updated = customers.map((c) =>
         c.id === editData.id ? editData : c
       );
