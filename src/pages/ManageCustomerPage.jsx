@@ -32,7 +32,6 @@ export default function ManageCustomerPage() {
 
   const autoSearch = (text) => {
     const keyword = text.toLowerCase();
-
     if (keyword.trim() === "") {
       setFiltered(customers);
       return;
