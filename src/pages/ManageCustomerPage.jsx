@@ -120,7 +120,6 @@ export default function ManageCustomerPage() {
       <div className="mc-overlay"></div>
       <div className="mc-container">
         <h1 className="mc-title">Manage Customers</h1>
-
         {alert.show && (
           <div className={`alert-box ${alert.type}`}>{alert.message}</div>
         )}
