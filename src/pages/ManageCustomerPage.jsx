@@ -161,8 +161,7 @@ export default function ManageCustomerPage() {
                       </button>
                       <button
                         className="delete-btn"
-                        onClick={() => openDeleteModal(c.id)}
-                      >
+                        onClick={() => openDeleteModal(c.id)}>
                         Delete
                       </button>
                     </td>
