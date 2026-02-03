@@ -30,7 +30,6 @@ export default function ManageCustomerPage() {
     loadCustomers();
   }, []);
 
-  
   const autoSearch = (text) => {
     const keyword = text.toLowerCase();
 
