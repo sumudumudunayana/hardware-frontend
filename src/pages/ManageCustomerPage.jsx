@@ -219,7 +219,6 @@ export default function ManageCustomerPage() {
           </div>
         </div>
       )}
-
       {/* DELETE MODAL */}
       {showDeleteModal && (
         <div className="modal-bg">
