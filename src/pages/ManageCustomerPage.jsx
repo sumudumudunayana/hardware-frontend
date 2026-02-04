@@ -224,7 +224,6 @@ export default function ManageCustomerPage() {
           <div className="modal-box">
             <h2>Delete Customer</h2>
             <p>Are you sure you want to delete customer ID {deleteId}?</p>
-
             <div className="modal-actions">
               <button className="cancel-btn" onClick={closeDeleteModal}>
                 Cancel
