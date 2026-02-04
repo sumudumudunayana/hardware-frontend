@@ -195,8 +195,7 @@ export default function ManageCustomerPage() {
                 type="number"
                 name="customerContactNumber"
                 value={editData.customerContactNumber}
-                onChange={handleUpdateChange}
-              />
+                onChange={handleUpdateChange}/>
             </div>
             <div className="form-group">
               <label>Email</label>
