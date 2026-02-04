@@ -203,8 +203,7 @@ export default function ManageCustomerPage() {
                 type="email"
                 name="customerEmail"
                 value={editData.customerEmail}
-                onChange={handleUpdateChange}
-              />
+                onChange={handleUpdateChange}/>
             </div>
             <div className="modal-actions">
               <button className="cancel-btn" onClick={closeUpdateModal}>
