@@ -182,7 +182,6 @@ export default function ManageCustomerPage() {
         <div className="modal-bg">
           <div className="modal-box">
             <h2>Update Customer</h2>
-
             <div className="form-group">
               <label>Name</label>
               <input
