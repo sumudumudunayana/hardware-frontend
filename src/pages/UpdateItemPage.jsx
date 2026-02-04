@@ -55,7 +55,6 @@ export default function UpdateItemPage() {
   const autoSearch = (text) => {
     const keyword = text.toLowerCase();
     if (keyword.trim() === "") return setFiltered(items);
-
     const result = items.filter(
       (i) =>
         i.itemName.toLowerCase().includes(keyword) ||
