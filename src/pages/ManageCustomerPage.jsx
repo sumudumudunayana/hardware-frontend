@@ -199,7 +199,6 @@ export default function ManageCustomerPage() {
                 onChange={handleUpdateChange}
               />
             </div>
-
             <div className="form-group">
               <label>Email</label>
               <input
