@@ -208,7 +208,6 @@ export default function ManageCustomerPage() {
                 onChange={handleUpdateChange}
               />
             </div>
-
             <div className="modal-actions">
               <button className="cancel-btn" onClick={closeUpdateModal}>
                 Cancel
