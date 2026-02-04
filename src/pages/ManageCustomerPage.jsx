@@ -187,8 +187,7 @@ export default function ManageCustomerPage() {
               <input
                 name="customerName"
                 value={editData.customerName}
-                onChange={handleUpdateChange}
-              />
+                onChange={handleUpdateChange}/>
             </div>
             <div className="form-group">
               <label>Contact Number</label>
