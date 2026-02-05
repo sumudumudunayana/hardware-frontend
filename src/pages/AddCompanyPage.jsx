@@ -60,8 +60,7 @@ export default function AddCompanyPage() {
             placeholder="Company Address"
             value={formData.companyAddress}
             onChange={handleChange}
-            required
-          />
+            required/>
           <input
             type="number"
             name="companyContactNumber"
