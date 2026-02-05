@@ -76,8 +76,7 @@ export default function AddCompanyPage() {
             placeholder="Company Email"
             value={formData.companyEmail}
             onChange={handleChange}
-            required
-          />
+            required/>
           <button type="submit" className="add-company-btn">
             Add Company
           </button>
