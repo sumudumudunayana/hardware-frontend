@@ -68,8 +68,7 @@ export default function AddCompanyPage() {
             placeholder="Contact Number"
             value={formData.companyContactNumber}
             onChange={handleChange}
-            required
-          />
+            required/>
           <input
             type="email"
             name="companyEmail"
