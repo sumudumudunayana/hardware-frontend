@@ -94,8 +94,7 @@ export default function AddItemPage() {
             placeholder="Item Description"
             value={formData.itemDescription}
             onChange={handleChange}
-            required
-          />
+            required/>
           <div className="form-row">
             <input
               type="number"
