@@ -109,8 +109,7 @@ export default function AddItemPage() {
               placeholder="Selling Price"
               value={formData.itemSellingPrice}
               onChange={handleChange}
-              required
-            />
+              required/>
           </div>
           <input
             type="number"
