@@ -45,8 +45,7 @@ export default function AddCompanyPage() {
             placeholder="Company Name"
             value={formData.companyName}
             onChange={handleChange}
-            required
-          />
+            required/>
           <textarea
             name="companyDescription"
             placeholder="Company Description"
