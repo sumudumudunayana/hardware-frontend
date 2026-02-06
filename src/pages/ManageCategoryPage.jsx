@@ -191,8 +191,7 @@ export default function ManageCategoryPage() {
               <input
                 name="categoryDescription"
                 value={editData.categoryDescription}
-                onChange={handleUpdateChange}
-              />
+                onChange={handleUpdateChange}/>
             </div>
             <div className="modal-actions">
               <button className="cancel-btn" onClick={closeUpdateModal}>
