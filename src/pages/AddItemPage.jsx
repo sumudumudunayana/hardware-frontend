@@ -132,8 +132,7 @@ export default function AddItemPage() {
             <select
               name="itemDistributor"
               value={formData.itemDistributor}
-              onChange={handleChange}
-            >
+              onChange={handleChange}>
               <option value="">Select Distributor</option>
               {distributors.map((dist) => (
                 <option key={dist.id} value={dist.distributorName}>
