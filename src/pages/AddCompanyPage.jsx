@@ -53,7 +53,6 @@ export default function AddCompanyPage() {
             value={formData.companyDescription}
             onChange={handleChange}
             required>
-
           </textarea>
           <input
             type="text"
