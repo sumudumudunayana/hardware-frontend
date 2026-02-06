@@ -75,8 +75,7 @@ export default function AddItemPage() {
               placeholder="Item Name"
               value={formData.itemName}
               onChange={handleChange}
-              required
-            />
+              required/>
             <select
               name="itemCategory"
               value={formData.itemCategory}
