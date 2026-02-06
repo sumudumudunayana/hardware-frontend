@@ -131,8 +131,7 @@ export default function ManageCategoryPage() {
             onChange={(e) => {
               setSearch(e.target.value);
               autoSearch(e.target.value);
-            }}
-          />
+            }}/>
         </div>
         <div className="table-wrapper">
           <table className="category-table">
