@@ -80,8 +80,7 @@ export default function AddItemPage() {
               name="itemCategory"
               value={formData.itemCategory}
               onChange={handleChange}
-              required
-            >
+              required>
               <option value="">Select Category</option>
               {categories.map((cat) => (
                 <option key={cat.id} value={cat.categoryName}>
