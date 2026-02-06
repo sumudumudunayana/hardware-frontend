@@ -116,8 +116,7 @@ export default function AddItemPage() {
             name="itemLabeledPrice"
             placeholder="Labeled Price"
             value={formData.itemLabeledPrice}
-            onChange={handleChange}
-          />
+            onChange={handleChange}/>
           <div className="form-row">
             <select
               name="itemCompany"
