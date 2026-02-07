@@ -4,7 +4,7 @@ import "../css/ItemOptionPageStyles.css";
 
 export default function ItemOptionPage() {
   const navigate = useNavigate();
-  
+
   return (
     <div className="item-container">
       <div className="item-overlay"></div>
