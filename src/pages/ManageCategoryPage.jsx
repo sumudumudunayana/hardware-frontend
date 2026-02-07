@@ -39,7 +39,7 @@ export default function ManageCategoryPage() {
 
     const result = categories.filter(
       (c) =>
-        c.categoryName.toLowerCase().includes(key) || c.id.toString() === key
+        c.categoryName.toLowerCase().includes(key) || c.id.toString() === key,
     );
     setFiltered(result);
   };
@@ -59,11 +59,11 @@ export default function ManageCategoryPage() {
     try {
       const res = await axios.put(
         "http://localhost:8080/category/update-category",
-        editData
+        editData,
       );
       if (![200, 202, 204].includes(res.status)) throw new Error();
       const updated = categories.map((c) =>
-        c.id === editData.id ? editData : c
+        c.id === editData.id ? editData : c,
       );
       setCategories(updated);
       setFiltered(updated);
@@ -93,7 +93,7 @@ export default function ManageCategoryPage() {
   const confirmDelete = async () => {
     try {
       const res = await axios.delete(
-        `http://localhost:8080/category/delete-by-id/${deleteId}`
+        `http://localhost:8080/category/delete-by-id/${deleteId}`,
       );
       if (![200, 202, 204].includes(res.status)) throw new Error();
       const updated = categories.filter((c) => c.id !== deleteId);
@@ -131,7 +131,8 @@ export default function ManageCategoryPage() {
             onChange={(e) => {
               setSearch(e.target.value);
               autoSearch(e.target.value);
-            }}/>
+            }}
+          />
         </div>
         <div className="table-wrapper">
           <table className="category-table">
@@ -153,12 +154,14 @@ export default function ManageCategoryPage() {
                     <td className="action-buttons">
                       <button
                         className="update-btn"
-                        onClick={() => openUpdateModal(cat)}>
+                        onClick={() => openUpdateModal(cat)}
+                      >
                         Update
                       </button>
                       <button
                         className="delete-btn"
-                        onClick={() => openDeleteModal(cat.id)}>
+                        onClick={() => openDeleteModal(cat.id)}
+                      >
                         Delete
                       </button>
                     </td>
@@ -184,14 +187,16 @@ export default function ManageCategoryPage() {
               <input
                 name="categoryName"
                 value={editData.categoryName}
-                onChange={handleUpdateChange}/>
+                onChange={handleUpdateChange}
+              />
             </div>
             <div className="form-group">
               <label>Description</label>
               <input
                 name="categoryDescription"
                 value={editData.categoryDescription}
-                onChange={handleUpdateChange}/>
+                onChange={handleUpdateChange}
+              />
             </div>
             <div className="modal-actions">
               <button className="cancel-btn" onClick={closeUpdateModal}>
