@@ -58,7 +58,7 @@ export default function UpdateItemPage() {
     const result = items.filter(
       (i) =>
         i.itemName.toLowerCase().includes(keyword) ||
-        i.id.toString() === keyword
+        i.id.toString() === keyword,
     );
     setFiltered(result);
   };
@@ -78,11 +78,11 @@ export default function UpdateItemPage() {
     try {
       const res = await axios.put(
         "http://localhost:8080/item/update-item",
-        editData
+        editData,
       );
       if (![200, 202, 204].includes(res.status)) throw new Error();
       const updated = items.map((item) =>
-        item.id === editData.id ? editData : item
+        item.id === editData.id ? editData : item,
       );
       setItems(updated);
       setFiltered(updated);
@@ -112,7 +112,7 @@ export default function UpdateItemPage() {
   const confirmDelete = async () => {
     try {
       const res = await axios.delete(
-        `http://localhost:8080/item/delete-by-id/${deleteId}`
+        `http://localhost:8080/item/delete-by-id/${deleteId}`,
       );
       if (![200, 202, 204].includes(res.status)) throw new Error();
       const updated = items.filter((item) => item.id !== deleteId);
@@ -150,7 +150,8 @@ export default function UpdateItemPage() {
             onChange={(e) => {
               setSearch(e.target.value);
               autoSearch(e.target.value);
-            }}/>
+            }}
+          />
         </div>
         <div className="table-wrapper">
           <table className="update-item-table">
@@ -180,12 +181,14 @@ export default function UpdateItemPage() {
                     <td className="action-buttons">
                       <button
                         className="update-btn"
-                        onClick={() => openUpdateModal(item)}>
+                        onClick={() => openUpdateModal(item)}
+                      >
                         Update
                       </button>
                       <button
                         className="delete-btn"
-                        onClick={() => openDeleteModal(item.id)}>
+                        onClick={() => openDeleteModal(item.id)}
+                      >
                         Delete
                       </button>
                     </td>
@@ -211,14 +214,16 @@ export default function UpdateItemPage() {
               <input
                 name="itemName"
                 value={editData.itemName}
-                onChange={handleUpdateChange}/>
+                onChange={handleUpdateChange}
+              />
             </div>
             <div className="form-group">
               <label>Category</label>
               <select
                 name="itemCategory"
                 value={editData.itemCategory}
-                onChange={handleUpdateChange}>
+                onChange={handleUpdateChange}
+              >
                 <option value="">Select Category</option>
                 {categories.map((cat) => (
                   <option key={cat.id} value={cat.categoryName}>
@@ -232,7 +237,8 @@ export default function UpdateItemPage() {
               <select
                 name="itemCompany"
                 value={editData.itemCompany}
-                onChange={handleUpdateChange}>
+                onChange={handleUpdateChange}
+              >
                 <option value="">Select Company</option>
                 {companies.map((com) => (
                   <option key={com.id} value={com.companyName}>
@@ -246,7 +252,8 @@ export default function UpdateItemPage() {
               <select
                 name="itemDistributor"
                 value={editData.itemDistributor}
-                onChange={handleUpdateChange}>
+                onChange={handleUpdateChange}
+              >
                 <option value="">Select Distributor</option>
                 {distributors.map((dist) => (
                   <option key={dist.id} value={dist.distributorName}>
@@ -261,7 +268,8 @@ export default function UpdateItemPage() {
                 type="number"
                 name="itemSellingPrice"
                 value={editData.itemSellingPrice}
-                onChange={handleUpdateChange}/>
+                onChange={handleUpdateChange}
+              />
             </div>
             <div className="form-group">
               <label>Cost Price</label>
@@ -269,7 +277,8 @@ export default function UpdateItemPage() {
                 type="number"
                 name="itemCostPrice"
                 value={editData.itemCostPrice}
-                onChange={handleUpdateChange}/>
+                onChange={handleUpdateChange}
+              />
             </div>
             <div className="modal-actions">
               <button className="cancel-btn" onClick={closeUpdateModal}>
