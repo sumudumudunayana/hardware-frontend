@@ -16,7 +16,7 @@ export default function ManageCompanyPage() {
     companyContactNumber: "",
     companyEmail: "",
   });
-  
+
   const [deleteId, setDeleteId] = useState(null);
   const [alert, setAlert] = useState({ show: false, type: "", message: "" });
   const loadCompanies = async () => {
@@ -41,7 +41,7 @@ export default function ManageCompanyPage() {
     const result = companies.filter(
       (c) =>
         c.companyName.toLowerCase().includes(keyword) ||
-        c.id.toString() === keyword
+        c.id.toString() === keyword,
     );
     setFiltered(result);
   };
@@ -61,11 +61,11 @@ export default function ManageCompanyPage() {
     try {
       const res = await axios.put(
         "http://localhost:8080/company/update-company",
-        editData
+        editData,
       );
       if (![200, 202, 204].includes(res.status)) throw new Error();
       const updated = companies.map((c) =>
-        c.id === editData.id ? editData : c
+        c.id === editData.id ? editData : c,
       );
       setCompanies(updated);
       setFiltered(updated);
@@ -95,7 +95,7 @@ export default function ManageCompanyPage() {
   const confirmDelete = async () => {
     try {
       const res = await axios.delete(
-        `http://localhost:8080/company/delete-by-id/${deleteId}`
+        `http://localhost:8080/company/delete-by-id/${deleteId}`,
       );
       if (![200, 202, 204].includes(res.status)) throw new Error();
       const updated = companies.filter((c) => c.id !== deleteId);
@@ -162,12 +162,14 @@ export default function ManageCompanyPage() {
                     <td className="action-buttons">
                       <button
                         className="update-btn"
-                        onClick={() => openUpdateModal(company)}>
+                        onClick={() => openUpdateModal(company)}
+                      >
                         Update
                       </button>
                       <button
                         className="delete-btn"
-                        onClick={() => openDeleteModal(company.id)}>
+                        onClick={() => openDeleteModal(company.id)}
+                      >
                         Delete
                       </button>
                     </td>
@@ -193,21 +195,24 @@ export default function ManageCompanyPage() {
               <input
                 name="companyName"
                 value={editData.companyName}
-                onChange={handleUpdateChange}/>
+                onChange={handleUpdateChange}
+              />
             </div>
             <div className="form-group">
               <label>Description</label>
               <input
                 name="companyDescription"
                 value={editData.companyDescription}
-                onChange={handleUpdateChange}/>
+                onChange={handleUpdateChange}
+              />
             </div>
             <div className="form-group">
               <label>Address</label>
               <input
                 name="companyAddress"
                 value={editData.companyAddress}
-                onChange={handleUpdateChange}/>
+                onChange={handleUpdateChange}
+              />
             </div>
             <div className="form-group">
               <label>Contact Number</label>
@@ -215,7 +220,8 @@ export default function ManageCompanyPage() {
                 type="number"
                 name="companyContactNumber"
                 value={editData.companyContactNumber}
-                onChange={handleUpdateChange}/>
+                onChange={handleUpdateChange}
+              />
             </div>
             <div className="form-group">
               <label>Email</label>
@@ -223,7 +229,8 @@ export default function ManageCompanyPage() {
                 type="email"
                 name="companyEmail"
                 value={editData.companyEmail}
-                onChange={handleUpdateChange}/>
+                onChange={handleUpdateChange}
+              />
             </div>
             <div className="modal-actions">
               <button className="cancel-btn" onClick={closeUpdateModal}>
