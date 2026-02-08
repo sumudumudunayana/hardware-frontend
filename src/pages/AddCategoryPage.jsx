@@ -39,14 +39,15 @@ export default function AddCategoryPage() {
             placeholder="Category Name"
             value={formData.categoryName}
             onChange={handleChange}
-            required/>
+            required
+          />
           <textarea
             name="categoryDescription"
             placeholder="Category Description"
             value={formData.categoryDescription}
             onChange={handleChange}
-            required>
-          </textarea>
+            required
+          ></textarea>
           <button type="submit" className="add-category-btn">
             Add Category
           </button>
