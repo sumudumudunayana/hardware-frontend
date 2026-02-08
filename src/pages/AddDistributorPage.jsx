@@ -19,7 +19,7 @@ export default function AddDistributorPage() {
     try {
       await axios.post(
         "http://localhost:8080/distributor/add-distributor",
-        formData
+        formData,
       );
       alert("Distributor Added Successfully!");
       setFormData({
@@ -46,28 +46,31 @@ export default function AddDistributorPage() {
             placeholder="Distributor Name"
             value={formData.distributorName}
             onChange={handleChange}
-            required/>
+            required
+          />
           <textarea
             name="distributorDescription"
             placeholder="Distributor Description"
             value={formData.distributorDescription}
             onChange={handleChange}
-            required>
-          </textarea>
+            required
+          ></textarea>
           <input
             type="number"
             name="distributorContactNumber"
             placeholder="Contact Number"
             value={formData.distributorContactNumber}
             onChange={handleChange}
-            required/>
+            required
+          />
           <input
             type="email"
             name="distributorEmail"
             placeholder="Distributor Email"
             value={formData.distributorEmail}
             onChange={handleChange}
-            required/>
+            required
+          />
           <button type="submit" className="add-distributor-btn">
             Add Distributor
           </button>
