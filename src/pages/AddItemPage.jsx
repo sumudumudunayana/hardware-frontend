@@ -33,7 +33,7 @@ export default function AddItemPage() {
       alert("Failed to load dropdown data!");
     }
   };
-  
+
   useEffect(() => {
     loadDropdownData();
   }, []);
@@ -76,12 +76,14 @@ export default function AddItemPage() {
               placeholder="Item Name"
               value={formData.itemName}
               onChange={handleChange}
-              required/>
+              required
+            />
             <select
               name="itemCategory"
               value={formData.itemCategory}
               onChange={handleChange}
-              required>
+              required
+            >
               <option value="">Select Category</option>
               {categories.map((cat) => (
                 <option key={cat.id} value={cat.categoryName}>
@@ -95,7 +97,8 @@ export default function AddItemPage() {
             placeholder="Item Description"
             value={formData.itemDescription}
             onChange={handleChange}
-            required/>
+            required
+          />
           <div className="form-row">
             <input
               type="number"
@@ -103,26 +106,30 @@ export default function AddItemPage() {
               placeholder="Cost Price"
               value={formData.itemCostPrice}
               onChange={handleChange}
-              required/>
+              required
+            />
             <input
               type="number"
               name="itemSellingPrice"
               placeholder="Selling Price"
               value={formData.itemSellingPrice}
               onChange={handleChange}
-              required/>
+              required
+            />
           </div>
           <input
             type="number"
             name="itemLabeledPrice"
             placeholder="Labeled Price"
             value={formData.itemLabeledPrice}
-            onChange={handleChange}/>
+            onChange={handleChange}
+          />
           <div className="form-row">
             <select
               name="itemCompany"
               value={formData.itemCompany}
-              onChange={handleChange}>
+              onChange={handleChange}
+            >
               <option value="">Select Company</option>
               {companies.map((com) => (
                 <option key={com.id} value={com.companyName}>
@@ -133,7 +140,8 @@ export default function AddItemPage() {
             <select
               name="itemDistributor"
               value={formData.itemDistributor}
-              onChange={handleChange}>
+              onChange={handleChange}
+            >
               <option value="">Select Distributor</option>
               {distributors.map((dist) => (
                 <option key={dist.id} value={dist.distributorName}>
