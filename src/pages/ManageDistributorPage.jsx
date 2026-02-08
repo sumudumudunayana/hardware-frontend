@@ -39,7 +39,7 @@ export default function ManageDistributorPage() {
     const result = distributors.filter(
       (d) =>
         d.distributorName.toLowerCase().includes(keyword) ||
-        d.id.toString() === keyword
+        d.id.toString() === keyword,
     );
     setFiltered(result);
   };
@@ -59,11 +59,11 @@ export default function ManageDistributorPage() {
     try {
       const res = await axios.put(
         "http://localhost:8080/distributor/update-distributor",
-        editData
+        editData,
       );
       if (![200, 202, 204].includes(res.status)) throw new Error();
       const updated = distributors.map((d) =>
-        d.id === editData.id ? editData : d
+        d.id === editData.id ? editData : d,
       );
       setDistributors(updated);
       setFiltered(updated);
@@ -93,7 +93,7 @@ export default function ManageDistributorPage() {
   const confirmDelete = async () => {
     try {
       const res = await axios.delete(
-        `http://localhost:8080/distributor/delete-by-id/${deleteId}`
+        `http://localhost:8080/distributor/delete-by-id/${deleteId}`,
       );
       if (![200, 202, 204].includes(res.status)) throw new Error();
       const updated = distributors.filter((d) => d.id !== deleteId);
@@ -158,12 +158,14 @@ export default function ManageDistributorPage() {
                     <td className="md-actions">
                       <button
                         className="update-btn"
-                        onClick={() => openUpdateModal(d)}>
+                        onClick={() => openUpdateModal(d)}
+                      >
                         Update
                       </button>
                       <button
                         className="delete-btn"
-                        onClick={() => openDeleteModal(d.id)}>
+                        onClick={() => openDeleteModal(d.id)}
+                      >
                         Delete
                       </button>
                     </td>
@@ -189,14 +191,16 @@ export default function ManageDistributorPage() {
               <input
                 name="distributorName"
                 value={editData.distributorName}
-                onChange={handleUpdateChange}/>
+                onChange={handleUpdateChange}
+              />
             </div>
             <div className="form-group">
               <label>Description</label>
               <textarea
                 name="distributorDescription"
                 value={editData.distributorDescription}
-                onChange={handleUpdateChange}/>
+                onChange={handleUpdateChange}
+              />
             </div>
             <div className="form-group">
               <label>Contact Number</label>
@@ -204,7 +208,8 @@ export default function ManageDistributorPage() {
                 type="number"
                 name="distributorContactNumber"
                 value={editData.distributorContactNumber}
-                onChange={handleUpdateChange}/>
+                onChange={handleUpdateChange}
+              />
             </div>
             <div className="form-group">
               <label>Email</label>
@@ -212,7 +217,8 @@ export default function ManageDistributorPage() {
                 type="email"
                 name="distributorEmail"
                 value={editData.distributorEmail}
-                onChange={handleUpdateChange}/>
+                onChange={handleUpdateChange}
+              />
             </div>
             <div className="modal-actions">
               <button className="cancel-btn" onClick={closeUpdateModal}>
