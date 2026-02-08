@@ -45,35 +45,39 @@ export default function AddCompanyPage() {
             placeholder="Company Name"
             value={formData.companyName}
             onChange={handleChange}
-            required/>
+            required
+          />
           <textarea
             name="companyDescription"
             placeholder="Company Description"
             value={formData.companyDescription}
             onChange={handleChange}
-            required>
-          </textarea>
+            required
+          ></textarea>
           <input
             type="text"
             name="companyAddress"
             placeholder="Company Address"
             value={formData.companyAddress}
             onChange={handleChange}
-            required/>
+            required
+          />
           <input
             type="number"
             name="companyContactNumber"
             placeholder="Contact Number"
             value={formData.companyContactNumber}
             onChange={handleChange}
-            required/>
+            required
+          />
           <input
             type="email"
             name="companyEmail"
             placeholder="Company Email"
             value={formData.companyEmail}
             onChange={handleChange}
-            required/>
+            required
+          />
           <button type="submit" className="add-company-btn">
             Add Company
           </button>
