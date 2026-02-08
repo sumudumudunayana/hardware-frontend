@@ -41,21 +41,24 @@ export default function AddCustomerPage() {
             placeholder="Customer Name"
             value={formData.customerName}
             onChange={handleChange}
-            required/>
+            required
+          />
           <input
             type="number"
             name="customerContactNumber"
             placeholder="Contact Number"
             value={formData.customerContactNumber}
             onChange={handleChange}
-            required/>
+            required
+          />
           <input
             type="email"
             name="customerEmail"
             placeholder="Customer Email"
             value={formData.customerEmail}
             onChange={handleChange}
-            required/>
+            required
+          />
           <button type="submit" className="add-customer-btn">
             Add Customer
           </button>
