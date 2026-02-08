@@ -39,7 +39,7 @@ export default function ManageCustomerPage() {
     const result = customers.filter(
       (c) =>
         c.customerName.toLowerCase().includes(keyword) ||
-        c.id.toString() === keyword
+        c.id.toString() === keyword,
     );
     setFiltered(result);
   };
@@ -59,11 +59,11 @@ export default function ManageCustomerPage() {
     try {
       const res = await axios.put(
         "http://localhost:8080/customer/update-customer",
-        editData
+        editData,
       );
       if (![200, 202, 204].includes(res.status)) throw new Error();
       const updated = customers.map((c) =>
-        c.id === editData.id ? editData : c
+        c.id === editData.id ? editData : c,
       );
       setCustomers(updated);
       setFiltered(updated);
@@ -93,7 +93,7 @@ export default function ManageCustomerPage() {
   const confirmDelete = async () => {
     try {
       const res = await axios.delete(
-        `http://localhost:8080/customer/delete-by-id/${deleteId}`
+        `http://localhost:8080/customer/delete-by-id/${deleteId}`,
       );
       if (![200, 202, 204].includes(res.status)) throw new Error();
       const updated = customers.filter((c) => c.id !== deleteId);
@@ -156,12 +156,14 @@ export default function ManageCustomerPage() {
                     <td className="mc-actions">
                       <button
                         className="update-btn"
-                        onClick={() => openUpdateModal(c)}>
+                        onClick={() => openUpdateModal(c)}
+                      >
                         Update
                       </button>
                       <button
                         className="delete-btn"
-                        onClick={() => openDeleteModal(c.id)}>
+                        onClick={() => openDeleteModal(c.id)}
+                      >
                         Delete
                       </button>
                     </td>
@@ -187,7 +189,8 @@ export default function ManageCustomerPage() {
               <input
                 name="customerName"
                 value={editData.customerName}
-                onChange={handleUpdateChange}/>
+                onChange={handleUpdateChange}
+              />
             </div>
             <div className="form-group">
               <label>Contact Number</label>
@@ -195,7 +198,8 @@ export default function ManageCustomerPage() {
                 type="number"
                 name="customerContactNumber"
                 value={editData.customerContactNumber}
-                onChange={handleUpdateChange}/>
+                onChange={handleUpdateChange}
+              />
             </div>
             <div className="form-group">
               <label>Email</label>
@@ -203,7 +207,8 @@ export default function ManageCustomerPage() {
                 type="email"
                 name="customerEmail"
                 value={editData.customerEmail}
-                onChange={handleUpdateChange}/>
+                onChange={handleUpdateChange}
+              />
             </div>
             <div className="modal-actions">
               <button className="cancel-btn" onClick={closeUpdateModal}>
