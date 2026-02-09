@@ -13,13 +13,15 @@ export default function CustomerOptionPage() {
         <div className="customer-grid">
           <div
             className="customer-box"
-            onClick={() => navigate("/AddCustomerPage")}>
+            onClick={() => navigate("/AddCustomerPage")}
+          >
             <h2>Add Customer</h2>
             <p>Register new customers into the system.</p>
           </div>
           <div
             className="customer-box"
-            onClick={() => navigate("/ManageCustomerPage")}>
+            onClick={() => navigate("/ManageCustomerPage")}
+          >
             <h2>Manage Customer</h2>
             <p>Update customer information or records.</p>
           </div>
