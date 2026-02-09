@@ -13,13 +13,15 @@ export default function CompanyOptionPage() {
         <div className="company-grid">
           <div
             className="company-box"
-            onClick={() => navigate("/AddCompanyPage")}>
+            onClick={() => navigate("/AddCompanyPage")}
+          >
             <h2>Add Company</h2>
             <p>Add and register new company details.</p>
           </div>
           <div
             className="company-box"
-            onClick={() => navigate("/ManageCompanyPage")}>
+            onClick={() => navigate("/ManageCompanyPage")}
+          >
             <h2>Manage Companies</h2>
             <p>View, update, and delete company records.</p>
           </div>
