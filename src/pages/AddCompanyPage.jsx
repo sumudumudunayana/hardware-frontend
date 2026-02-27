@@ -18,7 +18,11 @@ export default function AddCompanyPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:8080/company/add-company", formData);
+      const payload = {
+      ...formData,
+      companyContactNumber: Number(formData.companyContactNumber),
+    };
+     await axios.post("http://localhost:5500/api/companies", formData);
       alert("Company Added Successfully!");
       setFormData({
         companyName: "",
