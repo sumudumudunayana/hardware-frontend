@@ -9,7 +9,7 @@ export default function ManageCompanyPage() {
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [editData, setEditData] = useState({
-    id: "",
+    _id: "",
     companyName: "",
     companyDescription: "",
     companyAddress: "",
@@ -21,7 +21,7 @@ export default function ManageCompanyPage() {
   const [alert, setAlert] = useState({ show: false, type: "", message: "" });
   const loadCompanies = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/company/get-all");
+      const res = await axios.get("http://localhost:5500/api/companies");
       setCompanies(res.data);
       setFiltered(res.data);
     } catch (err) {
@@ -41,7 +41,7 @@ export default function ManageCompanyPage() {
     const result = companies.filter(
       (c) =>
         c.companyName.toLowerCase().includes(keyword) ||
-        c.id.toString() === keyword,
+        c.companyId.toString() === keyword,
     );
     setFiltered(result);
   };
@@ -60,12 +60,15 @@ export default function ManageCompanyPage() {
   const submitUpdate = async () => {
     try {
       const res = await axios.put(
-        "http://localhost:8080/company/update-company",
-        editData,
+        `http://localhost:5500/api/companies/${editData._id}`,
+        {
+          ...editData,
+          companyContactNumber: Number(editData.companyContactNumber),
+        },
       );
       if (![200, 202, 204].includes(res.status)) throw new Error();
       const updated = companies.map((c) =>
-        c.id === editData.id ? editData : c,
+        c._id === editData._id ? { ...c, ...editData } : c,
       );
       setCompanies(updated);
       setFiltered(updated);
@@ -94,11 +97,11 @@ export default function ManageCompanyPage() {
 
   const confirmDelete = async () => {
     try {
-      const res = await axios.delete(
-        `http://localhost:8080/company/delete-by-id/${deleteId}`,
+      const res = axios.delete(
+        `http://localhost:5500/api/companies/${deleteId}`,
       );
       if (![200, 202, 204].includes(res.status)) throw new Error();
-      const updated = companies.filter((c) => c.id !== deleteId);
+      const updated = companies.filter((c) => c._id !== deleteId);
       setCompanies(updated);
       setFiltered(updated);
       setAlert({
@@ -152,8 +155,8 @@ export default function ManageCompanyPage() {
             <tbody>
               {filtered.length > 0 ? (
                 filtered.map((company) => (
-                  <tr key={company.id}>
-                    <td>{company.id}</td>
+                  <tr key={company._id}>
+                    <td>{company.companyId}</td>
                     <td>{company.companyName}</td>
                     <td>{company.companyDescription}</td>
                     <td>{company.companyAddress}</td>
@@ -168,7 +171,7 @@ export default function ManageCompanyPage() {
                       </button>
                       <button
                         className="delete-btn"
-                        onClick={() => openDeleteModal(company.id)}
+                        onClick={() => openDeleteModal(company._id)}
                       >
                         Delete
                       </button>
