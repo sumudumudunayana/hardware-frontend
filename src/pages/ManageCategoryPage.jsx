@@ -9,7 +9,7 @@ export default function ManageCategoryPage() {
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [editData, setEditData] = useState({
-    id: "",
+    _id: "",
     categoryName: "",
     categoryDescription: "",
   });
@@ -19,7 +19,7 @@ export default function ManageCategoryPage() {
 
   const loadCategories = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/category/get-all");
+      const res = await axios.get("http://localhost:5500/api/categories");
       setCategories(res.data);
       setFiltered(res.data);
     } catch (error) {
@@ -39,7 +39,7 @@ export default function ManageCategoryPage() {
 
     const result = categories.filter(
       (c) =>
-        c.categoryName.toLowerCase().includes(key) || c.id.toString() === key,
+        c.categoryName.toLowerCase().includes(key) || c._id.toString() === key,
     );
     setFiltered(result);
   };
@@ -58,12 +58,12 @@ export default function ManageCategoryPage() {
   const submitUpdate = async () => {
     try {
       const res = await axios.put(
-        "http://localhost:8080/category/update-category",
+        `http://localhost:5500/api/categories/${editData._id}`,
         editData,
       );
       if (![200, 202, 204].includes(res.status)) throw new Error();
       const updated = categories.map((c) =>
-        c.id === editData.id ? editData : c,
+        c._id === editData._id ? editData : c,
       );
       setCategories(updated);
       setFiltered(updated);
@@ -93,10 +93,10 @@ export default function ManageCategoryPage() {
   const confirmDelete = async () => {
     try {
       const res = await axios.delete(
-        `http://localhost:8080/category/delete-by-id/${deleteId}`,
+        `http://localhost:5500/api/categories/${deleteId}`
       );
       if (![200, 202, 204].includes(res.status)) throw new Error();
-      const updated = categories.filter((c) => c.id !== deleteId);
+      const updated = categories.filter((c) => c._id !== deleteId);
       setCategories(updated);
       setFiltered(updated);
       setAlert({
@@ -147,8 +147,8 @@ export default function ManageCategoryPage() {
             <tbody>
               {filtered.length > 0 ? (
                 filtered.map((cat) => (
-                  <tr key={cat.id}>
-                    <td>{cat.id}</td>
+                  <tr key={cat._id}>
+                    <td>{cat.categoryId}</td>
                     <td>{cat.categoryName}</td>
                     <td>{cat.categoryDescription}</td>
                     <td className="action-buttons">
@@ -160,7 +160,7 @@ export default function ManageCategoryPage() {
                       </button>
                       <button
                         className="delete-btn"
-                        onClick={() => openDeleteModal(cat.id)}
+                        onClick={() => openDeleteModal(cat._id)}
                       >
                         Delete
                       </button>
