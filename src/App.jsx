@@ -18,6 +18,8 @@ import ManageDistributorPage from "./pages/ManageDistributorPage";
 import CustomerOptionPage from "./pages/CustomerOptionPage";
 import AddCustomerPage from "./pages/AddCustomerPage";
 import ManageCustomerPage from "./pages/ManageCustomerPage";
+import SalesOptionPage from "./pages/SalesOptionPage";
+import AddSalesPage from "./pages/AddSalesPage";
 
 function App() {
   return (
@@ -42,6 +44,8 @@ function App() {
         <Route path="/CustomerOptionPage" element={<CustomerOptionPage />} />
         <Route path="/addCustomerPage" element={<AddCustomerPage />} />
         <Route path="/ManageCustomerPage" element={<ManageCustomerPage />} />
+        <Route path="/SalesOptionPage" element={<SalesOptionPage />} />
+        <Route path="/AddSalesPage" element={<AddSalesPage />} />
       </Routes>
     </HashRouter>
   );
