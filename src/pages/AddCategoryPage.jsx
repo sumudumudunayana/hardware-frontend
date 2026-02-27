@@ -15,7 +15,7 @@ export default function AddCategoryPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:8080/category/add-category", formData);
+      await axios.post("http://localhost:5500/api/categories", formData);
       alert("Category Added Successfully!");
       setFormData({
         categoryName: "",
