@@ -1,4 +1,6 @@
 import { HashRouter, Routes, Route } from "react-router-dom";
+import { useState } from "react"; 
+
 import LandingPage from "./pages/LandingPage";
 import AddItemPage from "./pages/AddItemPage";
 import OptionPage from "./pages/OptionPage";
@@ -20,8 +22,13 @@ import AddCustomerPage from "./pages/AddCustomerPage";
 import ManageCustomerPage from "./pages/ManageCustomerPage";
 import SalesOptionPage from "./pages/SalesOptionPage";
 import AddSalesPage from "./pages/AddSalesPage";
+import CartPage from "./pages/CartPage";
 
 function App() {
+
+    // GLOBAL CART STATE
+  const [cart, setCart] = useState([]);
+
   return (
     <HashRouter>
       <Routes>
@@ -45,7 +52,17 @@ function App() {
         <Route path="/addCustomerPage" element={<AddCustomerPage />} />
         <Route path="/ManageCustomerPage" element={<ManageCustomerPage />} />
         <Route path="/SalesOptionPage" element={<SalesOptionPage />} />
-        <Route path="/AddSalesPage" element={<AddSalesPage />} />
+
+        <Route 
+          path="/AddSalesPage" 
+          element={<AddSalesPage cart={cart} setCart={setCart} />} 
+        />
+
+        <Route 
+          path="/CartPage" 
+          element={<CartPage cart={cart} setCart={setCart} />} 
+        />
+
       </Routes>
     </HashRouter>
   );
