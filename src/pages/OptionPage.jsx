@@ -14,9 +14,10 @@ export default function OptionPage() {
             className="option-box"
             onClick={() => navigate("/ItemOptionPage")}
           >
-            <h2>Item Management</h2>
+            <h2>Product Management</h2>
             <p>Add, view, update and manage all inventory items.</p>
           </div>
+
           <div
             className="option-box"
             onClick={() => navigate("/CustomerOptionPage")}
@@ -24,16 +25,39 @@ export default function OptionPage() {
             <h2>Customer Management</h2>
             <p>Manage customer details, records, and interactions.</p>
           </div>
-          <div className="option-box" onClick={() => navigate("/SalesOptionPage")}>
-            <h2>Sales Management</h2>
+
+          <div
+            className="option-box"
+            onClick={() => navigate("/SalesOptionPage")}
+          >
+            <h2>Order Management</h2>
             <p>Handle sales, billing, and transaction records.</p>
           </div>
+
           <div
             className="option-box"
             onClick={() => navigate("/SupplierOptionPage")}
           >
             <h2>Supplier Management</h2>
             <p>Track suppliers, purchase orders, and deliveries.</p>
+          </div>
+
+          {/* 🔥 NEW MODULE */}
+          <div
+            className="option-box"
+            onClick={() => navigate("/StockOptionPage")}
+          >
+            <h2>Stock Management</h2>
+            <p>Monitor stock levels, restocking and inventory movements.</p>
+          </div>
+
+          {/* 🔥 NEW MODULE */}
+          <div
+            className="option-box"
+            onClick={() => navigate("/PromotionOptionPage")}
+          >
+            <h2>Promotion Management</h2>
+            <p>Create discounts, offers and promotional campaigns.</p>
           </div>
         </div>
       </div>
