@@ -25,6 +25,10 @@ import AddSalesPage from "./pages/AddSalesPage";
 import CartPage from "./pages/CartPage";
 import ManageStockPage from "./pages/ManageStockPage";
 import PromotionOptionPage from "./pages/PromotionOptionPage";
+import AddPromotionPage from "./pages/AddPromotionPage";
+import ViewPromotionPage from "./pages/ViewPromotionPage";
+import ManagePromotionPage from "./pages/ManagePromotionPage";
+import InvoicePage from "./pages/InvoicePage";
 
 function App() {
 
@@ -56,8 +60,10 @@ function App() {
         <Route path="/SalesOptionPage" element={<SalesOptionPage />} />
         <Route path="/ManageStocks" element={<ManageStockPage />} />
         <Route path="/PromotionOptionPage" element={<PromotionOptionPage />} />
-
-
+        <Route path="/AddPromotionPage" element={<AddPromotionPage />} />
+        <Route path="/ViewPromotionPage" element={<ViewPromotionPage />} />
+        <Route path="/ManagePromotionPage" element={<ManagePromotionPage />} />
+        <Route path="/InvoicePage/:id" element={<InvoicePage />} />
 
         <Route 
           path="/AddSalesPage" 
