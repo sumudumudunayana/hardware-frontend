@@ -23,6 +23,7 @@ import ManageCustomerPage from "./pages/ManageCustomerPage";
 import SalesOptionPage from "./pages/SalesOptionPage";
 import AddSalesPage from "./pages/AddSalesPage";
 import CartPage from "./pages/CartPage";
+import ManageStockPage from "./pages/ManageStockPage";
 
 function App() {
 
@@ -52,6 +53,8 @@ function App() {
         <Route path="/addCustomerPage" element={<AddCustomerPage />} />
         <Route path="/ManageCustomerPage" element={<ManageCustomerPage />} />
         <Route path="/SalesOptionPage" element={<SalesOptionPage />} />
+        <Route path="/ManageStocks" element={<ManageStockPage />} />
+
 
         <Route 
           path="/AddSalesPage" 
