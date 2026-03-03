@@ -1,0 +1,115 @@
+/* MAIN BACKGROUND */
+.invoice-container {
+  min-height: 100vh;
+  width: 100%;
+  background: url("../assets/hardware5.jpeg") center/cover no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding: 40px 20px;
+}
+
+.invoice-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  pointer-events: none;
+}
+
+/* INVOICE CARD */
+.invoice-card {
+  position: relative;
+  z-index: 2;
+  width: 850px;
+  background: white;
+  color: #000;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+}
+
+/* HEADER */
+.invoice-card h1 {
+  text-align: center;
+  margin-bottom: 5px;
+  font-size: 28px;
+}
+
+.invoice-card h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #555;
+}
+
+.invoice-card p {
+  margin: 5px 0;
+}
+
+/* TABLE */
+.invoice-card table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.invoice-card th,
+.invoice-card td {
+  border: 1px solid #000;
+  padding: 10px;
+  text-align: center;
+}
+
+.invoice-card th {
+  background: #f2f2f2;
+}
+
+/* TOTAL */
+.invoice-card h3 {
+  text-align: right;
+  margin-top: 20px;
+  font-size: 20px;
+}
+
+/* PRINT BUTTON */
+.invoice-card button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: #00bcd4;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.invoice-card button:hover {
+  background: #0097a7;
+}
+
+/* PRINT MODE */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .invoice-card,
+  .invoice-card * {
+    visibility: visible;
+  }
+
+  .invoice-card {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  .invoice-card button {
+    display: none;
+  }
+}
