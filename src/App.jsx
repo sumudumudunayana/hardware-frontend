@@ -1,34 +1,35 @@
 import { HashRouter, Routes, Route } from "react-router-dom";
 import { useState } from "react"; 
 
-import LandingPage from "./pages/LandingPage";
-import AddItemPage from "./pages/AddItemPage";
-import OptionPage from "./pages/OptionPage";
-import ItemOptionPage from "./pages/ItemOptionPage";
-import ViewItemPage from "./pages/ViewItemPage";
-import UpdateItemPage from "./pages/UpdateItemPage";
-import SupplierOptionPage from "./pages/SupplierOptionPage";
-import AddCompanyPage from "./pages/AddCompanyPage";
-import CompanyOptionPage from "./pages/CompanyOptionPage";
-import ManageCompanyPage from "./pages/ManageCompanyPage";
-import CategoryOptionPage from "./pages/CategoryOptionPage";
-import AddCategoryPage from "./pages/AddCategoryPage";
-import ManageCategoryPage from "./pages/ManageCategoryPage";
-import DistributorOptionPage from "./pages/DistributorOptionPage";
-import AddDistributorPage from "./pages/AddDistributorPage";
-import ManageDistributorPage from "./pages/ManageDistributorPage";
-import CustomerOptionPage from "./pages/CustomerOptionPage";
-import AddCustomerPage from "./pages/AddCustomerPage";
-import ManageCustomerPage from "./pages/ManageCustomerPage";
-import SalesOptionPage from "./pages/SalesOptionPage";
-import AddSalesPage from "./pages/AddSalesPage";
-import CartPage from "./pages/CartPage";
-import ManageStockPage from "./pages/ManageStockPage";
-import PromotionOptionPage from "./pages/PromotionOptionPage";
-import AddPromotionPage from "./pages/AddPromotionPage";
-import ViewPromotionPage from "./pages/ViewPromotionPage";
-import ManagePromotionPage from "./pages/ManagePromotionPage";
-import InvoicePage from "./pages/InvoicePage";
+import LandingPage from "./pages/common/LandingPage";
+import AddItemPage from "./pages/item/AddItemPage";
+import OptionPage from "./pages/common/OptionPage";
+import ItemOptionPage from "./pages/item/ItemOptionPage";
+import ViewItemPage from "./pages/item/ViewItemPage";
+import UpdateItemPage from "./pages/item/UpdateItemPage";
+import SupplierOptionPage from "./pages/common/SupplierOptionPage";
+import AddCompanyPage from "./pages/company/AddCompanyPage";
+import CompanyOptionPage from "./pages/company/CompanyOptionPage";
+import ManageCompanyPage from "./pages/company/ManageCompanyPage";
+import CategoryOptionPage from "./pages/category/CategoryOptionPage";
+import AddCategoryPage from "./pages/category/AddCategoryPage";
+import ManageCategoryPage from "./pages/category/ManageCategoryPage";
+import DistributorOptionPage from "./pages/distributor/DistributorOptionPage";
+import AddDistributorPage from "./pages/distributor/AddDistributorPage";
+import ManageDistributorPage from "./pages/distributor/ManageDistributorPage";
+import CustomerOptionPage from "./pages/customer/CustomerOptionPage";
+import AddCustomerPage from "./pages/customer/AddCustomerPage";
+import ManageCustomerPage from "./pages/customer/ManageCustomerPage";
+import SalesOptionPage from "./pages/sales/SalesOptionPage";
+import AddSalesPage from "./pages/sales/AddSalesPage";
+import CartPage from "./pages/sales/CartPage";
+import ManageStockPage from "./pages/stock/ManageStockPage";
+import PromotionOptionPage from "./pages/promotion/PromotionOptionPage";
+import AddPromotionPage from "./pages/promotion/AddPromotionPage";
+import ViewPromotionPage from "./pages/promotion/ViewPromotionPage";
+import ManagePromotionPage from "./pages/promotion/ManagePromotionPage";
+import InvoicePage from "./pages/sales/InvoicePage";
+import ManageSalesPage from "./pages/sales/ManageSalesPage";
 
 function App() {
 
@@ -64,6 +65,8 @@ function App() {
         <Route path="/ViewPromotionPage" element={<ViewPromotionPage />} />
         <Route path="/ManagePromotionPage" element={<ManagePromotionPage />} />
         <Route path="/InvoicePage/:id" element={<InvoicePage />} />
+        <Route path="/ManageSalesPage" element={<ManageSalesPage />} />
+
 
         <Route 
           path="/AddSalesPage" 
