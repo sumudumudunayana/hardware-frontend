@@ -1,0 +1,166 @@
+.mp-bg {
+  height: 100vh;
+  width: 100vw;
+  background: url("../assets/hardware5.jpeg") center/cover no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.mp-overlay {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.65);
+}
+
+.mp-container {
+  position: relative;
+  z-index: 2;
+  width: 1100px;
+  padding: 35px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 18px;
+  color: white;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.35);
+}
+
+.mp-title {
+  text-align: center;
+  font-size: 2.2rem;
+  margin-bottom: 25px;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.mp-search-box input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  margin-bottom: 20px;
+}
+
+.mp-table-wrapper {
+  max-height: 380px;
+  overflow-y: auto;
+}
+
+.mp-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.mp-table th,
+.mp-table td {
+  padding: 12px 10px;
+  color: white;
+}
+
+.mp-table th {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffca28;
+}
+
+.mp-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.update-btn {
+  background: #4da3ff;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  color: white;
+}
+
+.delete-btn {
+  background: #e63946;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  color: white;
+}
+
+/* ===== MODAL STYLING ===== */
+
+.modal-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-box {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  width: 450px;
+  padding: 30px;
+  border-radius: 14px;
+  color: white;
+}
+
+.modal-box h2 {
+  margin-bottom: 20px;
+  text-align: center;
+  color: #4da3ff;
+}
+
+.modal-box input,
+.modal-box select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.cancel-btn {
+  background: #777;
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.confirm-btn {
+  background: #4da3ff;
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.delete-confirm-btn {
+  background: #e63946;
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.cancel-btn:hover,
+.confirm-btn:hover,
+.delete-confirm-btn:hover {
+  opacity: 0.85;
+}
