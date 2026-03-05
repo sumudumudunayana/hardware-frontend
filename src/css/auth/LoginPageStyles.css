@@ -1,0 +1,134 @@
+.auth-container {
+  height: 100vh;
+  background: url("../../assets/hardware5.jpeg") center/cover no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* LOGIN CARD */
+
+/* LOGIN CARD - GLASS EFFECT */
+
+.login-card {
+  width: 420px;
+  padding: 45px;
+
+  border-radius: 18px;
+
+  background: rgba(255, 255, 255, 0.08);   /* glass background */
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  color: white;
+
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.45);
+}
+
+/* TITLE */
+
+.login-card h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 28px;
+}
+
+/* INPUT BOX */
+
+.input-box {
+  margin-bottom: 18px;
+}
+
+.input-box input {
+  width: 100%;
+  padding: 12px 15px;
+
+  border-radius: 30px;
+
+  border: 1px solid rgba(255,255,255,0.25);
+
+  background: rgba(255,255,255,0.08);
+  color: white;
+
+  outline: none;
+
+  backdrop-filter: blur(5px);
+}
+
+.input-box input:focus {
+  border-color: #ffca28;
+  box-shadow: 0 0 8px rgba(217, 224, 6, 0.948);
+}
+
+.input-box input::placeholder {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* LOGIN OPTIONS */
+
+.login-options {
+  display: flex;
+  justify-content: space-between;
+
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.login-options input {
+  margin-right: 5px;
+}
+
+.forgot {
+  cursor: pointer;
+}
+
+/* LOGIN BUTTON */
+
+.login-btn {
+  width: 100%;
+  padding: 12px;
+
+  border-radius: 30px;
+  border: none;
+
+  background: #ffca28;
+  color: black;
+
+  font-weight: bold;
+  cursor: pointer;
+
+  transition: 0.25s;
+}
+
+.login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(247, 223, 8, 0.898);
+}
+
+/* REGISTER LINK */
+
+.register-link {
+  text-align: center;
+  margin-top: 18px;
+  font-size: 14px;
+}
+
+.register-link span {
+  margin-left: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.auth-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+}
+
+.auth-container {
+  position: relative;
+}
