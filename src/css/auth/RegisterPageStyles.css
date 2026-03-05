@@ -1,0 +1,128 @@
+/* BACKGROUND */
+
+.auth-container {
+  height: 100vh;
+  background: url("../../assets/hardware5.jpeg") center/cover no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* REGISTER CARD - SAME GLASS STYLE AS LOGIN */
+
+.auth-card {
+  width: 420px;
+  padding: 45px;
+
+  border-radius: 18px;
+
+  background: rgba(255, 255, 255, 0.08);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  color: white;
+
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.45);
+
+  text-align: center;
+}
+
+/* TITLE */
+
+.auth-card h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 28px;
+}
+
+/* FORM */
+
+.auth-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* INPUT FIELDS */
+
+.auth-card input {
+  width: 100%;
+  padding: 12px 15px;
+
+  border-radius: 30px;
+
+  border: 1px solid rgba(255,255,255,0.25);
+
+  background: rgba(255,255,255,0.08);
+  color: white;
+
+  outline: none;
+
+  backdrop-filter: blur(5px);
+}
+
+/* INPUT FOCUS */
+
+.auth-card input:focus {
+  border-color: #ffca28;
+  box-shadow: 0 0 8px rgba(217, 224, 6, 0.95);
+}
+
+/* INPUT PLACEHOLDER */
+
+.auth-card input::placeholder {
+  color: rgba(255,255,255,0.8);
+}
+
+/* REGISTER BUTTON */
+
+.auth-card button {
+  width: 100%;
+  padding: 12px;
+
+  border-radius: 30px;
+  border: none;
+
+  background: #ffca28;
+  color: black;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.25s;
+}
+
+/* BUTTON HOVER */
+
+.auth-card button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(247, 223, 8, 0.9);
+}
+
+/* LOGIN LINK */
+
+.auth-link {
+  margin-top: 18px;
+  font-size: 14px;
+}
+
+.auth-link span {
+  margin-left: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.auth-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+}
+
+.auth-container {
+  position: relative;
+}
