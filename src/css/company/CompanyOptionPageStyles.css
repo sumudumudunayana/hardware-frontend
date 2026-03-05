@@ -1,7 +1,7 @@
 .company-container {
   height: 100vh;
   width: 100vw;
-  background: url("../assets/hardware5.jpeg") center/cover no-repeat;
+  background: url("../../assets/hardware5.jpeg") center/cover no-repeat;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -32,7 +32,7 @@
   font-size: 2.4rem;
   margin-bottom: 30px;
   font-weight: bold;
-  color: #4da3ff;
+  color: #ffffff;
 }
 
 .company-grid {
