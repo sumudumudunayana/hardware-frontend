@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "../css/ManageCategoryPageStyles.css";
+import "../../css/category/ManageCategoryPageStyles.css";
 
 export default function ManageCategoryPage() {
   const [categories, setCategories] = useState([]);
