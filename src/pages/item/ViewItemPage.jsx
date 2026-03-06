@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "../css/ViewItemPageStyles.css";
+import "../../css/item/ViewItemPageStyles.css";
 
 export default function ViewItemPage() {
   const [items, setItems] = useState([]);
