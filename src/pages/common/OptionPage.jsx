@@ -12,7 +12,7 @@ export default function OptionPage() {
         <div className="options-grid">
           <div
             className="option-box"
-            onClick={() => navigate("/ItemOptionPage")}
+            onClick={() => navigate("/ItemAndCategoryOptionPage")}
           >
             <h2>Product Management</h2>
             <p>Add, view, update and manage all inventory items.</p>
