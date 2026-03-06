@@ -19,13 +19,6 @@ export default function SupplierOptionPage() {
           </div>
           <div
             className="supplier-box"
-            onClick={() => navigate("/CategoryOptionPage")}
-          >
-            <h2>Manage Category</h2>
-            <p>Organize and maintain item categories.</p>
-          </div>
-          <div
-            className="supplier-box"
             onClick={() => navigate("/DistributorOptionPage")}
           >
             <h2>Manage Suppliers</h2>
