@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "../css/ManageDistributorPageStyles.css";
+import "../../css/distributor/ManageDistributorPageStyles.css";
 
 export default function ManageDistributorPage() {
   const [distributors, setDistributors] = useState([]);
@@ -122,7 +122,7 @@ export default function ManageDistributorPage() {
     <div className="md-bg">
       <div className="md-overlay"></div>
       <div className="md-container">
-        <h1 className="md-title">Manage Distributors</h1>
+        <h1 className="md-title">Manage suppliers</h1>
         {alert.show && (
           <div className={`alert-box ${alert.type}`}>{alert.message}</div>
         )}
@@ -142,7 +142,7 @@ export default function ManageDistributorPage() {
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Distributor</th>
+                <th>supplier</th>
                 <th>Description</th>
                 <th>Contact</th>
                 <th>Email</th>
@@ -177,7 +177,7 @@ export default function ManageDistributorPage() {
               ) : (
                 <tr>
                   <td colSpan="6" className="no-results">
-                    No distributors found.
+                    No suppliers found.
                   </td>
                 </tr>
               )}
@@ -188,7 +188,7 @@ export default function ManageDistributorPage() {
       {showUpdateModal && (
         <div className="modal-bg">
           <div className="modal-box">
-            <h2>Update Distributor</h2>
+            <h2>Update supplier</h2>
             <div className="form-group">
               <label>Name</label>
               <input
@@ -228,7 +228,7 @@ export default function ManageDistributorPage() {
                 Cancel
               </button>
               <button className="confirm-btn" onClick={submitUpdate}>
-                Update Distributor
+                Update Supplier
               </button>
             </div>
           </div>
@@ -237,8 +237,8 @@ export default function ManageDistributorPage() {
       {showDeleteModal && (
         <div className="modal-bg">
           <div className="modal-box">
-            <h2>Delete Distributor</h2>
-            <p>Are you sure you want to delete distributor ID {deleteId}?</p>
+            <h2>Delete Supplier</h2>
+            <p>Are you sure you want to delete supplier ID {deleteId}?</p>
             <div className="modal-actions">
               <button className="cancel-btn" onClick={closeDeleteModal}>
                 Cancel
