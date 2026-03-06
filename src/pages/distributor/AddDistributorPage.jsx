@@ -17,6 +17,18 @@ export default function AddDistributorPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // PHONE VALIDATION (10 digits)
+    if (!/^\d{10}$/.test(formData.distributorContactNumber)) {
+      alert("Contact number must be exactly 10 digits.");
+      return;
+    }
+
+    // EMAIL VALIDATION
+    if (!/^\S+@\S+\.\S+$/.test(formData.distributorEmail)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
     try {
       const payload = {
         ...formData,
