@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "../css/CustomerOptionPageStyles.css";
+import "../../css/customer/CustomerOptionPageStyles.css";
 
 export default function CustomerOptionPage() {
   const navigate = useNavigate();
