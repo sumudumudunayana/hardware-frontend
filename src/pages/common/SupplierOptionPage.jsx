@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "../css/SupplierOptionPageStyles.css";
+import "../../css/common/SupplierOptionPageStyles.css";
 
 export default function SupplierOptionPage() {
   const navigate = useNavigate();
@@ -28,8 +28,8 @@ export default function SupplierOptionPage() {
             className="supplier-box"
             onClick={() => navigate("/DistributorOptionPage")}
           >
-            <h2>Manage Distributor</h2>
-            <p>Register and manage all Distributors.</p>
+            <h2>Manage Suppliers</h2>
+            <p>Register and manage all suppliers.</p>
           </div>
         </div>
       </div>
