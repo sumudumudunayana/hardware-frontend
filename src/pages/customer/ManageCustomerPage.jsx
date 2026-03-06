@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "../css/ManageCustomerPageStyles.css";
+import "../../css/customer/ManageCustomerPageStyles.css";
 
 export default function ManageCustomerPage() {
   const [customers, setCustomers] = useState([]);
