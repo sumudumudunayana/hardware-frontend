@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "../css/CategoryOptionPageStyles.css";
+import "../../css/category/CategoryOptionPageStyles.css";
 
 export default function CategoryOptionPage() {
   const navigate = useNavigate();
