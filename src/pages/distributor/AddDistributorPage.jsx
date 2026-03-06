@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "../css/AddDistributorPageStyles.css";
+import "../../css/distributor/AddDistributorPageStyles.css";
 
 export default function AddDistributorPage() {
   const [formData, setFormData] = useState({
@@ -43,19 +43,19 @@ export default function AddDistributorPage() {
     <div className="add-distributor-container">
       <div className="add-distributor-overlay"></div>
       <div className="add-distributor-card">
-        <h1 className="add-distributor-title">Add New Distributor</h1>
+        <h1 className="add-distributor-title">Add New Supplier</h1>
         <form className="add-distributor-form" onSubmit={handleSubmit}>
           <input
             type="text"
             name="distributorName"
-            placeholder="Distributor Name"
+            placeholder="Supplier Name"
             value={formData.distributorName}
             onChange={handleChange}
             required
           />
           <textarea
             name="distributorDescription"
-            placeholder="Distributor Description"
+            placeholder="Supplier Description"
             value={formData.distributorDescription}
             onChange={handleChange}
             required
@@ -71,13 +71,13 @@ export default function AddDistributorPage() {
           <input
             type="email"
             name="distributorEmail"
-            placeholder="Distributor Email"
+            placeholder="Supplier Email"
             value={formData.distributorEmail}
             onChange={handleChange}
             required
           />
           <button type="submit" className="add-distributor-btn">
-            Add Distributor
+            Add Supplier
           </button>
         </form>
       </div>
