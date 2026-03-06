@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "../css/AddItemPageStyles.css";
+import "../../css/item/AddItemPageStyles.css";
 
 export default function AddItemPage() {
   const [formData, setFormData] = useState({
@@ -152,7 +152,7 @@ export default function AddItemPage() {
               value={formData.itemDistributor}
               onChange={handleChange}
             >
-              <option value="">Select Distributor</option>
+              <option value="">Select Supplier</option>
               {distributors.map((dist) => (
                 <option key={dist._id} value={dist.distributorName}>
                   {dist.distributorName}
