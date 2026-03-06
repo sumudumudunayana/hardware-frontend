@@ -17,12 +17,22 @@ export default function AddCompanyPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // PHONE VALIDATION (10 digits)
+    if (!/^\d{10}$/.test(formData.companyContactNumber)) {
+      alert("Phone number must be exactly 10 digits.");
+      return;
+    }
+    // EMAIL VALIDATION
+    if (!/^\S+@\S+\.\S+$/.test(formData.companyEmail)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
     try {
       const payload = {
-      ...formData,
-      companyContactNumber: Number(formData.companyContactNumber),
-    };
-     await axios.post("http://localhost:5500/api/companies", formData);
+        ...formData,
+        companyContactNumber: Number(formData.companyContactNumber),
+      };
+      await axios.post("http://localhost:5500/api/companies", payload);
       alert("Company Added Successfully!");
       setFormData({
         companyName: "",
