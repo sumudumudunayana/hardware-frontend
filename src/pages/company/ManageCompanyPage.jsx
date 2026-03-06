@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "../css/ManageCompanyPageStyles.css";
+import "../../css/company/ManageCompanyPageStyles.css";
 
 export default function ManageCompanyPage() {
   const [companies, setCompanies] = useState([]);
