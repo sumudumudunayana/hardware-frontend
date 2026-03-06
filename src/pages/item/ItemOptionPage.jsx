@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "../css/ItemOptionPageStyles.css";
+import "../../css/item/ItemOptionPageStyles.css";
 
 export default function ItemOptionPage() {
   const navigate = useNavigate();
@@ -9,7 +9,7 @@ export default function ItemOptionPage() {
     <div className="item-container">
       <div className="item-overlay"></div>
       <div className="item-card">
-        <h1 className="item-title">Item Management</h1>
+        <h1 className="item-title">Product Management</h1>
         <div className="item-grid">
           <div className="item-box" onClick={() => navigate("/AddItemPage")}>
             <h2>Add Item</h2>
