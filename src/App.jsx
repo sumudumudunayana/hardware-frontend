@@ -45,6 +45,8 @@ import RegisterPage from "./pages/auth/RegisterPage";
 
 import ProtectedRoute from "./util/ProtectedRoute";
 import StockOptionPage from "./pages/stock/StockOptionPage";
+import AddStockPage from "./pages/stock/AddStockPage";
+import ItemAndCategoryOptionPage from "./pages/item/ItemAndCategoryOptionPage";
 
 function App() {
 
@@ -100,13 +102,15 @@ function App() {
           <Route path="/ManageSalesPage" element={<ManageSalesPage />} />
           <Route path="/InvoicePage/:id" element={<InvoicePage />} />
 
-          <Route path="/ManageStocks" element={<ManageStockPage />} />
+          <Route path="/ManageStockPage" element={<ManageStockPage />} />
 
           <Route path="/PromotionOptionPage" element={<PromotionOptionPage />} />
           <Route path="/AddPromotionPage" element={<AddPromotionPage />} />
           <Route path="/ViewPromotionPage" element={<ViewPromotionPage />} />
           <Route path="/ManagePromotionPage" element={<ManagePromotionPage />} />
           <Route path="/StockOptionPage" element={<StockOptionPage />} />
+          <Route path="/AddStockPage" element={<AddStockPage />} />
+          <Route path="/ItemAndCategoryOptionPage" element={<ItemAndCategoryOptionPage />} />
 
 
         </Route>
