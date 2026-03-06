@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "../css/OptionPageStyles.css";
+import "../../css/common/OptionPageStyles.css";
 
 export default function OptionPage() {
   const navigate = useNavigate();
@@ -44,7 +44,7 @@ export default function OptionPage() {
 
           <div
             className="option-box"
-            onClick={() => navigate("/ManageStocks")}
+            onClick={() => navigate("/StockOptionPage")}
           >
             <h2>Stock Management</h2>
             <p>Monitor stock levels, restocking and inventory movements.</p>
