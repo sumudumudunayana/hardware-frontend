@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "../css/UpdateItemPageStyles.css";
+import "../../css/item/UpdateItemPageStyles.css";
 
 export default function UpdateItemPage() {
   const [items, setItems] = useState([]);
