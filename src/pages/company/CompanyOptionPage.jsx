@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "../css/CompanyOptionPageStyles.css";
+import "../../css/company/CompanyOptionPageStyles.css";
 
 export default function CompanyOptionPage() {
   const navigate = useNavigate();
