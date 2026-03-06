@@ -1,7 +1,7 @@
 .md-bg {
   height: 100vh;
   width: 100vw;
-  background: url("../assets/hardware5.jpeg") center/cover no-repeat;
+  background: url("../../assets/hardware5.jpeg") center/cover no-repeat;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -32,7 +32,7 @@
   font-size: 2.2rem;
   margin-bottom: 25px;
   font-weight: bold;
-  color: #4da3ff;
+  color: #ffffff;
 }
 
 .md-search-box input {
@@ -135,4 +135,40 @@
   border-radius: 8px;
   border: none;
   color: white;
+}
+
+/* Modal form styling */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: #ffca28;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  font-size: 14px;
+}
+
+/* Textarea specific */
+.form-group textarea {
+  min-height: 60px;
+  resize: none;
+}
+
+/* focus effect */
+.form-group input:focus,
+.form-group textarea:focus {
+  background: rgba(255, 255, 255, 0.25);
 }
