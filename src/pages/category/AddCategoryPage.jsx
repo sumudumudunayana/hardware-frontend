@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "../css/AddCategoryPageStyles.css";
+import "../../css/category/AddCategoryPageStyles.css";
 
 export default function AddCategoryPage() {
   const [formData, setFormData] = useState({
