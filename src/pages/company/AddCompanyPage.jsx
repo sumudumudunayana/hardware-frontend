@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "../css/AddCompanyPageStyles.css";
+import "../../css/company/AddCompanyPageStyles.css";
 
 export default function AddCompanyPage() {
   const [formData, setFormData] = useState({
