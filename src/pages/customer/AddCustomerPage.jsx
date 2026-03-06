@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "../css/AddCustomerPageStyles.css";
+import "../../css/customer/AddCustomerPageStyles.css";
 
 export default function AddCustomerPage() {
   const [formData, setFormData] = useState({
