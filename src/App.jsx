@@ -44,6 +44,7 @@ import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
 
 import ProtectedRoute from "./util/ProtectedRoute";
+import StockOptionPage from "./pages/stock/StockOptionPage";
 
 function App() {
 
@@ -105,6 +106,8 @@ function App() {
           <Route path="/AddPromotionPage" element={<AddPromotionPage />} />
           <Route path="/ViewPromotionPage" element={<ViewPromotionPage />} />
           <Route path="/ManagePromotionPage" element={<ManagePromotionPage />} />
+          <Route path="/StockOptionPage" element={<StockOptionPage />} />
+
 
         </Route>
 
