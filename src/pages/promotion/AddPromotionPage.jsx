@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "../css/AddPromotionPageStyles.css";
+import "../../css/promotion/AddPromotionPageStyles.css";
 
 export default function AddPromotionPage() {
   const [formData, setFormData] = useState({
