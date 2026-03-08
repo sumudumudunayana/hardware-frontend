@@ -6,32 +6,80 @@ export default function ItemAndCategoryOptionPage() {
   const navigate = useNavigate();
 
   return (
-    <div className="ic-container">
-      <div className="ic-overlay"></div>
+    <div className="item-category-option-page-shell">
+      <div className="item-category-option-page-grid-bg"></div>
+      <div className="item-category-option-page-glow item-category-option-page-glow-left"></div>
+      <div className="item-category-option-page-glow item-category-option-page-glow-right"></div>
 
-      <div className="ic-card">
-        <h1 className="ic-title">Product & Category Management</h1>
-
-        <div className="ic-grid">
-          {/* ITEM MANAGEMENT */}
-
-          <div className="ic-box" onClick={() => navigate("/ItemOptionPage")}>
-            <h2>Product Management</h2>
-            <p>
-              Add, view, and update inventory items.
+      <div className="item-category-option-page-panel">
+        <div className="item-category-option-page-header">
+          <div className="item-category-option-page-header-text">
+            <span className="item-category-option-page-badge">
+              PRODUCT STRUCTURE
+            </span>
+            <h1 className="item-category-option-page-title">
+              Product &amp; Category Management
+            </h1>
+            <p className="item-category-option-page-subtitle">
+              Manage both inventory products and category organization from one
+              structured control module.
             </p>
           </div>
 
-          {/* CATEGORY MANAGEMENT */}
+          <div className="item-category-option-page-summary">
+            <div className="item-category-option-page-metric-card">
+              <span className="item-category-option-page-metric-label">
+                Sections
+              </span>
+              <h3>02</h3>
+              <p>Core management areas</p>
+            </div>
+
+            <div className="item-category-option-page-metric-card">
+              <span className="item-category-option-page-metric-label">
+                Module State
+              </span>
+              <h3>Live</h3>
+              <p>Ready for action</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="item-category-option-page-grid">
+          <div
+            className="item-category-option-page-card"
+            onClick={() => navigate("/ItemOptionPage")}
+          >
+            <div className="item-category-option-page-card-top">
+              <span className="item-category-option-page-card-icon">📦</span>
+              <span className="item-category-option-page-card-status">
+                Inventory Tools
+              </span>
+            </div>
+
+            <h2>Product Management</h2>
+            <p>Add, view, and update inventory items across the system.</p>
+            <span className="item-category-option-page-card-link">
+              Open Section →
+            </span>
+          </div>
 
           <div
-            className="ic-box"
+            className="item-category-option-page-card"
             onClick={() => navigate("/CategoryOptionPage")}
           >
+            <div className="item-category-option-page-card-top">
+              <span className="item-category-option-page-card-icon">🗂️</span>
+              <span className="item-category-option-page-card-status">
+                Structure Control
+              </span>
+            </div>
+
             <h2>Category Management</h2>
-            <p>
-              Create and manage product categories.
-            </p>
+            <p>Create, organize, and manage product categories efficiently.</p>
+            <span className="item-category-option-page-card-link">
+              Open Section →
+            </span>
           </div>
         </div>
       </div>
