@@ -93,18 +93,23 @@ export default function ManageCustomerPage() {
 
   const confirmDelete = async () => {
     try {
-      const res = axios.delete(
+      const res = await axios.delete(
         `http://localhost:5500/api/customers/${deleteId}`,
       );
+
       if (![200, 202, 204].includes(res.status)) throw new Error();
+
       const updated = customers.filter((c) => c._id !== deleteId);
+
       setCustomers(updated);
       setFiltered(updated);
+
       setAlert({
         show: true,
         type: "success",
         message: "Customer deleted successfully!",
       });
+
       setShowDeleteModal(false);
     } catch (err) {
       setAlert({
@@ -113,6 +118,7 @@ export default function ManageCustomerPage() {
         message: "Failed to delete customer!",
       });
     }
+
     setTimeout(() => setAlert({ show: false }), 2500);
   };
 
