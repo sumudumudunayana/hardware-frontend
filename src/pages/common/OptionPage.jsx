@@ -4,58 +4,126 @@ import "../../css/common/OptionPageStyles.css";
 
 export default function OptionPage() {
   const navigate = useNavigate();
+
   return (
-    <div className="options-container">
-      <div className="options-overlay"></div>
-      <div className="options-card">
-        <h1 className="options-title">Management Dashboard</h1>
-        <div className="options-grid">
+    <div className="option-page-shell">
+      <div className="option-page-grid-bg"></div>
+      <div className="option-page-glow option-page-glow-left"></div>
+      <div className="option-page-glow option-page-glow-right"></div>
+
+      <div className="option-page-panel">
+        <div className="option-page-header">
+          <div className="option-page-header-text">
+            <span className="option-page-badge">CONTROL CENTER</span>
+            <h1 className="option-page-title">Management Dashboard</h1>
+            <p className="option-page-subtitle">
+              Access inventory, customers, suppliers, sales, stock movement, and
+              promotions from one unified hardware operations hub.
+            </p>
+          </div>
+
+          <div className="option-page-summary">
+            <div className="option-page-metric-card">
+              <span className="option-page-metric-label">Modules</span>
+              <h3>06</h3>
+              <p>Core business units</p>
+            </div>
+
+            <div className="option-page-metric-card">
+              <span className="option-page-metric-label">System Mode</span>
+              <h3>Live</h3>
+              <p>Operational workspace</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="option-page-module-grid">
           <div
-            className="option-box"
+            className="option-page-module-card"
             onClick={() => navigate("/ItemAndCategoryOptionPage")}
           >
+            <div className="option-page-module-top">
+              <span className="option-page-module-icon">📦</span>
+              <span className="option-page-module-status">
+                Inventory Active
+              </span>
+            </div>
             <h2>Product Management</h2>
-            <p>Add, view, update and manage all inventory items.</p>
+            <p>Add, view, update, and organize all hardware inventory items.</p>
+            <span className="option-page-module-link">Open Module →</span>
           </div>
 
           <div
-            className="option-box"
+            className="option-page-module-card"
             onClick={() => navigate("/CustomerOptionPage")}
           >
+            <div className="option-page-module-top">
+              <span className="option-page-module-icon">👥</span>
+              <span className="option-page-module-status">
+                Customer Records
+              </span>
+            </div>
             <h2>Customer Management</h2>
-            <p>Manage customer details, records, and interactions.</p>
+            <p>Manage customer profiles, account history, and interactions.</p>
+            <span className="option-page-module-link">Open Module →</span>
           </div>
 
           <div
-            className="option-box"
+            className="option-page-module-card"
             onClick={() => navigate("/SalesOptionPage")}
           >
+            <div className="option-page-module-top">
+              <span className="option-page-module-icon">🧾</span>
+              <span className="option-page-module-status">
+                Sales Monitoring
+              </span>
+            </div>
             <h2>Order Management</h2>
-            <p>Handle sales, billing, and transaction records.</p>
+            <p>
+              Handle sales flow, billing operations, and transaction records.
+            </p>
+            <span className="option-page-module-link">Open Module →</span>
           </div>
 
           <div
-            className="option-box"
+            className="option-page-module-card"
             onClick={() => navigate("/SupplierOptionPage")}
           >
+            <div className="option-page-module-top">
+              <span className="option-page-module-icon">🚚</span>
+              <span className="option-page-module-status">Supply Network</span>
+            </div>
             <h2>Supplier Management</h2>
-            <p>Track suppliers, purchase orders, and deliveries.</p>
+            <p>Track suppliers, purchase activity, and delivery operations.</p>
+            <span className="option-page-module-link">Open Module →</span>
           </div>
 
           <div
-            className="option-box"
+            className="option-page-module-card"
             onClick={() => navigate("/StockOptionPage")}
           >
+            <div className="option-page-module-top">
+              <span className="option-page-module-icon">📊</span>
+              <span className="option-page-module-status">
+                Stock Intelligence
+              </span>
+            </div>
             <h2>Stock Management</h2>
-            <p>Monitor stock levels, restocking and inventory movements.</p>
+            <p>Monitor stock levels, item movement, and restocking actions.</p>
+            <span className="option-page-module-link">Open Module →</span>
           </div>
 
           <div
-            className="option-box"
+            className="option-page-module-card"
             onClick={() => navigate("/PromotionOptionPage")}
           >
+            <div className="option-page-module-top">
+              <span className="option-page-module-icon">🏷️</span>
+              <span className="option-page-module-status">Campaign Tools</span>
+            </div>
             <h2>Promotion Management</h2>
-            <p>Create discounts, offers and promotional campaigns.</p>
+            <p>Create discount campaigns, offers, and promotional actions.</p>
+            <span className="option-page-module-link">Open Module →</span>
           </div>
         </div>
       </div>
