@@ -1,70 +1,87 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import "../css/AddSalesPageStyles.css";
+import api from "../../services/api";
+import "../../css/sales/AddSalesPageStyles.css";
 import { useNavigate } from "react-router-dom";
 
-export default function AddSalesPage({ cart, setCart }) {
+export default function AddSalesPage() {
   const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
+
+  const [cart, setCart] = useState([]);
+  const [cartCount, setCartCount] = useState(0);
+
   const navigate = useNavigate();
 
-  // 🔥 LOAD ITEMS FROM DATABASE
+  // LOAD ITEMS + CART
   useEffect(() => {
-    const loadItems = async () => {
-      try {
-        const res = await axios.get("http://localhost:5500/api/items");
-        setProducts(res.data);
-      } catch (err) {
-        console.error("Failed loading items", err);
-      }
-    };
-
     loadItems();
+    loadCart();
   }, []);
 
-  const categories = [
-    "All",
-    ...new Set(products.map((p) => p.itemCategory))
-  ];
+  // LOAD PRODUCTS
+  const loadItems = async () => {
+    try {
+      const res = await api.get("/items");
+
+      setProducts(res.data);
+    } catch (err) {
+      console.error("Failed loading items", err);
+    }
+  };
+
+  // LOAD CART
+  const loadCart = async () => {
+    try {
+      const res = await api.get("/cart");
+
+      const items = res.data.items || [];
+
+      setCart(items);
+
+      const totalQty = items.reduce(
+        (sum, it) => sum + Number(it.quantity || 0),
+        0,
+      );
+
+      setCartCount(totalQty);
+    } catch (err) {
+      console.error("Cart load error", err);
+    }
+  };
+
+  const categories = ["All", ...new Set(products.map((p) => p.itemCategory))];
 
   const filteredProducts = products.filter((product) =>
     selectedCategory === "All"
       ? true
-      : product.itemCategory === selectedCategory
+      : product.itemCategory === selectedCategory,
   );
 
-  const handleAdd = (product) => {
-    const existing = cart.find((item) => item._id === product._id);
+  // ADD ITEM TO CART
+  const handleAdd = async (product) => {
+    try {
+      await api.post("/cart/add", {
+        itemId: product._id,
+        name: product.itemName,
+        price: product.itemSellingPrice,
+      });
 
-    if (existing) {
-      const updatedCart = cart.map((item) =>
-        item._id === product._id
-          ? { ...item, qty: item.qty + 1 }
-          : item
-      );
-      setCart(updatedCart);
-    } else {
-      setCart([
-        ...cart,
-        {
-          _id: product._id,
-          name: product.itemName,
-          price: product.itemSellingPrice,
-          qty: 1
-        }
-      ]);
+      loadCart(); //  refresh cart + total
+    } catch (err) {
+      console.error("Cart add error", err);
     }
   };
 
+  //  TOTAL CALCULATION RESTORED
   const totalPrice = cart.reduce(
-    (total, item) => total + item.price * item.qty,
-    0
+    (total, item) => total + item.price * item.quantity,
+
+    0,
   );
 
   return (
     <div className="sales-page-container">
 
-      {/* FILTER PANEL */}
       <div className="filter-panel">
         <h2>Categories</h2>
 
@@ -80,17 +97,18 @@ export default function AddSalesPage({ cart, setCart }) {
       </div>
 
       {/* PRODUCT AREA */}
+
       <div className="product-area">
         <div className="sales-topbar">
-          <h1>Add Sales Items</h1>
+          <h1>Add Order Items</h1>
 
           <div className="cart-summary">
+            {" "}
             <div className="total-box">
               Total: Rs. {totalPrice.toLocaleString()}
             </div>
-
             <button className="cart-btn" onClick={() => navigate("/CartPage")}>
-              🛒 Cart ({cart.length})
+              🛒 Cart ({cartCount})
             </button>
           </div>
         </div>
@@ -99,8 +117,11 @@ export default function AddSalesPage({ cart, setCart }) {
           {filteredProducts.map((product) => (
             <div key={product._id} className="product-card">
               <h3>{product.itemName}</h3>
+
               <p>Rs. {product.itemSellingPrice.toLocaleString()}</p>
+
               <span className="tag">{product.itemCategory}</span>
+
               <button onClick={() => handleAdd(product)}>Add</button>
             </div>
           ))}
