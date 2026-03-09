@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "../css/ManagePromotionPageStyles.css";
+import "../../css/promotion/ManagePromotionPageStyles.css";
 
 export default function ManagePromotionPage() {
   const [promotions, setPromotions] = useState([]);
