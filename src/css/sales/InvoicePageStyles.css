@@ -2,7 +2,7 @@
 .invoice-container {
   min-height: 100vh;
   width: 100%;
-  background: url("../assets/hardware5.jpeg") center/cover no-repeat;
+  background: url("../../assets/hardware5.jpeg") center/cover no-repeat;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -76,9 +76,9 @@
 .invoice-card button {
   margin-top: 20px;
   padding: 10px 20px;
-  background: #00bcd4;
+  background: #ffca28;
   border: none;
-  color: white;
+  color: rgb(0, 0, 0);
   border-radius: 6px;
   cursor: pointer;
   font-weight: bold;
@@ -86,7 +86,7 @@
 }
 
 .invoice-card button:hover {
-  background: #0097a7;
+  background: #e0eb19;
 }
 
 /* PRINT MODE */
@@ -112,4 +112,64 @@
   .invoice-card button {
     display: none;
   }
+}
+
+.invoice-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.print-btn {
+  padding: 10px 20px;
+  border: none;
+  background: #00bcd4;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.done-btn {
+  padding: 10px 20px;
+  border: none;
+  background: #4caf50;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.done-btn:hover {
+  background: #388e3c;
+}
+
+.invoice-summary{
+  margin-top:20px;
+  border-top:2px solid #000;
+  padding-top:10px;
+}
+
+.summary-row{
+  display:flex;
+  justify-content:space-between;
+  padding:6px 0;
+  font-size:16px;
+}
+
+.discount-row{
+  color:#d32f2f;
+  font-weight:bold;
+}
+
+.final-total{
+  font-size:20px;
+  font-weight:bold;
+  border-top:1px solid #000;
+  margin-top:8px;
+  padding-top:8px;
+}
+
+.invoice-promotions h3{
+  margin-top:10px;
+  font-size:16px;
 }
