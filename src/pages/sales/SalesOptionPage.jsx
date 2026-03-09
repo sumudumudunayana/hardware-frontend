@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "../css/SalesOptionPageStyles.css";
+import "../../css/sales/SalesOptionPageStyles.css";
 
 export default function SalesOptionPage() {
   const navigate = useNavigate();
@@ -10,11 +10,11 @@ export default function SalesOptionPage() {
       <div className="sales-overlay"></div>
 
       <div className="sales-card">
-        <h1 className="sales-title">Sales Management</h1>
+        <h1 className="sales-title">Order Management</h1>
 
         <div className="sales-grid">
           <div className="sales-box" onClick={() => navigate("/AddSalesPage")}>
-            <h2>Add Sales</h2>
+            <h2>Add Order</h2>
             <p>Create a new sales transaction in the system.</p>
           </div>
 
@@ -22,7 +22,7 @@ export default function SalesOptionPage() {
             className="sales-box"
             onClick={() => navigate("/ManageSalesPage")}
           >
-            <h2>Manage Sales</h2>
+            <h2>Manage Order</h2>
             <p>View, update or delete sales records.</p>
           </div>
 
