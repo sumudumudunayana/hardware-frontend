@@ -1,7 +1,7 @@
 .promo-view-container {
   height: 100vh;
   width: 100vw;
-  background: url("../assets/hardware5.jpeg") center/cover no-repeat;
+  background: url("../../assets/hardware5.jpeg") center/cover no-repeat;
   position: relative;
   overflow-y: auto;
 }
