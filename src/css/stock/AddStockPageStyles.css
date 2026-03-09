@@ -1,0 +1,84 @@
+.add-stock-container {
+  height: 100vh;
+  width: 100vw;
+  background: url("../../assets/hardware5.jpeg") center/cover no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.add-stock-overlay {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: rgba(0,0,0,0.65);
+}
+
+.add-stock-card {
+  position: relative;
+  z-index: 2;
+  width: 780px;
+  padding: 35px 40px;
+  background: rgba(255,255,255,0.07);
+  backdrop-filter: blur(12px);
+  border-radius: 15px;
+  color: white;
+}
+
+.add-stock-title {
+  text-align: center;
+  font-size: 2.2rem;
+  margin-bottom: 25px;
+  font-weight: bold;
+}
+
+.add-stock-form select,
+.add-stock-form input {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 18px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  background: rgba(255,255,255,0.15);
+  color: white;
+}
+
+.add-stock-form select option {
+  background: #1e1e1e;
+}
+
+.stock-details {
+  display: flex;
+  gap: 15px;
+}
+
+.detail-box {
+  flex: 1;
+}
+
+.detail-box label {
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+.detail-box input {
+  background: rgba(255,255,255,0.12);
+  cursor: not-allowed;
+}
+
+.add-stock-btn {
+  width: 100%;
+  padding: 14px;
+  background: #ffca28;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.add-stock-btn:hover {
+  background: #ffc107;
+}
