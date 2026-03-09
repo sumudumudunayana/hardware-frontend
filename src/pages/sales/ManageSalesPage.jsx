@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "../css/ManageSalesPageStyles.css";
+import "../../css/sales/ManageSalesPageStyles.css";
 
 export default function ManageSalesPage() {
   const [sales, setSales] = useState([]);
@@ -54,7 +54,7 @@ export default function ManageSalesPage() {
       <div className="ms-overlay"></div>
 
       <div className="ms-card">
-        <h1>Manage Sales</h1>
+        <h1>Manage Orders</h1>
 
         {alert && <div className="ms-alert">{alert}</div>}
 
