@@ -3,7 +3,7 @@
   min-height: 100vh;
   width: 100%;
   display: flex;
-  background: url("../assets/hardware5.jpeg") center/cover no-repeat;
+  background: url("../../assets/hardware5.jpeg") center/cover no-repeat;
   position: relative;
 }
 
