@@ -1,7 +1,7 @@
 .cart-container {
   min-height: 100vh;
   padding: 40px;
-  background: url("../assets/hardware5.jpeg") center/cover no-repeat;
+  background: url("../../assets/hardware5.jpeg") center/cover no-repeat;
   position: relative;
   color: white;
 }
@@ -17,7 +17,7 @@
   position: relative;
   z-index: 2;
   margin-bottom: 30px;
-  color: #00e5ff;
+  color: #ffffff;
 }
 
 .cart-table {
@@ -60,13 +60,7 @@
   text-align: right;
 }
 
-.cart-total {
-  text-align: right;
-  margin-top: 20px;
-  font-size: 1.3rem;
-  font-weight: bold;
-  color: #00e5ff;
-}
+
 
 .checkout-btn {
   margin-top: 20px;
@@ -104,4 +98,54 @@
 
 .invoice-btn:hover {
   background: #66bb6a;
+}
+
+.cart-subtotal {
+  text-align: right;
+  margin-top: 15px;
+  font-size: 1.1rem;
+}
+
+.cart-discount {
+  text-align: right;
+  margin-top: 5px;
+  font-size: 1.1rem;
+  color: #ff5252;
+  font-weight: bold;
+}
+
+
+.promo-box {
+  margin-top: 15px;
+  padding: 12px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.06);
+}
+
+.promo-box h3 {
+  margin-bottom: 8px;
+  color: #ffca28;
+}
+
+.promo-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  color: #ff5252;
+}
+
+.promo-total {
+  border-top: 1px solid rgba(255,255,255,0.2);
+  margin-top: 8px;
+  padding-top: 8px;
+  font-weight: bold;
+  text-align: right;
+}
+
+.cart-total {
+  text-align: right;
+  margin-top: 10px;
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #00e5ff;
 }
