@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "../css/PromotionOptionPageStyles.css";
+import "../../css/promotion/PromotionOptionPageStyles.css";
 
 export default function PromotionOptionPage() {
   const navigate = useNavigate();
