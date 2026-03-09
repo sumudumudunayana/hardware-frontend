@@ -1,50 +1,47 @@
-.stock-bg {
+.manage-stock-bg {
   height: 100vh;
   width: 100vw;
-  background: url("../assets/hardware5.jpeg") center/cover no-repeat;
+  background: url("../../assets/hardware5.jpeg") center/cover no-repeat;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
 }
 
-.stock-overlay {
+.manage-stock-overlay {
   position: absolute;
-  height: 100%;
-  width: 100%;
-  background: rgba(0, 0, 0, 0.65);
+  inset: 0;
+  background: rgba(0,0,0,0.65);
 }
 
-.stock-container {
+.manage-stock-container {
   position: relative;
   z-index: 2;
   width: 1200px;
   padding: 35px;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255,255,255,0.08);
   backdrop-filter: blur(12px);
   border-radius: 18px;
   color: white;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.35);
 }
 
-.stock-title {
+.manage-stock-title {
   text-align: center;
   font-size: 2.2rem;
   margin-bottom: 25px;
-  color: #4da3ff;
 }
 
-.stock-search input {
+.search-box input {
   width: 100%;
   padding: 12px;
   border-radius: 8px;
   border: none;
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255,255,255,0.15);
   color: white;
   margin-bottom: 20px;
 }
 
-.stock-table-wrapper {
+.table-wrapper {
   max-height: 400px;
   overflow-y: auto;
 }
@@ -52,7 +49,7 @@
 .stock-table {
   width: 100%;
   border-collapse: collapse;
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(0,0,0,0.25);
 }
 
 .stock-table th,
@@ -62,18 +59,15 @@
 }
 
 .stock-table th {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255,255,255,0.15);
   color: #ffca28;
 }
 
-.stock-table input {
-  padding: 8px;
-  border-radius: 6px;
-  border: none;
-  width: 120px;
+.stock-table tr:hover {
+  background: rgba(255,255,255,0.08);
 }
 
-.update-stock-btn {
+.update-btn {
   background: #4da3ff;
   padding: 8px 14px;
   border-radius: 6px;
@@ -82,8 +76,56 @@
   cursor: pointer;
 }
 
-.update-stock-btn:hover {
+.update-btn:hover {
   background: #2c8ef7;
+}
+
+.modal-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-box {
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(15px);
+  padding: 30px;
+  border-radius: 14px;
+  width: 400px;
+  color: white;
+}
+
+.modal-box input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255,255,255,0.15);
+  color: white;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.cancel-btn {
+  background: #777;
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+}
+
+.confirm-btn {
+  background: #4da3ff;
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
 }
 
 .alert-box {
