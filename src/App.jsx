@@ -5,29 +5,23 @@ import LandingPage from "./pages/common/LandingPage";
 import OptionPage from "./pages/common/OptionPage";
 
 import AddItemPage from "./pages/item/AddItemPage";
-import ItemOptionPage from "./pages/item/ItemOptionPage";
 import ViewItemPage from "./pages/item/ViewItemPage";
 import UpdateItemPage from "./pages/item/UpdateItemPage";
 
 import SupplierOptionPage from "./pages/common/SupplierOptionPage";
 
 import AddCompanyPage from "./pages/company/AddCompanyPage";
-import CompanyOptionPage from "./pages/company/CompanyOptionPage";
 import ManageCompanyPage from "./pages/company/ManageCompanyPage";
 
-import CategoryOptionPage from "./pages/category/CategoryOptionPage";
 import AddCategoryPage from "./pages/category/AddCategoryPage";
 import ManageCategoryPage from "./pages/category/ManageCategoryPage";
 
-import DistributorOptionPage from "./pages/distributor/DistributorOptionPage";
 import AddDistributorPage from "./pages/distributor/AddDistributorPage";
 import ManageDistributorPage from "./pages/distributor/ManageDistributorPage";
 
-import CustomerOptionPage from "./pages/customer/CustomerOptionPage";
 import AddCustomerPage from "./pages/customer/AddCustomerPage";
 import ManageCustomerPage from "./pages/customer/ManageCustomerPage";
 
-import SalesOptionPage from "./pages/sales/SalesOptionPage";
 import AddSalesPage from "./pages/sales/AddSalesPage";
 import CartPage from "./pages/sales/CartPage";
 import InvoicePage from "./pages/sales/InvoicePage";
@@ -46,9 +40,11 @@ import RegisterPage from "./pages/auth/RegisterPage";
 import ProtectedRoute from "./util/ProtectedRoute";
 import StockOptionPage from "./pages/stock/StockOptionPage";
 import AddStockPage from "./pages/stock/AddStockPage";
-import ItemAndCategoryOptionPage from "./pages/item/ItemAndCategoryOptionPage";
 import ProductModuleLayout from "./pages/item/ProductModuleLayout";
 import ProductOverviewPage from "./pages/item/ProductOverviewPage";
+import CustomerModuleLayout from "./pages/customer/CustomerModuleLayout";
+import SalesModuleLayout from "./pages/sales/SalesModuleLayout";
+import DistributorModuleLayout from "./pages/distributor/DistributorModuleLayout";
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -64,35 +60,10 @@ function App() {
           <Route path="/OptionPage" element={<OptionPage />} />
 
           <Route path="/AddItemPage" element={<AddItemPage />} />
-          <Route path="/ItemOptionPage" element={<ItemOptionPage />} />
           <Route path="/ViewItemPage" element={<ViewItemPage />} />
           <Route path="/UpdateItemPage" element={<UpdateItemPage />} />
 
           <Route path="/SupplierOptionPage" element={<SupplierOptionPage />} />
-
-          <Route path="/CompanyOptionPage" element={<CompanyOptionPage />} />
-          <Route path="/AddCompanyPage" element={<AddCompanyPage />} />
-          <Route path="/ManageCompanyPage" element={<ManageCompanyPage />} />
-
-          <Route path="/CategoryOptionPage" element={<CategoryOptionPage />} />
-          <Route path="/AddCategoryPage" element={<AddCategoryPage />} />
-          <Route path="/ManageCategoryPage" element={<ManageCategoryPage />} />
-
-          <Route
-            path="/DistributorOptionPage"
-            element={<DistributorOptionPage />}
-          />
-          <Route path="/AddDistributorPage" element={<AddDistributorPage />} />
-          <Route
-            path="/ManageDistributorPage"
-            element={<ManageDistributorPage />}
-          />
-
-          <Route path="/CustomerOptionPage" element={<CustomerOptionPage />} />
-          <Route path="/AddCustomerPage" element={<AddCustomerPage />} />
-          <Route path="/ManageCustomerPage" element={<ManageCustomerPage />} />
-
-          <Route path="/SalesOptionPage" element={<SalesOptionPage />} />
 
           <Route
             path="/AddSalesPage"
@@ -104,7 +75,6 @@ function App() {
             element={<CartPage cart={cart} setCart={setCart} />}
           />
 
-          <Route path="/ManageSalesPage" element={<ManageSalesPage />} />
           <Route path="/InvoicePage/:id" element={<InvoicePage />} />
 
           <Route path="/ManageStockPage" element={<ManageStockPage />} />
@@ -121,23 +91,45 @@ function App() {
           />
           <Route path="/StockOptionPage" element={<StockOptionPage />} />
           <Route path="/AddStockPage" element={<AddStockPage />} />
-          <Route
-            path="/ItemAndCategoryOptionPage"
-            element={<ItemAndCategoryOptionPage />}
-          />
 
           <Route path="/products" element={<ProductModuleLayout />}>
             <Route index element={<ProductOverviewPage />} />
-            
             {/* Product */}
             <Route path="add-item" element={<AddItemPage />} />
             <Route path="view-items" element={<ViewItemPage />} />
             <Route path="update-item" element={<UpdateItemPage />} />
-
             {/* Category */}
             <Route path="add-category" element={<AddCategoryPage />} />
             <Route path="manage-category" element={<ManageCategoryPage />} />
           </Route>
+
+          <Route path="/customers" element={<CustomerModuleLayout />}>
+            <Route index element={<div>Customer Overview</div>} />
+            <Route path="add" element={<AddCustomerPage />} />
+            <Route path="manage" element={<ManageCustomerPage />} />
+          </Route>
+
+          <Route path="/sales" element={<SalesModuleLayout />}>
+            <Route index element={<div>Sales Overview</div>} />
+            <Route path="add" element={<AddSalesPage />} />
+            <Route path="manage" element={<ManageSalesPage />} />
+            <Route path="reports" element={<div>Sales Reports</div>} />
+            <Route path="invoices" element={<InvoicePage />} />
+          </Route>
+
+          <Route path="/suppliers" element={<DistributorModuleLayout />}>
+            {/* Overview */}
+            <Route index element={<div>Supplier Overview</div>} />
+            {/* Supplier */}
+            <Route path="add" element={<AddDistributorPage />} />
+            <Route path="manage" element={<ManageDistributorPage />} />
+            {/* Company */}
+            <Route path="company/add" element={<AddCompanyPage />} />
+            <Route path="company/manage" element={<ManageCompanyPage />} />
+          </Route>
+
+
+
         </Route>
       </Routes>
     </HashRouter>
