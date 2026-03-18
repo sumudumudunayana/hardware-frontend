@@ -128,12 +128,16 @@ function App() {
 
           <Route path="/products" element={<ProductModuleLayout />}>
             <Route index element={<ProductOverviewPage />} />
+            
+            {/* Product */}
             <Route path="add-item" element={<AddItemPage />} />
             <Route path="view-items" element={<ViewItemPage />} />
             <Route path="update-item" element={<UpdateItemPage />} />
+
+            {/* Category */}
+            <Route path="add-category" element={<AddCategoryPage />} />
+            <Route path="manage-category" element={<ManageCategoryPage />} />
           </Route>
-
-
         </Route>
       </Routes>
     </HashRouter>
