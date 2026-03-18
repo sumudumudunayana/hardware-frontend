@@ -1,57 +1,78 @@
 import React from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import "../../css/item/ProductModuleLayoutStyles.css";
 
 export default function ProductModuleLayout() {
   const navigate = useNavigate();
 
-  const linkStyle = ({ isActive }) => ({
-    padding: "10px",
-    textDecoration: "none",
-    color: isActive ? "#facc15" : "white",
-    background: isActive ? "#334155" : "transparent",
-    borderRadius: "8px"
-  });
-
   return (
-    <div style={{ display: "flex", height: "100vh" }}>
-      
+    <div className="product-module-shell">
       {/* Sidebar */}
-      <div style={{
-        width: "250px",
-        background: "#1e293b",
-        color: "white",
-        padding: "20px",
-        display: "flex",
-        flexDirection: "column",
-        gap: "10px"
-      }}>
-        <button onClick={() => navigate("/OptionPage")}>
-          ← Back
-        </button>
+      <aside className="product-module-sidebar">
+        <div className="product-module-sidebar-top">
+          <button
+            className="product-module-back-btn"
+            onClick={() => navigate("/OptionPage")}
+          >
+            ← Back
+          </button>
 
-        <h2>Products</h2>
+          <span className="product-module-badge">PRODUCT MODULE</span>
+          <h2 className="product-module-title">Inventory Control</h2>
+        </div>
 
-        <NavLink to="/products" end style={linkStyle}>
-          Overview
-        </NavLink>
+        <nav className="product-module-nav">
+          <NavLink
+            to="/products"
+            end
+            className={({ isActive }) =>
+              isActive
+                ? "product-module-nav-link product-module-nav-link-active"
+                : "product-module-nav-link"
+            }
+          >
+            Overview
+          </NavLink>
 
-        <NavLink to="/products/add-item" style={linkStyle}>
-          Add Item
-        </NavLink>
+          <NavLink
+            to="/products/add-item"
+            className={({ isActive }) =>
+              isActive
+                ? "product-module-nav-link product-module-nav-link-active"
+                : "product-module-nav-link"
+            }
+          >
+            Add Item
+          </NavLink>
 
-        <NavLink to="/products/view-items" style={linkStyle}>
-          View Items
-        </NavLink>
+          <NavLink
+            to="/products/view-items"
+            className={({ isActive }) =>
+              isActive
+                ? "product-module-nav-link product-module-nav-link-active"
+                : "product-module-nav-link"
+            }
+          >
+            View Items
+          </NavLink>
 
-        <NavLink to="/products/update-item" style={linkStyle}>
-          Update Item
-        </NavLink>
-      </div>
+          <NavLink
+            to="/products/update-item"
+            className={({ isActive }) =>
+              isActive
+                ? "product-module-nav-link product-module-nav-link-active"
+                : "product-module-nav-link"
+            }
+          >
+            Update Item
+          </NavLink>
+        </nav>
+      </aside>
 
-      {/* Content */}
-      <div style={{ flex: 1, overflow: "auto" }}>
+      {/* Content Area */}
+      <main className="product-module-content">
         <Outlet />
-      </div>
+      </main>
     </div>
   );
 }
