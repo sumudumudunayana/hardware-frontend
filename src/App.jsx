@@ -47,21 +47,20 @@ import ProtectedRoute from "./util/ProtectedRoute";
 import StockOptionPage from "./pages/stock/StockOptionPage";
 import AddStockPage from "./pages/stock/AddStockPage";
 import ItemAndCategoryOptionPage from "./pages/item/ItemAndCategoryOptionPage";
+import ProductModuleLayout from "./pages/item/ProductModuleLayout";
+import ProductOverviewPage from "./pages/item/ProductOverviewPage";
 
 function App() {
-
   const [cart, setCart] = useState([]);
 
   return (
     <HashRouter>
       <Routes>
-
         <Route path="/" element={<LoginPage />} />
         <Route path="/RegisterPage" element={<RegisterPage />} />
         <Route path="/LandingPage" element={<LandingPage />} />
 
         <Route element={<ProtectedRoute />}>
-
           <Route path="/OptionPage" element={<OptionPage />} />
 
           <Route path="/AddItemPage" element={<AddItemPage />} />
@@ -79,9 +78,15 @@ function App() {
           <Route path="/AddCategoryPage" element={<AddCategoryPage />} />
           <Route path="/ManageCategoryPage" element={<ManageCategoryPage />} />
 
-          <Route path="/DistributorOptionPage" element={<DistributorOptionPage />} />
+          <Route
+            path="/DistributorOptionPage"
+            element={<DistributorOptionPage />}
+          />
           <Route path="/AddDistributorPage" element={<AddDistributorPage />} />
-          <Route path="/ManageDistributorPage" element={<ManageDistributorPage />} />
+          <Route
+            path="/ManageDistributorPage"
+            element={<ManageDistributorPage />}
+          />
 
           <Route path="/CustomerOptionPage" element={<CustomerOptionPage />} />
           <Route path="/AddCustomerPage" element={<AddCustomerPage />} />
@@ -104,17 +109,32 @@ function App() {
 
           <Route path="/ManageStockPage" element={<ManageStockPage />} />
 
-          <Route path="/PromotionOptionPage" element={<PromotionOptionPage />} />
+          <Route
+            path="/PromotionOptionPage"
+            element={<PromotionOptionPage />}
+          />
           <Route path="/AddPromotionPage" element={<AddPromotionPage />} />
           <Route path="/ViewPromotionPage" element={<ViewPromotionPage />} />
-          <Route path="/ManagePromotionPage" element={<ManagePromotionPage />} />
+          <Route
+            path="/ManagePromotionPage"
+            element={<ManagePromotionPage />}
+          />
           <Route path="/StockOptionPage" element={<StockOptionPage />} />
           <Route path="/AddStockPage" element={<AddStockPage />} />
-          <Route path="/ItemAndCategoryOptionPage" element={<ItemAndCategoryOptionPage />} />
+          <Route
+            path="/ItemAndCategoryOptionPage"
+            element={<ItemAndCategoryOptionPage />}
+          />
+
+          <Route path="/products" element={<ProductModuleLayout />}>
+            <Route index element={<ProductOverviewPage />} />
+            <Route path="add-item" element={<AddItemPage />} />
+            <Route path="view-items" element={<ViewItemPage />} />
+            <Route path="update-item" element={<UpdateItemPage />} />
+          </Route>
 
 
         </Route>
-
       </Routes>
     </HashRouter>
   );
