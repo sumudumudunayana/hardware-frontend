@@ -1,0 +1,79 @@
+.product-overview-container {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Badge */
+.product-overview-badge {
+  display: inline-block;
+  margin-bottom: 14px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  color: #b45309;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+}
+
+/* Title */
+.product-overview-title {
+  font-size: 36px;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 10px;
+}
+
+/* Subtitle */
+.product-overview-subtitle {
+  color: #475569;
+  font-size: 16px;
+  margin-bottom: 24px;
+  max-width: 600px;
+}
+
+/* Cards */
+.product-overview-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+/* Card */
+.product-overview-card {
+  padding: 20px;
+  border-radius: 22px;
+
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+
+  transition: all 0.3s ease;
+}
+
+.product-overview-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+/* Card text */
+.product-overview-card h3 {
+  font-size: 16px;
+  color: #475569;
+  margin-bottom: 8px;
+}
+
+.product-overview-card p {
+  font-size: 26px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .product-overview-cards {
+    grid-template-columns: 1fr;
+  }
+}
