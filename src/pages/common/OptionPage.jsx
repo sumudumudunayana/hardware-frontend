@@ -40,7 +40,7 @@ export default function OptionPage() {
         <div className="option-page-module-grid">
           <div
             className="option-page-module-card"
-            onClick={() => navigate("/ItemAndCategoryOptionPage")}
+            onClick={() => navigate("/products")}
           >
             <div className="option-page-module-top">
               <span className="option-page-module-icon">📦</span>
