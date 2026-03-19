@@ -19,7 +19,7 @@ body {
 }
 
 .option-page-shell {
-  min-height: 100vh;
+  height: 100vh;
   width: 100%;
   position: relative;
   overflow: hidden;
@@ -310,4 +310,41 @@ body {
     white-space: normal;
     text-align: right;
   }
+}
+
+
+
+
+/* ================= LOGOUT BUTTON ================= */
+
+.option-page-topbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.option-logout-btn {
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: none;
+
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+
+  font-weight: 600;
+  font-size: 14px;
+
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  box-shadow: 0 6px 15px rgba(239, 68, 68, 0.3);
+}
+
+.option-logout-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(239, 68, 68, 0.4);
+}
+
+.option-logout-btn:active {
+  transform: scale(0.96);
 }
