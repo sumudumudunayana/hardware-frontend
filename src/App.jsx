@@ -1,5 +1,6 @@
 import { HashRouter, Routes, Route } from "react-router-dom";
 import { useState } from "react";
+import { Toaster } from "sonner";
 
 import LandingPage from "./pages/common/LandingPage";
 import OptionPage from "./pages/common/OptionPage";
@@ -48,12 +49,14 @@ import CustomerOverviewPage from "./pages/customer/CustomerOverviewPage";
 import SalesOverviewPage from "./pages/sales/SalesOverviewPage";
 import DistributorOverviewPage from "./pages/distributor/DistributorOverviewPage";
 import StockOverviewPage from "./pages/stock/StockOverviewPage";
+import PromotionOverviewPage from "./pages/promotion/PromotionOverviewPage";
 
 function App() {
   const [cart, setCart] = useState([]);
 
   return (
     <HashRouter>
+      <Toaster position="top-right" richColors />
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/RegisterPage" element={<RegisterPage />} />
@@ -110,7 +113,7 @@ function App() {
           </Route>
 
           <Route path="/promotions" element={<PromotionModuleLayout />}>
-            <Route index element={<div>Promotion Overview</div>} />
+            <Route index element={<PromotionOverviewPage/>} />
             <Route path="add" element={<AddPromotionPage />} />
             <Route path="view" element={<ViewPromotionPage />} />
             <Route path="manage" element={<ManagePromotionPage />} />
