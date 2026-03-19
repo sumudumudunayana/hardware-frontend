@@ -8,7 +8,6 @@ import AddItemPage from "./pages/item/AddItemPage";
 import ViewItemPage from "./pages/item/ViewItemPage";
 import UpdateItemPage from "./pages/item/UpdateItemPage";
 
-import SupplierOptionPage from "./pages/common/SupplierOptionPage";
 
 import AddCompanyPage from "./pages/company/AddCompanyPage";
 import ManageCompanyPage from "./pages/company/ManageCompanyPage";
@@ -29,7 +28,6 @@ import ManageSalesPage from "./pages/sales/ManageSalesPage";
 
 import ManageStockPage from "./pages/stock/ManageStockPage";
 
-import PromotionOptionPage from "./pages/promotion/PromotionOptionPage";
 import AddPromotionPage from "./pages/promotion/AddPromotionPage";
 import ViewPromotionPage from "./pages/promotion/ViewPromotionPage";
 import ManagePromotionPage from "./pages/promotion/ManagePromotionPage";
@@ -38,13 +36,18 @@ import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
 
 import ProtectedRoute from "./util/ProtectedRoute";
-import StockOptionPage from "./pages/stock/StockOptionPage";
 import AddStockPage from "./pages/stock/AddStockPage";
 import ProductModuleLayout from "./pages/item/ProductModuleLayout";
 import ProductOverviewPage from "./pages/item/ProductOverviewPage";
 import CustomerModuleLayout from "./pages/customer/CustomerModuleLayout";
 import SalesModuleLayout from "./pages/sales/SalesModuleLayout";
 import DistributorModuleLayout from "./pages/distributor/DistributorModuleLayout";
+import StockModuleLayout from "./pages/stock/StockModuleLayout";
+import PromotionModuleLayout from "./pages/promotion/PromotionModuleLayout";
+import CustomerOverviewPage from "./pages/customer/CustomerOverviewPage";
+import SalesOverviewPage from "./pages/sales/SalesOverviewPage";
+import DistributorOverviewPage from "./pages/distributor/DistributorOverviewPage";
+import StockOverviewPage from "./pages/stock/StockOverviewPage";
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -59,38 +62,7 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/OptionPage" element={<OptionPage />} />
 
-          <Route path="/AddItemPage" element={<AddItemPage />} />
-          <Route path="/ViewItemPage" element={<ViewItemPage />} />
-          <Route path="/UpdateItemPage" element={<UpdateItemPage />} />
 
-          <Route path="/SupplierOptionPage" element={<SupplierOptionPage />} />
-
-          <Route
-            path="/AddSalesPage"
-            element={<AddSalesPage cart={cart} setCart={setCart} />}
-          />
-
-          <Route
-            path="/CartPage"
-            element={<CartPage cart={cart} setCart={setCart} />}
-          />
-
-          <Route path="/InvoicePage/:id" element={<InvoicePage />} />
-
-          <Route path="/ManageStockPage" element={<ManageStockPage />} />
-
-          <Route
-            path="/PromotionOptionPage"
-            element={<PromotionOptionPage />}
-          />
-          <Route path="/AddPromotionPage" element={<AddPromotionPage />} />
-          <Route path="/ViewPromotionPage" element={<ViewPromotionPage />} />
-          <Route
-            path="/ManagePromotionPage"
-            element={<ManagePromotionPage />}
-          />
-          <Route path="/StockOptionPage" element={<StockOptionPage />} />
-          <Route path="/AddStockPage" element={<AddStockPage />} />
 
           <Route path="/products" element={<ProductModuleLayout />}>
             <Route index element={<ProductOverviewPage />} />
@@ -104,22 +76,23 @@ function App() {
           </Route>
 
           <Route path="/customers" element={<CustomerModuleLayout />}>
-            <Route index element={<div>Customer Overview</div>} />
+            <Route index element={<CustomerOverviewPage/>} />
             <Route path="add" element={<AddCustomerPage />} />
             <Route path="manage" element={<ManageCustomerPage />} />
           </Route>
 
           <Route path="/sales" element={<SalesModuleLayout />}>
-            <Route index element={<div>Sales Overview</div>} />
+            <Route index element={<SalesOverviewPage/>} />
             <Route path="add" element={<AddSalesPage />} />
+            <Route path="cart" element={<CartPage />} />
+            <Route path="invoice/:id" element={<InvoicePage />} />
             <Route path="manage" element={<ManageSalesPage />} />
             <Route path="reports" element={<div>Sales Reports</div>} />
-            <Route path="invoices" element={<InvoicePage />} />
+            <Route path="invoices" element={<div>Invoices</div>} />
           </Route>
 
           <Route path="/suppliers" element={<DistributorModuleLayout />}>
-            {/* Overview */}
-            <Route index element={<div>Supplier Overview</div>} />
+            <Route index element={<DistributorOverviewPage/>} />
             {/* Supplier */}
             <Route path="add" element={<AddDistributorPage />} />
             <Route path="manage" element={<ManageDistributorPage />} />
@@ -128,7 +101,20 @@ function App() {
             <Route path="company/manage" element={<ManageCompanyPage />} />
           </Route>
 
+          <Route path="/stock" element={<StockModuleLayout />}>
+            <Route index element={<StockOverviewPage/>} />
+            <Route path="add" element={<AddStockPage />} />
+            <Route path="manage" element={<ManageStockPage />} />
+            <Route path="low" element={<div>Low Stock Page</div>} />
+            <Route path="reports" element={<div>Stock Reports</div>} />
+          </Route>
 
+          <Route path="/promotions" element={<PromotionModuleLayout />}>
+            <Route index element={<div>Promotion Overview</div>} />
+            <Route path="add" element={<AddPromotionPage />} />
+            <Route path="view" element={<ViewPromotionPage />} />
+            <Route path="manage" element={<ManagePromotionPage />} />
+          </Route>
 
         </Route>
       </Routes>
