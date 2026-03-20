@@ -28,11 +28,17 @@ export default function AddCategoryPage() {
   };
 
   return (
-    <div className="add-category-container">
-      <div className="add-category-overlay"></div>
+    <div className="add-category-wrapper">
       <div className="add-category-card">
-        <h1 className="add-category-title">Add New Category</h1>
+
+        <div className="add-category-header">
+          <span className="add-category-badge">CATEGORY MODULE</span>
+          <h1>Add New Category</h1>
+          <p>Create and organize product categories</p>
+        </div>
+
         <form className="add-category-form" onSubmit={handleSubmit}>
+
           <input
             type="text"
             name="categoryName"
@@ -41,6 +47,7 @@ export default function AddCategoryPage() {
             onChange={handleChange}
             required
           />
+
           <textarea
             name="categoryDescription"
             placeholder="Category Description"
@@ -48,9 +55,11 @@ export default function AddCategoryPage() {
             onChange={handleChange}
             required
           ></textarea>
+
           <button type="submit" className="add-category-btn">
             Add Category
           </button>
+
         </form>
       </div>
     </div>
