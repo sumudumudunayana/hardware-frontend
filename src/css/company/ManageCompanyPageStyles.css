@@ -1,152 +1,159 @@
-.manage-company-bg {
-  height: 100vh;
-  width: 100vw;
-  background: url("../../assets/hardware5.jpeg") center/cover no-repeat;
+/* WRAPPER */
+.cmp-wrapper {
   display: flex;
   justify-content: center;
-  align-items: center;
-  position: relative;
 }
 
-.manage-company-overlay {
-  position: absolute;
-  height: 100%;
+/* CARD */
+.cmp-card {
   width: 100%;
-  background: rgba(0, 0, 0, 0.65);
+  padding: 30px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(18px);
 }
 
-.manage-company-container {
-  position: relative;
-  z-index: 2;
-  width: 1100px;
-  padding: 35px;
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(12px);
-  border-radius: 18px;
-  color: white;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.35);
-}
-
-.manage-company-title {
-  text-align: center;
-  font-size: 2.2rem;
-  margin-bottom: 25px;
-  font-weight: bold;
-  color: #ffffff;
-}
-
-.search-box input {
-  width: 100%;
-  padding: 12px;
-  border-radius: 8px;
-  border: none;
-  background: rgba(255, 255, 255, 0.15);
-  color: white;
+/* HEADER */
+.cmp-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   margin-bottom: 20px;
 }
 
-/* Table */
-.table-wrapper {
-  max-height: 380px;
-  overflow-y: auto;
+/* BADGE */
+.cmp-badge {
+  align-self: flex-start;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(59, 130, 246, 0.12);
+  color: #2563eb;
+  font-size: 11px;
+  font-weight: 700;
 }
 
-.company-table {
+/* TITLE */
+.cmp-header h1 {
+  font-size: 28px;
+  font-weight: 800;
+  margin: 0;
+  color: #0f172a;
+}
+
+/* SEARCH */
+.cmp-search {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+/* TABLE */
+.cmp-table {
   width: 100%;
   border-collapse: collapse;
-  background: rgba(0, 0, 0, 0.25);
+  table-layout: fixed;
 }
 
-.company-table th {
-  background: rgba(255, 255, 255, 0.15);
-  color: #ffca28;
-  padding: 12px;
+.cmp-table th {
+  text-align: left;
+  padding: 14px;
+  color: #475569;
 }
 
-.company-table td {
-  padding: 12px;
+.cmp-table td {
+  padding: 14px;
+}
+
+.cmp-table tr:hover {
+  background: rgba(245, 158, 11, 0.08);
+}
+
+/* COLUMN WIDTHS */
+.cmp-table th:nth-child(1) { width: 60px; }
+.cmp-table th:nth-child(2) { width: 180px; }
+.cmp-table th:nth-child(3) { width: 200px; }
+.cmp-table th:nth-child(4) { width: 150px; }
+.cmp-table th:nth-child(5) { width: 180px; }
+
+/* ACTIONS */
+.cmp-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.cmp-update,
+.cmp-delete {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+}
+
+.cmp-update {
+  background: #22c55e;
   color: white;
 }
 
-.company-table tr:nth-child(even) {
-  background: rgba(255, 255, 255, 0.08);
+.cmp-delete {
+  background: #ef4444;
+  color: white;
 }
 
-.company-table tr:hover {
-  background: rgba(255, 255, 255, 0.12);
+/* MODAL */
+.cmp-modal-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.35);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.action-buttons {
+.cmp-modal-box {
+  width: 380px;
+  padding: 24px;
+  border-radius: 16px;
+  background: white;
+}
+
+/* INPUT */
+.cmp-modal-box input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+/* BUTTONS */
+.cmp-modal-actions {
   display: flex;
   gap: 10px;
 }
 
-.update-btn {
-  background: #4da3ff;
-  padding: 8px 14px;
-  border-radius: 6px;
-  border: none;
+.cmp-btn-cancel {
+  flex: 1;
+  padding: 10px;
+  background: #e2e8f0;
+  border-radius: 10px;
+}
+
+.cmp-btn-primary {
+  flex: 1;
+  padding: 10px;
+  background: #f59e0b;
   color: white;
-  cursor: pointer;
+  border-radius: 10px;
 }
 
-.update-btn:hover {
-  background: #2d7bd3;
-}
-
-.delete-btn {
-  background: #e63946;
-  padding: 8px 14px;
-  border-radius: 6px;
-  border: none;
+.cmp-btn-danger {
+  flex: 1;
+  padding: 10px;
+  background: #ef4444;
   color: white;
-  cursor: pointer;
-}
-
-.delete-btn:hover {
-  background: #c5303c;
-}
-
-.modal-bg {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.65);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-.modal-box {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 30px;
-  border-radius: 14px;
-  width: 420px;
-  backdrop-filter: blur(15px);
-  color: white;
-}
-
-.modal-actions {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-
-.cancel-btn {
-  padding: 10px 18px;
-  background: #777;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.confirm-btn,
-.delete-confirm-btn {
-  padding: 10px 18px;
-  background: #4da3ff;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.delete-confirm-btn {
-  background: #e63946;
+  border-radius: 10px;
 }
