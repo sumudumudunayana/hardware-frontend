@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { toast } from "sonner";
 import "../../css/customer/AddCustomerPageStyles.css";
 
 export default function AddCustomerPage() {
@@ -10,73 +11,117 @@ export default function AddCustomerPage() {
   });
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    // ✅ Prevent letters in phone number
+    if (name === "customerContactNumber") {
+      if (!/^\d*$/.test(value)) return;
+    }
+
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-     // PHONE VALIDATION (10 digits)
-    if (!/^\d{10}$/.test(formData.customerContactNumber)) {
-      alert("Contact number must be exactly 10 digits.");
+    const { customerName, customerContactNumber, customerEmail } = formData;
+
+    //  Name validation
+    if (!customerName.trim()) {
+      toast.error("Customer name is required");
       return;
     }
 
-    // EMAIL VALIDATION
-    if (!/^\S+@\S+\.\S+$/.test(formData.customerEmail)) {
-      alert("Please enter a valid email address.");
+    if (customerName.length < 3) {
+      toast.warning("Name too short", {
+        description: "Customer name must be at least 3 characters",
+      });
+      return;
+    }
+
+    //  Phone validation
+    if (!/^\d{10}$/.test(customerContactNumber)) {
+      toast.error("Invalid contact number", {
+        description: "Must be exactly 10 digits",
+      });
+      return;
+    }
+
+    // Email validation
+    if (!/^\S+@\S+\.\S+$/.test(customerEmail)) {
+      toast.error("Invalid email address", {
+        description: "Please enter a valid email",
+      });
       return;
     }
 
     try {
-      await axios.post("http://localhost:5500/api/customers", formData);
-
-      alert("Customer Added Successfully!");
+      await toast.promise(
+        axios.post("http://localhost:5500/api/customers", formData),
+        {
+          loading: "Adding customer...",
+          success: "Customer added successfully!",
+          error: "Failed to add customer",
+        }
+      );
 
       setFormData({
         customerName: "",
         customerContactNumber: "",
         customerEmail: "",
       });
+
     } catch (error) {
-      console.error("Error adding customer:", error.response?.data);
-      alert(error.response?.data?.message || "Failed to add customer.");
+      toast.error("Error", {
+        description:
+          error.response?.data?.message || "Something went wrong",
+      });
     }
   };
 
   return (
-    <div className="add-customer-container">
-      <div className="add-customer-overlay"></div>
+    <div className="add-customer-wrapper">
       <div className="add-customer-card">
-        <h1 className="add-customer-title">Add New Customer</h1>
+
+        <div className="add-customer-header">
+          <span className="add-customer-badge">CUSTOMER</span>
+          <h1>Add New Customer</h1>
+          <p>Register a new customer into the system</p>
+        </div>
+
         <form className="add-customer-form" onSubmit={handleSubmit}>
+
           <input
             type="text"
             name="customerName"
             placeholder="Customer Name"
             value={formData.customerName}
             onChange={handleChange}
-            required
           />
+
           <input
             type="text"
             name="customerContactNumber"
-            placeholder="Contact Number"
+            placeholder="Contact Number (10 digits)"
             value={formData.customerContactNumber}
             onChange={handleChange}
+            maxLength={10}
             required
           />
+
           <input
-            type="email"
+            type="text"
             name="customerEmail"
             placeholder="Customer Email"
             value={formData.customerEmail}
             onChange={handleChange}
             required
           />
+
           <button type="submit" className="add-customer-btn">
             Add Customer
           </button>
+
         </form>
       </div>
     </div>
