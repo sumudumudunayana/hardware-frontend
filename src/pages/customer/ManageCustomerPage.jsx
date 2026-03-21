@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { toast } from "sonner";
 import "../../css/customer/ManageCustomerPageStyles.css";
 
 export default function ManageCustomerPage() {
@@ -8,150 +9,156 @@ export default function ManageCustomerPage() {
   const [filtered, setFiltered] = useState([]);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+
   const [editData, setEditData] = useState({
     _id: "",
-    customerId: "",
     customerName: "",
     customerContactNumber: "",
     customerEmail: "",
   });
+
   const [deleteId, setDeleteId] = useState(null);
-  const [alert, setAlert] = useState({ show: false, type: "", message: "" });
+
+  useEffect(() => {
+    loadCustomers();
+  }, []);
+
   const loadCustomers = async () => {
     try {
       const res = await axios.get("http://localhost:5500/api/customers");
       setCustomers(res.data);
       setFiltered(res.data);
     } catch (err) {
-      console.error("Failed loading customers", err);
+      toast.error("Failed to load customers");
     }
   };
 
-  useEffect(() => {
-    loadCustomers();
-  }, []);
-
   const autoSearch = (text) => {
-    const keyword = text.toLowerCase();
-    if (keyword.trim() === "") {
-      setFiltered(customers);
-      return;
-    }
-    const result = customers.filter(
-      (c) =>
-        c.customerName.toLowerCase().includes(keyword) ||
-        c.customerId.toString() === keyword,
+    const key = text.toLowerCase();
+    if (!key.trim()) return setFiltered(customers);
+
+    setFiltered(
+      customers.filter(
+        (c) =>
+          c.customerName.toLowerCase().includes(key) ||
+          c.customerId.toString() === key
+      )
     );
-    setFiltered(result);
   };
 
   const openUpdateModal = (c) => {
-    setEditData({ ...c });
+    setEditData(c);
     setShowUpdateModal(true);
   };
 
-  const closeUpdateModal = () => setShowUpdateModal(false);
-
-  const handleUpdateChange = (e) => {
-    setEditData({ ...editData, [e.target.name]: e.target.value });
-  };
-
+  // VALIDATION + UPDATE
   const submitUpdate = async () => {
+    const { customerName, customerContactNumber, customerEmail } = editData;
+
+    // Name validation
+    if (!customerName.trim()) {
+      toast.error("Customer name is required");
+      return;
+    }
+
+    if (customerName.length < 3) {
+      toast.warning("Name too short", {
+        description: "Must be at least 3 characters",
+      });
+      return;
+    }
+
+    // Phone validation
+    if (!/^\d{10}$/.test(customerContactNumber)) {
+      toast.error("Invalid contact number", {
+        description: "Must be exactly 10 digits",
+      });
+      return;
+    }
+
+    // Email validation
+    if (!/^\S+@\S+\.\S+$/.test(customerEmail)) {
+      toast.error("Invalid email address");
+      return;
+    }
+
     try {
-      const res = await axios.put(
-        `http://localhost:5500/api/customers/${editData._id}`,
-        editData,
+      await toast.promise(
+        axios.put(
+          `http://localhost:5500/api/customers/${editData._id}`,
+          editData
+        ),
+        {
+          loading: "Updating customer...",
+          success: "Customer updated successfully!",
+          error: "Update failed!",
+        }
       );
-      if (![200, 202, 204].includes(res.status)) throw new Error();
+
       const updated = customers.map((c) =>
-        c._id === editData._id ? editData : c,
+        c._id === editData._id ? editData : c
       );
+
       setCustomers(updated);
       setFiltered(updated);
-      setAlert({
-        show: true,
-        type: "success",
-        message: "Customer updated successfully!",
-      });
       setShowUpdateModal(false);
-    } catch (err) {
-      setAlert({
-        show: true,
-        type: "error",
-        message: "Failed to update customer!",
-      });
-    }
-    setTimeout(() => setAlert({ show: false }), 2500);
+
+    } catch (err) {}
   };
 
-  const openDeleteModal = (id) => {
-    setDeleteId(id);
-    setShowDeleteModal(true);
-  };
-
-  const closeDeleteModal = () => setShowDeleteModal(false);
-
+  // ✅ DELETE WITH TOAST
   const confirmDelete = async () => {
     try {
-      const res = await axios.delete(
-        `http://localhost:5500/api/customers/${deleteId}`,
+      await toast.promise(
+        axios.delete(`http://localhost:5500/api/customers/${deleteId}`),
+        {
+          loading: "Deleting customer...",
+          success: "Customer deleted successfully!",
+          error: "Delete failed!",
+        }
       );
 
-      if (![200, 202, 204].includes(res.status)) throw new Error();
-
       const updated = customers.filter((c) => c._id !== deleteId);
-
       setCustomers(updated);
       setFiltered(updated);
-
-      setAlert({
-        show: true,
-        type: "success",
-        message: "Customer deleted successfully!",
-      });
-
       setShowDeleteModal(false);
-    } catch (err) {
-      setAlert({
-        show: true,
-        type: "error",
-        message: "Failed to delete customer!",
-      });
-    }
 
-    setTimeout(() => setAlert({ show: false }), 2500);
+    } catch (err) {}
   };
 
   return (
-    <div className="mc-bg">
-      <div className="mc-overlay"></div>
-      <div className="mc-container">
-        <h1 className="mc-title">Manage Customers</h1>
-        {alert.show && (
-          <div className={`alert-box ${alert.type}`}>{alert.message}</div>
-        )}
-        <div className="mc-search-box">
-          <input
-            type="text"
-            placeholder="Search by ID or Name..."
-            value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-              autoSearch(e.target.value);
-            }}
-          />
+    <div className="customer-page-wrapper">
+
+      <div className="customer-card">
+
+        <div className="customer-header">
+          <span className="customer-badge">CUSTOMERS</span>
+          <h1>Manage Customers</h1>
+          <p>View, update and manage customer records</p>
         </div>
-        <div className="mc-table-wrapper">
-          <table className="mc-table">
+
+        <input
+          className="customer-search"
+          placeholder="Search by ID or Name..."
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            autoSearch(e.target.value);
+          }}
+        />
+
+        <div className="table-wrapper">
+          <table className="customer-table">
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Customer Name</th>
+                <th>Name</th>
                 <th>Contact</th>
                 <th>Email</th>
                 <th>Action</th>
               </tr>
             </thead>
+
             <tbody>
               {filtered.length > 0 ? (
                 filtered.map((c) => (
@@ -160,16 +167,18 @@ export default function ManageCustomerPage() {
                     <td>{c.customerName}</td>
                     <td>{c.customerContactNumber}</td>
                     <td>{c.customerEmail}</td>
-                    <td className="mc-actions">
-                      <button
-                        className="update-btn"
-                        onClick={() => openUpdateModal(c)}
-                      >
+
+                    <td className="actions">
+                      <button onClick={() => openUpdateModal(c)}>
                         Update
                       </button>
+
                       <button
-                        className="delete-btn"
-                        onClick={() => openDeleteModal(c._id)}
+                        className="delete"
+                        onClick={() => {
+                          setDeleteId(c._id);
+                          setShowDeleteModal(true);
+                        }}
                       >
                         Delete
                       </button>
@@ -179,71 +188,88 @@ export default function ManageCustomerPage() {
               ) : (
                 <tr>
                   <td colSpan="5" className="no-results">
-                    No customers found.
+                    No customers found
                   </td>
                 </tr>
               )}
             </tbody>
           </table>
         </div>
+
       </div>
+
+      {/* UPDATE MODAL */}
       {showUpdateModal && (
         <div className="modal-bg">
           <div className="modal-box">
+
             <h2>Update Customer</h2>
-            <div className="form-group">
-              <label>Name</label>
-              <input
-                name="customerName"
-                value={editData.customerName}
-                onChange={handleUpdateChange}
-              />
-            </div>
-            <div className="form-group">
-              <label>Contact Number</label>
-              <input
-                type="text"
-                name="customerContactNumber"
-                value={editData.customerContactNumber}
-                onChange={handleUpdateChange}
-              />
-            </div>
-            <div className="form-group">
-              <label>Email</label>
-              <input
-                type="email"
-                name="customerEmail"
-                value={editData.customerEmail}
-                onChange={handleUpdateChange}
-              />
-            </div>
+
+            <input
+              name="customerName"
+              value={editData.customerName}
+              onChange={(e) =>
+                setEditData({ ...editData, customerName: e.target.value })
+              }
+            />
+
+            <input
+              name="customerContactNumber"
+              maxLength={10}
+              value={editData.customerContactNumber}
+              onChange={(e) => {
+                if (!/^\d*$/.test(e.target.value)) return;
+                setEditData({
+                  ...editData,
+                  customerContactNumber: e.target.value,
+                });
+              }}
+            />
+
+            <input
+              name="customerEmail"
+              value={editData.customerEmail}
+              onChange={(e) =>
+                setEditData({ ...editData, customerEmail: e.target.value })
+              }
+            />
+
             <div className="modal-actions">
-              <button className="cancel-btn" onClick={closeUpdateModal}>
+              <button onClick={() => setShowUpdateModal(false)}>
                 Cancel
               </button>
-              <button className="confirm-btn" onClick={submitUpdate}>
-                Update Customer
+
+              <button className="primary" onClick={submitUpdate}>
+                Update
               </button>
             </div>
+
           </div>
         </div>
       )}
+
+      {/* DELETE MODAL */}
       {showDeleteModal && (
         <div className="modal-bg">
           <div className="modal-box">
+
             <h2>Delete Customer</h2>
-            <p>Are you sure you want to delete customer ID {deleteId}?</p>
+            <p>Are you sure?</p>
+
             <div className="modal-actions">
-              <button className="cancel-btn" onClick={closeDeleteModal}>
+              <button onClick={() => setShowDeleteModal(false)}>
                 Cancel
               </button>
-              <button className="delete-confirm-btn" onClick={confirmDelete}>
+
+              <button className="danger" onClick={confirmDelete}>
                 Delete
               </button>
             </div>
+
           </div>
         </div>
       )}
+
     </div>
   );
 }
