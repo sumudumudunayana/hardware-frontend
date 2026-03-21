@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { toast } from "sonner";
 import "../../css/company/AddCompanyPageStyles.css";
 
 export default function AddCompanyPage() {
@@ -12,28 +13,81 @@ export default function AddCompanyPage() {
   });
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    // ✅ Only numbers for phone
+    if (name === "companyContactNumber") {
+      if (!/^\d*$/.test(value)) return;
+    }
+
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // PHONE VALIDATION (10 digits)
-    if (!/^\d{10}$/.test(formData.companyContactNumber)) {
-      alert("Phone number must be exactly 10 digits.");
+
+    const {
+      companyName,
+      companyDescription,
+      companyAddress,
+      companyContactNumber,
+      companyEmail,
+    } = formData;
+
+    // ✅ Name validation
+    if (!companyName.trim()) {
+      toast.error("Company name is required");
       return;
     }
-    // EMAIL VALIDATION
-    if (!/^\S+@\S+\.\S+$/.test(formData.companyEmail)) {
-      alert("Please enter a valid email address.");
+
+    if (companyName.length < 3) {
+      toast.warning("Name too short", {
+        description: "Must be at least 3 characters",
+      });
       return;
     }
+
+    // ✅ Description validation
+    if (!companyDescription.trim()) {
+      toast.error("Description is required");
+      return;
+    }
+
+    // ✅ Address validation
+    if (!companyAddress.trim()) {
+      toast.error("Address is required");
+      return;
+    }
+
+    // ✅ Phone validation
+    if (!/^\d{10}$/.test(companyContactNumber)) {
+      toast.error("Invalid contact number", {
+        description: "Must be exactly 10 digits",
+      });
+      return;
+    }
+
+    // ✅ Email validation
+    if (!/^\S+@\S+\.\S+$/.test(companyEmail)) {
+      toast.error("Invalid email address");
+      return;
+    }
+
     try {
       const payload = {
         ...formData,
-        companyContactNumber: Number(formData.companyContactNumber),
+        companyContactNumber: Number(companyContactNumber),
       };
-      await axios.post("http://localhost:5500/api/companies", payload);
-      alert("Company Added Successfully!");
+
+      await toast.promise(
+        axios.post("http://localhost:5500/api/companies", payload),
+        {
+          loading: "Adding company...",
+          success: "Company added successfully!",
+          error: "Failed to add company",
+        }
+      );
+
       setFormData({
         companyName: "",
         companyDescription: "",
@@ -41,60 +95,67 @@ export default function AddCompanyPage() {
         companyContactNumber: "",
         companyEmail: "",
       });
+
     } catch (error) {
-      console.error("Error adding company:", error);
-      alert("Failed to add company.");
+      toast.error("Error", {
+        description:
+          error.response?.data?.message || "Something went wrong",
+      });
     }
   };
 
   return (
-    <div className="add-company-container">
-      <div className="add-company-overlay"></div>
-      <div className="add-company-card">
-        <h1 className="add-company-title">Add New Company</h1>
-        <form className="add-company-form" onSubmit={handleSubmit}>
+    <div className="company-page-wrapper">
+      <div className="company-card">
+
+        <div className="company-header">
+          <span className="company-badge">COMPANY</span>
+          <h1>Add New Company</h1>
+          <p>Register a new company into the system</p>
+        </div>
+
+        <form className="company-form" onSubmit={handleSubmit}>
           <input
             type="text"
             name="companyName"
             placeholder="Company Name"
             value={formData.companyName}
             onChange={handleChange}
-            required
           />
+
           <textarea
             name="companyDescription"
             placeholder="Company Description"
             value={formData.companyDescription}
             onChange={handleChange}
-            required
-          ></textarea>
+          />
+
           <input
             type="text"
             name="companyAddress"
             placeholder="Company Address"
             value={formData.companyAddress}
             onChange={handleChange}
-            required
           />
+
           <input
-            type="number"
+            type="text"
             name="companyContactNumber"
-            placeholder="Contact Number"
+            placeholder="Contact Number (10 digits)"
             value={formData.companyContactNumber}
             onChange={handleChange}
-            required
+            maxLength={10}
           />
+
           <input
-            type="email"
+            type="text"
             name="companyEmail"
             placeholder="Company Email"
             value={formData.companyEmail}
             onChange={handleChange}
-            required
           />
-          <button type="submit" className="add-company-btn">
-            Add Company
-          </button>
+
+          <button type="submit">Add Company</button>
         </form>
       </div>
     </div>
