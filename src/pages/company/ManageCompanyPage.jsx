@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { toast } from "sonner";
 import "../../css/company/ManageCompanyPageStyles.css";
 
 export default function ManageCompanyPage() {
@@ -8,130 +9,135 @@ export default function ManageCompanyPage() {
   const [filtered, setFiltered] = useState([]);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+
   const [editData, setEditData] = useState({
     _id: "",
     companyName: "",
-    companyDescription: "",
     companyAddress: "",
     companyContactNumber: "",
-    companyEmail: "",
   });
 
   const [deleteId, setDeleteId] = useState(null);
-  const [alert, setAlert] = useState({ show: false, type: "", message: "" });
+
   const loadCompanies = async () => {
     try {
       const res = await axios.get("http://localhost:5500/api/companies");
       setCompanies(res.data);
       setFiltered(res.data);
-    } catch (err) {
-      console.error("Failed loading companies", err);
+    } catch {
+      toast.error("Failed to load companies");
     }
   };
+
   useEffect(() => {
     loadCompanies();
   }, []);
 
   const autoSearch = (text) => {
-    const keyword = text.toLowerCase();
-    if (keyword.trim() === "") {
-      setFiltered(companies);
-      return;
-    }
-    const result = companies.filter(
-      (c) =>
-        c.companyName.toLowerCase().includes(keyword) ||
-        c.companyId.toString() === keyword,
-    );
-    setFiltered(result);
-  };
+    const key = text.toLowerCase();
+    if (!key.trim()) return setFiltered(companies);
 
-  const openUpdateModal = (company) => {
-    setEditData({ ...company });
-    setShowUpdateModal(true);
+    setFiltered(
+      companies.filter(
+        (c) =>
+          c.companyName.toLowerCase().includes(key) ||
+          c.companyId.toString() === key
+      )
+    );
   };
 
   const closeUpdateModal = () => setShowUpdateModal(false);
+  const closeDeleteModal = () => setShowDeleteModal(false);
 
-  const handleUpdateChange = (e) => {
-    setEditData({ ...editData, [e.target.name]: e.target.value });
-  };
-
+  // ✅ UPDATE WITH VALIDATION
   const submitUpdate = async () => {
-    try {
-      const res = await axios.put(
+  const { companyName, companyAddress, companyContactNumber } = editData;
+
+  // Validation
+  if (!companyName?.trim()) {
+    toast.error("Company name is required");
+    return;
+  }
+
+  if (companyName.length < 3) {
+    toast.warning("Name too short");
+    return;
+  }
+
+  if (!companyAddress?.trim()) {
+    toast.error("Address is required");
+    return;
+  }
+
+  if (!/^\d{10}$/.test(companyContactNumber)) {
+    toast.error("Invalid contact number");
+    return;
+  }
+
+  try {
+    await toast.promise(
+      axios.put(
         `http://localhost:5500/api/companies/${editData._id}`,
         {
           ...editData,
-          companyContactNumber: Number(editData.companyContactNumber),
-        },
-      );
-      if (![200, 202, 204].includes(res.status)) throw new Error();
-      const updated = companies.map((c) =>
-        c._id === editData._id ? { ...c, ...editData } : c,
-      );
-      setCompanies(updated);
-      setFiltered(updated);
-      setAlert({
-        show: true,
-        type: "success",
-        message: "Company updated successfully!",
-      });
-      setShowUpdateModal(false);
-    } catch (err) {
-      setAlert({
-        show: true,
-        type: "error",
-        message: "Failed to update company.",
-      });
-    }
-    setTimeout(() => setAlert({ show: false }), 2500);
-  };
+          companyContactNumber: Number(companyContactNumber),
+        }
+      ),
+      {
+        loading: "Updating company...",
+        success: "Company updated successfully!",
+        error: "Update failed!",
+      }
+    );
 
-  const openDeleteModal = (id) => {
-    setDeleteId(id);
-    setShowDeleteModal(true);
-  };
+    // ✅ 🔥 IMPORTANT: Update state manually
+    const updatedList = companies.map((c) =>
+      c._id === editData._id ? { ...editData } : c
+    );
 
-  const closeDeleteModal = () => setShowDeleteModal(false);
+    setCompanies(updatedList);
+    setFiltered(updatedList);
 
+    setShowUpdateModal(false);
+
+  } catch (err) {}
+};
+
+  // ✅ DELETE WITH TOAST
   const confirmDelete = async () => {
-    try {
-      const res = axios.delete(
-        `http://localhost:5500/api/companies/${deleteId}`,
-      );
-      if (![200, 202, 204].includes(res.status)) throw new Error();
-      const updated = companies.filter((c) => c._id !== deleteId);
-      setCompanies(updated);
-      setFiltered(updated);
-      setAlert({
-        show: true,
-        type: "success",
-        message: "Company deleted successfully!",
-      });
-      setShowDeleteModal(false);
-    } catch (err) {
-      setAlert({
-        show: true,
-        type: "error",
-        message: "Failed to delete company.",
-      });
-    }
-    setTimeout(() => setAlert({ show: false }), 2500);
-  };
+  try {
+    await toast.promise(
+      axios.delete(`http://localhost:5500/api/companies/${deleteId}`),
+      {
+        loading: "Deleting company...",
+        success: "Company deleted successfully!",
+        error: "Delete failed!",
+      }
+    );
+
+    // ✅ Remove from state immediately
+    const updatedList = companies.filter((c) => c._id !== deleteId);
+
+    setCompanies(updatedList);
+    setFiltered(updatedList);
+
+    setShowDeleteModal(false);
+
+  } catch (err) {}
+};
 
   return (
-    <div className="manage-company-bg">
-      <div className="manage-company-overlay"></div>
-      <div className="manage-company-container">
-        <h1 className="manage-company-title">Manage Companies</h1>
-        {alert.show && (
-          <div className={`alert-box ${alert.type}`}>{alert.message}</div>
-        )}
-        <div className="search-box">
+    <div className="cmp-wrapper">
+      <div className="cmp-card">
+
+        {/* HEADER */}
+        <div className="cmp-header">
+          <span className="cmp-badge">COMPANY</span>
+          <h1>Manage Companies</h1>
+
           <input
-            type="text"
-            placeholder="Search by name or ID..."
+            className="cmp-search"
+            placeholder="Search..."
             value={search}
             onChange={(e) => {
               setSearch(e.target.value);
@@ -139,126 +145,122 @@ export default function ManageCompanyPage() {
             }}
           />
         </div>
-        <div className="table-wrapper">
-          <table className="company-table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Company</th>
-                <th>Description</th>
-                <th>Address</th>
-                <th>Contact</th>
-                <th>Email</th>
-                <th>Action</th>
+
+        {/* TABLE */}
+        <table className="cmp-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Address</th>
+              <th>Contact</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {filtered.map((c) => (
+              <tr key={c._id}>
+                <td>{c.companyId}</td>
+                <td>{c.companyName}</td>
+                <td>{c.companyAddress}</td>
+                <td>{c.companyContactNumber}</td>
+
+                <td className="cmp-actions">
+                  <button
+                    className="cmp-update"
+                    onClick={() => {
+                      setEditData(c);
+                      setShowUpdateModal(true);
+                    }}
+                  >
+                    Update
+                  </button>
+
+                  <button
+                    className="cmp-delete"
+                    onClick={() => {
+                      setDeleteId(c._id);
+                      setShowDeleteModal(true);
+                    }}
+                  >
+                    Delete
+                  </button>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {filtered.length > 0 ? (
-                filtered.map((company) => (
-                  <tr key={company._id}>
-                    <td>{company.companyId}</td>
-                    <td>{company.companyName}</td>
-                    <td>{company.companyDescription}</td>
-                    <td>{company.companyAddress}</td>
-                    <td>{company.companyContactNumber}</td>
-                    <td>{company.companyEmail}</td>
-                    <td className="action-buttons">
-                      <button
-                        className="update-btn"
-                        onClick={() => openUpdateModal(company)}
-                      >
-                        Update
-                      </button>
-                      <button
-                        className="delete-btn"
-                        onClick={() => openDeleteModal(company._id)}
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td className="no-results" colSpan="7">
-                    No companies found.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </table>
       </div>
+
+      {/* UPDATE MODAL */}
       {showUpdateModal && (
-        <div className="modal-bg">
-          <div className="modal-box">
+        <div className="cmp-modal-bg">
+          <div className="cmp-modal-box">
+
             <h2>Update Company</h2>
-            <div className="form-group">
-              <label>Name</label>
-              <input
-                name="companyName"
-                value={editData.companyName}
-                onChange={handleUpdateChange}
-              />
-            </div>
-            <div className="form-group">
-              <label>Description</label>
-              <input
-                name="companyDescription"
-                value={editData.companyDescription}
-                onChange={handleUpdateChange}
-              />
-            </div>
-            <div className="form-group">
-              <label>Address</label>
-              <input
-                name="companyAddress"
-                value={editData.companyAddress}
-                onChange={handleUpdateChange}
-              />
-            </div>
-            <div className="form-group">
-              <label>Contact Number</label>
-              <input
-                type="number"
-                name="companyContactNumber"
-                value={editData.companyContactNumber}
-                onChange={handleUpdateChange}
-              />
-            </div>
-            <div className="form-group">
-              <label>Email</label>
-              <input
-                type="email"
-                name="companyEmail"
-                value={editData.companyEmail}
-                onChange={handleUpdateChange}
-              />
-            </div>
-            <div className="modal-actions">
-              <button className="cancel-btn" onClick={closeUpdateModal}>
+
+            <input
+              value={editData.companyName}
+              onChange={(e) =>
+                setEditData({ ...editData, companyName: e.target.value })
+              }
+              placeholder="Company Name"
+            />
+
+            <input
+              value={editData.companyAddress}
+              onChange={(e) =>
+                setEditData({ ...editData, companyAddress: e.target.value })
+              }
+              placeholder="Address"
+            />
+
+            <input
+              maxLength={10}
+              value={editData.companyContactNumber}
+              onChange={(e) => {
+                if (!/^\d*$/.test(e.target.value)) return;
+                setEditData({
+                  ...editData,
+                  companyContactNumber: e.target.value,
+                });
+              }}
+              placeholder="Contact Number"
+            />
+
+            <div className="cmp-modal-actions">
+              <button className="cmp-btn-cancel" onClick={closeUpdateModal}>
                 Cancel
               </button>
-              <button className="confirm-btn" onClick={submitUpdate}>
-                Update Company
+
+              <button className="cmp-btn-primary" onClick={submitUpdate}>
+                Update
               </button>
             </div>
+
           </div>
         </div>
       )}
+
+      {/* DELETE MODAL */}
       {showDeleteModal && (
-        <div className="modal-bg">
-          <div className="modal-box">
+        <div className="cmp-modal-bg">
+          <div className="cmp-modal-box">
+
             <h2>Delete Company</h2>
-            <p>Are you sure you want to delete company ID {deleteId}?</p>
-            <div className="modal-actions">
-              <button className="cancel-btn" onClick={closeDeleteModal}>
+            <p>Are you sure you want to delete this company?</p>
+
+            <div className="cmp-modal-actions">
+              <button className="cmp-btn-cancel" onClick={closeDeleteModal}>
                 Cancel
               </button>
-              <button className="delete-confirm-btn" onClick={confirmDelete}>
+
+              <button className="cmp-btn-danger" onClick={confirmDelete}>
                 Delete
               </button>
             </div>
+
           </div>
         </div>
       )}
