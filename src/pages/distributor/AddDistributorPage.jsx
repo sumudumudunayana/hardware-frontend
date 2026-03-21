@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { toast } from "sonner";
 import "../../css/distributor/AddDistributorPageStyles.css";
 
 export default function AddDistributorPage() {
@@ -11,33 +12,73 @@ export default function AddDistributorPage() {
   });
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    // ✅ Allow only numbers for phone
+    if (name === "distributorContactNumber") {
+      if (!/^\d*$/.test(value)) return;
+    }
+
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // PHONE VALIDATION (10 digits)
-    if (!/^\d{10}$/.test(formData.distributorContactNumber)) {
-      alert("Contact number must be exactly 10 digits.");
+    const {
+      distributorName,
+      distributorDescription,
+      distributorContactNumber,
+      distributorEmail,
+    } = formData;
+
+    // ✅ Name validation
+    if (!distributorName.trim()) {
+      toast.error("Supplier name is required");
       return;
     }
 
-    // EMAIL VALIDATION
-    if (!/^\S+@\S+\.\S+$/.test(formData.distributorEmail)) {
-      alert("Please enter a valid email address.");
+    if (distributorName.length < 3) {
+      toast.warning("Name too short", {
+        description: "Must be at least 3 characters",
+      });
+      return;
+    }
+
+    // ✅ Description validation
+    if (!distributorDescription.trim()) {
+      toast.error("Description is required");
+      return;
+    }
+
+    // ✅ Phone validation
+    if (!/^\d{10}$/.test(distributorContactNumber)) {
+      toast.error("Invalid contact number", {
+        description: "Must be exactly 10 digits",
+      });
+      return;
+    }
+
+    // ✅ Email validation
+    if (!/^\S+@\S+\.\S+$/.test(distributorEmail)) {
+      toast.error("Invalid email address");
       return;
     }
 
     try {
       const payload = {
         ...formData,
-        distributorContactNumber: Number(formData.distributorContactNumber),
+        distributorContactNumber: Number(distributorContactNumber),
       };
 
-      await axios.post("http://localhost:5500/api/distributors", payload);
-
-      alert("Distributor Added Successfully!");
+      await toast.promise(
+        axios.post("http://localhost:5500/api/distributors", payload),
+        {
+          loading: "Adding supplier...",
+          success: "Supplier added successfully!",
+          error: "Failed to add supplier",
+        }
+      );
 
       setFormData({
         distributorName: "",
@@ -45,53 +86,62 @@ export default function AddDistributorPage() {
         distributorContactNumber: "",
         distributorEmail: "",
       });
+
     } catch (error) {
-      console.error("Error adding distributor:", error.response?.data);
-      alert("Failed to add distributor.");
+      toast.error("Error", {
+        description:
+          error.response?.data?.message || "Something went wrong",
+      });
     }
   };
 
   return (
-    <div className="add-distributor-container">
-      <div className="add-distributor-overlay"></div>
-      <div className="add-distributor-card">
-        <h1 className="add-distributor-title">Add New Supplier</h1>
-        <form className="add-distributor-form" onSubmit={handleSubmit}>
+    <div className="distributor-page-wrapper">
+      <div className="distributor-card">
+
+        <div className="distributor-header">
+          <span className="badge">SUPPLIER</span>
+          <h1>Add Supplier</h1>
+          <p>Register new supplier details into the system</p>
+        </div>
+
+        <form className="distributor-form" onSubmit={handleSubmit}>
+          
           <input
             type="text"
             name="distributorName"
             placeholder="Supplier Name"
             value={formData.distributorName}
             onChange={handleChange}
-            required
           />
+
           <textarea
             name="distributorDescription"
             placeholder="Supplier Description"
             value={formData.distributorDescription}
             onChange={handleChange}
-            required
-          ></textarea>
+          />
+
           <input
-            type="number"
+            type="text"
             name="distributorContactNumber"
-            placeholder="Contact Number"
+            placeholder="Contact Number (10 digits)"
             value={formData.distributorContactNumber}
             onChange={handleChange}
-            required
+            maxLength={10}
           />
+
           <input
-            type="email"
+            type="text"
             name="distributorEmail"
             placeholder="Supplier Email"
             value={formData.distributorEmail}
             onChange={handleChange}
-            required
           />
-          <button type="submit" className="add-distributor-btn">
-            Add Supplier
-          </button>
+
+          <button type="submit">Add Supplier</button>
         </form>
+
       </div>
     </div>
   );
