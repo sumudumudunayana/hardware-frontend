@@ -1,66 +1,107 @@
-.add-customer-container {
-  height: 100vh;
-  width: 100vw;
-  background: url("../../assets/hardware5.jpeg") center/cover no-repeat;
-  position: relative;
+/* Wrapper */
+.add-customer-wrapper {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: flex-start;
+  padding-top: 40px;
 }
 
-.add-customer-overlay {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  background: rgba(0, 0, 0, 0.65);
-}
-
+/* Card */
 .add-customer-card {
-  position: relative;
-  z-index: 2;
-  width: 800px;
-  padding: 35px 40px;
-  background: rgba(255, 255, 255, 0.07);
-  backdrop-filter: blur(12px);
-  border-radius: 15px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.35);
-  color: #fff;
+  width: 100%;
+  max-width: 600px;
+  padding: 30px;
+  border-radius: 26px;
+
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+
+  backdrop-filter: blur(18px);
+
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
 }
 
-.add-customer-title {
-  text-align: center;
-  font-size: 2.2rem;
-  margin-bottom: 25px;
-  font-weight: bold;
-  letter-spacing: 1px;
+/* Header */
+.add-customer-header {
+  margin-bottom: 20px;
 }
 
+.add-customer-badge {
+  display: inline-block;
+  margin-bottom: 10px;
+  padding: 6px 12px;
+  border-radius: 999px;
+
+  background: rgba(59, 130, 246, 0.12);
+  color: #1d4ed8;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.add-customer-header h1 {
+  font-size: 26px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.add-customer-header p {
+  color: #475569;
+  font-size: 14px;
+}
+
+/* Form */
+.add-customer-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Inputs */
 .add-customer-form input {
-  width: 100%;
   padding: 12px 14px;
-  margin-bottom: 18px;
-  border: none;
-  border-radius: 8px;
+  border-radius: 12px;
+
+  border: 1px solid rgba(148, 163, 184, 0.4);
+
+  background: rgba(255, 255, 255, 0.9);
+  color: #0f172a;
+
+  font-size: 14px;
   outline: none;
-  font-size: 1rem;
-  background: rgba(255, 255, 255, 0.15);
-  color: white;
+
+  transition: all 0.25s ease;
 }
 
+.add-customer-form input::placeholder {
+  color: #64748b;
+}
+
+/* Focus effect */
+.add-customer-form input:focus {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+}
+
+/* Button */
 .add-customer-btn {
-  width: 100%;
+  margin-top: 10px;
   padding: 14px;
-  background-color: #ffca28;
-  color: #000;
+
+  border-radius: 14px;
   border: none;
-  border-radius: 8px;
-  font-size: 1.1rem;
+
+  background: linear-gradient(135deg, #f59e0b, #fbbf24);
+  color: #0f172a;
+
+  font-weight: 700;
+  font-size: 15px;
+
   cursor: pointer;
-  font-weight: bold;
-  transition: 0.3s ease;
+  transition: all 0.25s ease;
 }
 
 .add-customer-btn:hover {
-  background-color: #ffc107;
-  transform: scale(1.03);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(245, 158, 11, 0.3);
 }
