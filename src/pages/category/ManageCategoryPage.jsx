@@ -17,208 +17,157 @@ export default function ManageCategoryPage() {
   const [deleteId, setDeleteId] = useState(null);
   const [alert, setAlert] = useState({ show: false, type: "", message: "" });
 
-  const loadCategories = async () => {
-    try {
-      const res = await axios.get("http://localhost:5500/api/categories");
-      setCategories(res.data);
-      setFiltered(res.data);
-    } catch (error) {
-      console.error("Failed to load categories", error);
-    }
-  };
   useEffect(() => {
     loadCategories();
   }, []);
 
+  const loadCategories = async () => {
+    const res = await axios.get("http://localhost:5500/api/categories");
+    setCategories(res.data);
+    setFiltered(res.data);
+  };
+
   const autoSearch = (text) => {
     const key = text.toLowerCase();
-    if (!key.trim()) {
-      setFiltered(categories);
-      return;
-    }
+    if (!key.trim()) return setFiltered(categories);
 
     const result = categories.filter(
       (c) =>
-        c.categoryName.toLowerCase().includes(key) || c._id.toString() === key,
+        c.categoryName.toLowerCase().includes(key) ||
+        c._id.toString() === key
     );
     setFiltered(result);
   };
 
-  const openUpdateModal = (category) => {
-    setEditData({ ...category });
+  const openUpdateModal = (cat) => {
+    setEditData(cat);
     setShowUpdateModal(true);
   };
 
-  const closeUpdateModal = () => setShowUpdateModal(false);
-
-  const handleUpdateChange = (e) => {
-    setEditData({ ...editData, [e.target.name]: e.target.value });
-  };
-
   const submitUpdate = async () => {
-    try {
-      const res = await axios.put(
-        `http://localhost:5500/api/categories/${editData._id}`,
-        editData,
-      );
-      if (![200, 202, 204].includes(res.status)) throw new Error();
-      const updated = categories.map((c) =>
-        c._id === editData._id ? editData : c,
-      );
-      setCategories(updated);
-      setFiltered(updated);
-      setAlert({
-        show: true,
-        type: "success",
-        message: "Category updated successfully!",
-      });
-      setShowUpdateModal(false);
-    } catch (err) {
-      setAlert({
-        show: true,
-        type: "error",
-        message: "Failed to update category!",
-      });
-    }
-    setTimeout(() => setAlert({ show: false }), 2500);
+    await axios.put(
+      `http://localhost:5500/api/categories/${editData._id}`,
+      editData
+    );
+    loadCategories();
+    setShowUpdateModal(false);
   };
-
-  const openDeleteModal = (id) => {
-    setDeleteId(id);
-    setShowDeleteModal(true);
-  };
-
-  const closeDeleteModal = () => setShowDeleteModal(false);
 
   const confirmDelete = async () => {
-    try {
-      const res = await axios.delete(
-        `http://localhost:5500/api/categories/${deleteId}`
-      );
-      if (![200, 202, 204].includes(res.status)) throw new Error();
-      const updated = categories.filter((c) => c._id !== deleteId);
-      setCategories(updated);
-      setFiltered(updated);
-      setAlert({
-        show: true,
-        type: "success",
-        message: "Category deleted successfully!",
-      });
-      setShowDeleteModal(false);
-    } catch (err) {
-      setAlert({
-        show: true,
-        type: "error",
-        message: "Failed to delete category!",
-      });
-    }
-    setTimeout(() => setAlert({ show: false }), 2500);
+    await axios.delete(
+      `http://localhost:5500/api/categories/${deleteId}`
+    );
+    loadCategories();
+    setShowDeleteModal(false);
   };
 
   return (
-    <div className="manage-category-bg">
-      <div className="manage-category-overlay"></div>
-      <div className="manage-category-container">
-        <h1 className="manage-category-title">Manage Categories</h1>
-        {alert.show && (
-          <div className={`alert-box ${alert.type}`}>{alert.message}</div>
-        )}
-        <div className="search-box">
-          <input
-            type="text"
-            placeholder="Search by ID or Category Name..."
-            value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-              autoSearch(e.target.value);
-            }}
-          />
+    <div className="category-page-wrapper">
+      <div className="category-card">
+
+        <div className="category-header">
+          <span className="category-badge">CATEGORY MODULE</span>
+          <h1>Manage Categories</h1>
+          <p>Edit or remove category records</p>
         </div>
+
+        <input
+          className="category-search"
+          placeholder="Search category..."
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            autoSearch(e.target.value);
+          }}
+        />
+
         <div className="table-wrapper">
           <table className="category-table">
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Category</th>
+                <th>Name</th>
                 <th>Description</th>
-                <th>Action</th>
+                <th>Actions</th>
               </tr>
             </thead>
+
             <tbody>
-              {filtered.length > 0 ? (
-                filtered.map((cat) => (
-                  <tr key={cat._id}>
-                    <td>{cat.categoryId}</td>
-                    <td>{cat.categoryName}</td>
-                    <td>{cat.categoryDescription}</td>
-                    <td className="action-buttons">
-                      <button
-                        className="update-btn"
-                        onClick={() => openUpdateModal(cat)}
-                      >
-                        Update
-                      </button>
-                      <button
-                        className="delete-btn"
-                        onClick={() => openDeleteModal(cat._id)}
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="4" className="no-results">
-                    No categories found.
+              {filtered.map((cat) => (
+                <tr key={cat._id}>
+                  <td>{cat.categoryId}</td>
+                  <td>{cat.categoryName}</td>
+                  <td>{cat.categoryDescription}</td>
+                  <td className="actions">
+                    <button onClick={() => openUpdateModal(cat)}>
+                      Edit
+                    </button>
+                    <button
+                      className="delete"
+                      onClick={() => {
+                        setDeleteId(cat._id);
+                        setShowDeleteModal(true);
+                      }}
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
-              )}
+              ))}
             </tbody>
           </table>
         </div>
       </div>
+
+      {/* UPDATE MODAL */}
       {showUpdateModal && (
         <div className="modal-bg">
           <div className="modal-box">
-            <h2>Update Category</h2>
-            <div className="form-group">
-              <label>Name</label>
-              <input
-                name="categoryName"
-                value={editData.categoryName}
-                onChange={handleUpdateChange}
-              />
-            </div>
-            <div className="form-group">
-              <label>Description</label>
-              <input
-                name="categoryDescription"
-                value={editData.categoryDescription}
-                onChange={handleUpdateChange}
-              />
-            </div>
+
+            <h2>Edit Category</h2>
+
+            <input
+              value={editData.categoryName}
+              onChange={(e) =>
+                setEditData({ ...editData, categoryName: e.target.value })
+              }
+            />
+
+            <textarea
+              value={editData.categoryDescription}
+              onChange={(e) =>
+                setEditData({
+                  ...editData,
+                  categoryDescription: e.target.value,
+                })
+              }
+            />
+
             <div className="modal-actions">
-              <button className="cancel-btn" onClick={closeUpdateModal}>
+              <button onClick={() => setShowUpdateModal(false)}>
                 Cancel
               </button>
-              <button className="confirm-btn" onClick={submitUpdate}>
-                Update Category
+              <button className="primary" onClick={submitUpdate}>
+                Save
               </button>
             </div>
+
           </div>
         </div>
       )}
+
+      {/* DELETE MODAL */}
       {showDeleteModal && (
         <div className="modal-bg">
           <div className="modal-box">
             <h2>Delete Category</h2>
-            <p>Are you sure you want to delete category ID {deleteId}?</p>
+            <p>Are you sure?</p>
+
             <div className="modal-actions">
-              <button className="cancel-btn" onClick={closeDeleteModal}>
+              <button onClick={() => setShowDeleteModal(false)}>
                 Cancel
               </button>
-              <button className="delete-confirm-btn" onClick={confirmDelete}>
+              <button className="danger" onClick={confirmDelete}>
                 Delete
               </button>
             </div>
