@@ -1,174 +1,229 @@
-.md-bg {
-  height: 100vh;
-  width: 100vw;
-  background: url("../../assets/hardware5.jpeg") center/cover no-repeat;
+/* WRAPPER */
+.distributor-page-wrapper {
   display: flex;
   justify-content: center;
-  align-items: center;
-  position: relative;
 }
 
-.md-overlay {
-  position: absolute;
-  height: 100%;
+/* CARD */
+.distributor-card {
   width: 100%;
-  background: rgba(0, 0, 0, 0.65);
+  padding: 28px;
+  border-radius: 26px;
+
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+
+  backdrop-filter: blur(18px);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
 }
 
-.md-container {
-  position: relative;
-  z-index: 2;
-  width: 1100px;
-  padding: 35px;
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(12px);
-  border-radius: 18px;
-  color: white;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.35);
+/* HEADER */
+.header {
+  margin-bottom: 15px;
 }
 
-.md-title {
-  text-align: center;
-  font-size: 2.2rem;
-  margin-bottom: 25px;
-  font-weight: bold;
-  color: #ffffff;
+.header h1 {
+  color: #0f172a;
+  font-size: 26px;
+  font-weight: 800;
 }
 
-.md-search-box input {
+.header p {
+  color: #475569;
+}
+
+/* BADGE */
+.badge {
+  padding: 6px 12px;
+  background: rgba(59, 130, 246, 0.12);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #1d4ed8;
+}
+
+/* SEARCH */
+.search {
   width: 100%;
   padding: 12px;
-  border-radius: 8px;
-  border: none;
-  background: rgba(255, 255, 255, 0.15);
-  color: white;
-  margin-bottom: 20px;
+  margin: 15px 0;
+
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+
+  background: white;
+  color: #0f172a;
+  outline: none;
 }
 
-.md-table-wrapper {
-  max-height: 380px;
-  overflow-y: auto;
+.search:focus {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
 }
 
-.md-table {
+/* TABLE */
+.table {
   width: 100%;
   border-collapse: collapse;
-  background: rgba(0, 0, 0, 0.25);
 }
 
-.md-table th,
-.md-table td {
-  padding: 12px 10px;
-  color: white;
+.table th {
+  background: rgba(241, 245, 249, 0.8);
+  padding: 12px;
+  text-align: left;
+  color: #475569;
 }
 
-.md-table th {
-  background: rgba(255, 255, 255, 0.15);
-  color: #ffca28;
+.table td {
+  padding: 12px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+  color: #0f172a;
 }
 
-.md-actions {
-  display: flex;
-  gap: 10px;
+.table tr:hover {
+  background: rgba(245, 158, 11, 0.08);
 }
 
-.update-btn {
-  background: #4da3ff;
-  padding: 8px 14px;
-  border-radius: 6px;
+/* ACTION BUTTONS */
+.actions button {
+  padding: 6px 12px;
+  margin-right: 6px;
+  border-radius: 8px;
   border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.actions button:hover {
+  transform: translateY(-1px);
+}
+
+/* UPDATE BUTTON */
+.actions button:not(.delete) {
+  background: #3b82f6;
   color: white;
 }
 
-.delete-btn {
-  background: #e63946;
-  padding: 8px 14px;
-  border-radius: 6px;
-  border: none;
+/* DELETE BUTTON */
+.actions .delete {
+  background: #ef4444;
   color: white;
 }
 
+/* MODAL BACKGROUND */
 .modal-bg {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.65);
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(6px);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 9999;
 }
 
-.modal-box {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(15px);
-  width: 420px;
-  padding: 30px;
-  border-radius: 14px;
-  color: white;
+/* MODAL BOX */
+.modal-box.light {
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  width: 380px;
+
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.2);
 }
 
+/* MODAL TITLE */
+.modal-box h2 {
+  text-align: center;
+  margin-bottom: 15px;
+  color: #0f172a;
+}
+
+/* 🔥 FORCE FIX (HIGH PRIORITY) */
+.modal-box.light input,
+.modal-box.light textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+
+  background: #ffffff !important;   /* 🔥 FORCE WHITE */
+  color: #0f172a !important;        /* 🔥 FORCE DARK TEXT */
+
+  outline: none;
+  font-size: 14px;
+}
+
+/* Placeholder fix */
+.modal-box.light input::placeholder,
+.modal-box.light textarea::placeholder {
+  color: #64748b !important;
+}
+
+/* TEXTAREA */
+.modal-box textarea {
+  resize: none;
+  min-height: 70px;
+}
+
+/* FOCUS */
+.modal-box input:focus,
+.modal-box textarea:focus {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+}
+
+/* MODAL ACTIONS */
 .modal-actions {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 15px;
 }
 
-.cancel-btn {
-  background: #777;
-  padding: 10px 18px;
-  border-radius: 8px;
+/* BUTTONS */
+.modal-actions button {
+  padding: 8px 16px;
+  border-radius: 10px;
   border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* PRIMARY */
+.primary {
+  background: #f59e0b;
   color: white;
 }
 
-.confirm-btn {
-  background: #4da3ff;
-  padding: 10px 18px;
-  border-radius: 8px;
-  border: none;
+/* DANGER */
+.danger {
+  background: #ef4444;
   color: white;
 }
 
-.delete-confirm-btn {
-  background: #e63946;
-  padding: 10px 18px;
-  border-radius: 8px;
-  border: none;
-  color: white;
+/* CANCEL */
+.modal-actions button:not(.primary):not(.danger) {
+  background: #e5e7eb;
+  color: #111;
 }
 
-/* Modal form styling */
-.form-group {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 15px;
-}
-
-.form-group label {
-  margin-bottom: 6px;
-  font-size: 14px;
-  color: #ffca28;
-}
-
-.form-group input,
-.form-group textarea {
+/* ALERT */
+.alert {
   padding: 10px;
-  border-radius: 8px;
-  border: none;
-  outline: none;
-  background: rgba(255, 255, 255, 0.15);
-  color: white;
-  font-size: 14px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  font-weight: 600;
 }
 
-/* Textarea specific */
-.form-group textarea {
-  min-height: 60px;
-  resize: none;
+.alert.success {
+  background: #dcfce7;
+  color: #166534;
 }
 
-/* focus effect */
-.form-group input:focus,
-.form-group textarea:focus {
-  background: rgba(255, 255, 255, 0.25);
+.alert.error {
+  background: #fee2e2;
+  color: #991b1b;
 }
