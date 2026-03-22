@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { toast } from "sonner";
 import "../../css/distributor/ManageDistributorPageStyles.css";
 
 export default function ManageDistributorPage() {
@@ -8,245 +9,270 @@ export default function ManageDistributorPage() {
   const [filtered, setFiltered] = useState([]);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [editData, setEditData] = useState({
-    _id: "",
-    distributorName: "",
-    distributorDescription: "",
-    distributorContactNumber: "",
-    distributorEmail: "",
-  });
-
+  const [editData, setEditData] = useState({});
   const [deleteId, setDeleteId] = useState(null);
-  const [alert, setAlert] = useState({ show: false, type: "", message: "" });
+
+  useEffect(() => {
+    loadDistributors();
+  }, []);
+
   const loadDistributors = async () => {
     try {
       const res = await axios.get("http://localhost:5500/api/distributors");
       setDistributors(res.data);
       setFiltered(res.data);
     } catch (err) {
-      console.error("Failed loading distributors", err);
+      toast.error("Failed to load suppliers");
     }
   };
-  useEffect(() => {
-    loadDistributors();
-  }, []);
+
   const autoSearch = (text) => {
-    const keyword = text.toLowerCase();
-    if (keyword.trim() === "") {
-      setFiltered(distributors);
+    const key = text.toLowerCase();
+    if (!key.trim()) return setFiltered(distributors);
+
+    setFiltered(
+      distributors.filter(
+        (d) =>
+          d.distributorName.toLowerCase().includes(key) ||
+          d.distributorId?.toString() === key
+      )
+    );
+  };
+
+  // ✅ VALIDATION + UPDATE
+  const submitUpdate = async () => {
+    const {
+      distributorName,
+      distributorDescription,
+      distributorContactNumber,
+      distributorEmail,
+    } = editData;
+
+    // Name validation
+    if (!distributorName?.trim()) {
+      toast.error("Supplier name is required");
       return;
     }
-    const result = distributors.filter(
-      (d) =>
-        d.distributorName.toLowerCase().includes(keyword) ||
-        d.distributorId.toString() === keyword,
-    );
-    setFiltered(result);
-  };
 
-  const openUpdateModal = (d) => {
-    setEditData({ ...d });
-    setShowUpdateModal(true);
-  };
-
-  const closeUpdateModal = () => setShowUpdateModal(false);
-
-  const handleUpdateChange = (e) => {
-    setEditData({ ...editData, [e.target.name]: e.target.value });
-  };
-
-  const submitUpdate = async () => {
-    try {
-      const res = await axios.put(
-        `http://localhost:5500/api/distributors/${editData._id}`,
-        {
-          ...editData,
-          distributorContactNumber: Number(editData.distributorContactNumber),
-        },
-      );
-      if (![200, 202, 204].includes(res.status)) throw new Error();
-      const updated = distributors.map((d) =>
-        d._id === editData._id ? editData : d,
-      );
-      setDistributors(updated);
-      setFiltered(updated);
-      setAlert({
-        show: true,
-        type: "success",
-        message: "Distributor updated successfully!",
+    if (distributorName.length < 3) {
+      toast.warning("Name too short", {
+        description: "Must be at least 3 characters",
       });
-      setShowUpdateModal(false);
-    } catch (err) {
-      setAlert({
-        show: true,
-        type: "error",
-        message: "Failed to update distributor!",
-      });
+      return;
     }
-    setTimeout(() => setAlert({ show: false }), 2500);
+
+    // Description validation
+    if (!distributorDescription?.trim()) {
+      toast.error("Description is required");
+      return;
+    }
+
+    // Phone validation
+    if (!/^\d{10}$/.test(distributorContactNumber)) {
+      toast.error("Invalid contact number", {
+        description: "Must be exactly 10 digits",
+      });
+      return;
+    }
+
+    // Email validation
+    if (!/^\S+@\S+\.\S+$/.test(distributorEmail)) {
+      toast.error("Invalid email address");
+      return;
+    }
+
+    try {
+      await toast.promise(
+        axios.put(
+          `http://localhost:5500/api/distributors/${editData._id}`,
+          {
+            ...editData,
+            distributorContactNumber: Number(distributorContactNumber),
+          }
+        ),
+        {
+          loading: "Updating supplier...",
+          success: "Supplier updated successfully!",
+          error: "Update failed!",
+        }
+      );
+
+      setShowUpdateModal(false);
+      loadDistributors();
+
+    } catch (err) {}
   };
 
-  const openDeleteModal = (id) => {
-    setDeleteId(id);
-    setShowDeleteModal(true);
-  };
-
-  const closeDeleteModal = () => setShowDeleteModal(false);
-
+  // ✅ DELETE WITH TOAST
   const confirmDelete = async () => {
     try {
-      const res = axios.delete(
-        `http://localhost:5500/api/distributors/${deleteId}`,
+      await toast.promise(
+        axios.delete(`http://localhost:5500/api/distributors/${deleteId}`),
+        {
+          loading: "Deleting supplier...",
+          success: "Supplier deleted successfully!",
+          error: "Delete failed!",
+        }
       );
-      if (![200, 202, 204].includes(res.status)) throw new Error();
-      const updated = distributors.filter((d) => d._id !== deleteId);
-      setDistributors(updated);
-      setFiltered(updated);
-      setAlert({
-        show: true,
-        type: "success",
-        message: "Distributor deleted successfully!",
-      });
+
       setShowDeleteModal(false);
-    } catch (err) {
-      setAlert({
-        show: true,
-        type: "error",
-        message: "Failed to delete distributor!",
-      });
-    }
-    setTimeout(() => setAlert({ show: false }), 2500);
+      loadDistributors();
+
+    } catch (err) {}
   };
 
   return (
-    <div className="md-bg">
-      <div className="md-overlay"></div>
-      <div className="md-container">
-        <h1 className="md-title">Manage suppliers</h1>
-        {alert.show && (
-          <div className={`alert-box ${alert.type}`}>{alert.message}</div>
-        )}
-        <div className="md-search-box">
-          <input
-            type="text"
-            placeholder="Search by ID or Name..."
-            value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-              autoSearch(e.target.value);
-            }}
-          />
+    <div className="distributor-page-wrapper">
+      <div className="distributor-card">
+
+        <div className="header">
+          <span className="badge">SUPPLIERS</span>
+          <h1>Manage Suppliers</h1>
+          <p>View, update and delete supplier records</p>
         </div>
-        <div className="md-table-wrapper">
-          <table className="md-table">
+
+        <input
+          className="search"
+          placeholder="Search by ID or Name..."
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            autoSearch(e.target.value);
+          }}
+        />
+
+        <div className="table-wrapper">
+          <table className="table">
             <thead>
               <tr>
                 <th>ID</th>
-                <th>supplier</th>
+                <th>Supplier</th>
                 <th>Description</th>
                 <th>Contact</th>
                 <th>Email</th>
                 <th>Action</th>
               </tr>
             </thead>
+
             <tbody>
-              {filtered.length > 0 ? (
-                filtered.map((d) => (
-                  <tr key={d._id}>
-                    <td>{d.distributorId}</td>
-                    <td>{d.distributorName}</td>
-                    <td>{d.distributorDescription}</td>
-                    <td>{d.distributorContactNumber}</td>
-                    <td>{d.distributorEmail}</td>
-                    <td className="md-actions">
-                      <button
-                        className="update-btn"
-                        onClick={() => openUpdateModal(d)}
-                      >
-                        Update
-                      </button>
-                      <button
-                        className="delete-btn"
-                        onClick={() => openDeleteModal(d._id)}
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="6" className="no-results">
-                    No suppliers found.
+              {filtered.map((d) => (
+                <tr key={d._id}>
+                  <td>{d.distributorId}</td>
+                  <td>{d.distributorName}</td>
+                  <td>{d.distributorDescription}</td>
+                  <td>{d.distributorContactNumber}</td>
+                  <td>{d.distributorEmail}</td>
+
+                  <td className="actions">
+                    <button
+                      onClick={() => {
+                        setEditData(d);
+                        setShowUpdateModal(true);
+                      }}
+                    >
+                      Update
+                    </button>
+
+                    <button
+                      className="delete"
+                      onClick={() => {
+                        setDeleteId(d._id);
+                        setShowDeleteModal(true);
+                      }}
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
-              )}
+              ))}
             </tbody>
           </table>
         </div>
+
       </div>
+
+      {/* UPDATE MODAL */}
       {showUpdateModal && (
         <div className="modal-bg">
-          <div className="modal-box">
-            <h2>Update supplier</h2>
-            <div className="form-group">
-              <label>Name</label>
-              <input
-                name="distributorName"
-                value={editData.distributorName}
-                onChange={handleUpdateChange}
-              />
-            </div>
-            <div className="form-group">
-              <label>Description</label>
-              <textarea
-                name="distributorDescription"
-                value={editData.distributorDescription}
-                onChange={handleUpdateChange}
-              />
-            </div>
-            <div className="form-group">
-              <label>Contact Number</label>
-              <input
-                type="number"
-                name="distributorContactNumber"
-                value={editData.distributorContactNumber}
-                onChange={handleUpdateChange}
-              />
-            </div>
-            <div className="form-group">
-              <label>Email</label>
-              <input
-                type="email"
-                name="distributorEmail"
-                value={editData.distributorEmail}
-                onChange={handleUpdateChange}
-              />
-            </div>
+          <div className="modal-box light">
+
+            <h2>Update Supplier</h2>
+
+            <input
+              name="distributorName"
+              value={editData.distributorName}
+              onChange={(e) =>
+                setEditData({ ...editData, distributorName: e.target.value })
+              }
+            />
+
+            <textarea
+              name="distributorDescription"
+              value={editData.distributorDescription}
+              onChange={(e) =>
+                setEditData({
+                  ...editData,
+                  distributorDescription: e.target.value,
+                })
+              }
+            />
+
+            <input
+              name="distributorContactNumber"
+              maxLength={10}
+              value={editData.distributorContactNumber}
+              onChange={(e) => {
+                if (!/^\d*$/.test(e.target.value)) return;
+                setEditData({
+                  ...editData,
+                  distributorContactNumber: e.target.value,
+                });
+              }}
+            />
+
+            <input
+              name="distributorEmail"
+              value={editData.distributorEmail}
+              onChange={(e) =>
+                setEditData({
+                  ...editData,
+                  distributorEmail: e.target.value,
+                })
+              }
+            />
+
             <div className="modal-actions">
-              <button className="cancel-btn" onClick={closeUpdateModal}>
+              <button onClick={() => setShowUpdateModal(false)}>
                 Cancel
               </button>
-              <button className="confirm-btn" onClick={submitUpdate}>
-                Update Supplier
+
+              <button className="primary" onClick={submitUpdate}>
+                Update
               </button>
             </div>
+
           </div>
         </div>
       )}
+
+      {/* DELETE MODAL */}
       {showDeleteModal && (
         <div className="modal-bg">
-          <div className="modal-box">
+          <div className="modal-box light">
+
             <h2>Delete Supplier</h2>
-            <p>Are you sure you want to delete supplier ID {deleteId}?</p>
+            <p>Are you sure?</p>
+
             <div className="modal-actions">
-              <button className="cancel-btn" onClick={closeDeleteModal}>
+              <button onClick={() => setShowDeleteModal(false)}>
                 Cancel
               </button>
-              <button className="delete-confirm-btn" onClick={confirmDelete}>
+
+              <button className="danger" onClick={confirmDelete}>
                 Delete
               </button>
             </div>
+
           </div>
         </div>
       )}
