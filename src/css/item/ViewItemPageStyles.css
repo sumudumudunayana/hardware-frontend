@@ -1,90 +1,139 @@
-.view-container {
-  height: 100vh;
-  width: 100vw;
-  background: url("../../assets/hardware5.jpeg") center/cover no-repeat;
+/* Wrapper */
+.view-page-wrapper {
+  height: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
-  position: relative;
+  align-items: flex-start;
 }
 
-.view-overlay {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  background: rgba(0, 0, 0, 0.65);
-}
-
+/* Card */
 .view-card {
-  position: relative;
-  z-index: 2;
-  width: 1000px;
-  padding: 35px;
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(12px);
-  border-radius: 18px;
-  color: white;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.35);
-}
-
-.view-title {
-  text-align: center;
-  font-size: 2.2rem;
-  margin-bottom: 25px;
-  font-weight: bold;
-  color: #ffffff;
-}
-
-.search-bar {
   width: 100%;
-  padding: 12px;
+  height: 100%;
+  padding: 28px;
+  border-radius: 26px;
+
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+
+  backdrop-filter: blur(18px);
+
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
+}
+
+/* Header */
+.view-header {
   margin-bottom: 20px;
-  border-radius: 8px;
-  border: none;
+}
+
+.view-badge {
+  display: inline-block;
+  margin-bottom: 10px;
+  padding: 6px 12px;
+  border-radius: 999px;
+
+  background: rgba(59, 130, 246, 0.12);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+
+  color: #1d4ed8;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.3px;
+}
+
+.view-header h1 {
+  font-size: 28px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.view-header p {
+  color: #475569;
+  font-size: 14px;
+}
+
+/* Search */
+.view-search {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 20px;
+
+  border-radius: 12px;
+  border: 1px solid rgba(100, 116, 139, 0.4);
+
+  background: rgba(255, 255, 255, 0.95);
+  color: #0f172a;
+
   outline: none;
-  font-size: 1rem;
-  background: rgba(255, 255, 255, 0.15);
-  color: #fff;
+  transition: 0.25s;
 }
 
-.search-bar::placeholder {
-  color: #dddddd;
+.view-search:focus {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
 }
 
+/* Table wrapper */
 .table-wrapper {
-  max-height: 400px;
+  max-height: 420px;
   overflow-y: auto;
+  border-radius: 16px;
+
+  border: 1px solid rgba(148, 163, 184, 0.3);
 }
 
+/* Table */
 .item-table {
   width: 100%;
   border-collapse: collapse;
-  background: rgba(0, 0, 0, 0.25);
 }
 
-.item-table th,
-.item-table td {
-  padding: 12px 10px;
-  text-align: left;
-}
-
+/* Header */
 .item-table th {
-  background: rgba(255, 255, 255, 0.15);
-  color: #ffca28;
-  font-size: 1.1rem;
+  text-align: left;
+  padding: 14px;
+  font-size: 14px;
+  color: #334155;
+  font-weight: 700;
+
+  background: rgba(241, 245, 249, 0.95);
+
+  border-bottom: 2px solid rgba(148, 163, 184, 0.4);
 }
 
-.item-table tr:nth-child(even) {
-  background: rgba(255, 255, 255, 0.08);
+/* Cells */
+.item-table td {
+  padding: 14px;
+  font-size: 14px;
+  color: #0f172a;
+
+  border-bottom: 1px solid rgba(148, 163, 184, 0.3);
 }
 
+/* Column separation (NEW 🔥) */
+.item-table th:not(:last-child),
+.item-table td:not(:last-child) {
+  border-right: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+/* Row hover */
 .item-table tr:hover {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(245, 158, 11, 0.08);
 }
 
+/* Zebra rows */
+.item-table tr:nth-child(even) {
+  background: rgba(248, 250, 252, 0.7);
+}
+
+/* Remove last row border */
+.item-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Empty state */
 .no-items {
   text-align: center;
   padding: 20px;
-  font-size: 1.1rem;
-  color: #ddd;
+  color: #64748b;
 }
