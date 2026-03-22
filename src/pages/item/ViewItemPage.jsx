@@ -5,16 +5,17 @@ import "../../css/item/ViewItemPageStyles.css";
 export default function ViewItemPage() {
   const [items, setItems] = useState([]);
   const [search, setSearch] = useState("");
-  const loadItems = async () => {
-    try {
-      const res = await axios.get("http://localhost:5500/api/items");
-      setItems(res.data);
-    } catch (error) {
-      console.error("Error loading items:", error);
-    }
-  };
 
   useEffect(() => {
+    const loadItems = async () => {
+      try {
+        const res = await axios.get("http://localhost:5500/api/items");
+        setItems(res.data);
+      } catch (error) {
+        console.error("Error loading items:", error);
+      }
+    };
+
     loadItems();
   }, []);
 
@@ -27,30 +28,39 @@ export default function ViewItemPage() {
   });
 
   return (
-    <div className="view-container">
-      <div className="view-overlay"></div>
+    <div className="view-page-wrapper">
+
       <div className="view-card">
-        <h1 className="view-title">View Items</h1>
+
+        <div className="view-header">
+          <span className="view-badge">PRODUCT INVENTORY</span>
+          <h1>View Items</h1>
+          <p>Browse and search all available inventory items</p>
+        </div>
+
         <input
           type="text"
-          className="search-bar"
+          className="view-search"
           placeholder="Search by ID or Name..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
+
         <div className="table-wrapper">
           <table className="item-table">
+
             <thead>
               <tr>
                 <th>ID</th>
                 <th>Item</th>
                 <th>Category</th>
-                <th>Selling Price</th>
-                <th>Cost Price</th>
+                <th>Selling</th>
+                <th>Cost</th>
                 <th>Company</th>
-                <th>Distributor</th>
+                <th>Supplier</th>
               </tr>
             </thead>
+
             <tbody>
               {filteredItems.length > 0 ? (
                 filteredItems.map((item) => (
@@ -67,13 +77,15 @@ export default function ViewItemPage() {
               ) : (
                 <tr>
                   <td colSpan="7" className="no-items">
-                    No items found.
+                    No items found
                   </td>
                 </tr>
               )}
             </tbody>
+
           </table>
         </div>
+
       </div>
     </div>
   );
