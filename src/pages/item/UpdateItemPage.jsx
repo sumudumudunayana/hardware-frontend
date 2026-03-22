@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { toast } from "sonner";
 import "../../css/item/UpdateItemPageStyles.css";
 
 export default function UpdateItemPage() {
@@ -9,300 +10,279 @@ export default function UpdateItemPage() {
   const [categories, setCategories] = useState([]);
   const [companies, setCompanies] = useState([]);
   const [distributors, setDistributors] = useState([]);
+
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [editData, setEditData] = useState({
-    _id: "",
-    itemName: "",
-    itemCategory: "",
-    itemSellingPrice: "",
-    itemCostPrice: "",
-    itemCompany: "",
-    itemDistributor: "",
-  });
-  const [deleteId, setDeleteId] = useState(null);
-  const [alert, setAlert] = useState({ show: false, type: "", message: "" });
-  const loadDropdownData = async () => {
-    try {
-      const [catRes, comRes, distRes] = await Promise.all([
-        axios.get("http://localhost:5500/api/categories"),
-        axios.get("http://localhost:5500/api/companies"),
-        axios.get("http://localhost:5500/api/distributors"),
-      ]);
-      setCategories(catRes.data);
-      setCompanies(comRes.data);
-      setDistributors(distRes.data);
-    } catch (error) {
-      console.error("Failed to load dropdown data", error);
-    }
-  };
 
-  const loadItems = async () => {
-    try {
-      const res = await axios.get("http://localhost:5500/api/items");
-      setItems(res.data);
-      setFiltered(res.data);
-    } catch (err) {
-      console.error("Failed loading items", err);
-    }
-  };
+  const [editData, setEditData] = useState({});
+  const [deleteId, setDeleteId] = useState(null);
 
   useEffect(() => {
     loadItems();
     loadDropdownData();
   }, []);
 
+  const loadItems = async () => {
+    const res = await axios.get("http://localhost:5500/api/items");
+    setItems(res.data);
+    setFiltered(res.data);
+  };
+
+  const loadDropdownData = async () => {
+    const [cat, com, dist] = await Promise.all([
+      axios.get("http://localhost:5500/api/categories"),
+      axios.get("http://localhost:5500/api/companies"),
+      axios.get("http://localhost:5500/api/distributors"),
+    ]);
+    setCategories(cat.data);
+    setCompanies(com.data);
+    setDistributors(dist.data);
+  };
+
   const autoSearch = (text) => {
-    const keyword = text.toLowerCase();
-    if (keyword.trim() === "") return setFiltered(items);
-    const result = items.filter(
-      (i) =>
-        i.itemName.toLowerCase().includes(keyword) ||
-        i.itemId.toString() === keyword,
+    const key = text.toLowerCase();
+    setFiltered(
+      key
+        ? items.filter(
+            (i) =>
+              i.itemName.toLowerCase().includes(key) ||
+              i.itemId.toString() === key
+          )
+        : items
     );
-    setFiltered(result);
   };
 
-  const openUpdateModal = (item) => {
-    setEditData({ ...item });
-    setShowUpdateModal(true);
-  };
-
-  const closeUpdateModal = () => setShowUpdateModal(false);
-
-  const handleUpdateChange = (e) => {
-    setEditData({ ...editData, [e.target.name]: e.target.value });
-  };
-
+  // ✅ UPDATE WITH VALIDATION
   const submitUpdate = async () => {
-    try {
-      const res = await axios.put(
-        `http://localhost:5500/api/items/${editData._id}`,
-        {
-          ...editData,
-          itemSellingPrice: Number(editData.itemSellingPrice),
-          itemCostPrice: Number(editData.itemCostPrice),
-        },
-      );
-      if (![200, 202, 204].includes(res.status)) throw new Error();
-      const updated = items.map((item) =>
-        item._id === editData._id ? editData : item,
-      );
-      setItems(updated);
-      setFiltered(updated);
-      setAlert({
-        show: true,
-        type: "success",
-        message: "Item updated successfully!",
-      });
-      setShowUpdateModal(false);
-    } catch {
-      setAlert({
-        show: true,
-        type: "error",
-        message: "Failed to update item!",
-      });
+    const cost = Number(editData.itemCostPrice);
+    const selling = Number(editData.itemSellingPrice);
+
+    // Validation
+    if (!editData.itemName || !editData.itemName.trim()) {
+      toast.error("Item name is required");
+      return;
     }
-    setTimeout(() => setAlert({ show: false }), 2500);
+
+    if (cost < 0 || selling < 0) {
+      toast.error("Invalid price", {
+        description: "Prices cannot be negative",
+      });
+      return;
+    }
+
+    if (selling < cost) {
+      toast.warning("Check pricing", {
+        description: "Selling price should be higher than cost price",
+      });
+      return;
+    }
+
+    try {
+      await toast.promise(
+        axios.put(`http://localhost:5500/api/items/${editData._id}`, {
+          ...editData,
+          itemSellingPrice: selling,
+          itemCostPrice: cost,
+        }),
+        {
+          loading: "Updating item...",
+          success: "Item updated successfully!",
+          error: "Update failed!",
+        }
+      );
+
+      loadItems();
+      setShowUpdateModal(false);
+    } catch (err) {
+      // handled by toast.promise
+    }
   };
 
-  const openDeleteModal = (id) => {
-    setDeleteId(id);
-    setShowDeleteModal(true);
-  };
-
-  const closeDeleteModal = () => setShowDeleteModal(false);
-
+  // ✅ DELETE WITH TOAST
   const confirmDelete = async () => {
     try {
-      const res = axios.delete(`http://localhost:5500/api/items/${deleteId}`);
-      if (![200, 202, 204].includes(res.status)) throw new Error();
-      const updated = items.filter((item) => item._id !== deleteId);
-      setItems(updated);
-      setFiltered(updated);
-      setAlert({
-        show: true,
-        type: "success",
-        message: "Item deleted successfully!",
-      });
+      await toast.promise(
+        axios.delete(`http://localhost:5500/api/items/${deleteId}`),
+        {
+          loading: "Deleting item...",
+          success: "Item deleted successfully!",
+          error: "Delete failed!",
+        }
+      );
+
+      loadItems();
       setShowDeleteModal(false);
-    } catch {
-      setAlert({
-        show: true,
-        type: "error",
-        message: "Failed to delete item!",
-      });
-    }
-    setTimeout(() => setAlert({ show: false }), 2500);
+    } catch (err) {}
   };
 
   return (
-    <div className="update-item-bg">
-      <div className="update-item-overlay"></div>
-      <div className="update-item-container">
-        <h1 className="update-item-title">Update Items</h1>
-        {alert.show && (
-          <div className={`alert-box ${alert.type}`}>{alert.message}</div>
-        )}
-        <div className="search-box">
-          <input
-            type="text"
-            placeholder="Search by ID or Name..."
-            value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-              autoSearch(e.target.value);
-            }}
-          />
+    <div className="update-wrapper">
+      <div className="update-card">
+        <div className="update-header">
+          <span className="update-badge">PRODUCT MANAGEMENT</span>
+          <h1>Update Items</h1>
+          <p>Edit or remove inventory items</p>
         </div>
+
+        <input
+          className="update-search"
+          placeholder="Search by ID or Name..."
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            autoSearch(e.target.value);
+          }}
+        />
+
         <div className="table-wrapper">
-          <table className="update-item-table">
+          <table className="update-table">
             <thead>
               <tr>
                 <th>ID</th>
                 <th>Item</th>
                 <th>Category</th>
-                <th>Selling Price</th>
-                <th>Cost Price</th>
+                <th>Selling</th>
+                <th>Cost</th>
                 <th>Company</th>
-                <th>Distributor</th>
+                <th>Supplier</th>
                 <th>Action</th>
               </tr>
             </thead>
+
             <tbody>
-              {filtered.length > 0 ? (
-                filtered.map((item) => (
-                  <tr key={item._id}>
-                    <td>{item.itemId}</td>
-                    <td>{item.itemName}</td>
-                    <td>{item.itemCategory}</td>
-                    <td>{item.itemSellingPrice}</td>
-                    <td>{item.itemCostPrice}</td>
-                    <td>{item.itemCompany}</td>
-                    <td>{item.itemDistributor}</td>
-                    <td className="action-buttons">
-                      <button
-                        className="update-btn"
-                        onClick={() => openUpdateModal(item)}
-                      >
-                        Update
-                      </button>
-                      <button
-                        className="delete-btn"
-                        onClick={() => openDeleteModal(item._id)}
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td className="no-results" colSpan="8">
-                    No items found.
+              {filtered.map((item) => (
+                <tr key={item._id}>
+                  <td>{item.itemId}</td>
+                  <td>{item.itemName}</td>
+                  <td>{item.itemCategory}</td>
+                  <td>{item.itemSellingPrice}</td>
+                  <td>{item.itemCostPrice}</td>
+                  <td>{item.itemCompany}</td>
+                  <td>{item.itemDistributor}</td>
+                  <td className="action-buttons">
+                    <button
+                      className="btn-update"
+                      onClick={() => {
+                        setEditData(item);
+                        setShowUpdateModal(true);
+                      }}
+                    >
+                      Edit
+                    </button>
+
+                    <button
+                      className="btn-delete"
+                      onClick={() => {
+                        setDeleteId(item._id);
+                        setShowDeleteModal(true);
+                      }}
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
-              )}
+              ))}
             </tbody>
           </table>
         </div>
       </div>
+
+      {/* ✅ Update Modal */}
       {showUpdateModal && (
         <div className="modal-bg">
           <div className="modal-box">
-            <h2>Update Item</h2>
-            <div className="form-group">
-              <label>Name</label>
+            <div className="modal-header">
+              <h2>Edit Item</h2>
+              <p>Update item details below</p>
+            </div>
+
+            <div className="modal-form">
               <input
                 name="itemName"
+                placeholder="Item Name"
                 value={editData.itemName}
-                onChange={handleUpdateChange}
+                onChange={(e) =>
+                  setEditData({ ...editData, itemName: e.target.value })
+                }
               />
-            </div>
-            <div className="form-group">
-              <label>Category</label>
+
               <select
-                name="itemCategory"
                 value={editData.itemCategory}
-                onChange={handleUpdateChange}
+                onChange={(e) =>
+                  setEditData({ ...editData, itemCategory: e.target.value })
+                }
               >
                 <option value="">Select Category</option>
-                {categories.map((cat) => (
-                  <option key={cat._id} value={cat.categoryName}>
-                    {cat.categoryName}
-                  </option>
+                {categories.map((c) => (
+                  <option key={c._id}>{c.categoryName}</option>
                 ))}
               </select>
-            </div>
-            <div className="form-group">
-              <label>Company</label>
-              <select
-                name="itemCompany"
-                value={editData.itemCompany}
-                onChange={handleUpdateChange}
-              >
-                <option value="">Select Company</option>
-                {companies.map((com) => (
-                  <option key={com._id} value={com.companyName}>
-                    {com.companyName}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="form-group">
-              <label>Distributor</label>
-              <select
-                name="itemDistributor"
-                value={editData.itemDistributor}
-                onChange={handleUpdateChange}
-              >
-                <option value="">Select Distributor</option>
-                {distributors.map((dist) => (
-                  <option key={dist._id} value={dist.distributorName}>
-                    {dist.distributorName}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="form-group">
-              <label>Selling Price</label>
+
               <input
                 type="number"
-                name="itemSellingPrice"
+                min="0"
+                placeholder="Selling Price"
                 value={editData.itemSellingPrice}
-                onChange={handleUpdateChange}
+                onChange={(e) =>
+                  setEditData({
+                    ...editData,
+                    itemSellingPrice: e.target.value,
+                  })
+                }
               />
-            </div>
-            <div className="form-group">
-              <label>Cost Price</label>
+
               <input
                 type="number"
-                name="itemCostPrice"
+                min="0"
+                placeholder="Cost Price"
                 value={editData.itemCostPrice}
-                onChange={handleUpdateChange}
+                onChange={(e) =>
+                  setEditData({
+                    ...editData,
+                    itemCostPrice: e.target.value,
+                  })
+                }
               />
             </div>
+
             <div className="modal-actions">
-              <button className="cancel-btn" onClick={closeUpdateModal}>
+              <button
+                className="btn-secondary"
+                onClick={() => setShowUpdateModal(false)}
+              >
                 Cancel
               </button>
-              <button className="confirm-btn" onClick={submitUpdate}>
-                Update Item
+
+              <button className="btn-primary" onClick={submitUpdate}>
+                Save Changes
               </button>
             </div>
           </div>
         </div>
       )}
+
+      {/* ✅ Delete Modal */}
       {showDeleteModal && (
         <div className="modal-bg">
-          <div className="modal-box">
-            <h2>Delete Item</h2>
-            <p>Are you sure you want to delete item ID {deleteId}?</p>
+          <div className="modal-box delete-modal">
+            <div className="modal-header">
+              <h2>Delete Item</h2>
+              <p>This action cannot be undone</p>
+            </div>
+
+            <div className="modal-delete-text">
+              Are you sure you want to delete this item?
+            </div>
+
             <div className="modal-actions">
-              <button className="cancel-btn" onClick={closeDeleteModal}>
+              <button
+                className="btn-secondary"
+                onClick={() => setShowDeleteModal(false)}
+              >
                 Cancel
               </button>
-              <button className="delete-confirm-btn" onClick={confirmDelete}>
+
+              <button className="btn-danger" onClick={confirmDelete}>
                 Delete
               </button>
             </div>
