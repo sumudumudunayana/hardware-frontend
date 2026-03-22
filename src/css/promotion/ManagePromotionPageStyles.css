@@ -1,166 +1,165 @@
-.mp-bg {
-  height: 100vh;
-  width: 100vw;
-  background: url("../../assets/hardware5.jpeg") center/cover no-repeat;
+/* WRAPPER */
+.prmm-wrapper {
   display: flex;
   justify-content: center;
-  align-items: center;
-  position: relative;
 }
 
-.mp-overlay {
-  position: absolute;
-  height: 100%;
+/* CARD */
+.prmm-card {
   width: 100%;
-  background: rgba(0, 0, 0, 0.65);
+  padding: 30px;
+  border-radius: 24px;
+
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(18px);
 }
 
-.mp-container {
-  position: relative;
-  z-index: 2;
-  width: 1100px;
-  padding: 35px;
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(12px);
-  border-radius: 18px;
-  color: white;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.35);
-}
-
-.mp-title {
-  text-align: center;
-  font-size: 2.2rem;
-  margin-bottom: 25px;
-  font-weight: bold;
-  color: #ffffff;
-}
-
-.mp-search-box input {
-  width: 100%;
-  padding: 12px;
-  border-radius: 8px;
-  border: none;
-  background: rgba(255, 255, 255, 0.15);
-  color: white;
+/* HEADER */
+.prmm-header {
   margin-bottom: 20px;
 }
 
-.mp-table-wrapper {
-  max-height: 380px;
-  overflow-y: auto;
+.prmm-badge {
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(59,130,246,0.12);
+  color: #2563eb;
+  font-size: 11px;
+  font-weight: 700;
 }
 
-.mp-table {
+.prmm-header h1 {
+  font-size: 26px;
+  font-weight: 800;
+  margin: 5px 0;
+}
+
+.prmm-header p {
+  color: #64748b;
+}
+
+/* ALERT */
+.prmm-alert {
+  background: #dcfce7;
+  color: #166534;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+/* SEARCH */
+.prmm-search {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+
+  border-radius: 12px;
+  border: 1px solid rgba(148,163,184,0.3);
+}
+
+/* TABLE */
+.prmm-table {
   width: 100%;
   border-collapse: collapse;
-  background: rgba(0, 0, 0, 0.25);
 }
 
-.mp-table th,
-.mp-table td {
-  padding: 12px 10px;
+.prmm-table th,
+.prmm-table td {
+  padding: 14px;
+}
+
+.prmm-table tr:hover {
+  background: rgba(245,158,11,0.08);
+}
+
+/* STATUS */
+.prmm-status {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+.prmm-status.active {
+  background: #22c55e;
   color: white;
 }
 
-.mp-table th {
-  background: rgba(255, 255, 255, 0.15);
-  color: #ffca28;
+.prmm-status.inactive {
+  background: #ef4444;
+  color: white;
 }
 
-.mp-actions {
+/* ACTIONS */
+.prmm-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.prmm-update {
+  background: #3b82f6;
+  color: white;
+  border-radius: 999px;
+  padding: 6px 12px;
+}
+
+.prmm-delete {
+  background: #ef4444;
+  color: white;
+  border-radius: 999px;
+  padding: 6px 12px;
+}
+
+/* MODAL */
+.prmm-modal-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(15,23,42,0.35);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.prmm-modal-box {
+  width: 380px;
+  padding: 24px;
+  border-radius: 16px;
+  background: white;
+}
+
+.prmm-modal-box input,
+.prmm-modal-box select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+/* BUTTONS */
+.prmm-modal-actions {
   display: flex;
   gap: 10px;
 }
 
-.update-btn {
-  background: #4da3ff;
-  padding: 8px 14px;
-  border-radius: 6px;
-  border: none;
-  color: white;
-}
-
-.delete-btn {
-  background: #e63946;
-  padding: 8px 14px;
-  border-radius: 6px;
-  border: none;
-  color: white;
-}
-
-/* ===== MODAL STYLING ===== */
-
-.modal-bg {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.65);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-.modal-box {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(15px);
-  width: 450px;
-  padding: 30px;
-  border-radius: 14px;
-  color: white;
-}
-
-.modal-box h2 {
-  margin-bottom: 20px;
-  text-align: center;
-  color: #4da3ff;
-}
-
-.modal-box input,
-.modal-box select {
-  width: 100%;
+.prmm-btn-cancel {
+  flex: 1;
+  background: #e2e8f0;
   padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 8px;
-  border: none;
-  background: rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+}
+
+.prmm-btn-primary {
+  flex: 1;
+  background: #f59e0b;
   color: white;
+  padding: 10px;
+  border-radius: 10px;
 }
 
-.modal-actions {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-
-.cancel-btn {
-  background: #777;
-  padding: 10px 18px;
-  border-radius: 8px;
-  border: none;
+.prmm-btn-danger {
+  flex: 1;
+  background: #ef4444;
   color: white;
-  cursor: pointer;
-}
-
-.confirm-btn {
-  background: #4da3ff;
-  padding: 10px 18px;
-  border-radius: 8px;
-  border: none;
-  color: white;
-  cursor: pointer;
-}
-
-.delete-confirm-btn {
-  background: #e63946;
-  padding: 10px 18px;
-  border-radius: 8px;
-  border: none;
-  color: white;
-  cursor: pointer;
-}
-
-.cancel-btn:hover,
-.confirm-btn:hover,
-.delete-confirm-btn:hover {
-  opacity: 0.85;
+  padding: 10px;
+  border-radius: 10px;
 }
