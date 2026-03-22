@@ -5,10 +5,17 @@ import "../../css/item/ProductModuleLayoutStyles.css";
 export default function ProductModuleLayout() {
   const navigate = useNavigate();
 
+  const getLinkClass = ({ isActive }) =>
+    isActive
+      ? "product-module-nav-link product-module-nav-link-active"
+      : "product-module-nav-link";
+
   return (
     <div className="product-module-shell">
+      
       {/* Sidebar */}
       <aside className="product-module-sidebar">
+
         <div className="product-module-sidebar-top">
           <button
             className="product-module-back-btn"
@@ -22,54 +29,46 @@ export default function ProductModuleLayout() {
         </div>
 
         <nav className="product-module-nav">
-          <NavLink
-            to="/products"
-            end
-            className={({ isActive }) =>
-              isActive
-                ? "product-module-nav-link product-module-nav-link-active"
-                : "product-module-nav-link"
-            }
-          >
+
+          {/* Overview */}
+          <NavLink to="/products" end className={getLinkClass}>
             Overview
           </NavLink>
 
-          <NavLink
-            to="/products/add-item"
-            className={({ isActive }) =>
-              isActive
-                ? "product-module-nav-link product-module-nav-link-active"
-                : "product-module-nav-link"
-            }
-          >
+          {/* Product Section */}
+          <span className="product-module-section-title">
+            Product Management
+          </span>
+
+          <NavLink to="/products/add-item" className={getLinkClass}>
             Add Item
           </NavLink>
 
-          <NavLink
-            to="/products/view-items"
-            className={({ isActive }) =>
-              isActive
-                ? "product-module-nav-link product-module-nav-link-active"
-                : "product-module-nav-link"
-            }
-          >
+          <NavLink to="/products/view-items" className={getLinkClass}>
             View Items
           </NavLink>
 
-          <NavLink
-            to="/products/update-item"
-            className={({ isActive }) =>
-              isActive
-                ? "product-module-nav-link product-module-nav-link-active"
-                : "product-module-nav-link"
-            }
-          >
+          <NavLink to="/products/update-item" className={getLinkClass}>
             Update Item
           </NavLink>
+
+          {/* Category Section */}
+          <span className="product-module-section-title">
+            Category Management
+          </span>
+
+          <NavLink to="/products/add-category" className={getLinkClass}>
+            Add Category
+          </NavLink>
+
+          <NavLink to="/products/manage-category" className={getLinkClass}>
+            Manage Category
+          </NavLink>
+
         </nav>
       </aside>
 
-      {/* Content Area */}
+      {/* Content */}
       <main className="product-module-content">
         <Outlet />
       </main>
