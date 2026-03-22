@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { toast } from "sonner";
 import "../../css/item/AddItemPageStyles.css";
 
 export default function AddItemPage() {
@@ -18,23 +19,22 @@ export default function AddItemPage() {
   const [companies, setCompanies] = useState([]);
   const [distributors, setDistributors] = useState([]);
 
-  const loadDropdownData = async () => {
-    try {
-      const [catRes, comRes, distRes] = await Promise.all([
-        axios.get("http://localhost:5500/api/categories"),
-        axios.get("http://localhost:5500/api/companies"),
-        axios.get("http://localhost:5500/api/distributors"),
-      ]);
-      setCategories(catRes.data);
-      setCompanies(comRes.data);
-      setDistributors(distRes.data);
-    } catch (error) {
-      console.error("Error loading dropdown data:", error);
-      alert("Failed to load dropdown data!");
-    }
-  };
-
   useEffect(() => {
+    const loadDropdownData = async () => {
+      try {
+        const [catRes, comRes, distRes] = await Promise.all([
+          axios.get("http://localhost:5500/api/categories"),
+          axios.get("http://localhost:5500/api/companies"),
+          axios.get("http://localhost:5500/api/distributors"),
+        ]);
+        setCategories(catRes.data);
+        setCompanies(comRes.data);
+        setDistributors(distRes.data);
+      } catch (error) {
+        console.error("Error loading dropdown data:", error);
+      }
+    };
+
     loadDropdownData();
   }, []);
 
@@ -43,42 +43,71 @@ export default function AddItemPage() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
-      const payload = {
-        ...formData,
-        itemCostPrice: Number(formData.itemCostPrice),
-        itemSellingPrice: Number(formData.itemSellingPrice),
-        itemLabeledPrice: Number(formData.itemLabeledPrice),
-      };
+  const cost = Number(formData.itemCostPrice);
+  const selling = Number(formData.itemSellingPrice);
+  const labeled = Number(formData.itemLabeledPrice);
 
-      await axios.post("http://localhost:5500/api/items", payload);
+  if (cost < 0 || selling < 0 || labeled < 0) {
+    toast.error("Prices cannot be negative");
+    return;
+  }
 
-      alert("Item Added Successfully!");
+  if (selling < cost) {
+    toast.warning("Selling price should be higher than cost price");
+    return;
+  }
 
-      setFormData({
-        itemName: "",
-        itemDescription: "",
-        itemCategory: "",
-        itemCostPrice: "",
-        itemSellingPrice: "",
-        itemLabeledPrice: "",
-        itemCompany: "",
-        itemDistributor: "",
-      });
-    } catch (error) {
-      console.error("Error adding item:", error.response?.data);
-      alert(error.response?.data?.message || "Failed to add item.");
-    }
-  };
+  if (!formData.itemName.trim()) {
+    toast.error("Item name is required");
+    return;
+  }
+
+  try {
+    const payload = {
+      ...formData,
+      itemCostPrice: cost,
+      itemSellingPrice: selling,
+      itemLabeledPrice: labeled,
+    };
+
+    await axios.post("http://localhost:5500/api/items", payload);
+
+    toast.success("Item added successfully!", {
+      description: "Product saved to inventory",
+    });
+
+    setFormData({
+      itemName: "",
+      itemDescription: "",
+      itemCategory: "",
+      itemCostPrice: "",
+      itemSellingPrice: "",
+      itemLabeledPrice: "",
+      itemCompany: "",
+      itemDistributor: "",
+    });
+
+  } catch (error) {
+    toast.error("Failed to add item", {
+      description: "Please try again",
+    });
+  }
+};
 
   return (
-    <div className="add-item-container">
-      <div className="add-item-overlay"></div>
+    <div className="add-item-wrapper">
       <div className="add-item-card">
-        <h1 className="add-item-title">Add New Item</h1>
+
+        <div className="add-item-header">
+          <span className="add-item-badge">PRODUCT MANAGEMENT</span>
+          <h1>Add New Item</h1>
+          <p>Register a new hardware product into inventory</p>
+        </div>
+
         <form className="add-item-form" onSubmit={handleSubmit}>
+
           <div className="form-row">
             <input
               type="text"
@@ -88,6 +117,7 @@ export default function AddItemPage() {
               onChange={handleChange}
               required
             />
+
             <select
               name="itemCategory"
               value={formData.itemCategory}
@@ -102,6 +132,7 @@ export default function AddItemPage() {
               ))}
             </select>
           </div>
+
           <textarea
             name="itemDescription"
             placeholder="Item Description"
@@ -109,6 +140,7 @@ export default function AddItemPage() {
             onChange={handleChange}
             required
           />
+
           <div className="form-row">
             <input
               type="number"
@@ -118,6 +150,7 @@ export default function AddItemPage() {
               onChange={handleChange}
               required
             />
+
             <input
               type="number"
               name="itemSellingPrice"
@@ -127,13 +160,16 @@ export default function AddItemPage() {
               required
             />
           </div>
-            <input
-              type="number"
-              name="itemLabeledPrice"
-              placeholder="Labeled Price"
-              value={formData.itemLabeledPrice}
-              onChange={handleChange}
-            />
+
+          <input
+            type="number"
+            name="itemLabeledPrice"
+            placeholder="Labeled Price"
+            value={formData.itemLabeledPrice}
+            onChange={handleChange}
+            required
+          />
+
           <div className="form-row">
             <select
               name="itemCompany"
@@ -147,6 +183,7 @@ export default function AddItemPage() {
                 </option>
               ))}
             </select>
+
             <select
               name="itemDistributor"
               value={formData.itemDistributor}
@@ -160,9 +197,11 @@ export default function AddItemPage() {
               ))}
             </select>
           </div>
+
           <button type="submit" className="add-item-btn">
             Add Item
           </button>
+
         </form>
       </div>
     </div>
