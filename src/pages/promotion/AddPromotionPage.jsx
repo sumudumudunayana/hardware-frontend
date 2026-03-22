@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { toast } from "sonner";
 import "../../css/promotion/AddPromotionPageStyles.css";
 
 export default function AddPromotionPage() {
+
   const [formData, setFormData] = useState({
     promotionName: "",
     promotionDescription: "",
@@ -22,29 +24,120 @@ export default function AddPromotionPage() {
       try {
         const res = await axios.get("http://localhost:5500/api/items");
         setItems(res.data);
-      } catch (err) {
-        console.error("Failed loading items", err);
+      } catch {
+        toast.error("Failed to load items");
       }
     };
     loadItems();
   }, []);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    // ✅ Prevent negative discount
+    if (name === "discountValue" && Number(value) < 0) return;
+
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const {
+      promotionName,
+      promotionDescription,
+      discountType,
+      discountValue,
+      startDate,
+      endDate,
+      applyTo,
+      itemId,
+    } = formData;
+
+    const discount = Number(discountValue);
+
+    // ✅ Name validation
+    if (!promotionName.trim()) {
+      toast.error("Promotion name is required");
+      return;
+    }
+
+    if (promotionName.length < 3) {
+      toast.warning("Name too short", {
+        description: "Must be at least 3 characters",
+      });
+      return;
+    }
+
+    // ✅ Description validation
+    if (!promotionDescription.trim()) {
+      toast.error("Description is required");
+      return;
+    }
+
+    // ✅ Discount validation
+    if (discountValue === "") {
+      toast.error("Discount value is required");
+      return;
+    }
+
+    if (discount < 0) {
+      toast.error("Discount cannot be negative");
+      return;
+    }
+
+    // Percentage specific
+    if (discountType === "percentage" && discount > 100) {
+      toast.error("Invalid discount", {
+        description: "Percentage cannot exceed 100%",
+      });
+      return;
+    }
+
+    // Fixed amount
+    if (discountType === "fixed" && discount === 0) {
+      toast.warning("Zero discount", {
+        description: "This promotion has no effect",
+      });
+    }
+
+    // ✅ Date validation
+    if (!startDate || !endDate) {
+      toast.error("Please select start and end dates");
+      return;
+    }
+
+    if (endDate < startDate) {
+      toast.error("Invalid date range", {
+        description: "End date must be after start date",
+      });
+      return;
+    }
+
+    // Optional: prevent past start date
+    const today = new Date().toISOString().split("T")[0];
+    if (startDate < today) {
+      toast.warning("Start date is in the past");
+    }
+
+    // ✅ Apply to specific item validation
+    if (applyTo === "specific" && !itemId) {
+      toast.error("Please select an item");
+      return;
+    }
+
     try {
-      const payload = {
-        ...formData,
-        discountValue: Number(formData.discountValue),
-      };
-
-      await axios.post("http://localhost:5500/api/promotions", payload);
-
-      alert("Promotion created successfully!");
+      await toast.promise(
+        axios.post("http://localhost:5500/api/promotions", {
+          ...formData,
+          discountValue: discount,
+        }),
+        {
+          loading: "Creating promotion...",
+          success: "Promotion created successfully!",
+          error: "Failed to create promotion",
+        }
+      );
 
       setFormData({
         promotionName: "",
@@ -57,27 +150,29 @@ export default function AddPromotionPage() {
         itemId: "",
         status: "active",
       });
-    } catch (error) {
-      console.error("Error creating promotion:", error.response?.data);
-      alert("Failed to create promotion.");
-    }
+
+    } catch (err) {}
   };
 
   return (
-    <div className="add-promo-container">
-      <div className="add-promo-overlay"></div>
+    <div className="prm-wrapper">
 
-      <div className="add-promo-card">
-        <h1 className="add-promo-title">Add New Promotion</h1>
+      <div className="prm-card">
 
-        <form className="add-promo-form" onSubmit={handleSubmit}>
+        {/* HEADER */}
+        <div className="prm-header">
+          <span className="prm-badge">PROMOTION</span>
+          <h1>Add Promotion</h1>
+          <p>Create discounts and offers</p>
+        </div>
+
+        <form className="prm-form" onSubmit={handleSubmit}>
+
           <input
-            type="text"
             name="promotionName"
             placeholder="Promotion Name"
             value={formData.promotionName}
             onChange={handleChange}
-            required
           />
 
           <textarea
@@ -85,10 +180,9 @@ export default function AddPromotionPage() {
             placeholder="Promotion Description"
             value={formData.promotionDescription}
             onChange={handleChange}
-            required
           />
 
-          <div className="form-row">
+          <div className="prm-row">
             <select
               name="discountType"
               value={formData.discountType}
@@ -100,33 +194,32 @@ export default function AddPromotionPage() {
 
             <input
               type="number"
+              min="0"
               name="discountValue"
-              placeholder="Discount Value"
+              placeholder="Value"
               value={formData.discountValue}
               onChange={handleChange}
-              required
             />
           </div>
 
-          <div className="form-row">
+          <div className="prm-row">
             <input
               type="date"
               name="startDate"
               value={formData.startDate}
               onChange={handleChange}
-              required
             />
+            
 
             <input
               type="date"
               name="endDate"
               value={formData.endDate}
               onChange={handleChange}
-              required
             />
           </div>
 
-          <div className="form-row">
+          <div className="prm-row">
             <select
               name="applyTo"
               value={formData.applyTo}
@@ -141,7 +234,6 @@ export default function AddPromotionPage() {
                 name="itemId"
                 value={formData.itemId}
                 onChange={handleChange}
-                required
               >
                 <option value="">Select Item</option>
                 {items.map((item) => (
@@ -153,15 +245,19 @@ export default function AddPromotionPage() {
             )}
           </div>
 
-          <select name="status" value={formData.status} onChange={handleChange}>
+          <select
+            name="status"
+            value={formData.status}
+            onChange={handleChange}
+          >
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
           </select>
 
-          <button type="submit" className="add-promo-btn">
-            Create Promotion
-          </button>
+          <button className="prm-btn">Create Promotion</button>
+
         </form>
+
       </div>
     </div>
   );
