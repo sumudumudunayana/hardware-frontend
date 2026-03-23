@@ -6,7 +6,7 @@ export default function OptionPage() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // clear session (optional but recommended)
+    // clear session
     localStorage.clear();
     sessionStorage.clear();
 
