@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { toast } from "sonner";
 import "../../css/stock/ManageStockPageStyles.css";
 
 export default function ManageStockPage() {
@@ -15,23 +16,14 @@ export default function ManageStockPage() {
     quantity: ""
   });
 
-  const [alert, setAlert] = useState({ show: false, message: "" });
-
   const loadStocks = async () => {
-
     try {
-
       const res = await axios.get("http://localhost:5500/api/stocks");
-
       setStocks(res.data);
       setFiltered(res.data);
-
-    } catch (err) {
-
-      console.error("Failed loading stocks", err);
-
+    } catch {
+      toast.error("Failed to load stock data");
     }
-
   };
 
   useEffect(() => {
@@ -39,132 +31,139 @@ export default function ManageStockPage() {
   }, []);
 
   const autoSearch = (text) => {
+    const key = text.toLowerCase();
 
-    const keyword = text.toLowerCase();
+    if (!key.trim()) return setFiltered(stocks);
 
-    if (!keyword.trim()) {
-      setFiltered(stocks);
-      return;
-    }
-
-    const result = stocks.filter((s) =>
-      s.itemId?.itemName.toLowerCase().includes(keyword) ||
-      s.stockId.toString() === keyword
+    setFiltered(
+      stocks.filter(
+        (s) =>
+          s.itemId?.itemName.toLowerCase().includes(key) ||
+          s.stockId.toString() === key
+      )
     );
-
-    setFiltered(result);
-
   };
 
   const openModal = (stock) => {
-
     setEditData({
       _id: stock._id,
       itemName: stock.itemId?.itemName,
       quantity: stock.quantity
     });
-
     setShowModal(true);
-
   };
 
   const closeModal = () => setShowModal(false);
 
   const handleChange = (e) => {
+    const value = e.target.value;
+
+    // ✅ Prevent negative typing
+    if (Number(value) < 0) return;
 
     setEditData({
       ...editData,
-      [e.target.name]: e.target.value
+      quantity: value
     });
-
   };
 
+  // ✅ UPDATE WITH VALIDATION + TOAST
   const updateStock = async () => {
+    const qty = Number(editData.quantity);
+
+    // Validation
+    if (editData.quantity === "") {
+      toast.error("Quantity is required");
+      return;
+    }
+
+    if (qty < 0) {
+      toast.error("Quantity cannot be negative");
+      return;
+    }
+
+    // Optional UX
+    if (qty === 0) {
+      toast.warning("Stock set to zero", {
+        description: "Item will be marked as out of stock",
+      });
+    }
 
     try {
-
-      await axios.put(
-        `http://localhost:5500/api/stocks/${editData._id}`,
+      await toast.promise(
+        axios.put(
+          `http://localhost:5500/api/stocks/${editData._id}`,
+          { quantity: qty }
+        ),
         {
-          quantity: Number(editData.quantity)
+          loading: "Updating stock...",
+          success: "Stock updated successfully!",
+          error: "Stock update failed",
         }
       );
 
-      setAlert({ show: true, message: "Stock updated successfully" });
+      // ✅ Instant UI update (no reload delay)
+      const updatedList = stocks.map((s) =>
+        s._id === editData._id ? { ...s, quantity: qty } : s
+      );
 
-      loadStocks();
+      setStocks(updatedList);
+      setFiltered(updatedList);
 
       setShowModal(false);
 
-    } catch (err) {
-
-      setAlert({ show: true, message: "Stock update failed" });
-
-    }
-
-    setTimeout(() => setAlert({ show: false }), 2500);
-
+    } catch {}
   };
 
   return (
+    <div className="stkmg-wrapper">
 
-    <div className="manage-stock-bg">
+      <div className="stkmg-card">
 
-      <div className="manage-stock-overlay"></div>
-
-      <div className="manage-stock-container">
-
-        <h1 className="manage-stock-title">Manage Stock</h1>
-
-        {alert.show && (
-          <div className="alert-box">{alert.message}</div>
-        )}
-
-        <div className="search-box">
-          <input
-            type="text"
-            placeholder="Search by item name or stock ID..."
-            value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-              autoSearch(e.target.value);
-            }}
-          />
+        {/* HEADER */}
+        <div className="stkmg-header">
+          <span className="stkmg-badge">STOCK</span>
+          <h1>Manage Stock</h1>
+          <p>View and update stock quantities</p>
         </div>
 
-        <div className="table-wrapper">
+        {/* SEARCH */}
+        <input
+          className="stkmg-search"
+          placeholder="Search by item or stock ID..."
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            autoSearch(e.target.value);
+          }}
+        />
 
-          <table className="stock-table">
+        {/* TABLE */}
+        <div className="stkmg-table-wrapper">
+          <table className="stkmg-table">
 
             <thead>
               <tr>
-                <th>Stock ID</th>
+                <th>ID</th>
                 <th>Item</th>
                 <th>Category</th>
                 <th>Company</th>
                 <th>Distributor</th>
-                <th>Current Qty</th>
-                <th>Last Delivery</th>
+                <th>Qty</th>
+                <th>Last Update</th>
                 <th>Action</th>
               </tr>
             </thead>
 
             <tbody>
-
               {filtered.map((stock) => (
-
                 <tr key={stock._id}>
 
                   <td>{stock.stockId}</td>
-
                   <td>{stock.itemId?.itemName}</td>
-
                   <td>{stock.itemId?.itemCategory}</td>
-
                   <td>{stock.itemId?.itemCompany}</td>
-
                   <td>{stock.itemId?.itemDistributor}</td>
-
                   <td>{stock.quantity}</td>
 
                   <td>
@@ -174,56 +173,52 @@ export default function ManageStockPage() {
                   </td>
 
                   <td>
-
                     <button
-                      className="update-btn"
+                      className="stkmg-update-btn"
                       onClick={() => openModal(stock)}
                     >
-                      Update Qty
+                      Update
                     </button>
-
                   </td>
 
                 </tr>
-
               ))}
-
             </tbody>
 
           </table>
-
         </div>
 
       </div>
 
+      {/* MODAL */}
       {showModal && (
+        <div className="stkmg-modal-bg">
 
-        <div className="modal-bg">
-
-          <div className="modal-box">
+          <div className="stkmg-modal-box">
 
             <h2>Update Stock</h2>
 
-            <p>{editData.itemName}</p>
+            <p className="stkmg-item">{editData.itemName}</p>
 
             <input
               type="number"
+              min="0"
               name="quantity"
               value={editData.quantity}
               onChange={handleChange}
             />
 
-            <div className="modal-actions">
+            <div className="stkmg-modal-actions">
 
               <button
-                className="cancel-btn"
+                className="stkmg-btn-cancel"
                 onClick={closeModal}
               >
                 Cancel
               </button>
 
               <button
-                className="confirm-btn"
+                className="stkmg-btn-primary"
                 onClick={updateStock}
               >
                 Update
@@ -234,11 +229,8 @@ export default function ManageStockPage() {
           </div>
 
         </div>
-
       )}
 
     </div>
-
   );
-
 }
