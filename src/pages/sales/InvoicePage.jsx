@@ -13,7 +13,6 @@ export default function InvoicePage() {
     const loadInvoice = async () => {
       try {
         const res = await api.get(`/sales/${id}`);
-
         setSale(res.data);
       } catch (err) {
         console.error("Failed loading invoice", err);
@@ -24,121 +23,100 @@ export default function InvoicePage() {
   }, [id]);
 
   if (!sale) {
-    return <div className="invoice-container">Loading...</div>;
+    return <div className="invoice-wrapper">Loading...</div>;
   }
 
-  const calculatedSubtotal =
-  sale.items?.reduce(
-    (sum, item) => sum + (item.unitPrice || 0) * (item.quantity || 0),
-    0
-  ) || 0;
+  const subtotal =
+    sale.items?.reduce(
+      (sum, item) =>
+        sum + (item.unitPrice || 0) * (item.quantity || 0),
+      0
+    ) || 0;
 
   return (
-    <div className="invoice-container">
+    <div className="invoice-wrapper">
       <div className="invoice-card">
-        <h1>Hardware Management System</h1>
 
-        <h2>Invoice</h2>
+        {/* HEADER */}
+        <div className="invoice-header">
+          <span className="invoice-badge">INVOICE</span>
+          <h1>Hardware Management</h1>
+          <p>Sales Receipt</p>
+        </div>
 
-        <p>
-          <strong>Invoice No:</strong> {sale.invoiceNumber}
-        </p>
+        {/* DETAILS */}
+        <div className="invoice-info">
+          <div>
+            <strong>Invoice No:</strong> {sale.invoiceNumber}
+          </div>
+          <div>
+            <strong>Date:</strong>{" "}
+            {sale.createdAt
+              ? new Date(sale.createdAt).toLocaleString()
+              : ""}
+          </div>
+        </div>
 
-        <p>
-          <strong>Date:</strong>{" "}
-          {sale.createdAt ? new Date(sale.createdAt).toLocaleString() : ""}
-        </p>
-
-        <table>
-          <thead>
-            <tr>
-              <th>Item</th>
-              <th>Qty</th>
-              <th>Price</th>
-              <th>Subtotal</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {sale.items?.map((item, index) => {
-              const price = item.unitPrice || 0;
-
-              const subtotal = price * item.quantity;
-
-              return (
-                <tr key={index}>
-                  <td>{item.itemId?.itemName || "Unknown Item"}</td>
-
-                  <td>{item.quantity}</td>
-
-                  <td>Rs. {price.toLocaleString()}</td>
-
-                  <td>Rs. {subtotal.toLocaleString()}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-
-        {/* SUBTOTAL */}
-
-        <div className="invoice-summary">
-          <div className="summary-row">
+        {/* TABLE */}
+        <div className="invoice-table">
+          <div className="table-header">
+            <span>Item</span>
+            <span>Qty</span>
+            <span>Price</span>
             <span>Subtotal</span>
-            <span>
-              Rs. {calculatedSubtotal.toLocaleString()}
-            </span>
           </div>
 
-          {/* PROMOTIONS */}
+          {sale.items?.map((item, index) => {
+            const price = item.unitPrice || 0;
+            const sub = price * item.quantity;
 
-          {sale.promotions?.length > 0 && (
-            <div className="invoice-promotions">
-              <h3>Applied Promotions</h3>
+            return (
+              <div key={index} className="table-row">
+                <span>{item.itemId?.itemName || "Item"}</span>
+                <span>{item.quantity}</span>
+                <span>Rs. {price.toLocaleString()}</span>
+                <span>Rs. {sub.toLocaleString()}</span>
+              </div>
+            );
+          })}
+        </div>
 
-              {sale.promotions.map((promo, index) => (
-                <div key={index} className="summary-row">
-                  <span>{promo.name}</span>
-
-                  <span>- Rs. {promo.amount.toLocaleString()}</span>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* DISCOUNT TOTAL */}
+        {/* SUMMARY */}
+        <div className="invoice-summary">
+          <div className="row">
+            <span>Subtotal</span>
+            <span>Rs. {subtotal.toLocaleString()}</span>
+          </div>
 
           {sale.discountTotal > 0 && (
-            <div className="summary-row discount-row">
-              <span>Total Discount</span>
-
+            <div className="row discount">
+              <span>Discount</span>
               <span>- Rs. {sale.discountTotal.toLocaleString()}</span>
             </div>
           )}
 
-          {/* FINAL TOTAL */}
-
-          <div className="summary-row final-total">
+          <div className="row total">
             <span>Total</span>
-
             <span>
               Rs. {(sale.finalTotal || sale.totalAmount).toLocaleString()}
             </span>
           </div>
         </div>
 
-        <div className="invoice-buttons">
+        {/* ACTIONS */}
+        <div className="invoice-actions">
           <button className="print-btn" onClick={() => window.print()}>
-            Print Invoice
+            Print
           </button>
 
           <button
             className="done-btn"
-            onClick={() => navigate("/CartPage", { replace: true })}
+            onClick={() => navigate("/sales/add", { replace: true })} // ✅ FIXED
           >
             Done
           </button>
         </div>
+
       </div>
     </div>
   );
