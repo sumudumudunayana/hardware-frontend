@@ -26,7 +26,6 @@ export default function LoginPage() {
         "http://localhost:5500/api/auth/login",
         formData,
       );
-
       localStorage.setItem("token", res.data.token);
       navigate("/LandingPage");
     } catch (error) {
