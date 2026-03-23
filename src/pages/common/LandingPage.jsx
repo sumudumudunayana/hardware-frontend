@@ -35,8 +35,8 @@ export default function LandingPage() {
           </h1>
 
           <p className="subtitle">
-            Manage inventory, customers, suppliers, sales, and stock intelligence
-            through one unified digital control center.
+            Manage inventory, customers, suppliers, sales, and stock
+            intelligence through one unified digital control center.
           </p>
 
           <div className="hero-buttons">
