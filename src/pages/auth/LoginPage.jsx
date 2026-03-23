@@ -37,7 +37,6 @@ export default function LoginPage() {
       <div className="login-bg-grid"></div>
       <div className="bg-glow bg-glow-1"></div>
       <div className="bg-glow bg-glow-2"></div>
-
       <div className="login-card">
         <div className="login-badge">SECURE ACCESS</div>
 
