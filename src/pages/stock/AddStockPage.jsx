@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { toast } from "sonner";
 import "../../css/stock/AddStockPageStyles.css";
 
 export default function AddStockPage() {
@@ -21,41 +22,83 @@ export default function AddStockPage() {
       const res = await axios.get("http://localhost:5500/api/items");
       setItems(res.data);
     } catch (err) {
-      console.error("Item loading error", err);
+      toast.error("Failed to load items");
     }
   };
 
   const handleItemChange = (e) => {
     const id = e.target.value;
-
     const item = items.find((i) => i._id === id);
 
     setSelectedItem(item);
-
-    setFormData({
-      ...formData,
-      itemId: id,
-    });
+    setFormData({ ...formData, itemId: id });
   };
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    // ✅ Prevent negative typing for quantity
+    if (name === "quantity") {
+      if (Number(value) < 0) return;
+    }
+
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      await axios.post("http://localhost:5500/api/stocks", {
-        itemId: formData.itemId,
-        quantity: Number(formData.quantity),
-        arrivalDate: formData.arrivalDate,
-      });
+    const { itemId, quantity, arrivalDate } = formData;
+    const qty = Number(quantity);
 
-      alert("Stock Added Successfully");
+    // ✅ Validation
+    if (!itemId) {
+      toast.error("Please select an item");
+      return;
+    }
+
+    if (!quantity || qty < 0) {
+      toast.error("Invalid quantity", {
+        description: "Quantity must be greater than 0",
+      });
+      return;
+    }
+
+    if (qty < 0) {
+      toast.error("Quantity cannot be negative");
+      return;
+    }
+
+    if (!arrivalDate) {
+      toast.error("Please select arrival date");
+      return;
+    }
+
+    // Optional: prevent future date
+    const today = new Date().toISOString().split("T")[0];
+    if (arrivalDate > today) {
+      toast.warning("Invalid date", {
+        description: "Arrival date cannot be in the future",
+      });
+      return;
+    }
+
+    try {
+      await toast.promise(
+        axios.post("http://localhost:5500/api/stocks", {
+          itemId,
+          quantity: qty,
+          arrivalDate,
+        }),
+        {
+          loading: "Adding stock...",
+          success: "Stock added successfully!",
+          error: "Failed to add stock",
+        }
+      );
 
       setFormData({
         itemId: "",
@@ -64,31 +107,30 @@ export default function AddStockPage() {
       });
 
       setSelectedItem(null);
-    } catch (err) {
-      console.error(err);
 
-      alert("Failed to add stock");
-    }
+    } catch (err) {}
   };
 
   return (
-    <div className="add-stock-container">
-      <div className="add-stock-overlay"></div>
+    <div className="stk-wrapper">
+      <div className="stk-card">
 
-      <div className="add-stock-card">
-        <h1 className="add-stock-title">Add Stock</h1>
+        {/* HEADER */}
+        <div className="stk-header">
+          <span className="stk-badge">STOCK</span>
+          <h1>Add Stock</h1>
+          <p>Register new stock arrivals</p>
+        </div>
 
-        <form className="add-stock-form" onSubmit={handleSubmit}>
-          {/* ITEM SELECT */}
+        <form className="stk-form" onSubmit={handleSubmit}>
 
+          {/* SELECT */}
           <select
             name="itemId"
             value={formData.itemId}
             onChange={handleItemChange}
-            required
           >
             <option value="">Select Item</option>
-
             {items.map((item) => (
               <option key={item._id} value={item._id}>
                 {item.itemName}
@@ -96,49 +138,46 @@ export default function AddStockPage() {
             ))}
           </select>
 
-          {/* ITEM DETAILS */}
-
+          {/* DETAILS */}
           {selectedItem && (
-            <div className="stock-details">
-              <div className="detail-box">
+            <div className="stk-details">
+
+              <div className="stk-detail-box">
                 <label>Category</label>
                 <input value={selectedItem.itemCategory} readOnly />
               </div>
 
-              <div className="detail-box">
+              <div className="stk-detail-box">
                 <label>Company</label>
                 <input value={selectedItem.itemCompany} readOnly />
               </div>
 
-              <div className="detail-box">
+              <div className="stk-detail-box">
                 <label>Distributor</label>
                 <input value={selectedItem.itemDistributor} readOnly />
               </div>
+
             </div>
           )}
 
-          {/* QUANTITY */}
-
+          {/* INPUTS */}
           <input
             type="number"
             name="quantity"
             placeholder="Stock Quantity"
             value={formData.quantity}
             onChange={handleChange}
-            required
           />
-
-          {/* ARRIVAL DATE */}
 
           <input
             type="date"
             name="arrivalDate"
             value={formData.arrivalDate}
             onChange={handleChange}
-            required
           />
 
-          <button className="add-stock-btn">Add Stock</button>
+          <button className="stk-btn">Add Stock</button>
+
         </form>
       </div>
     </div>
