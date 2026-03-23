@@ -21,7 +21,7 @@ export default function OptionPage() {
 
       <div className="option-page-panel">
 
-        {/* 🔥 TOP BAR */}
+        {/* TOP BAR */}
         <div className="option-page-topbar">
           <button className="option-logout-btn" onClick={handleLogout}>
             ⎋ Logout
