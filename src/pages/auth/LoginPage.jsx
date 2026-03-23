@@ -55,7 +55,6 @@ export default function LoginPage() {
               required
             />
           </div>
-
           <div className="input-box">
             <input
               type="password"
