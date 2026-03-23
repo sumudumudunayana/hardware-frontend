@@ -9,7 +9,6 @@ export default function OptionPage() {
     // clear session
     localStorage.clear();
     sessionStorage.clear();
-
     navigate("/");
   };
 
