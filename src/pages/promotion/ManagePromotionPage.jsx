@@ -1,25 +1,27 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { toast } from "sonner";
 import "../../css/promotion/ManagePromotionPageStyles.css";
 
 export default function ManagePromotionPage() {
+
   const [promotions, setPromotions] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [search, setSearch] = useState("");
+
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const [editData, setEditData] = useState({});
   const [deleteId, setDeleteId] = useState(null);
-  const [alert, setAlert] = useState(null);
 
   const loadPromotions = async () => {
     try {
       const res = await axios.get("http://localhost:5500/api/promotions");
       setPromotions(res.data);
       setFiltered(res.data);
-    } catch (err) {
-      console.error("Failed loading promotions", err);
+    } catch {
+      toast.error("Failed to load promotions");
     }
   };
 
@@ -28,16 +30,17 @@ export default function ManagePromotionPage() {
   }, []);
 
   const autoSearch = (text) => {
-    const keyword = text.toLowerCase();
-    if (!keyword.trim()) return setFiltered(promotions);
+    const key = text.toLowerCase();
 
-    const result = promotions.filter(
-      (p) =>
-        p.promotionName.toLowerCase().includes(keyword) ||
-        p.promotionId?.toString() === keyword
+    if (!key.trim()) return setFiltered(promotions);
+
+    setFiltered(
+      promotions.filter(
+        (p) =>
+          p.promotionName.toLowerCase().includes(key) ||
+          p.promotionId?.toString() === key
+      )
     );
-
-    setFiltered(result);
   };
 
   const openUpdateModal = (promo) => {
@@ -51,71 +54,134 @@ export default function ManagePromotionPage() {
 
   const closeUpdateModal = () => setShowUpdateModal(false);
 
-  const handleUpdateChange = (e) => {
-    setEditData({ ...editData, [e.target.name]: e.target.value });
-  };
-
+  // ✅ UPDATE WITH VALIDATION
   const submitUpdate = async () => {
-    try {
-      await axios.put(
-        `http://localhost:5500/api/promotions/${editData._id}`,
-        editData
-      );
+    const {
+      promotionName,
+      discountValue,
+      discountType,
+      startDate,
+      endDate
+    } = editData;
 
-      setAlert("Promotion updated successfully!");
-      setShowUpdateModal(false);
-      loadPromotions();
-    } catch {
-      setAlert("Failed to update promotion!");
+    const discount = Number(discountValue);
+
+    // Validation
+    if (!promotionName?.trim()) {
+      toast.error("Promotion name is required");
+      return;
     }
 
-    setTimeout(() => setAlert(null), 2500);
+    if (promotionName.length < 3) {
+      toast.warning("Name too short");
+      return;
+    }
+
+    if (discountValue === "") {
+      toast.error("Discount value is required");
+      return;
+    }
+
+    if (discount < 0) {
+      toast.error("Discount cannot be negative");
+      return;
+    }
+
+    if (discountType === "percentage" && discount > 100) {
+      toast.error("Percentage cannot exceed 100%");
+      return;
+    }
+
+    if (!startDate || !endDate) {
+      toast.error("Please select dates");
+      return;
+    }
+
+    if (endDate < startDate) {
+      toast.error("End date must be after start date");
+      return;
+    }
+
+    try {
+      await toast.promise(
+        axios.put(
+          `http://localhost:5500/api/promotions/${editData._id}`,
+          {
+            ...editData,
+            discountValue: discount
+          }
+        ),
+        {
+          loading: "Updating promotion...",
+          success: "Promotion updated successfully!",
+          error: "Update failed",
+        }
+      );
+
+      // ✅ Instant UI update
+      const updatedList = promotions.map((p) =>
+        p._id === editData._id ? { ...editData } : p
+      );
+
+      setPromotions(updatedList);
+      setFiltered(updatedList);
+
+      setShowUpdateModal(false);
+
+    } catch {}
   };
 
-  const openDeleteModal = (id) => {
-    setDeleteId(id);
-    setShowDeleteModal(true);
-  };
-
+  // ✅ DELETE WITH TOAST
   const confirmDelete = async () => {
     try {
-      await axios.delete(
-        `http://localhost:5500/api/promotions/${deleteId}`
+      await toast.promise(
+        axios.delete(
+          `http://localhost:5500/api/promotions/${deleteId}`
+        ),
+        {
+          loading: "Deleting promotion...",
+          success: "Promotion deleted successfully!",
+          error: "Delete failed",
+        }
       );
 
-      setAlert("Promotion deleted successfully!");
-      setShowDeleteModal(false);
-      loadPromotions();
-    } catch {
-      setAlert("Failed to delete promotion!");
-    }
+      const updatedList = promotions.filter((p) => p._id !== deleteId);
 
-    setTimeout(() => setAlert(null), 2500);
+      setPromotions(updatedList);
+      setFiltered(updatedList);
+
+      setShowDeleteModal(false);
+
+    } catch {}
   };
 
   return (
-    <div className="mp-bg">
-      <div className="mp-overlay"></div>
+    <div className="prmm-wrapper">
 
-      <div className="mp-container">
-        <h1 className="mp-title">Manage Promotions</h1>
+      <div className="prmm-card">
 
-        {alert && <div className="alert-box">{alert}</div>}
-
-        <div className="mp-search-box">
-          <input
-            type="text"
-            placeholder="Search by ID or Name..."
-            value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-              autoSearch(e.target.value);
-            }}
-          />
+        {/* HEADER */}
+        <div className="prmm-header">
+          <span className="prmm-badge">PROMOTION</span>
+          <h1>Manage Promotions</h1>
+          <p>Edit or delete promotions</p>
         </div>
 
-        <div className="mp-table-wrapper">
-          <table className="mp-table">
+        {/* SEARCH */}
+        <input
+          className="prmm-search"
+          placeholder="Search..."
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            autoSearch(e.target.value);
+          }}
+        />
+
+        {/* TABLE */}
+        <div className="prmm-table-wrapper">
+          <table className="prmm-table">
+
             <thead>
               <tr>
                 <th>ID</th>
@@ -127,110 +193,159 @@ export default function ManagePromotionPage() {
                 <th>Action</th>
               </tr>
             </thead>
+
             <tbody>
               {filtered.map((promo) => (
                 <tr key={promo._id}>
+
                   <td>{promo.promotionId}</td>
+
                   <td>{promo.promotionName}</td>
+
                   <td>
                     {promo.discountType === "percentage"
                       ? `${promo.discountValue}%`
                       : `Rs. ${promo.discountValue}`}
                   </td>
+
                   <td>{new Date(promo.startDate).toLocaleDateString()}</td>
                   <td>{new Date(promo.endDate).toLocaleDateString()}</td>
-                  <td>{promo.status}</td>
-                  <td className="mp-actions">
+
+                  <td>
+                    <span className={`prmm-status ${promo.status}`}>
+                      {promo.status}
+                    </span>
+                  </td>
+
+                  <td className="prmm-actions">
+
                     <button
-                      className="update-btn"
+                      className="prmm-update"
                       onClick={() => openUpdateModal(promo)}
                     >
                       Update
                     </button>
+
                     <button
-                      className="delete-btn"
-                      onClick={() => openDeleteModal(promo._id)}
+                      className="prmm-delete"
+                      onClick={() => {
+                        setDeleteId(promo._id);
+                        setShowDeleteModal(true);
+                      }}
                     >
                       Delete
                     </button>
+
                   </td>
+
                 </tr>
               ))}
             </tbody>
+
           </table>
         </div>
+
       </div>
 
+      {/* UPDATE MODAL */}
       {showUpdateModal && (
-        <div className="modal-bg">
-          <div className="modal-box">
+        <div className="prmm-modal-bg">
+
+          <div className="prmm-modal-box">
+
             <h2>Update Promotion</h2>
 
             <input
-              name="promotionName"
               value={editData.promotionName}
-              onChange={handleUpdateChange}
+              onChange={(e) =>
+                setEditData({ ...editData, promotionName: e.target.value })
+              }
             />
 
             <input
               type="number"
-              name="discountValue"
+              min="0"
               value={editData.discountValue}
-              onChange={handleUpdateChange}
+              onChange={(e) => {
+                if (Number(e.target.value) < 0) return;
+                setEditData({ ...editData, discountValue: e.target.value });
+              }}
             />
 
             <input
               type="date"
-              name="startDate"
               value={editData.startDate}
-              onChange={handleUpdateChange}
+              onChange={(e) =>
+                setEditData({ ...editData, startDate: e.target.value })
+              }
             />
 
             <input
               type="date"
-              name="endDate"
               value={editData.endDate}
-              onChange={handleUpdateChange}
+              onChange={(e) =>
+                setEditData({ ...editData, endDate: e.target.value })
+              }
             />
 
             <select
-              name="status"
               value={editData.status}
-              onChange={handleUpdateChange}
+              onChange={(e) =>
+                setEditData({ ...editData, status: e.target.value })
+              }
             >
               <option value="active">Active</option>
               <option value="inactive">Inactive</option>
             </select>
 
-            <div className="modal-actions">
-              <button className="cancel-btn" onClick={closeUpdateModal}>
+            <div className="prmm-modal-actions">
+
+              <button onClick={closeUpdateModal} className="prmm-btn-cancel">
                 Cancel
               </button>
-              <button className="confirm-btn" onClick={submitUpdate}>
+
+              <button onClick={submitUpdate} className="prmm-btn-primary">
                 Update
               </button>
+
             </div>
+
           </div>
         </div>
       )}
 
+      {/* DELETE MODAL */}
       {showDeleteModal && (
-        <div className="modal-bg">
-          <div className="modal-box">
-            <h2>Delete Promotion</h2>
-            <p>Are you sure you want to delete this promotion?</p>
+        <div className="prmm-modal-bg">
 
-            <div className="modal-actions">
-              <button className="cancel-btn" onClick={() => setShowDeleteModal(false)}>
+          <div className="prmm-modal-box">
+
+            <h2>Delete Promotion</h2>
+
+            <p>Are you sure?</p>
+
+            <div className="prmm-modal-actions">
+
+              <button
+                className="prmm-btn-cancel"
+                onClick={() => setShowDeleteModal(false)}
+              >
                 Cancel
               </button>
-              <button className="delete-confirm-btn" onClick={confirmDelete}>
+
+              <button
+                className="prmm-btn-danger"
+                onClick={confirmDelete}
+              >
                 Delete
               </button>
+
             </div>
+
           </div>
         </div>
       )}
+
     </div>
   );
 }
