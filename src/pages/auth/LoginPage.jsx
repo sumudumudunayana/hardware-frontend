@@ -24,7 +24,7 @@ export default function LoginPage() {
     try {
       const res = await axios.post(
         "http://localhost:5500/api/auth/login",
-        formData
+        formData,
       );
 
       localStorage.setItem("token", res.data.token);
