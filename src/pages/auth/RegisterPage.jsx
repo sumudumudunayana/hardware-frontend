@@ -18,7 +18,6 @@ export default function RegisterPage() {
       [e.target.name]: e.target.value,
     });
   };
-
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
