@@ -6,58 +6,65 @@ import { useNavigate } from "react-router-dom";
 export default function AddSalesPage() {
   const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
-
   const [cart, setCart] = useState([]);
   const [cartCount, setCartCount] = useState(0);
 
   const navigate = useNavigate();
 
-  // LOAD ITEMS + CART
   useEffect(() => {
     loadItems();
     loadCart();
   }, []);
 
-  // LOAD PRODUCTS
   const loadItems = async () => {
-    try {
-      const res = await api.get("/items");
+  try {
+    const [itemRes, stockRes] = await Promise.all([
+      api.get("/items"),
+      api.get("/stocks"),
+    ]);
 
-      setProducts(res.data);
-    } catch (err) {
-      console.error("Failed loading items", err);
-    }
-  };
+    // 🔥 Create stock lookup map
+    const stockMap = {};
 
-  // LOAD CART
+    stockRes.data.forEach((stock) => {
+      // assuming stock.itemId is populated
+      const id = stock.itemId?._id || stock.itemId;
+      stockMap[id] = stock.quantity;
+    });
+
+    // 🔥 Merge items + stock
+    const mergedProducts = itemRes.data.map((item) => ({
+      ...item,
+      quantity: stockMap[item._id] || 0, // default 0
+    }));
+
+    setProducts(mergedProducts);
+
+  } catch (err) {
+    console.error("Error loading items + stock", err);
+  }
+};
+
   const loadCart = async () => {
     try {
       const res = await api.get("/cart");
-
       const items = res.data.items || [];
 
       setCart(items);
-
-      const totalQty = items.reduce(
-        (sum, it) => sum + Number(it.quantity || 0),
-        0,
+      setCartCount(
+        items.reduce((sum, it) => sum + Number(it.quantity || 0), 0),
       );
-
-      setCartCount(totalQty);
     } catch (err) {
-      console.error("Cart load error", err);
+      console.error(err);
     }
   };
 
   const categories = ["All", ...new Set(products.map((p) => p.itemCategory))];
 
-  const filteredProducts = products.filter((product) =>
-    selectedCategory === "All"
-      ? true
-      : product.itemCategory === selectedCategory,
+  const filteredProducts = products.filter((p) =>
+    selectedCategory === "All" ? true : p.itemCategory === selectedCategory,
   );
 
-  // ADD ITEM TO CART
   const handleAdd = async (product) => {
     try {
       await api.post("/cart/add", {
@@ -65,64 +72,85 @@ export default function AddSalesPage() {
         name: product.itemName,
         price: product.itemSellingPrice,
       });
-
-      loadCart(); //  refresh cart + total
+      loadCart();
     } catch (err) {
-      console.error("Cart add error", err);
+      console.error(err);
     }
   };
 
-  //  TOTAL CALCULATION RESTORED
   const totalPrice = cart.reduce(
     (total, item) => total + item.price * item.quantity,
-
     0,
   );
 
   return (
-    <div className="sales-page-container">
-
-      <div className="filter-panel">
-        <h2>Categories</h2>
+    <div className="sales-page-wrapper">
+      {/* CATEGORY PANEL */}
+      <aside className="sales-page-sidebar">
+        <h3>Categories</h3>
 
         {categories.map((cat) => (
           <button
             key={cat}
-            className={selectedCategory === cat ? "active-filter" : ""}
+            className={`sales-page-category-btn ${
+              selectedCategory === cat ? "active" : ""
+            }`}
             onClick={() => setSelectedCategory(cat)}
           >
             {cat}
           </button>
         ))}
-      </div>
+      </aside>
 
-      {/* PRODUCT AREA */}
-
-      <div className="product-area">
-        <div className="sales-topbar">
+      {/* MAIN CONTENT */}
+      <div className="sales-page-main">
+        <div className="sales-page-header">
           <h1>Add Order Items</h1>
 
-          <div className="cart-summary">
-            {" "}
-            <div className="total-box">
-              Total: Rs. {totalPrice.toLocaleString()}
+          <div className="sales-page-summary">
+            <div className="sales-page-total">
+              Rs. {totalPrice.toLocaleString()}
             </div>
-            <button className="cart-btn" onClick={() => navigate("/CartPage")}>
-              🛒 Cart ({cartCount})
+
+            <button
+              className="sales-page-cart-btn"
+              onClick={() => navigate("/sales/cart")}
+            >
+              🛒 ({cartCount})
             </button>
           </div>
         </div>
 
-        <div className="product-grid">
+        <div className="sales-page-grid">
           {filteredProducts.map((product) => (
-            <div key={product._id} className="product-card">
-              <h3>{product.itemName}</h3>
+            // <div key={product._id} className="sales-page-card">
 
+            //   <h3>{product.itemName}</h3>
+            //   <p>Rs. {product.itemSellingPrice.toLocaleString()}</p>
+
+            //   <span className="sales-page-tag">
+            //     {product.itemCategory}
+            //   </span>
+
+            //   <button onClick={() => handleAdd(product)}>
+            //     Add
+            //   </button>
+
+            // </div>
+            <div key={product._id} className="sales-page-card">
+              <h3>{product.itemName}</h3>
               <p>Rs. {product.itemSellingPrice.toLocaleString()}</p>
 
-              <span className="tag">{product.itemCategory}</span>
+              <span className="sales-page-tag">{product.itemCategory}</span>
 
-              <button onClick={() => handleAdd(product)}>Add</button>
+              <div className="sales-page-qty">Qty: {product.quantity}</div>
+
+              <button
+                disabled={product.quantity === 0}
+                onClick={() => handleAdd(product)}
+              >
+                {product.quantity === 0 ? "Out of Stock" : "Add"}
+              </button>
             </div>
           ))}
         </div>
