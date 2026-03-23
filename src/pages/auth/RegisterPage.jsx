@@ -21,7 +21,6 @@ export default function RegisterPage() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-
     try {
       await axios.post("http://localhost:5500/api/auth/register", formData);
       alert("Registration successful");
