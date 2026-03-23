@@ -1,137 +1,164 @@
-.manage-stock-bg {
-  height: 100vh;
-  width: 100vw;
-  background: url("../../assets/hardware5.jpeg") center/cover no-repeat;
+/* WRAPPER */
+.stkmg-wrapper {
   display: flex;
   justify-content: center;
-  align-items: center;
-  position: relative;
 }
 
-.manage-stock-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.65);
-}
-
-.manage-stock-container {
-  position: relative;
-  z-index: 2;
-  width: 1200px;
-  padding: 35px;
-  background: rgba(255,255,255,0.08);
-  backdrop-filter: blur(12px);
-  border-radius: 18px;
-  color: white;
-}
-
-.manage-stock-title {
-  text-align: center;
-  font-size: 2.2rem;
-  margin-bottom: 25px;
-}
-
-.search-box input {
+/* CARD */
+.stkmg-card {
   width: 100%;
-  padding: 12px;
-  border-radius: 8px;
-  border: none;
-  background: rgba(255,255,255,0.15);
-  color: white;
+  padding: 30px;
+  border-radius: 24px;
+
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(18px);
+}
+
+/* HEADER */
+.stkmg-header {
   margin-bottom: 20px;
 }
 
-.table-wrapper {
-  max-height: 400px;
-  overflow-y: auto;
+.stkmg-badge {
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(59,130,246,0.12);
+  color: #2563eb;
+  font-size: 11px;
+  font-weight: 700;
 }
 
-.stock-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: rgba(0,0,0,0.25);
+.stkmg-header h1 {
+  font-size: 26px;
+  font-weight: 800;
+  margin: 5px 0;
+  color: #0f172a;
 }
 
-.stock-table th,
-.stock-table td {
-  padding: 12px;
+.stkmg-header p {
+  color: #64748b;
+}
+
+/* ALERT */
+.stkmg-alert {
+  background: #dcfce7;
+  color: #166534;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 15px;
   text-align: center;
 }
 
-.stock-table th {
-  background: rgba(255,255,255,0.15);
-  color: #ffca28;
+/* SEARCH */
+.stkmg-search {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+
+  border-radius: 12px;
+  border: 1px solid rgba(148,163,184,0.3);
 }
 
-.stock-table tr:hover {
-  background: rgba(255,255,255,0.08);
+/* TABLE */
+.stkmg-table-wrapper {
+  max-height: 420px;
+  overflow-y: auto;
 }
 
-.update-btn {
-  background: #4da3ff;
-  padding: 8px 14px;
-  border-radius: 6px;
+.stkmg-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.stkmg-table th {
+  padding: 14px;
+  text-align: left;
+  color: #475569;
+}
+
+.stkmg-table td {
+  padding: 14px;
+  color: #0f172a;
+}
+
+.stkmg-table tr:hover {
+  background: rgba(245,158,11,0.08);
+}
+
+/* BUTTON */
+.stkmg-update-btn {
+  padding: 6px 12px;
+  border-radius: 999px;
   border: none;
+  background: #3b82f6;
   color: white;
+  font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
 }
 
-.update-btn:hover {
-  background: #2c8ef7;
+.stkmg-update-btn:hover {
+  background: #2563eb;
 }
 
-.modal-bg {
+/* MODAL */
+.stkmg-modal-bg {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.65);
+  background: rgba(15,23,42,0.35);
+  backdrop-filter: blur(6px);
+
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.modal-box {
-  background: rgba(255,255,255,0.1);
-  backdrop-filter: blur(15px);
-  padding: 30px;
-  border-radius: 14px;
-  width: 400px;
-  color: white;
+.stkmg-modal-box {
+  width: 380px;
+  padding: 24px;
+  border-radius: 16px;
+  background: white;
 }
 
-.modal-box input {
-  width: 100%;
-  padding: 12px;
-  margin-top: 15px;
-  border-radius: 8px;
-  border: none;
-  background: rgba(255,255,255,0.15);
-  color: white;
-}
-
-.modal-actions {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-
-.cancel-btn {
-  background: #777;
-  padding: 10px 18px;
-  border-radius: 8px;
-  border: none;
-}
-
-.confirm-btn {
-  background: #4da3ff;
-  padding: 10px 18px;
-  border-radius: 8px;
-  border: none;
-}
-
-.alert-box {
-  background: #4da3ff;
-  padding: 10px;
-  border-radius: 6px;
-  margin-bottom: 15px;
+.stkmg-modal-box h2 {
   text-align: center;
+  margin-bottom: 10px;
+}
+
+.stkmg-item {
+  text-align: center;
+  color: #64748b;
+  margin-bottom: 10px;
+}
+
+/* INPUT */
+.stkmg-modal-box input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+/* ACTIONS */
+.stkmg-modal-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.stkmg-btn-cancel {
+  flex: 1;
+  padding: 10px;
+  background: #e2e8f0;
+  border-radius: 10px;
+}
+
+.stkmg-btn-primary {
+  flex: 1;
+  padding: 10px;
+  background: #f59e0b;
+  color: white;
+  border-radius: 10px;
 }
