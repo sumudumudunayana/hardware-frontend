@@ -1,134 +1,133 @@
-.ms-container {
-  min-height: 100vh;
-  width: 100%;
-  background: url("../../assets/hardware5.jpeg") center/cover no-repeat;
+/* WRAPPER */
+.sales-page-wrapper {
   display: flex;
   justify-content: center;
-  align-items: center;
-  position: relative;
 }
 
-.ms-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.75);
+/* CARD */
+.sales-card {
+  width: 100%;
+  padding: 28px;
+  border-radius: 26px;
+
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+
+  backdrop-filter: blur(18px);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
 }
 
-.ms-card {
-  position: relative;
-  z-index: 2;
-  width: 1100px;
-  padding: 35px;
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(12px);
-  border-radius: 18px;
-  color: white;
-}
-
-.ms-card h1 {
-  text-align: center;
+/* HEADER */
+.sales-header {
   margin-bottom: 20px;
-  color: #ffffff;
 }
 
-.ms-alert {
-  text-align: center;
+.sales-badge {
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(59, 130, 246, 0.12);
+  color: #1d4ed8;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.sales-header h1 {
+  font-size: 26px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.sales-header p {
+  color: #475569;
+}
+
+/* ALERT */
+.alert {
+  padding: 10px;
+  border-radius: 10px;
   margin-bottom: 15px;
-  color: #4caf50;
-  font-weight: bold;
+  text-align: center;
+  font-weight: 600;
 }
 
-.ms-table-wrapper {
-  max-height: 450px;
+.alert.success {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.alert.error {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* TABLE */
+.table-wrapper {
+  max-height: 420px;
   overflow-y: auto;
+  border-radius: 16px;
 }
 
-.ms-table {
+.sales-table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.ms-table th,
-.ms-table td {
-  padding: 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+.sales-table th {
+  padding: 14px;
+  background: rgba(241, 245, 249, 0.8);
+  color: #475569;
+  text-align: left;
 }
 
-.ms-table th {
-  color: #ffca28;
+.sales-table td {
+  padding: 14px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+  color: #0f172a;
 }
 
-.ms-actions {
-  display: flex;
-  gap: 8px;
+.sales-table tr:hover {
+  background: rgba(245, 158, 11, 0.08);
 }
 
-.expand-btn {
-  background: #00bcd4;
-  border: none;
+/* INPUT */
+.sales-table input {
+  width: 100px;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  background: white;
+}
+
+/* ACTIONS */
+.actions button {
   padding: 6px 10px;
-  border-radius: 6px;
+  margin-right: 6px;
+  border-radius: 8px;
+  border: none;
   cursor: pointer;
 }
 
-.update-btn {
-  background: #4caf50;
-  border: none;
-  padding: 6px 10px;
-  border-radius: 6px;
-  cursor: pointer;
+.actions .update {
+  background: #22c55e;
+  color: white;
 }
 
-.delete-btn {
-  background: #e53935;
-  border: none;
-  padding: 6px 10px;
-  border-radius: 6px;
-  cursor: pointer;
+.actions .delete {
+  background: #ef4444;
+  color: white;
 }
 
+/* EXPAND */
 .expand-row {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(248, 250, 252, 0.6);
 }
 
 .expand-content {
-  padding: 5px;
+  padding: 10px;
 }
 
-.ms-item-box {
+.item-box {
   display: flex;
   justify-content: space-between;
-  padding: 8px 0;
-}
-
-/* 🔥 Table Input Styling */
-.ms-table input {
-  width: 100px;
-  padding: 6px 10px;
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 6px;
-  color: white;
-  outline: none;
-  font-size: 14px;
-  transition: 0.3s ease;
-}
-
-/* Remove default number arrows (Chrome) */
-.ms-table input::-webkit-outer-spin-button,
-.ms-table input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Remove arrows (Firefox) */
-.ms-table input[type="number"] {
-  -moz-appearance: textfield;
-}
-
-/* Focus effect */
-.ms-table input:focus {
-  border-color: #00e5ff;
-  box-shadow: 0 0 8px rgba(0, 229, 255, 0.6);
-  background: rgba(255, 255, 255, 0.18);
+  padding: 6px 0;
 }
