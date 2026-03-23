@@ -5,7 +5,7 @@ import "../../css/sales/ManageSalesPageStyles.css";
 export default function ManageSalesPage() {
   const [sales, setSales] = useState([]);
   const [expanded, setExpanded] = useState(null);
-  const [alert, setAlert] = useState(null);
+  const [alert, setAlert] = useState({ show: false, type: "", message: "" });
 
   const loadSales = async () => {
     try {
@@ -27,39 +27,46 @@ export default function ManageSalesPage() {
   const deleteSale = async (id) => {
     try {
       await axios.delete(`http://localhost:5500/api/sales/${id}`);
-      setAlert("Sale deleted successfully");
+      setAlert({ show: true, type: "success", message: "Sale deleted" });
       loadSales();
-    } catch (err) {
-      setAlert("Failed to delete sale");
+    } catch {
+      setAlert({ show: true, type: "error", message: "Delete failed" });
     }
-    setTimeout(() => setAlert(null), 2500);
+    setTimeout(() => setAlert({ show: false }), 2500);
   };
 
   const updateSale = async (sale) => {
     try {
       await axios.put(
         `http://localhost:5500/api/sales/${sale._id}`,
-        { totalAmount: sale.totalAmount }
+        { totalAmount: Number(sale.totalAmount) }
       );
-      setAlert("Sale updated successfully");
+      setAlert({ show: true, type: "success", message: "Sale updated" });
       loadSales();
-    } catch (err) {
-      setAlert("Update failed");
+    } catch {
+      setAlert({ show: true, type: "error", message: "Update failed" });
     }
-    setTimeout(() => setAlert(null), 2500);
+    setTimeout(() => setAlert({ show: false }), 2500);
   };
 
   return (
-    <div className="ms-container">
-      <div className="ms-overlay"></div>
+    <div className="sales-page-wrapper">
+      <div className="sales-card">
 
-      <div className="ms-card">
-        <h1>Manage Orders</h1>
+        <div className="sales-header">
+          <span className="sales-badge">ORDERS</span>
+          <h1>Manage Orders</h1>
+          <p>View, update, and manage all sales records</p>
+        </div>
 
-        {alert && <div className="ms-alert">{alert}</div>}
+        {alert.show && (
+          <div className={`alert ${alert.type}`}>
+            {alert.message}
+          </div>
+        )}
 
-        <div className="ms-table-wrapper">
-          <table className="ms-table">
+        <div className="table-wrapper">
+          <table className="sales-table">
             <thead>
               <tr>
                 <th>Invoice</th>
@@ -77,8 +84,8 @@ export default function ManageSalesPage() {
                     <td>
                       {new Date(sale.createdAt).toLocaleString()}
                     </td>
+
                     <td>
-                      Rs.{" "}
                       <input
                         type="number"
                         value={sale.totalAmount}
@@ -93,23 +100,21 @@ export default function ManageSalesPage() {
                         }
                       />
                     </td>
-                    <td className="ms-actions">
-                      <button
-                        className="expand-btn"
-                        onClick={() => toggleExpand(sale._id)}
-                      >
+
+                    <td className="actions">
+                      <button onClick={() => toggleExpand(sale._id)}>
                         {expanded === sale._id ? "Hide" : "View"}
                       </button>
 
                       <button
-                        className="update-btn"
+                        className="update"
                         onClick={() => updateSale(sale)}
                       >
                         Update
                       </button>
 
                       <button
-                        className="delete-btn"
+                        className="delete"
                         onClick={() => deleteSale(sale._id)}
                       >
                         Delete
@@ -122,11 +127,11 @@ export default function ManageSalesPage() {
                       <td colSpan="4">
                         <div className="expand-content">
                           {sale.items?.map((item, index) => (
-                            <div key={index} className="ms-item-box">
-                              <strong>{item.itemId?.itemName}</strong>
+                            <div key={index} className="item-box">
+                              <span>{item.itemId?.itemName}</span>
                               <span>Qty: {item.quantity}</span>
                               <span>
-                                Rs. {item.subtotal.toLocaleString()}
+                                Rs. {item.subtotal?.toLocaleString()}
                               </span>
                             </div>
                           ))}
@@ -139,6 +144,7 @@ export default function ManageSalesPage() {
             </tbody>
           </table>
         </div>
+
       </div>
     </div>
   );
