@@ -64,7 +64,6 @@ export default function LoginPage() {
               required
             />
           </div>
-
           <div className="login-options">
             <label>
               <input type="checkbox" /> Remember me
