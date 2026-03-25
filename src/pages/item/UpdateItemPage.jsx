@@ -187,7 +187,7 @@ export default function UpdateItemPage() {
         </div>
       </div>
 
-      {/* ✅ Update Modal */}
+      {/* Update Modal */}
       {showUpdateModal && (
         <div className="modal-bg">
           <div className="modal-box">
