@@ -45,10 +45,29 @@ export default function AddItemPage() {
   const handleSubmit = async (e) => {
   e.preventDefault();
 
+  const errors = [];
+
+  //  Field validations
+  if (!formData.itemName.trim()) errors.push("Item name is required");
+  if (!formData.itemCategory) errors.push("Please select a category");
+  if (!formData.itemDescription.trim()) errors.push("Item description is required");
+  if (!formData.itemCostPrice) errors.push("Cost price is required");
+  if (!formData.itemSellingPrice) errors.push("Selling price is required");
+  if (!formData.itemLabeledPrice) errors.push("Labeled price is required");
+  if (!formData.itemCompany) errors.push("Please select a company");
+  if (!formData.itemDistributor) errors.push("Please select a supplier");
+
+  //  Show all errors
+  if (errors.length > 0) {
+    errors.forEach((err) => toast.error(err));
+    return;
+  }
+
   const cost = Number(formData.itemCostPrice);
   const selling = Number(formData.itemSellingPrice);
   const labeled = Number(formData.itemLabeledPrice);
 
+  //  Price validations
   if (cost < 0 || selling < 0 || labeled < 0) {
     toast.error("Prices cannot be negative");
     return;
@@ -56,11 +75,6 @@ export default function AddItemPage() {
 
   if (selling < cost) {
     toast.warning("Selling price should be higher than cost price");
-    return;
-  }
-
-  if (!formData.itemName.trim()) {
-    toast.error("Item name is required");
     return;
   }
 
@@ -74,9 +88,7 @@ export default function AddItemPage() {
 
     await axios.post("http://localhost:5500/api/items", payload);
 
-    toast.success("Item added successfully!", {
-      description: "Product saved to inventory",
-    });
+    toast.success("Item added successfully!");
 
     setFormData({
       itemName: "",
@@ -90,9 +102,7 @@ export default function AddItemPage() {
     });
 
   } catch (error) {
-    toast.error("Failed to add item", {
-      description: "Please try again",
-    });
+    toast.error("Failed to add item");
   }
 };
 
