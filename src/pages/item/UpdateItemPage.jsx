@@ -261,7 +261,7 @@ export default function UpdateItemPage() {
         </div>
       )}
 
-      {/* ✅ Delete Modal */}
+      {/*  Delete Modal */}
       {showDeleteModal && (
         <div className="modal-bg">
           <div className="modal-box delete-modal">
