@@ -98,7 +98,7 @@ export default function UpdateItemPage() {
     }
   };
 
-  // ✅ DELETE WITH TOAST
+  // DELETE WITH TOAST
   const confirmDelete = async () => {
     try {
       await toast.promise(
