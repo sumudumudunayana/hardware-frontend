@@ -115,14 +115,12 @@ export default function AddItemPage() {
               placeholder="Item Name"
               value={formData.itemName}
               onChange={handleChange}
-              required
             />
 
             <select
               name="itemCategory"
               value={formData.itemCategory}
               onChange={handleChange}
-              required
             >
               <option value="">Select Category</option>
               {categories.map((cat) => (
@@ -138,7 +136,6 @@ export default function AddItemPage() {
             placeholder="Item Description"
             value={formData.itemDescription}
             onChange={handleChange}
-            required
           />
 
           <div className="form-row">
@@ -148,7 +145,6 @@ export default function AddItemPage() {
               placeholder="Cost Price"
               value={formData.itemCostPrice}
               onChange={handleChange}
-              required
             />
 
             <input
@@ -157,7 +153,6 @@ export default function AddItemPage() {
               placeholder="Selling Price"
               value={formData.itemSellingPrice}
               onChange={handleChange}
-              required
             />
           </div>
 
@@ -167,7 +162,6 @@ export default function AddItemPage() {
             placeholder="Labeled Price"
             value={formData.itemLabeledPrice}
             onChange={handleChange}
-            required
           />
 
           <div className="form-row">
