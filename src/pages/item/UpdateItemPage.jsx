@@ -52,7 +52,7 @@ export default function UpdateItemPage() {
     );
   };
 
-  // ✅ UPDATE WITH VALIDATION
+  //  UPDATE WITH VALIDATION
   const submitUpdate = async () => {
     const cost = Number(editData.itemCostPrice);
     const selling = Number(editData.itemSellingPrice);
