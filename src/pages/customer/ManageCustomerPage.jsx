@@ -51,34 +51,32 @@ export default function ManageCustomerPage() {
     setShowUpdateModal(true);
   };
 
-  // VALIDATION + UPDATE
+  // ✅ MULTIPLE VALIDATION (SAFE FOR "0")
   const submitUpdate = async () => {
     const { customerName, customerContactNumber, customerEmail } = editData;
 
-    // Name validation
-    if (!customerName.trim()) {
-      toast.error("Customer name is required");
-      return;
+    const errors = [];
+
+    if (!customerName?.trim()) {
+      errors.push("Customer name is required");
+    } else if (customerName.trim().length < 3) {
+      errors.push("Name must be at least 3 characters");
     }
 
-    if (customerName.length < 3) {
-      toast.warning("Name too short", {
-        description: "Must be at least 3 characters",
-      });
-      return;
+    if (!customerContactNumber?.toString().trim()) {
+      errors.push("Contact number is required");
+    } else if (!/^\d{10}$/.test(customerContactNumber)) {
+      errors.push("Contact number must be exactly 10 digits");
     }
 
-    // Phone validation
-    if (!/^\d{10}$/.test(customerContactNumber)) {
-      toast.error("Invalid contact number", {
-        description: "Must be exactly 10 digits",
-      });
-      return;
+    if (!customerEmail?.trim()) {
+      errors.push("Email is required");
+    } else if (!/^\S+@\S+\.\S+$/.test(customerEmail)) {
+      errors.push("Invalid email address");
     }
 
-    // Email validation
-    if (!/^\S+@\S+\.\S+$/.test(customerEmail)) {
-      toast.error("Invalid email address");
+    if (errors.length > 0) {
+      errors.forEach((err) => toast.error(err));
       return;
     }
 
@@ -86,7 +84,10 @@ export default function ManageCustomerPage() {
       await toast.promise(
         axios.put(
           `http://localhost:5500/api/customers/${editData._id}`,
-          editData
+          {
+            ...editData,
+            customerContactNumber: String(customerContactNumber), // 🔥 force string
+          }
         ),
         {
           loading: "Updating customer...",
@@ -106,7 +107,6 @@ export default function ManageCustomerPage() {
     } catch (err) {}
   };
 
-  // ✅ DELETE WITH TOAST
   const confirmDelete = async () => {
     try {
       await toast.promise(
@@ -128,7 +128,6 @@ export default function ManageCustomerPage() {
 
   return (
     <div className="customer-page-wrapper">
-
       <div className="customer-card">
 
         <div className="customer-header">
@@ -149,49 +148,15 @@ export default function ManageCustomerPage() {
 
         <div className="table-wrapper">
           <table className="customer-table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Contact</th>
-                <th>Email</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-
             <tbody>
-              {filtered.length > 0 ? (
-                filtered.map((c) => (
-                  <tr key={c._id}>
-                    <td>{c.customerId}</td>
-                    <td>{c.customerName}</td>
-                    <td>{c.customerContactNumber}</td>
-                    <td>{c.customerEmail}</td>
-
-                    <td className="actions">
-                      <button onClick={() => openUpdateModal(c)}>
-                        Update
-                      </button>
-
-                      <button
-                        className="delete"
-                        onClick={() => {
-                          setDeleteId(c._id);
-                          setShowDeleteModal(true);
-                        }}
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="5" className="no-results">
-                    No customers found
-                  </td>
+              {filtered.map((c) => (
+                <tr key={c._id}>
+                  <td>{c.customerId}</td>
+                  <td>{c.customerName}</td>
+                  <td>{c.customerContactNumber ?? "-"}</td>
+                  <td>{c.customerEmail}</td>
                 </tr>
-              )}
+              ))}
             </tbody>
           </table>
         </div>
@@ -203,73 +168,44 @@ export default function ManageCustomerPage() {
         <div className="modal-bg">
           <div className="modal-box">
 
-            <h2>Update Customer</h2>
+            <div className="modal-form">
 
-            <input
-              name="customerName"
-              value={editData.customerName}
-              onChange={(e) =>
-                setEditData({ ...editData, customerName: e.target.value })
-              }
-            />
+              <input
+                value={editData.customerName ?? ""}
+                onChange={(e) =>
+                  setEditData({ ...editData, customerName: e.target.value })
+                }
+              />
 
-            <input
-              name="customerContactNumber"
-              maxLength={10}
-              value={editData.customerContactNumber}
-              onChange={(e) => {
-                if (!/^\d*$/.test(e.target.value)) return;
-                setEditData({
-                  ...editData,
-                  customerContactNumber: e.target.value,
-                });
-              }}
-            />
+              <input
+                maxLength={10}
+                value={
+                  editData.customerContactNumber !== undefined &&
+                  editData.customerContactNumber !== null
+                    ? String(editData.customerContactNumber)
+                    : ""
+                }
+                onChange={(e) => {
+                  if (!/^\d*$/.test(e.target.value)) return;
+                  setEditData({
+                    ...editData,
+                    customerContactNumber: e.target.value,
+                  });
+                }}
+              />
 
-            <input
-              name="customerEmail"
-              value={editData.customerEmail}
-              onChange={(e) =>
-                setEditData({ ...editData, customerEmail: e.target.value })
-              }
-            />
+              <input
+                value={editData.customerEmail ?? ""}
+                onChange={(e) =>
+                  setEditData({ ...editData, customerEmail: e.target.value })
+                }
+              />
 
-            <div className="modal-actions">
-              <button onClick={() => setShowUpdateModal(false)}>
-                Cancel
-              </button>
-
-              <button className="primary" onClick={submitUpdate}>
-                Update
-              </button>
             </div>
 
           </div>
         </div>
       )}
-
-      {/* DELETE MODAL */}
-      {showDeleteModal && (
-        <div className="modal-bg">
-          <div className="modal-box">
-
-            <h2>Delete Customer</h2>
-            <p>Are you sure?</p>
-
-            <div className="modal-actions">
-              <button onClick={() => setShowDeleteModal(false)}>
-                Cancel
-              </button>
-
-              <button className="danger" onClick={confirmDelete}>
-                Delete
-              </button>
-            </div>
-
-          </div>
-        </div>
-      )}
-
     </div>
   );
 }
