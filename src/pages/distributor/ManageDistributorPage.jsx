@@ -39,7 +39,7 @@ export default function ManageDistributorPage() {
     );
   };
 
-  // ✅ VALIDATION + UPDATE
+  // ✅ MULTI VALIDATION
   const submitUpdate = async () => {
     const {
       distributorName,
@@ -48,36 +48,32 @@ export default function ManageDistributorPage() {
       distributorEmail,
     } = editData;
 
-    // Name validation
+    const errors = [];
+
     if (!distributorName?.trim()) {
-      toast.error("Supplier name is required");
-      return;
+      errors.push("Supplier name is required");
+    } else if (distributorName.trim().length < 3) {
+      errors.push("Supplier name must be at least 3 characters");
     }
 
-    if (distributorName.length < 3) {
-      toast.warning("Name too short", {
-        description: "Must be at least 3 characters",
-      });
-      return;
-    }
-
-    // Description validation
     if (!distributorDescription?.trim()) {
-      toast.error("Description is required");
-      return;
+      errors.push("Description is required");
     }
 
-    // Phone validation
-    if (!/^\d{10}$/.test(distributorContactNumber)) {
-      toast.error("Invalid contact number", {
-        description: "Must be exactly 10 digits",
-      });
-      return;
+    if (!distributorContactNumber) {
+      errors.push("Contact number is required");
+    } else if (!/^\d{10}$/.test(distributorContactNumber)) {
+      errors.push("Contact number must be exactly 10 digits");
     }
 
-    // Email validation
-    if (!/^\S+@\S+\.\S+$/.test(distributorEmail)) {
-      toast.error("Invalid email address");
+    if (!distributorEmail?.trim()) {
+      errors.push("Email is required");
+    } else if (!/^\S+@\S+\.\S+$/.test(distributorEmail)) {
+      errors.push("Invalid email address");
+    }
+
+    if (errors.length > 0) {
+      errors.forEach((err) => toast.error(err));
       return;
     }
 
@@ -103,23 +99,27 @@ export default function ManageDistributorPage() {
     } catch (err) {}
   };
 
-  // ✅ DELETE WITH TOAST
   const confirmDelete = async () => {
-    try {
-      await toast.promise(
-        axios.delete(`http://localhost:5500/api/distributors/${deleteId}`),
-        {
-          loading: "Deleting supplier...",
-          success: "Supplier deleted successfully!",
-          error: "Delete failed!",
-        }
-      );
+  try {
+    await toast.promise(
+      axios.delete(`http://localhost:5500/api/distributors/${deleteId}`),
+      {
+        loading: "Deleting supplier...",
+        success: "Supplier deleted successfully!",
+        error: "Delete failed!",
+      }
+    );
 
-      setShowDeleteModal(false);
-      loadDistributors();
+    // ✅ Remove from state immediately
+    const updated = distributors.filter((d) => d._id !== deleteId);
 
-    } catch (err) {}
-  };
+    setDistributors(updated);
+    setFiltered(updated);
+
+    setShowDeleteModal(false);
+
+  } catch (err) {}
+};
 
   return (
     <div className="distributor-page-wrapper">
@@ -157,11 +157,11 @@ export default function ManageDistributorPage() {
             <tbody>
               {filtered.map((d) => (
                 <tr key={d._id}>
-                  <td>{d.distributorId}</td>
-                  <td>{d.distributorName}</td>
-                  <td>{d.distributorDescription}</td>
-                  <td>{d.distributorContactNumber}</td>
-                  <td>{d.distributorEmail}</td>
+                  <td>{d.distributorId ?? "-"}</td>
+                  <td>{d.distributorName ?? "-"}</td>
+                  <td>{d.distributorDescription ?? "-"}</td>
+                  <td>{d.distributorContactNumber ?? "-"}</td>
+                  <td>{d.distributorEmail ?? "-"}</td>
 
                   <td className="actions">
                     <button
@@ -196,50 +196,72 @@ export default function ManageDistributorPage() {
         <div className="modal-bg">
           <div className="modal-box light">
 
-            <h2>Update Supplier</h2>
+            <div className="modal-header">
+              <h2>Update Supplier</h2>
+              <p>Edit supplier details</p>
+            </div>
 
-            <input
-              name="distributorName"
-              value={editData.distributorName}
-              onChange={(e) =>
-                setEditData({ ...editData, distributorName: e.target.value })
-              }
-            />
+            <div className="modal-form">
 
-            <textarea
-              name="distributorDescription"
-              value={editData.distributorDescription}
-              onChange={(e) =>
-                setEditData({
-                  ...editData,
-                  distributorDescription: e.target.value,
-                })
-              }
-            />
+              <div className="form-group">
+                <label>Supplier Name</label>
+                <input
+                  placeholder="Enter supplier name"
+                  value={editData.distributorName ?? ""}
+                  onChange={(e) =>
+                    setEditData({
+                      ...editData,
+                      distributorName: e.target.value,
+                    })
+                  }
+                />
+              </div>
 
-            <input
-              name="distributorContactNumber"
-              maxLength={10}
-              value={editData.distributorContactNumber}
-              onChange={(e) => {
-                if (!/^\d*$/.test(e.target.value)) return;
-                setEditData({
-                  ...editData,
-                  distributorContactNumber: e.target.value,
-                });
-              }}
-            />
+              <div className="form-group">
+                <label>Description</label>
+                <textarea
+                  placeholder="Enter description"
+                  value={editData.distributorDescription ?? ""}
+                  onChange={(e) =>
+                    setEditData({
+                      ...editData,
+                      distributorDescription: e.target.value,
+                    })
+                  }
+                />
+              </div>
 
-            <input
-              name="distributorEmail"
-              value={editData.distributorEmail}
-              onChange={(e) =>
-                setEditData({
-                  ...editData,
-                  distributorEmail: e.target.value,
-                })
-              }
-            />
+              <div className="form-group">
+                <label>Contact Number</label>
+                <input
+                  placeholder="Enter 10-digit number"
+                  maxLength={10}
+                  value={editData.distributorContactNumber ?? ""}
+                  onChange={(e) => {
+                    if (!/^\d*$/.test(e.target.value)) return;
+                    setEditData({
+                      ...editData,
+                      distributorContactNumber: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Email</label>
+                <input
+                  placeholder="Enter email"
+                  value={editData.distributorEmail ?? ""}
+                  onChange={(e) =>
+                    setEditData({
+                      ...editData,
+                      distributorEmail: e.target.value,
+                    })
+                  }
+                />
+              </div>
+
+            </div>
 
             <div className="modal-actions">
               <button onClick={() => setShowUpdateModal(false)}>
@@ -276,6 +298,7 @@ export default function ManageDistributorPage() {
           </div>
         </div>
       )}
+
     </div>
   );
 }
