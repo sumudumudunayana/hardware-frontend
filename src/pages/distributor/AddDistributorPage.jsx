@@ -14,7 +14,7 @@ export default function AddDistributorPage() {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // ✅ Allow only numbers for phone
+    // ✅ Allow only numbers for phone input
     if (name === "distributorContactNumber") {
       if (!/^\d*$/.test(value)) return;
     }
@@ -32,43 +32,44 @@ export default function AddDistributorPage() {
       distributorEmail,
     } = formData;
 
-    // ✅ Name validation
-    if (!distributorName.trim()) {
-      toast.error("Supplier name is required");
-      return;
+    const errors = [];
+
+    // 🔴 Name validation
+    if (!distributorName?.trim()) {
+      errors.push("Supplier name is required");
+    } else if (distributorName.trim().length < 2) {
+      errors.push("Supplier name must be at least 2 characters");
     }
 
-    if (distributorName.length < 3) {
-      toast.warning("Name too short", {
-        description: "Must be at least 3 characters",
-      });
-      return;
+    // 🔴 Description validation
+    if (!distributorDescription?.trim()) {
+      errors.push("Description is required");
     }
 
-    // ✅ Description validation
-    if (!distributorDescription.trim()) {
-      toast.error("Description is required");
-      return;
+    // 🔴 Phone validation (SAFE)
+    if (!distributorContactNumber?.toString().trim()) {
+      errors.push("Contact number is required");
+    } else if (!/^\d{10}$/.test(distributorContactNumber)) {
+      errors.push("Contact number must be exactly 10 digits");
     }
 
-    // ✅ Phone validation
-    if (!/^\d{10}$/.test(distributorContactNumber)) {
-      toast.error("Invalid contact number", {
-        description: "Must be exactly 10 digits",
-      });
-      return;
+    // 🔴 Email validation
+    if (!distributorEmail?.trim()) {
+      errors.push("Email is required");
+    } else if (!/^\S+@\S+\.\S+$/.test(distributorEmail)) {
+      errors.push("Invalid email address");
     }
 
-    // ✅ Email validation
-    if (!/^\S+@\S+\.\S+$/.test(distributorEmail)) {
-      toast.error("Invalid email address");
+    // 🔴 Show all errors
+    if (errors.length > 0) {
+      errors.forEach((err) => toast.error(err));
       return;
     }
 
     try {
       const payload = {
         ...formData,
-        distributorContactNumber: Number(distributorContactNumber),
+        distributorContactNumber: distributorContactNumber, // ✅ FIXED (STRING)
       };
 
       await toast.promise(
@@ -80,6 +81,7 @@ export default function AddDistributorPage() {
         }
       );
 
+      // Reset form
       setFormData({
         distributorName: "",
         distributorDescription: "",
@@ -96,16 +98,16 @@ export default function AddDistributorPage() {
   };
 
   return (
-    <div className="distributor-page-wrapper">
-      <div className="distributor-card">
+    <div className="supplier-page-wrapper">
+      <div className="supplier-card">
 
-        <div className="distributor-header">
-          <span className="badge">SUPPLIER</span>
+        <div className="supplier-header">
+          <span className="supplier-badge">SUPPLIER</span>
           <h1>Add Supplier</h1>
           <p>Register new supplier details into the system</p>
         </div>
 
-        <form className="distributor-form" onSubmit={handleSubmit}>
+        <form className="supplier-form" onSubmit={handleSubmit}>
           
           <input
             type="text"
