@@ -46,9 +46,9 @@ export default function UpdateItemPage() {
         ? items.filter(
             (i) =>
               i.itemName.toLowerCase().includes(key) ||
-              i.itemId.toString() === key
+              i.itemId.toString() === key,
           )
-        : items
+        : items,
     );
   };
 
@@ -88,7 +88,7 @@ export default function UpdateItemPage() {
           loading: "Updating item...",
           success: "Item updated successfully!",
           error: "Update failed!",
-        }
+        },
       );
 
       loadItems();
@@ -107,7 +107,7 @@ export default function UpdateItemPage() {
           loading: "Deleting item...",
           success: "Item deleted successfully!",
           error: "Delete failed!",
-        }
+        },
       );
 
       loadItems();
@@ -197,52 +197,70 @@ export default function UpdateItemPage() {
             </div>
 
             <div className="modal-form">
-              <input
-                name="itemName"
-                placeholder="Item Name"
-                value={editData.itemName}
-                onChange={(e) =>
-                  setEditData({ ...editData, itemName: e.target.value })
-                }
-              />
+              {/* Item Name */}
+              <div className="form-group">
+                <label>Item Name</label>
+                <input
+                  name="itemName"
+                  placeholder="Enter item name"
+                  value={editData.itemName || ""}
+                  onChange={(e) =>
+                    setEditData({ ...editData, itemName: e.target.value })
+                  }
+                />
+              </div>
 
-              <select
-                value={editData.itemCategory}
-                onChange={(e) =>
-                  setEditData({ ...editData, itemCategory: e.target.value })
-                }
-              >
-                <option value="">Select Category</option>
-                {categories.map((c) => (
-                  <option key={c._id}>{c.categoryName}</option>
-                ))}
-              </select>
+              {/* Category */}
+              <div className="form-group">
+                <label>Category</label>
+                <select
+                  value={editData.itemCategory || ""}
+                  onChange={(e) =>
+                    setEditData({ ...editData, itemCategory: e.target.value })
+                  }
+                >
+                  <option value="">Select Category</option>
+                  {categories.map((c) => (
+                    <option key={c._id} value={c.categoryName}>
+                      {c.categoryName}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-              <input
-                type="number"
-                min="0"
-                placeholder="Selling Price"
-                value={editData.itemSellingPrice}
-                onChange={(e) =>
-                  setEditData({
-                    ...editData,
-                    itemSellingPrice: e.target.value,
-                  })
-                }
-              />
+              {/* Selling Price */}
+              <div className="form-group">
+                <label>Selling Price</label>
+                <input
+                  type="number"
+                  min="0"
+                  placeholder="Enter selling price"
+                  value={editData.itemSellingPrice || ""}
+                  onChange={(e) =>
+                    setEditData({
+                      ...editData,
+                      itemSellingPrice: e.target.value,
+                    })
+                  }
+                />
+              </div>
 
-              <input
-                type="number"
-                min="0"
-                placeholder="Cost Price"
-                value={editData.itemCostPrice}
-                onChange={(e) =>
-                  setEditData({
-                    ...editData,
-                    itemCostPrice: e.target.value,
-                  })
-                }
-              />
+              {/* Cost Price */}
+              <div className="form-group">
+                <label>Cost Price</label>
+                <input
+                  type="number"
+                  min="0"
+                  placeholder="Enter cost price"
+                  value={editData.itemCostPrice || ""}
+                  onChange={(e) =>
+                    setEditData({
+                      ...editData,
+                      itemCostPrice: e.target.value,
+                    })
+                  }
+                />
+              </div>
             </div>
 
             <div className="modal-actions">
