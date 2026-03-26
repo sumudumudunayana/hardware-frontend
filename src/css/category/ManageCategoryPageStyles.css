@@ -257,3 +257,36 @@
 .modal-actions .danger:hover {
   background: #dc2626;
 }
+
+.modal-delete-text {
+  margin: 15px 0;
+  font-size: 14px;
+  color: #475569;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.modal-form input,
+.modal-form textarea {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #cbd5f5;
+  font-size: 14px;
+}
+
+.modal-form input:focus,
+.modal-form textarea:focus {
+  border-color: #3b82f6;
+  outline: none;
+}
