@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { toast } from "sonner";
 import "../../css/category/ManageCategoryPageStyles.css";
 
 export default function ManageCategoryPage() {
   const [categories, setCategories] = useState([]);
   const [search, setSearch] = useState("");
   const [filtered, setFiltered] = useState([]);
+
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+
   const [editData, setEditData] = useState({
     _id: "",
     categoryName: "",
@@ -15,7 +18,6 @@ export default function ManageCategoryPage() {
   });
 
   const [deleteId, setDeleteId] = useState(null);
-  const [alert, setAlert] = useState({ show: false, type: "", message: "" });
 
   useEffect(() => {
     loadCategories();
@@ -44,21 +46,60 @@ export default function ManageCategoryPage() {
     setShowUpdateModal(true);
   };
 
+  // ✅ UPDATE WITH VALIDATION + SONNER
   const submitUpdate = async () => {
-    await axios.put(
-      `http://localhost:5500/api/categories/${editData._id}`,
-      editData
-    );
-    loadCategories();
-    setShowUpdateModal(false);
+    const errors = [];
+
+    if (!editData.categoryName?.trim()) {
+      errors.push("Category name is required");
+    }
+
+    if (!editData.categoryDescription?.trim()) {
+      errors.push("Category description is required");
+    }
+
+    if (errors.length > 0) {
+      errors.forEach((err) => toast.error(err));
+      return;
+    }
+
+    try {
+      await toast.promise(
+        axios.put(
+          `http://localhost:5500/api/categories/${editData._id}`,
+          editData
+        ),
+        {
+          loading: "Updating category...",
+          success: "Category updated successfully!",
+          error: "Update failed!",
+        }
+      );
+
+      loadCategories();
+      setShowUpdateModal(false);
+
+    } catch (err) {}
   };
 
+  // ✅ DELETE WITH SONNER
   const confirmDelete = async () => {
-    await axios.delete(
-      `http://localhost:5500/api/categories/${deleteId}`
-    );
-    loadCategories();
-    setShowDeleteModal(false);
+    try {
+      await toast.promise(
+        axios.delete(
+          `http://localhost:5500/api/categories/${deleteId}`
+        ),
+        {
+          loading: "Deleting category...",
+          success: "Category deleted successfully!",
+          error: "Delete failed!",
+        }
+      );
+
+      loadCategories();
+      setShowDeleteModal(false);
+
+    } catch (err) {}
   };
 
   return (
@@ -102,6 +143,7 @@ export default function ManageCategoryPage() {
                     <button onClick={() => openUpdateModal(cat)}>
                       Edit
                     </button>
+
                     <button
                       className="delete"
                       onClick={() => {
@@ -119,36 +161,55 @@ export default function ManageCategoryPage() {
         </div>
       </div>
 
-      {/* UPDATE MODAL */}
+      {/* ✅ UPDATE MODAL */}
       {showUpdateModal && (
         <div className="modal-bg">
           <div className="modal-box">
 
-            <h2>Edit Category</h2>
+            <div className="modal-header">
+              <h2>Edit Category</h2>
+              <p>Update category details</p>
+            </div>
 
-            <input
-              value={editData.categoryName}
-              onChange={(e) =>
-                setEditData({ ...editData, categoryName: e.target.value })
-              }
-            />
+            <div className="modal-form">
 
-            <textarea
-              value={editData.categoryDescription}
-              onChange={(e) =>
-                setEditData({
-                  ...editData,
-                  categoryDescription: e.target.value,
-                })
-              }
-            />
+              <div className="form-group">
+                <label>Category Name</label>
+                <input
+                  placeholder="Enter category name"
+                  value={editData.categoryName || ""}
+                  onChange={(e) =>
+                    setEditData({
+                      ...editData,
+                      categoryName: e.target.value,
+                    })
+                  }
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Description</label>
+                <textarea
+                  placeholder="Enter category description"
+                  value={editData.categoryDescription || ""}
+                  onChange={(e) =>
+                    setEditData({
+                      ...editData,
+                      categoryDescription: e.target.value,
+                    })
+                  }
+                />
+              </div>
+
+            </div>
 
             <div className="modal-actions">
               <button onClick={() => setShowUpdateModal(false)}>
                 Cancel
               </button>
+
               <button className="primary" onClick={submitUpdate}>
-                Save
+                Save Changes
               </button>
             </div>
 
@@ -156,21 +217,30 @@ export default function ManageCategoryPage() {
         </div>
       )}
 
-      {/* DELETE MODAL */}
+      {/* ✅ DELETE MODAL */}
       {showDeleteModal && (
         <div className="modal-bg">
           <div className="modal-box">
-            <h2>Delete Category</h2>
-            <p>Are you sure?</p>
+
+            <div className="modal-header">
+              <h2>Delete Category</h2>
+              <p>This action cannot be undone</p>
+            </div>
+
+            <div className="modal-delete-text">
+              Are you sure you want to delete this category?
+            </div>
 
             <div className="modal-actions">
               <button onClick={() => setShowDeleteModal(false)}>
                 Cancel
               </button>
+
               <button className="danger" onClick={confirmDelete}>
                 Delete
               </button>
             </div>
+
           </div>
         </div>
       )}
