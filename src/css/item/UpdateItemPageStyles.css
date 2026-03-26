@@ -137,26 +137,31 @@
 }
 
 /* Form */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #555;
+}
+
 .modal-form input,
 .modal-form select {
-  width: 100%;
-  padding: 11px;
-  margin-bottom: 12px;
-
-  border-radius: 10px;
-  border: 1px solid rgba(148, 163, 184, 0.4);
-
-  background: #ffffff;
-  color: #0f172a;
-
-  outline: none;
-  transition: 0.2s;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
 }
 
 .modal-form input:focus,
 .modal-form select:focus {
-  border-color: #f59e0b;
-  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+  border-color: #4f46e5;
+  outline: none;
 }
 
 /* Actions */
@@ -216,3 +221,4 @@
   color: #334155;
   margin: 10px 0;
 }
+
