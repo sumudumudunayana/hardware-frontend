@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { toast } from "sonner";
 import "../../css/category/AddCategoryPageStyles.css";
 
 export default function AddCategoryPage() {
@@ -14,16 +15,41 @@ export default function AddCategoryPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // 🔴 Collect all errors
+    const errors = [];
+
+    if (!formData.categoryName.trim()) {
+      errors.push("Category name is required");
+    }
+
+    if (!formData.categoryDescription.trim()) {
+      errors.push("Category description is required");
+    }
+
+    // 🔴 Show all errors at once
+    if (errors.length > 0) {
+      errors.forEach((err) => toast.error(err));
+      return;
+    }
+
     try {
-      await axios.post("http://localhost:5500/api/categories", formData);
-      alert("Category Added Successfully!");
+      await toast.promise(
+        axios.post("http://localhost:5500/api/categories", formData),
+        {
+          loading: "Adding category...",
+          success: "Category added successfully!",
+          error: "Failed to add category",
+        }
+      );
+
       setFormData({
         categoryName: "",
         categoryDescription: "",
       });
+
     } catch (error) {
-      console.error("Error adding category:", error);
-      alert("Failed to add category.");
+      console.error(error);
     }
   };
 
@@ -45,7 +71,6 @@ export default function AddCategoryPage() {
             placeholder="Category Name"
             value={formData.categoryName}
             onChange={handleChange}
-            required
           />
 
           <textarea
@@ -53,7 +78,6 @@ export default function AddCategoryPage() {
             placeholder="Category Description"
             value={formData.categoryDescription}
             onChange={handleChange}
-            required
           ></textarea>
 
           <button type="submit" className="add-category-btn">
