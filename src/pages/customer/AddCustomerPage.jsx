@@ -26,32 +26,32 @@ export default function AddCustomerPage() {
 
     const { customerName, customerContactNumber, customerEmail } = formData;
 
-    //  Name validation
+    const errors = [];
+
+    // 🔴 Name validation
     if (!customerName.trim()) {
-      toast.error("Customer name is required");
-      return;
+      errors.push("Customer name is required");
+    } else if (customerName.length < 3) {
+      errors.push("Customer name must be at least 3 characters");
     }
 
-    if (customerName.length < 3) {
-      toast.warning("Name too short", {
-        description: "Customer name must be at least 3 characters",
-      });
-      return;
+    // 🔴 Phone validation
+    if (!customerContactNumber) {
+      errors.push("Contact number is required");
+    } else if (!/^\d{10}$/.test(customerContactNumber)) {
+      errors.push("Contact number must be exactly 10 digits");
     }
 
-    //  Phone validation
-    if (!/^\d{10}$/.test(customerContactNumber)) {
-      toast.error("Invalid contact number", {
-        description: "Must be exactly 10 digits",
-      });
-      return;
+    // 🔴 Email validation
+    if (!customerEmail.trim()) {
+      errors.push("Email is required");
+    } else if (!/^\S+@\S+\.\S+$/.test(customerEmail)) {
+      errors.push("Invalid email address");
     }
 
-    // Email validation
-    if (!/^\S+@\S+\.\S+$/.test(customerEmail)) {
-      toast.error("Invalid email address", {
-        description: "Please enter a valid email",
-      });
+    // 🔴 Show all errors at once
+    if (errors.length > 0) {
+      errors.forEach((err) => toast.error(err));
       return;
     }
 
@@ -65,6 +65,7 @@ export default function AddCustomerPage() {
         }
       );
 
+      // Reset form
       setFormData({
         customerName: "",
         customerContactNumber: "",
@@ -106,7 +107,6 @@ export default function AddCustomerPage() {
             value={formData.customerContactNumber}
             onChange={handleChange}
             maxLength={10}
-            required
           />
 
           <input
@@ -115,7 +115,6 @@ export default function AddCustomerPage() {
             placeholder="Customer Email"
             value={formData.customerEmail}
             onChange={handleChange}
-            required
           />
 
           <button type="submit" className="add-customer-btn">
