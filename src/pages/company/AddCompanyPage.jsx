@@ -111,7 +111,6 @@ export default function AddCompanyPage() {
         <div className="company-header">
           <span className="company-badge">COMPANY</span>
           <h1>Add New Company</h1>
-          <p>Register a new company into the system</p>
         </div>
 
         <form className="company-form" onSubmit={handleSubmit}>
