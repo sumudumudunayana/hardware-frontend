@@ -109,7 +109,6 @@ export default function ManageCategoryPage() {
         <div className="category-header">
           <span className="category-badge">CATEGORY MODULE</span>
           <h1>Manage Categories</h1>
-          <p>Edit or remove category records</p>
         </div>
 
         <input
