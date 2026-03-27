@@ -14,6 +14,7 @@ body {
   overflow: hidden;
 }
 
+/* ─── BASE BACKGROUND ────────────────────────────────────────────────────── */
 body {
   background: #eaf1f8;
 }
@@ -41,6 +42,7 @@ body {
     linear-gradient(135deg, #edf3f9 0%, #dfe9f5 45%, #d7e3f0 100%);
 }
 
+/* Grid overlay */
 .option-page-grid-bg {
   position: absolute;
   inset: 0;
@@ -52,6 +54,7 @@ body {
   pointer-events: none;
 }
 
+/* Glow orbs */
 .option-page-glow {
   position: absolute;
   border-radius: 50%;
@@ -76,6 +79,7 @@ body {
   right: -100px;
 }
 
+/* ─── MAIN PANEL ─────────────────────────────────────────────────────────── */
 .option-page-panel {
   position: relative;
   z-index: 2;
@@ -90,6 +94,14 @@ body {
   box-shadow: 0 20px 50px rgba(15, 23, 42, 0.12);
 }
 
+/* ─── TOP BAR ────────────────────────────────────────────────────────────── */
+.option-page-topbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+/* ─── HEADER ─────────────────────────────────────────────────────────────── */
 .option-page-header {
   display: flex;
   justify-content: space-between;
@@ -136,21 +148,27 @@ body {
   flex-wrap: wrap;
 }
 
+/* ─── SUNK (INSET) METRIC CARDS ──────────────────────────────────────────── */
 .option-page-metric-card {
   min-width: 170px;
   padding: 18px 18px;
   border-radius: 22px;
-  background: rgba(255, 255, 255, 0.42);
-  border: 1px solid rgba(148, 163, 184, 0.22);
-  backdrop-filter: blur(18px);
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
   transition: all 0.3s ease;
 }
 
-.option-page-metric-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(245, 158, 11, 0.3);
-  box-shadow: 0 16px 35px rgba(15, 23, 42, 0.12);
+/* Sunk = concave inset look */
+.option-page-metric-sunk {
+  background: rgba(255, 255, 255, 0.22);
+  box-shadow:
+    inset 5px 5px 12px rgba(148, 163, 184, 0.45),
+    inset -5px -5px 12px rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(148, 163, 184, 0.15);
+}
+
+.option-page-metric-sunk:hover {
+  box-shadow:
+    inset 7px 7px 16px rgba(148, 163, 184, 0.5),
+    inset -7px -7px 16px rgba(255, 255, 255, 0.8);
 }
 
 .option-page-metric-label {
@@ -158,6 +176,8 @@ body {
   color: #64748b;
   font-size: 13px;
   margin-bottom: 8px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 .option-page-metric-card h3 {
@@ -168,31 +188,69 @@ body {
 }
 
 .option-page-metric-card p {
-  color: #475569;
+  color: #64748b;
   font-size: 14px;
 }
 
+/* ─── MODULE GRID ────────────────────────────────────────────────────────── */
 .option-page-module-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 18px;
 }
 
+/* ─── POP (RAISED/CONVEX) MODULE CARDS ───────────────────────────────────── */
 .option-page-module-card {
   padding: 20px;
   border-radius: 24px;
-  background: rgba(255, 255, 255, 0.5);
-  border: 1px solid rgba(148, 163, 184, 0.2);
-  transition: all 0.3s ease;
-  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.05);
   cursor: pointer;
+  transition: all 0.25s ease;
+  border: none;
+  position: relative;
 }
 
-.option-page-module-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(245, 158, 11, 0.28);
-  box-shadow: 0 16px 30px rgba(15, 23, 42, 0.1);
+/* Pop = convex raised look */
+/* 🔥 STRONG POP EFFECT */
+.option-page-module-pop {
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.9),
+    rgba(248, 250, 252, 0.7)
+  );
+
+  border: 1px solid rgba(255, 255, 255, 0.6);
+
+  box-shadow:
+    0 15px 30px rgba(15, 23, 42, 0.18),   /* main shadow */
+    0 5px 10px rgba(15, 23, 42, 0.08),    /* soft depth */
+    inset 0 1px 0 rgba(255, 255, 255, 0.7); /* light edge */
+
+  backdrop-filter: blur(10px);
+
+  transition: all 0.35s ease;
 }
+
+/* Hover: lift higher + accent glow */
+.option-page-module-pop:hover {
+  transform: translateY(-10px) scale(1.02);
+
+  box-shadow:
+    0 25px 50px rgba(15, 23, 42, 0.25),
+    0 10px 20px rgba(15, 23, 42, 0.12),
+    0 0 0 1px rgba(245, 158, 11, 0.2);
+
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+/* Active/press: push inward */
+.option-page-module-pop:active {
+  transform: translateY(-2px);
+
+  box-shadow:
+    inset 3px 3px 8px rgba(15, 23, 42, 0.15),
+    inset -3px -3px 8px rgba(255, 255, 255, 0.8);
+}
+
 
 .option-page-module-top {
   display: flex;
@@ -209,27 +267,31 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(
-    135deg,
-    rgba(245, 158, 11, 0.15),
-    rgba(251, 191, 36, 0.22)
-  );
   font-size: 22px;
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow:
+    4px 4px 10px rgba(148, 163, 184, 0.4),
+    -3px -3px 8px rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.55);
 }
 
 .option-page-module-status {
   font-size: 12px;
   font-weight: 700;
   color: #2563eb;
-  background: rgba(59, 130, 246, 0.1);
-  padding: 7px 10px;
+  background: rgba(255, 255, 255, 0.35);
+  box-shadow:
+    inset 3px 3px 7px rgba(148, 163, 184, 0.4),
+    inset -3px -3px 7px rgba(255, 255, 255, 0.8);
+  padding: 7px 12px;
   border-radius: 999px;
   white-space: nowrap;
+  border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
 .option-page-module-card h2 {
   margin-bottom: 10px;
-  font-size: 22px;
+  font-size: 20px;
   line-height: 1.3;
   font-weight: 700;
   color: #0f172a;
@@ -237,7 +299,7 @@ body {
 
 .option-page-module-card p {
   color: #475569;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.7;
   margin-bottom: 18px;
 }
@@ -248,7 +310,39 @@ body {
   color: #d97706;
 }
 
-/* Responsive */
+/* ─── LOGOUT BUTTON ──────────────────────────────────────────────────────── */
+.option-logout-btn {
+  padding: 10px 18px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  background: #dc2626;
+  box-shadow:
+    5px 5px 12px rgba(148, 163, 184, 0.4),
+    -4px -4px 10px rgba(255, 255, 255, 0.85);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.option-logout-btn:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    7px 7px 16px rgba(148, 163, 184, 0.45),
+    -5px -5px 12px rgba(255, 255, 255, 0.9),
+    0 0 0 1.5px rgba(220, 38, 38, 0.2);
+  color: #000000;
+}
+
+.option-logout-btn:active {
+  transform: scale(0.97);
+  box-shadow:
+    inset 4px 4px 8px rgba(148, 163, 184, 0.4),
+    inset -4px -4px 8px rgba(255, 255, 255, 0.75);
+}
+
+/* ─── RESPONSIVE ─────────────────────────────────────────────────────────── */
 @media (max-width: 1100px) {
   .option-page-shell {
     padding: 20px 22px;
@@ -310,41 +404,4 @@ body {
     white-space: normal;
     text-align: right;
   }
-}
-
-
-
-
-/* ================= LOGOUT BUTTON ================= */
-
-.option-page-topbar {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 10px;
-}
-
-.option-logout-btn {
-  padding: 10px 18px;
-  border-radius: 10px;
-  border: none;
-
-  background: linear-gradient(135deg, #ef4444, #dc2626);
-  color: white;
-
-  font-weight: 600;
-  font-size: 14px;
-
-  cursor: pointer;
-  transition: all 0.3s ease;
-
-  box-shadow: 0 6px 15px rgba(239, 68, 68, 0.3);
-}
-
-.option-logout-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(239, 68, 68, 0.4);
-}
-
-.option-logout-btn:active {
-  transform: scale(0.96);
 }
