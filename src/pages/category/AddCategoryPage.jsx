@@ -60,7 +60,6 @@ export default function AddCategoryPage() {
         <div className="add-category-header">
           <span className="add-category-badge">CATEGORY MODULE</span>
           <h1>Add New Category</h1>
-          <p>Create and organize product categories</p>
         </div>
 
         <form className="add-category-form" onSubmit={handleSubmit}>
