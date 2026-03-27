@@ -17,11 +17,7 @@ export default function LandingPage() {
           <span className="logo-text">HardwareMS</span>
         </div>
 
-        <div className="topbar-right">
-          <button className="ghost-btn" onClick={() => navigate("/OptionPage")}>
-            Dashboard
-          </button>
-        </div>
+       
       </header>
 
       <main className="hero-section">
