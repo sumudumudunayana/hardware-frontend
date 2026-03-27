@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import "../../css/auth/LoginPageStyles.css";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -18,25 +19,61 @@ export default function LoginPage() {
     });
   };
 
+  // LOGIN WITH VALIDATION + SONNER
   const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axios.post(
-        "http://localhost:5500/api/auth/login",
-        formData,
-      );
-      localStorage.setItem("token", res.data.token);
+  e.preventDefault();
+
+  const { email, password } = formData;
+
+  const errors = [];
+
+  if (!email || !email.trim()) {
+    errors.push("Email is required");
+  } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+    errors.push("Invalid email format");
+  }
+
+  if (!password || !password.trim()) {
+    errors.push("Password is required");
+  }
+
+  if (errors.length > 0) {
+    errors.forEach((err) => toast.error(err));
+    return;
+  }
+
+  try {
+    const res = await axios.post(
+      "http://localhost:5500/api/auth/login",
+      {
+        email: email.trim(),
+        password: password.trim(),
+      }
+    );
+
+    // ✅ SUCCESS ONLY HERE
+    toast.success("Login successful!");
+
+    localStorage.setItem("token", res.data.token);
+
+    setTimeout(() => {
       navigate("/LandingPage");
-    } catch (error) {
-      alert(error.response?.data?.message || "Login failed");
-    }
-  };
+    }, 500);
+
+  } catch (error) {
+    // ✅ ERROR ONLY HERE
+    toast.error(
+      error.response?.data?.message || "Invalid credentials"
+    );
+  }
+};
 
   return (
     <div className="auth-container">
       <div className="login-bg-grid"></div>
       <div className="bg-glow bg-glow-1"></div>
       <div className="bg-glow bg-glow-2"></div>
+
       <div className="login-card">
         <div className="login-badge">SECURE ACCESS</div>
 
@@ -48,11 +85,11 @@ export default function LoginPage() {
         <form onSubmit={handleLogin}>
           <div className="input-box">
             <input
-              type="email"
+              type="text"
               name="email"
               placeholder="Enter your email"
+              value={formData.email}
               onChange={handleChange}
-              required
             />
           </div>
 
@@ -61,11 +98,11 @@ export default function LoginPage() {
               type="password"
               name="password"
               placeholder="Enter your password"
+              value={formData.password}
               onChange={handleChange}
-              required
             />
           </div>
-          
+
           <div className="login-options">
             <label>
               <input type="checkbox" /> Remember me
@@ -81,7 +118,10 @@ export default function LoginPage() {
 
         <p className="register-link">
           Don't have an account?
-          <span onClick={() => navigate("/RegisterPage")}> Register</span>
+          <span onClick={() => navigate("/RegisterPage")}>
+            {" "}
+            Register
+          </span>
         </p>
       </div>
     </div>
