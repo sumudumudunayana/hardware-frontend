@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import { toast } from "sonner";
 import "../../css/company/AddCompanyPageStyles.css";
 
@@ -15,7 +15,7 @@ export default function AddCompanyPage() {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // ✅ Only numbers for phone
+    //  Only numbers for phone
     if (name === "companyContactNumber") {
       if (!/^\d*$/.test(value)) return;
     }
@@ -34,7 +34,7 @@ export default function AddCompanyPage() {
       companyEmail,
     } = formData;
 
-    // ✅ Name validation
+    //  Name validation
     if (!companyName.trim()) {
       toast.error("Company name is required");
       return;
@@ -47,19 +47,19 @@ export default function AddCompanyPage() {
       return;
     }
 
-    // ✅ Description validation
+    //  Description validation
     if (!companyDescription.trim()) {
       toast.error("Description is required");
       return;
     }
 
-    // ✅ Address validation
+    //  Address validation
     if (!companyAddress.trim()) {
       toast.error("Address is required");
       return;
     }
 
-    // ✅ Phone validation
+    //  Phone validation
     if (!/^\d{10}$/.test(companyContactNumber)) {
       toast.error("Invalid contact number", {
         description: "Must be exactly 10 digits",
@@ -67,7 +67,7 @@ export default function AddCompanyPage() {
       return;
     }
 
-    // ✅ Email validation
+    //  Email validation
     if (!/^\S+@\S+\.\S+$/.test(companyEmail)) {
       toast.error("Invalid email address");
       return;
@@ -80,7 +80,7 @@ export default function AddCompanyPage() {
       };
 
       await toast.promise(
-        axios.post("http://localhost:5500/api/companies", payload),
+        api.post("/companies", payload),
         {
           loading: "Adding company...",
           success: "Company added successfully!",
