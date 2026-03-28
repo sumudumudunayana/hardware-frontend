@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import { toast } from "sonner";
 import "../../css/category/ManageCategoryPageStyles.css";
 
@@ -24,7 +24,7 @@ export default function ManageCategoryPage() {
   }, []);
 
   const loadCategories = async () => {
-    const res = await axios.get("http://localhost:5500/api/categories");
+    const res = await api.get("/categories");
     setCategories(res.data);
     setFiltered(res.data);
   };
@@ -46,7 +46,7 @@ export default function ManageCategoryPage() {
     setShowUpdateModal(true);
   };
 
-  // ✅ UPDATE WITH VALIDATION + SONNER
+  //  UPDATE WITH VALIDATION + SONNER
   const submitUpdate = async () => {
     const errors = [];
 
@@ -65,10 +65,7 @@ export default function ManageCategoryPage() {
 
     try {
       await toast.promise(
-        axios.put(
-          `http://localhost:5500/api/categories/${editData._id}`,
-          editData
-        ),
+        api.put(`/categories/${editData._id}`, editData),
         {
           loading: "Updating category...",
           success: "Category updated successfully!",
@@ -82,13 +79,11 @@ export default function ManageCategoryPage() {
     } catch (err) {}
   };
 
-  // ✅ DELETE WITH SONNER
+  // DELETE WITH SONNER
   const confirmDelete = async () => {
     try {
       await toast.promise(
-        axios.delete(
-          `http://localhost:5500/api/categories/${deleteId}`
-        ),
+        api.delete(`/categories/${deleteId}`),
         {
           loading: "Deleting category...",
           success: "Category deleted successfully!",
@@ -160,7 +155,7 @@ export default function ManageCategoryPage() {
         </div>
       </div>
 
-      {/* ✅ UPDATE MODAL */}
+      {/* UPDATE MODAL */}
       {showUpdateModal && (
         <div className="modal-bg">
           <div className="modal-box">
@@ -216,7 +211,7 @@ export default function ManageCategoryPage() {
         </div>
       )}
 
-      {/* ✅ DELETE MODAL */}
+      {/*  DELETE MODAL */}
       {showDeleteModal && (
         <div className="modal-bg">
           <div className="modal-box">
