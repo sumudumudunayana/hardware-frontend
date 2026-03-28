@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import { toast } from "sonner";
 import "../../css/company/ManageCompanyPageStyles.css";
 
@@ -21,7 +21,7 @@ export default function ManageCompanyPage() {
 
   const loadCompanies = async () => {
     try {
-      const res = await axios.get("http://localhost:5500/api/companies");
+      const res = await api.get("/companies");
       setCompanies(res.data);
       setFiltered(res.data);
     } catch {
@@ -41,95 +41,89 @@ export default function ManageCompanyPage() {
       companies.filter(
         (c) =>
           c.companyName.toLowerCase().includes(key) ||
-          c.companyId.toString() === key
-      )
+          c.companyId.toString() === key,
+      ),
     );
   };
 
   const closeUpdateModal = () => setShowUpdateModal(false);
   const closeDeleteModal = () => setShowDeleteModal(false);
 
-  // ✅ UPDATE WITH VALIDATION
+  //  UPDATE WITH VALIDATION
   const submitUpdate = async () => {
-  const { companyName, companyAddress, companyContactNumber } = editData;
+    const { companyName, companyAddress, companyContactNumber } = editData;
 
-  // Validation
-  if (!companyName?.trim()) {
-    toast.error("Company name is required");
-    return;
-  }
+    // Validation
+    if (!companyName?.trim()) {
+      toast.error("Company name is required");
+      return;
+    }
 
-  if (companyName.length < 3) {
-    toast.warning("Name too short");
-    return;
-  }
+    if (companyName.length < 3) {
+      toast.warning("Name too short");
+      return;
+    }
 
-  if (!companyAddress?.trim()) {
-    toast.error("Address is required");
-    return;
-  }
+    if (!companyAddress?.trim()) {
+      toast.error("Address is required");
+      return;
+    }
 
-  if (!/^\d{10}$/.test(companyContactNumber)) {
-    toast.error("Invalid contact number");
-    return;
-  }
+    if (!/^\d{10}$/.test(companyContactNumber)) {
+      toast.error("Invalid contact number");
+      return;
+    }
 
-  try {
-    await toast.promise(
-      axios.put(
-        `http://localhost:5500/api/companies/${editData._id}`,
-        {
+    try {
+      await toast.promise(
+        api.put(`/companies/${editData._id}`, {
           ...editData,
           companyContactNumber: Number(companyContactNumber),
-        }
-      ),
-      {
-        loading: "Updating company...",
-        success: "Company updated successfully!",
-        error: "Update failed!",
-      }
-    );
+        }),
+        {
+          loading: "Updating company...",
+          success: "Company updated successfully!",
+          error: "Update failed!",
+        },
+      );
 
-    // ✅ 🔥 IMPORTANT: Update state manually
-    const updatedList = companies.map((c) =>
-      c._id === editData._id ? { ...editData } : c
-    );
+      //  Update state manually
+      const updatedList = companies.map((c) =>
+        c._id === editData._id ? { ...editData } : c,
+      );
 
-    setCompanies(updatedList);
-    setFiltered(updatedList);
+      setCompanies(updatedList);
+      setFiltered(updatedList);
 
-    setShowUpdateModal(false);
+      setShowUpdateModal(false);
+    } catch (err) {}
+  };
 
-  } catch (err) {}
-};
-
-  // ✅ DELETE WITH TOAST
+  //  DELETE WITH TOAST
   const confirmDelete = async () => {
-  try {
-    await toast.promise(
-      axios.delete(`http://localhost:5500/api/companies/${deleteId}`),
-      {
-        loading: "Deleting company...",
-        success: "Company deleted successfully!",
-        error: "Delete failed!",
-      }
-    );
+    try {
+      await toast.promise(
+        api.delete(`/companies/${deleteId}`),
+        {
+          loading: "Deleting company...",
+          success: "Company deleted successfully!",
+          error: "Delete failed!",
+        },
+      );
 
-    // ✅ Remove from state immediately
-    const updatedList = companies.filter((c) => c._id !== deleteId);
+      //  Remove from state immediately
+      const updatedList = companies.filter((c) => c._id !== deleteId);
 
-    setCompanies(updatedList);
-    setFiltered(updatedList);
+      setCompanies(updatedList);
+      setFiltered(updatedList);
 
-    setShowDeleteModal(false);
-
-  } catch (err) {}
-};
+      setShowDeleteModal(false);
+    } catch (err) {}
+  };
 
   return (
     <div className="cmp-wrapper">
       <div className="cmp-card">
-
         {/* HEADER */}
         <div className="cmp-header">
           <span className="cmp-badge">COMPANY</span>
@@ -197,7 +191,6 @@ export default function ManageCompanyPage() {
       {showUpdateModal && (
         <div className="cmp-modal-bg">
           <div className="cmp-modal-box">
-
             <h2>Update Company</h2>
 
             <input
@@ -238,7 +231,6 @@ export default function ManageCompanyPage() {
                 Update
               </button>
             </div>
-
           </div>
         </div>
       )}
@@ -247,7 +239,6 @@ export default function ManageCompanyPage() {
       {showDeleteModal && (
         <div className="cmp-modal-bg">
           <div className="cmp-modal-box">
-
             <h2>Delete Company</h2>
             <p>Are you sure you want to delete this company?</p>
 
@@ -260,7 +251,6 @@ export default function ManageCompanyPage() {
                 Delete
               </button>
             </div>
-
           </div>
         </div>
       )}
