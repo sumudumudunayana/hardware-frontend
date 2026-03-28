@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import "../../css/auth/LoginPageStyles.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -19,54 +19,55 @@ export default function LoginPage() {
     });
   };
 
-  // LOGIN WITH VALIDATION + SONNER
   const handleLogin = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const { email, password } = formData;
+    const { email, password } = formData;
 
-  const errors = [];
+    const errors = [];
 
-  if (!email || !email.trim()) {
-    errors.push("Email is required");
-  } else if (!/^\S+@\S+\.\S+$/.test(email)) {
-    errors.push("Invalid email format");
-  }
+    if (!email || !email.trim()) {
+      errors.push("Email is required");
+    } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+      errors.push("Invalid email format");
+    }
 
-  if (!password || !password.trim()) {
-    errors.push("Password is required");
-  }
+    if (!password || !password.trim()) {
+      errors.push("Password is required");
+    }
 
-  if (errors.length > 0) {
-    errors.forEach((err) => toast.error(err));
-    return;
-  }
+    if (errors.length > 0) {
+      errors.forEach((err) => toast.error(err));
+      return;
+    }
 
-  try {
-    const res = await axios.post(
-      "http://localhost:5500/api/auth/login",
-      {
+    try {
+      
+      const res = await api.post("/auth/login", {
         email: email.trim(),
         password: password.trim(),
-      }
-    );
+      });
 
-    // ✅ SUCCESS ONLY HERE
-    toast.success("Login successful!");
+      toast.success("Login successful!");
 
-    localStorage.setItem("token", res.data.token);
+      // store BOTH token + user
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
 
-    setTimeout(() => {
-      navigate("/LandingPage");
-    }, 500);
+      // DEBUG
+      console.log("TOKEN:", res.data.token);
+      console.log("USER:", res.data.user);
 
-  } catch (error) {
-    // ✅ ERROR ONLY HERE
-    toast.error(
-      error.response?.data?.message || "Invalid credentials"
-    );
-  }
-};
+      setTimeout(() => {
+        navigate("/LandingPage");
+      }, 500);
+
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message || "Invalid credentials"
+      );
+    }
+  };
 
   return (
     <div className="auth-container">
