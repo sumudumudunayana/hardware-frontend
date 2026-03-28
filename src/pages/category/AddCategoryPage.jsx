@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import { toast } from "sonner";
 import "../../css/category/AddCategoryPageStyles.css";
 
@@ -16,7 +16,7 @@ export default function AddCategoryPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // 🔴 Collect all errors
+    //  Collect all errors
     const errors = [];
 
     if (!formData.categoryName.trim()) {
@@ -27,7 +27,7 @@ export default function AddCategoryPage() {
       errors.push("Category description is required");
     }
 
-    // 🔴 Show all errors at once
+    //  Show all errors at once
     if (errors.length > 0) {
       errors.forEach((err) => toast.error(err));
       return;
@@ -35,7 +35,7 @@ export default function AddCategoryPage() {
 
     try {
       await toast.promise(
-        axios.post("http://localhost:5500/api/categories", formData),
+        api.post("/categories", formData),
         {
           loading: "Adding category...",
           success: "Category added successfully!",
