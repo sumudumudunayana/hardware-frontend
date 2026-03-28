@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
+
 import "../../css/auth/RegisterPageStyles.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -20,7 +21,6 @@ export default function RegisterPage() {
     });
   };
 
-  // ✅ REGISTER WITH VALIDATION + SONNER
   const handleRegister = async (e) => {
     e.preventDefault();
 
@@ -28,7 +28,6 @@ export default function RegisterPage() {
 
     const errors = [];
 
-    // validations
     if (!name || !name.trim()) {
       errors.push("Name is required");
     } else if (name.trim().length < 2) {
@@ -47,15 +46,14 @@ export default function RegisterPage() {
       errors.push("Password must be at least 4 characters");
     }
 
-    // show multiple errors
     if (errors.length > 0) {
       errors.forEach((err) => toast.error(err));
       return;
     }
 
     try {
-      await toast.promise(
-        axios.post("http://localhost:5500/api/auth/register", {
+      const res = await toast.promise(
+        api.post("/auth/register", {
           name: name.trim(),
           email: email.trim(),
           password: password.trim(),
@@ -66,8 +64,13 @@ export default function RegisterPage() {
           error: "Registration failed",
         }
       );
-
-      // redirect after success
+      if (res?.data?.token) {
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+        navigate("/LandingPage");
+        return;
+      }
+      // Default: go to login page
       setTimeout(() => {
         navigate("/");
       }, 500);
