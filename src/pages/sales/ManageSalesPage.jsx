@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import "../../css/sales/ManageSalesPageStyles.css";
+import { toast } from "sonner";
 
 export default function ManageSalesPage() {
   const [sales, setSales] = useState([]);
   const [expanded, setExpanded] = useState(null);
   const [alert, setAlert] = useState({ show: false, type: "", message: "" });
 
+  // 🔥 LOAD SALES
   const loadSales = async () => {
     try {
-      const res = await axios.get("http://localhost:5500/api/sales");
+      const res = await api.get("/sales");
       setSales(res.data);
     } catch (err) {
-      console.error("Failed loading sales", err);
+      console.error(err);
+      toast.error("Failed to load sales");
     }
   };
 
@@ -24,28 +27,53 @@ export default function ManageSalesPage() {
     setExpanded(expanded === id ? null : id);
   };
 
+  // 🔥 DELETE
   const deleteSale = async (id) => {
     try {
-      await axios.delete(`http://localhost:5500/api/sales/${id}`);
-      setAlert({ show: true, type: "success", message: "Sale deleted" });
+      await api.delete(`/sales/${id}`);
+
+      setAlert({
+        show: true,
+        type: "success",
+        message: "Sale deleted",
+      });
+
       loadSales();
+
     } catch {
-      setAlert({ show: true, type: "error", message: "Delete failed" });
+      setAlert({
+        show: true,
+        type: "error",
+        message: "Delete failed",
+      });
     }
+
     setTimeout(() => setAlert({ show: false }), 2500);
   };
 
+  // 🔥 UPDATE
   const updateSale = async (sale) => {
     try {
-      await axios.put(
-        `http://localhost:5500/api/sales/${sale._id}`,
-        { totalAmount: Number(sale.totalAmount) }
-      );
-      setAlert({ show: true, type: "success", message: "Sale updated" });
+      await api.put(`/sales/${sale._id}`, {
+        totalAmount: Number(sale.totalAmount),
+      });
+
+      setAlert({
+        show: true,
+        type: "success",
+        message: "Sale updated",
+      });
+
       loadSales();
+
     } catch {
-      setAlert({ show: true, type: "error", message: "Update failed" });
+      setAlert({
+        show: true,
+        type: "error",
+        message: "Update failed",
+      });
     }
+
     setTimeout(() => setAlert({ show: false }), 2500);
   };
 
@@ -53,20 +81,23 @@ export default function ManageSalesPage() {
     <div className="sales-page-wrapper">
       <div className="sales-card">
 
+        {/* HEADER */}
         <div className="sales-header">
           <span className="sales-badge">ORDERS</span>
           <h1>Manage Orders</h1>
-          <p>View, update, and manage all sales records</p>
         </div>
 
+        {/* ALERT */}
         {alert.show && (
           <div className={`alert ${alert.type}`}>
             {alert.message}
           </div>
         )}
 
+        {/* TABLE */}
         <div className="table-wrapper">
           <table className="sales-table">
+
             <thead>
               <tr>
                 <th>Invoice</th>
@@ -79,8 +110,10 @@ export default function ManageSalesPage() {
             <tbody>
               {sales.map((sale) => (
                 <React.Fragment key={sale._id}>
+
                   <tr>
                     <td>{sale.invoiceNumber}</td>
+
                     <td>
                       {new Date(sale.createdAt).toLocaleString()}
                     </td>
@@ -93,7 +126,10 @@ export default function ManageSalesPage() {
                           setSales(
                             sales.map((s) =>
                               s._id === sale._id
-                                ? { ...s, totalAmount: e.target.value }
+                                ? {
+                                    ...s,
+                                    totalAmount: e.target.value,
+                                  }
                                 : s
                             )
                           )
@@ -102,6 +138,7 @@ export default function ManageSalesPage() {
                     </td>
 
                     <td className="actions">
+
                       <button onClick={() => toggleExpand(sale._id)}>
                         {expanded === sale._id ? "Hide" : "View"}
                       </button>
@@ -119,29 +156,41 @@ export default function ManageSalesPage() {
                       >
                         Delete
                       </button>
+
                     </td>
                   </tr>
 
+                  {/* EXPAND */}
                   {expanded === sale._id && (
                     <tr className="expand-row">
                       <td colSpan="4">
+
                         <div className="expand-content">
+
                           {sale.items?.map((item, index) => (
                             <div key={index} className="item-box">
+
                               <span>{item.itemId?.itemName}</span>
+
                               <span>Qty: {item.quantity}</span>
+
                               <span>
                                 Rs. {item.subtotal?.toLocaleString()}
                               </span>
+
                             </div>
                           ))}
+
                         </div>
+
                       </td>
                     </tr>
                   )}
+
                 </React.Fragment>
               ))}
             </tbody>
+
           </table>
         </div>
 
