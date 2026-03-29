@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import { toast } from "sonner";
 import "../../css/customer/AddCustomerPageStyles.css";
 
@@ -13,7 +13,7 @@ export default function AddCustomerPage() {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // ✅ Prevent letters in phone number
+    //  Prevent letters in phone number
     if (name === "customerContactNumber") {
       if (!/^\d*$/.test(value)) return;
     }
@@ -28,28 +28,28 @@ export default function AddCustomerPage() {
 
     const errors = [];
 
-    // 🔴 Name validation
+    //  Name validation
     if (!customerName.trim()) {
       errors.push("Customer name is required");
     } else if (customerName.length < 3) {
       errors.push("Customer name must be at least 3 characters");
     }
 
-    // 🔴 Phone validation
+    //  Phone validation
     if (!customerContactNumber) {
       errors.push("Contact number is required");
     } else if (!/^\d{10}$/.test(customerContactNumber)) {
       errors.push("Contact number must be exactly 10 digits");
     }
 
-    // 🔴 Email validation
+    //  Email validation
     if (!customerEmail.trim()) {
       errors.push("Email is required");
     } else if (!/^\S+@\S+\.\S+$/.test(customerEmail)) {
       errors.push("Invalid email address");
     }
 
-    // 🔴 Show all errors at once
+    //  Show all errors at once
     if (errors.length > 0) {
       errors.forEach((err) => toast.error(err));
       return;
@@ -57,7 +57,7 @@ export default function AddCustomerPage() {
 
     try {
       await toast.promise(
-        axios.post("http://localhost:5500/api/customers", formData),
+        api.post("/customers", formData),
         {
           loading: "Adding customer...",
           success: "Customer added successfully!",
@@ -87,7 +87,6 @@ export default function AddCustomerPage() {
         <div className="add-customer-header">
           <span className="add-customer-badge">CUSTOMER</span>
           <h1>Add New Customer</h1>
-          <p>Register a new customer into the system</p>
         </div>
 
         <form className="add-customer-form" onSubmit={handleSubmit}>
