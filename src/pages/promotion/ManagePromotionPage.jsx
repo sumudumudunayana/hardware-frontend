@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import { toast } from "sonner";
 import "../../css/promotion/ManagePromotionPageStyles.css";
 
 export default function ManagePromotionPage() {
-
   const [promotions, setPromotions] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [search, setSearch] = useState("");
@@ -17,7 +16,7 @@ export default function ManagePromotionPage() {
 
   const loadPromotions = async () => {
     try {
-      const res = await axios.get("http://localhost:5500/api/promotions");
+      const res = await api.get("/promotions");
       setPromotions(res.data);
       setFiltered(res.data);
     } catch {
@@ -38,8 +37,8 @@ export default function ManagePromotionPage() {
       promotions.filter(
         (p) =>
           p.promotionName.toLowerCase().includes(key) ||
-          p.promotionId?.toString() === key
-      )
+          p.promotionId?.toString() === key,
+      ),
     );
   };
 
@@ -47,22 +46,17 @@ export default function ManagePromotionPage() {
     setEditData({
       ...promo,
       startDate: promo.startDate?.substring(0, 10),
-      endDate: promo.endDate?.substring(0, 10)
+      endDate: promo.endDate?.substring(0, 10),
     });
     setShowUpdateModal(true);
   };
 
   const closeUpdateModal = () => setShowUpdateModal(false);
 
-  // ✅ UPDATE WITH VALIDATION
+  //  UPDATE WITH VALIDATION
   const submitUpdate = async () => {
-    const {
-      promotionName,
-      discountValue,
-      discountType,
-      startDate,
-      endDate
-    } = editData;
+    const { promotionName, discountValue, discountType, startDate, endDate } =
+      editData;
 
     const discount = Number(discountValue);
 
@@ -104,45 +98,39 @@ export default function ManagePromotionPage() {
 
     try {
       await toast.promise(
-        axios.put(
-          `http://localhost:5500/api/promotions/${editData._id}`,
-          {
-            ...editData,
-            discountValue: discount
-          }
-        ),
+        api.put(`/promotions/${editData._id}`, {
+          ...editData,
+          discountValue: discount,
+        }),
         {
           loading: "Updating promotion...",
           success: "Promotion updated successfully!",
           error: "Update failed",
-        }
+        },
       );
 
       // ✅ Instant UI update
       const updatedList = promotions.map((p) =>
-        p._id === editData._id ? { ...editData } : p
+        p._id === editData._id ? { ...editData } : p,
       );
 
       setPromotions(updatedList);
       setFiltered(updatedList);
 
       setShowUpdateModal(false);
-
     } catch {}
   };
 
-  // ✅ DELETE WITH TOAST
+  //  DELETE WITH TOAST
   const confirmDelete = async () => {
     try {
       await toast.promise(
-        axios.delete(
-          `http://localhost:5500/api/promotions/${deleteId}`
-        ),
+        api.delete(`/promotions/${deleteId}`),
         {
           loading: "Deleting promotion...",
           success: "Promotion deleted successfully!",
           error: "Delete failed",
-        }
+        },
       );
 
       const updatedList = promotions.filter((p) => p._id !== deleteId);
@@ -151,20 +139,16 @@ export default function ManagePromotionPage() {
       setFiltered(updatedList);
 
       setShowDeleteModal(false);
-
     } catch {}
   };
 
   return (
     <div className="prmm-wrapper">
-
       <div className="prmm-card">
-
         {/* HEADER */}
         <div className="prmm-header">
           <span className="prmm-badge">PROMOTION</span>
           <h1>Manage Promotions</h1>
-          <p>Edit or delete promotions</p>
         </div>
 
         {/* SEARCH */}
@@ -181,7 +165,6 @@ export default function ManagePromotionPage() {
         {/* TABLE */}
         <div className="prmm-table-wrapper">
           <table className="prmm-table">
-
             <thead>
               <tr>
                 <th>ID</th>
@@ -197,7 +180,6 @@ export default function ManagePromotionPage() {
             <tbody>
               {filtered.map((promo) => (
                 <tr key={promo._id}>
-
                   <td>{promo.promotionId}</td>
 
                   <td>{promo.promotionName}</td>
@@ -218,7 +200,6 @@ export default function ManagePromotionPage() {
                   </td>
 
                   <td className="prmm-actions">
-
                     <button
                       className="prmm-update"
                       onClick={() => openUpdateModal(promo)}
@@ -235,24 +216,18 @@ export default function ManagePromotionPage() {
                     >
                       Delete
                     </button>
-
                   </td>
-
                 </tr>
               ))}
             </tbody>
-
           </table>
         </div>
-
       </div>
 
       {/* UPDATE MODAL */}
       {showUpdateModal && (
         <div className="prmm-modal-bg">
-
           <div className="prmm-modal-box">
-
             <h2>Update Promotion</h2>
 
             <input
@@ -299,7 +274,6 @@ export default function ManagePromotionPage() {
             </select>
 
             <div className="prmm-modal-actions">
-
               <button onClick={closeUpdateModal} className="prmm-btn-cancel">
                 Cancel
               </button>
@@ -307,9 +281,7 @@ export default function ManagePromotionPage() {
               <button onClick={submitUpdate} className="prmm-btn-primary">
                 Update
               </button>
-
             </div>
-
           </div>
         </div>
       )}
@@ -317,15 +289,12 @@ export default function ManagePromotionPage() {
       {/* DELETE MODAL */}
       {showDeleteModal && (
         <div className="prmm-modal-bg">
-
           <div className="prmm-modal-box">
-
             <h2>Delete Promotion</h2>
 
             <p>Are you sure?</p>
 
             <div className="prmm-modal-actions">
-
               <button
                 className="prmm-btn-cancel"
                 onClick={() => setShowDeleteModal(false)}
@@ -333,19 +302,13 @@ export default function ManagePromotionPage() {
                 Cancel
               </button>
 
-              <button
-                className="prmm-btn-danger"
-                onClick={confirmDelete}
-              >
+              <button className="prmm-btn-danger" onClick={confirmDelete}>
                 Delete
               </button>
-
             </div>
-
           </div>
         </div>
       )}
-
     </div>
   );
 }
