@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import { toast } from "sonner";
 import "../../css/distributor/AddDistributorPageStyles.css";
 
@@ -73,7 +73,7 @@ export default function AddDistributorPage() {
       };
 
       await toast.promise(
-        axios.post("http://localhost:5500/api/distributors", payload),
+        api.post("/distributors", payload),
         {
           loading: "Adding supplier...",
           success: "Supplier added successfully!",
@@ -104,7 +104,6 @@ export default function AddDistributorPage() {
         <div className="supplier-header">
           <span className="supplier-badge">SUPPLIER</span>
           <h1>Add Supplier</h1>
-          <p>Register new supplier details into the system</p>
         </div>
 
         <form className="supplier-form" onSubmit={handleSubmit}>
