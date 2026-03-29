@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import "../../css/promotion/ViewPromotionPageStyles.css";
 
 export default function ViewPromotionPage() {
@@ -8,7 +8,7 @@ export default function ViewPromotionPage() {
 
   const loadPromotions = async () => {
     try {
-      const res = await axios.get("http://localhost:5500/api/promotions");
+      const res = await api.get("/promotions");
       setPromotions(res.data);
     } catch (err) {
       console.error(err);
@@ -25,7 +25,6 @@ export default function ViewPromotionPage() {
       <div className="prmv-header">
         <span className="prmv-badge">PROMOTIONS</span>
         <h1>Active Promotions</h1>
-        <p>View all available offers and discounts</p>
       </div>
 
       <div className="prmv-grid">
