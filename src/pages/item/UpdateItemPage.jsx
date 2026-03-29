@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import { toast } from "sonner";
 import "../../css/item/UpdateItemPageStyles.css";
 
@@ -23,16 +23,16 @@ export default function UpdateItemPage() {
   }, []);
 
   const loadItems = async () => {
-    const res = await axios.get("http://localhost:5500/api/items");
+    const res = await api.get("/items");
     setItems(res.data);
     setFiltered(res.data);
   };
 
   const loadDropdownData = async () => {
     const [cat, com, dist] = await Promise.all([
-      axios.get("http://localhost:5500/api/categories"),
-      axios.get("http://localhost:5500/api/companies"),
-      axios.get("http://localhost:5500/api/distributors"),
+      api.get("/categories"),
+      api.get("/companies"),
+      api.get("/distributors"),
     ]);
     setCategories(cat.data);
     setCompanies(com.data);
@@ -79,7 +79,7 @@ export default function UpdateItemPage() {
 
     try {
       await toast.promise(
-        axios.put(`http://localhost:5500/api/items/${editData._id}`, {
+        api.put(`/items/${editData._id}`, {
           ...editData,
           itemSellingPrice: selling,
           itemCostPrice: cost,
@@ -102,7 +102,7 @@ export default function UpdateItemPage() {
   const confirmDelete = async () => {
     try {
       await toast.promise(
-        axios.delete(`http://localhost:5500/api/items/${deleteId}`),
+        api.delete(`/items/${deleteId}`),
         {
           loading: "Deleting item...",
           success: "Item deleted successfully!",
@@ -121,7 +121,6 @@ export default function UpdateItemPage() {
         <div className="update-header">
           <span className="update-badge">PRODUCT MANAGEMENT</span>
           <h1>Update Items</h1>
-          <p>Edit or remove inventory items</p>
         </div>
 
         <input
