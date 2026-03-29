@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import "../../css/item/ViewItemPageStyles.css";
 
 export default function ViewItemPage() {
@@ -9,7 +9,7 @@ export default function ViewItemPage() {
   useEffect(() => {
     const loadItems = async () => {
       try {
-        const res = await axios.get("http://localhost:5500/api/items");
+        const res = await api.get("/items");
         setItems(res.data);
       } catch (error) {
         console.error("Error loading items:", error);
@@ -35,7 +35,6 @@ export default function ViewItemPage() {
         <div className="view-header">
           <span className="view-badge">PRODUCT INVENTORY</span>
           <h1>View Items</h1>
-          <p>Browse and search all available inventory items</p>
         </div>
 
         <input
