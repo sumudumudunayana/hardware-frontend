@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import { toast } from "sonner";
 import "../../css/promotion/AddPromotionPageStyles.css";
 
 export default function AddPromotionPage() {
-
   const [formData, setFormData] = useState({
     promotionName: "",
     promotionDescription: "",
@@ -22,7 +21,7 @@ export default function AddPromotionPage() {
   useEffect(() => {
     const loadItems = async () => {
       try {
-        const res = await axios.get("http://localhost:5500/api/items");
+        const res = await api.get("/items");
         setItems(res.data);
       } catch {
         toast.error("Failed to load items");
@@ -34,7 +33,7 @@ export default function AddPromotionPage() {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // ✅ Prevent negative discount
+    //  Prevent negative discount
     if (name === "discountValue" && Number(value) < 0) return;
 
     setFormData({ ...formData, [name]: value });
@@ -56,7 +55,7 @@ export default function AddPromotionPage() {
 
     const discount = Number(discountValue);
 
-    // ✅ Name validation
+    //  Name validation
     if (!promotionName.trim()) {
       toast.error("Promotion name is required");
       return;
@@ -69,13 +68,13 @@ export default function AddPromotionPage() {
       return;
     }
 
-    // ✅ Description validation
+    //  Description validation
     if (!promotionDescription.trim()) {
       toast.error("Description is required");
       return;
     }
 
-    // ✅ Discount validation
+    //  Discount validation
     if (discountValue === "") {
       toast.error("Discount value is required");
       return;
@@ -101,7 +100,7 @@ export default function AddPromotionPage() {
       });
     }
 
-    // ✅ Date validation
+    //  Date validation
     if (!startDate || !endDate) {
       toast.error("Please select start and end dates");
       return;
@@ -120,7 +119,7 @@ export default function AddPromotionPage() {
       toast.warning("Start date is in the past");
     }
 
-    // ✅ Apply to specific item validation
+    //  Apply to specific item validation
     if (applyTo === "specific" && !itemId) {
       toast.error("Please select an item");
       return;
@@ -128,7 +127,7 @@ export default function AddPromotionPage() {
 
     try {
       await toast.promise(
-        axios.post("http://localhost:5500/api/promotions", {
+        api.post("/promotions", {
           ...formData,
           discountValue: discount,
         }),
@@ -136,7 +135,7 @@ export default function AddPromotionPage() {
           loading: "Creating promotion...",
           success: "Promotion created successfully!",
           error: "Failed to create promotion",
-        }
+        },
       );
 
       setFormData({
@@ -150,24 +149,19 @@ export default function AddPromotionPage() {
         itemId: "",
         status: "active",
       });
-
     } catch (err) {}
   };
 
   return (
     <div className="prm-wrapper">
-
       <div className="prm-card">
-
         {/* HEADER */}
         <div className="prm-header">
           <span className="prm-badge">PROMOTION</span>
           <h1>Add Promotion</h1>
-          <p>Create discounts and offers</p>
         </div>
 
         <form className="prm-form" onSubmit={handleSubmit}>
-
           <input
             name="promotionName"
             placeholder="Promotion Name"
@@ -209,7 +203,6 @@ export default function AddPromotionPage() {
               value={formData.startDate}
               onChange={handleChange}
             />
-            
 
             <input
               type="date"
@@ -245,19 +238,13 @@ export default function AddPromotionPage() {
             )}
           </div>
 
-          <select
-            name="status"
-            value={formData.status}
-            onChange={handleChange}
-          >
+          <select name="status" value={formData.status} onChange={handleChange}>
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
           </select>
 
           <button className="prm-btn">Create Promotion</button>
-
         </form>
-
       </div>
     </div>
   );
