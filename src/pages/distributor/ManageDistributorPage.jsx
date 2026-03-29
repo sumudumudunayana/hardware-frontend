@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import { toast } from "sonner";
 import "../../css/distributor/ManageDistributorPageStyles.css";
 
@@ -18,7 +18,7 @@ export default function ManageDistributorPage() {
 
   const loadDistributors = async () => {
     try {
-      const res = await axios.get("http://localhost:5500/api/distributors");
+      const res = await api.get("/distributors");
       setDistributors(res.data);
       setFiltered(res.data);
     } catch (err) {
@@ -34,8 +34,8 @@ export default function ManageDistributorPage() {
       distributors.filter(
         (d) =>
           d.distributorName.toLowerCase().includes(key) ||
-          d.distributorId?.toString() === key
-      )
+          d.distributorId?.toString() === key,
+      ),
     );
   };
 
@@ -79,56 +79,49 @@ export default function ManageDistributorPage() {
 
     try {
       await toast.promise(
-        axios.put(
-          `http://localhost:5500/api/distributors/${editData._id}`,
-          {
-            ...editData,
-            distributorContactNumber: Number(distributorContactNumber),
-          }
-        ),
+        api.put(`/distributors/${editData._id}`, {
+          ...editData,
+          distributorContactNumber: Number(distributorContactNumber),
+        }),
         {
           loading: "Updating supplier...",
           success: "Supplier updated successfully!",
           error: "Update failed!",
-        }
+        },
       );
 
       setShowUpdateModal(false);
       loadDistributors();
-
     } catch (err) {}
   };
 
   const confirmDelete = async () => {
-  try {
-    await toast.promise(
-      axios.delete(`http://localhost:5500/api/distributors/${deleteId}`),
-      {
-        loading: "Deleting supplier...",
-        success: "Supplier deleted successfully!",
-        error: "Delete failed!",
-      }
-    );
+    try {
+      await toast.promise(
+        api.delete(`/distributors/${deleteId}`),
+        {
+          loading: "Deleting supplier...",
+          success: "Supplier deleted successfully!",
+          error: "Delete failed!",
+        },
+      );
 
-    // ✅ Remove from state immediately
-    const updated = distributors.filter((d) => d._id !== deleteId);
+      // Remove from state immediately
+      const updated = distributors.filter((d) => d._id !== deleteId);
 
-    setDistributors(updated);
-    setFiltered(updated);
+      setDistributors(updated);
+      setFiltered(updated);
 
-    setShowDeleteModal(false);
-
-  } catch (err) {}
-};
+      setShowDeleteModal(false);
+    } catch (err) {}
+  };
 
   return (
     <div className="distributor-page-wrapper">
       <div className="distributor-card">
-
         <div className="header">
           <span className="badge">SUPPLIERS</span>
           <h1>Manage Suppliers</h1>
-          <p>View, update and delete supplier records</p>
         </div>
 
         <input
@@ -188,21 +181,18 @@ export default function ManageDistributorPage() {
             </tbody>
           </table>
         </div>
-
       </div>
 
       {/* UPDATE MODAL */}
       {showUpdateModal && (
         <div className="modal-bg">
           <div className="modal-box light">
-
             <div className="modal-header">
               <h2>Update Supplier</h2>
               <p>Edit supplier details</p>
             </div>
 
             <div className="modal-form">
-
               <div className="form-group">
                 <label>Supplier Name</label>
                 <input
@@ -260,19 +250,15 @@ export default function ManageDistributorPage() {
                   }
                 />
               </div>
-
             </div>
 
             <div className="modal-actions">
-              <button onClick={() => setShowUpdateModal(false)}>
-                Cancel
-              </button>
+              <button onClick={() => setShowUpdateModal(false)}>Cancel</button>
 
               <button className="primary" onClick={submitUpdate}>
                 Update
               </button>
             </div>
-
           </div>
         </div>
       )}
@@ -281,24 +267,19 @@ export default function ManageDistributorPage() {
       {showDeleteModal && (
         <div className="modal-bg">
           <div className="modal-box light">
-
             <h2>Delete Supplier</h2>
             <p>Are you sure?</p>
 
             <div className="modal-actions">
-              <button onClick={() => setShowDeleteModal(false)}>
-                Cancel
-              </button>
+              <button onClick={() => setShowDeleteModal(false)}>Cancel</button>
 
               <button className="danger" onClick={confirmDelete}>
                 Delete
               </button>
             </div>
-
           </div>
         </div>
       )}
-
     </div>
   );
 }
