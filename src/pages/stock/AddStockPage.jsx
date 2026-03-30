@@ -37,7 +37,7 @@ export default function AddStockPage() {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // ✅ Prevent negative typing for quantity
+    // Prevent negative typing for quantity
     if (name === "quantity") {
       if (Number(value) < 0) return;
     }
