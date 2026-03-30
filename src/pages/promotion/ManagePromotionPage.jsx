@@ -109,7 +109,7 @@ export default function ManagePromotionPage() {
         },
       );
 
-      // ✅ Instant UI update
+      // Instant UI update
       const updatedList = promotions.map((p) =>
         p._id === editData._id ? { ...editData } : p,
       );
