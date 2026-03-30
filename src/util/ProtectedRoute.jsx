@@ -6,6 +6,5 @@ export default function ProtectedRoute() {
   if (!token) {
     return <Navigate to="/" />;
   }
-
   return <Outlet />;
 }
