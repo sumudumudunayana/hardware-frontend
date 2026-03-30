@@ -17,7 +17,7 @@ export default function CartPage() {
     loadPromotions();
   }, []);
 
-  // 🔥 LOAD CART
+  // LOAD CART
   const loadCart = async () => {
     try {
       const res = await api.get("/cart");
