@@ -39,7 +39,7 @@ export default function OptionPage() {
 
           <div className="option-page-summary">
 
-            {/* 🔽 SUNK CARDS */}
+            {/* SUNK CARDS */}
             <div className="option-page-metric-card option-page-metric-sunk">
               <span className="option-page-metric-label">Modules</span>
               <h3>06</h3>
