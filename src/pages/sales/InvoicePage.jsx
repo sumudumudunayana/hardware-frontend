@@ -26,7 +26,7 @@ export default function InvoicePage() {
     loadInvoice();
   }, [id]);
 
-  // 🔥 LOADING
+  // LOADING
   if (loading) {
     return <div className="invoice-wrapper">Loading...</div>;
   }
