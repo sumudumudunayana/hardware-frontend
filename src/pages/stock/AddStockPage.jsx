@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import { toast } from "sonner";
 import "../../css/stock/AddStockPageStyles.css";
 
@@ -19,7 +19,7 @@ export default function AddStockPage() {
 
   const loadItems = async () => {
     try {
-      const res = await axios.get("http://localhost:5500/api/items");
+      const res = await api.get("/items");
       setItems(res.data);
     } catch (err) {
       toast.error("Failed to load items");
@@ -88,7 +88,7 @@ export default function AddStockPage() {
 
     try {
       await toast.promise(
-        axios.post("http://localhost:5500/api/stocks", {
+        api.post("/stocks", {
           itemId,
           quantity: qty,
           arrivalDate,
@@ -97,7 +97,7 @@ export default function AddStockPage() {
           loading: "Adding stock...",
           success: "Stock added successfully!",
           error: "Failed to add stock",
-        }
+        },
       );
 
       setFormData({
@@ -107,23 +107,19 @@ export default function AddStockPage() {
       });
 
       setSelectedItem(null);
-
     } catch (err) {}
   };
 
   return (
     <div className="stk-wrapper">
       <div className="stk-card">
-
         {/* HEADER */}
         <div className="stk-header">
           <span className="stk-badge">STOCK</span>
           <h1>Add Stock</h1>
-          <p>Register new stock arrivals</p>
         </div>
 
         <form className="stk-form" onSubmit={handleSubmit}>
-
           {/* SELECT */}
           <select
             name="itemId"
@@ -141,7 +137,6 @@ export default function AddStockPage() {
           {/* DETAILS */}
           {selectedItem && (
             <div className="stk-details">
-
               <div className="stk-detail-box">
                 <label>Category</label>
                 <input value={selectedItem.itemCategory} readOnly />
@@ -156,7 +151,6 @@ export default function AddStockPage() {
                 <label>Distributor</label>
                 <input value={selectedItem.itemDistributor} readOnly />
               </div>
-
             </div>
           )}
 
@@ -177,7 +171,6 @@ export default function AddStockPage() {
           />
 
           <button className="stk-btn">Add Stock</button>
-
         </form>
       </div>
     </div>
