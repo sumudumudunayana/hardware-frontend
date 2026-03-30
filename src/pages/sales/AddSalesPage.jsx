@@ -75,7 +75,7 @@ export default function AddSalesPage() {
     selectedCategory === "All" ? true : p.itemCategory === selectedCategory
   );
 
-  // 🔥 ADD TO CART (WITH STOCK LIMIT CHECK)
+  // ADD TO CART (WITH STOCK LIMIT CHECK)
   const handleAdd = async (product) => {
     const cartItem = cart.find((c) => c.itemId === product._id);
     const currentQty = cartItem ? cartItem.quantity : 0;
