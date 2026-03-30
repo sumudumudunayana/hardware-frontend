@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import { toast } from "sonner";
 import "../../css/stock/ManageStockPageStyles.css";
 
 export default function ManageStockPage() {
-
   const [stocks, setStocks] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [search, setSearch] = useState("");
@@ -13,12 +12,12 @@ export default function ManageStockPage() {
   const [editData, setEditData] = useState({
     _id: "",
     itemName: "",
-    quantity: ""
+    quantity: "",
   });
 
   const loadStocks = async () => {
     try {
-      const res = await axios.get("http://localhost:5500/api/stocks");
+      const res = await api.get("/stocks");
       setStocks(res.data);
       setFiltered(res.data);
     } catch {
@@ -39,8 +38,8 @@ export default function ManageStockPage() {
       stocks.filter(
         (s) =>
           s.itemId?.itemName.toLowerCase().includes(key) ||
-          s.stockId.toString() === key
-      )
+          s.stockId.toString() === key,
+      ),
     );
   };
 
@@ -48,7 +47,7 @@ export default function ManageStockPage() {
     setEditData({
       _id: stock._id,
       itemName: stock.itemId?.itemName,
-      quantity: stock.quantity
+      quantity: stock.quantity,
     });
     setShowModal(true);
   };
@@ -58,16 +57,16 @@ export default function ManageStockPage() {
   const handleChange = (e) => {
     const value = e.target.value;
 
-    // ✅ Prevent negative typing
+    //  Prevent negative typing
     if (Number(value) < 0) return;
 
     setEditData({
       ...editData,
-      quantity: value
+      quantity: value,
     });
   };
 
-  // ✅ UPDATE WITH VALIDATION + TOAST
+  //  UPDATE WITH VALIDATION + TOAST
   const updateStock = async () => {
     const qty = Number(editData.quantity);
 
@@ -91,40 +90,33 @@ export default function ManageStockPage() {
 
     try {
       await toast.promise(
-        axios.put(
-          `http://localhost:5500/api/stocks/${editData._id}`,
-          { quantity: qty }
-        ),
+        api.put(`/stocks/${editData._id}`, { quantity: qty }),
         {
           loading: "Updating stock...",
           success: "Stock updated successfully!",
           error: "Stock update failed",
-        }
+        },
       );
 
-      // ✅ Instant UI update (no reload delay)
+      //  Instant UI update (no reload delay)
       const updatedList = stocks.map((s) =>
-        s._id === editData._id ? { ...s, quantity: qty } : s
+        s._id === editData._id ? { ...s, quantity: qty } : s,
       );
 
       setStocks(updatedList);
       setFiltered(updatedList);
 
       setShowModal(false);
-
     } catch {}
   };
 
   return (
     <div className="stkmg-wrapper">
-
       <div className="stkmg-card">
-
         {/* HEADER */}
         <div className="stkmg-header">
           <span className="stkmg-badge">STOCK</span>
           <h1>Manage Stock</h1>
-          <p>View and update stock quantities</p>
         </div>
 
         {/* SEARCH */}
@@ -141,7 +133,6 @@ export default function ManageStockPage() {
         {/* TABLE */}
         <div className="stkmg-table-wrapper">
           <table className="stkmg-table">
-
             <thead>
               <tr>
                 <th>ID</th>
@@ -158,7 +149,6 @@ export default function ManageStockPage() {
             <tbody>
               {filtered.map((stock) => (
                 <tr key={stock._id}>
-
                   <td>{stock.stockId}</td>
                   <td>{stock.itemId?.itemName}</td>
                   <td>{stock.itemId?.itemCategory}</td>
@@ -180,22 +170,17 @@ export default function ManageStockPage() {
                       Update
                     </button>
                   </td>
-
                 </tr>
               ))}
             </tbody>
-
           </table>
         </div>
-
       </div>
 
       {/* MODAL */}
       {showModal && (
         <div className="stkmg-modal-bg">
-
           <div className="stkmg-modal-box">
-
             <h2>Update Stock</h2>
 
             <p className="stkmg-item">{editData.itemName}</p>
@@ -209,28 +194,17 @@ export default function ManageStockPage() {
             />
 
             <div className="stkmg-modal-actions">
-
-              <button
-                className="stkmg-btn-cancel"
-                onClick={closeModal}
-              >
+              <button className="stkmg-btn-cancel" onClick={closeModal}>
                 Cancel
               </button>
 
-              <button
-                className="stkmg-btn-primary"
-                onClick={updateStock}
-              >
+              <button className="stkmg-btn-primary" onClick={updateStock}>
                 Update
               </button>
-
             </div>
-
           </div>
-
         </div>
       )}
-
     </div>
   );
 }
