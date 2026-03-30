@@ -39,7 +39,7 @@ export default function ManageDistributorPage() {
     );
   };
 
-  // ✅ MULTI VALIDATION
+  //  MULTI VALIDATION
   const submitUpdate = async () => {
     const {
       distributorName,
