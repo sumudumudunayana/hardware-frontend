@@ -79,7 +79,7 @@ export default function ManageCategoryPage() {
     } catch (err) {}
   };
 
-  // DELETE WITH SONNER
+  //DELETE WITH SONNER
   const confirmDelete = async () => {
     try {
       await toast.promise(
