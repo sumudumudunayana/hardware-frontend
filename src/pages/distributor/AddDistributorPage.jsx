@@ -14,7 +14,7 @@ export default function AddDistributorPage() {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // ✅ Allow only numbers for phone input
+    // Allow only numbers for phone input
     if (name === "distributorContactNumber") {
       if (!/^\d*$/.test(value)) return;
     }
