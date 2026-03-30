@@ -8,7 +8,7 @@ export default function ManageSalesPage() {
   const [expanded, setExpanded] = useState(null);
   const [alert, setAlert] = useState({ show: false, type: "", message: "" });
 
-  // 🔥 LOAD SALES
+  //  LOAD SALES
   const loadSales = async () => {
     try {
       const res = await api.get("/sales");
