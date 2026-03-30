@@ -16,7 +16,7 @@ export default function AddCategoryPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    //  Collect all errors
+    // Collect all errors
     const errors = [];
 
     if (!formData.categoryName.trim()) {
