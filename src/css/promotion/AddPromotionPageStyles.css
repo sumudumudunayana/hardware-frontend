@@ -1,19 +1,24 @@
 /* WRAPPER */
 .prm-wrapper {
+  height: 100%;
   display: flex;
   justify-content: center;
+  align-items: flex-start;
 }
 
 /* CARD */
 .prm-card {
-  width: 100%;
+   width: 100%;
+  max-width: 800px;
   padding: 30px;
-  border-radius: 24px;
+  border-radius: 26px;
 
-  background: rgba(255,255,255,0.6);
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+
   backdrop-filter: blur(18px);
 
-  box-shadow: 0 20px 40px rgba(15,23,42,0.1);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
 }
 
 /* HEADER */
