@@ -2,7 +2,7 @@
   height: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 }
 
 /* Card */
@@ -22,7 +22,7 @@
 
 /* Header */
 .add-item-header {
-  margin-bottom: 22px;
+  margin-bottom: 20px;
 }
 
 .add-item-badge {
