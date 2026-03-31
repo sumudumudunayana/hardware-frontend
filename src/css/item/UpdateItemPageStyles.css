@@ -7,24 +7,24 @@
   width: 100%;
   padding: 28px;
   border-radius: 26px;
-
   background: rgba(255, 255, 255, 0.6);
   border: 1px solid rgba(148, 163, 184, 0.3);
-
   backdrop-filter: blur(18px);
   box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
 }
 
 /* Header */
+.update-header {
+  margin-bottom: 20px;
+}
+
 .update-badge {
   display: inline-block;
   margin-bottom: 10px;
   padding: 6px 12px;
   border-radius: 999px;
-
   background: rgba(59, 130, 246, 0.12);
   border: 1px solid rgba(59, 130, 246, 0.2);
-
   color: #1d4ed8;
   font-size: 11px;
   font-weight: 700;
@@ -35,19 +35,33 @@
   font-size: 26px;
   font-weight: 800;
   margin-top: 10px;
-}
-
-.update-header p {
-  color: #475569;
+  color: #0f172a;
 }
 
 /* Search */
 .update-search {
   width: 100%;
-  padding: 12px;
+  padding: 12px 14px;
+  margin-bottom: 20px;
   border-radius: 12px;
-  margin: 15px 0;
-  border: 1px solid rgba(148, 163, 184, 0.4);
+  border: 1px solid rgba(100, 116, 139, 0.4);
+  background: rgba(255, 255, 255, 0.95);
+  color: #0f172a;
+  outline: none;
+  transition: 0.25s;
+}
+
+.update-search:focus {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+}
+
+/* Table wrapper */
+.table-wrapper {
+  height: 420px;
+  overflow-y: auto;
+  border-radius: 16px;
+  border: 1px solid rgba(148, 163, 184, 0.3);
 }
 
 /* Table */
@@ -56,55 +70,95 @@
   border-collapse: collapse;
 }
 
+/* Header */
 .update-table th {
-  background: rgba(241, 245, 249, 0.9);
-  padding: 12px;
+  text-align: left;
+  padding: 14px;
+  font-size: 14px;
+  color: #334155;
+  font-weight: 700;
+  background: rgba(241, 245, 249, 0.95);
   border-bottom: 2px solid rgba(148, 163, 184, 0.4);
 }
 
+/* Cells */
 .update-table td {
-  padding: 12px;
+  padding: 14px;
+  font-size: 14px;
+  color: #0f172a;
   border-bottom: 1px solid rgba(148, 163, 184, 0.3);
 }
 
+/* Column separation */
+.update-table th:not(:last-child),
+.update-table td:not(:last-child) {
+  border-right: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+/* Row hover */
 .update-table tr:hover {
   background: rgba(245, 158, 11, 0.08);
 }
 
-/* Buttons */
+/* Zebra rows */
+.update-table tr:nth-child(even) {
+  background: rgba(248, 250, 252, 0.7);
+}
+
+/* Remove last row border */
+.update-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Action buttons */
 .action-buttons {
   display: flex;
   gap: 8px;
 }
 
+/* Update button */
 .btn-update {
   background: #3b82f6;
   color: white;
   padding: 6px 10px;
-  border-radius: 6px;
+  border-radius: 8px;
   border: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: 0.2s;
 }
 
+.btn-update:hover {
+  background: #2563eb;
+}
+
+/* Delete button */
 .btn-delete {
   background: #ef4444;
   color: white;
   padding: 6px 10px;
-  border-radius: 6px;
+  border-radius: 8px;
   border: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.btn-delete:hover {
+  background: #dc2626;
 }
 
 /* Modal background */
 .modal-bg {
   position: fixed;
   inset: 0;
-
-  background: rgba(255, 255, 255, 0.3); /* light glass overlay */
+  background: rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(6px);
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   z-index: 9999;
 }
 
@@ -113,14 +167,10 @@
   width: 420px;
   padding: 24px;
   border-radius: 20px;
-
   background: rgba(255, 255, 255, 0.85);
   border: 1px solid rgba(148, 163, 184, 0.3);
-
   backdrop-filter: blur(16px);
-
   box-shadow: 0 20px 40px rgba(15, 23, 42, 0.2);
-
   display: flex;
   flex-direction: column;
 }
@@ -226,4 +276,3 @@
   color: #334155;
   margin: 10px 0;
 }
-
