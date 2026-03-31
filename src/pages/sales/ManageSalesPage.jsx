@@ -6,9 +6,7 @@ import { toast } from "sonner";
 export default function ManageSalesPage() {
   const [sales, setSales] = useState([]);
   const [expanded, setExpanded] = useState(null);
-  const [alert, setAlert] = useState({ show: false, type: "", message: "" });
 
-  //  LOAD SALES
   const loadSales = async () => {
     try {
       const res = await api.get("/sales");
@@ -27,77 +25,81 @@ export default function ManageSalesPage() {
     setExpanded(expanded === id ? null : id);
   };
 
-  // 🔥 DELETE
   const deleteSale = async (id) => {
-    try {
-      await api.delete(`/sales/${id}`);
+  try {
+    await toast.promise(api.delete(`/sales/${id}`), {
+      loading: "Deleting sale...",
+      success: "Sale deleted successfully!",
+      error: "Delete failed!",
+    });
 
-      setAlert({
-        show: true,
-        type: "success",
-        message: "Sale deleted",
-      });
+    /* instant UI update */
+    const updatedSales = sales.filter((sale) => sale._id !== id);
+    setSales(updatedSales);
 
-      loadSales();
-
-    } catch {
-      setAlert({
-        show: true,
-        type: "error",
-        message: "Delete failed",
-      });
+    /* collapse expanded row if deleted */
+    if (expanded === id) {
+      setExpanded(null);
     }
+  } catch (err) {
+    console.error(err);
+  }
+};
 
-    setTimeout(() => setAlert({ show: false }), 2500);
-  };
-
-  // 🔥 UPDATE
   const updateSale = async (sale) => {
-    try {
-      await api.put(`/sales/${sale._id}`, {
-        totalAmount: Number(sale.totalAmount),
-      });
+    const amount = Number(sale.totalAmount);
 
-      setAlert({
-        show: true,
-        type: "success",
-        message: "Sale updated",
-      });
-
-      loadSales();
-
-    } catch {
-      setAlert({
-        show: true,
-        type: "error",
-        message: "Update failed",
-      });
+    /* VALIDATION */
+    if (
+      sale.totalAmount === "" ||
+      sale.totalAmount === null ||
+      sale.totalAmount === undefined
+    ) {
+      toast.error("Total amount is required");
+      return;
     }
 
-    setTimeout(() => setAlert({ show: false }), 2500);
+    if (isNaN(amount)) {
+      toast.error("Invalid amount");
+      return;
+    }
+
+    if (amount < 0) {
+      toast.error("Amount cannot be negative");
+      return;
+    }
+
+    if (amount === 0) {
+      toast.warning("Amount should be greater than zero");
+      return;
+    }
+
+    try {
+      await toast.promise(
+        api.put(`/sales/${sale._id}`, {
+          totalAmount: amount,
+        }),
+        {
+          loading: "Updating sale...",
+          success: "Sale updated successfully!",
+          error: "Update failed!",
+        }
+      );
+
+      loadSales();
+    } catch (err) {}
   };
 
   return (
     <div className="sales-page-wrapper">
       <div className="sales-card">
-
-        {/* HEADER */}
         <div className="sales-header">
           <span className="sales-badge">ORDERS</span>
           <h1>Manage Orders</h1>
         </div>
 
-        {/* ALERT */}
-        {alert.show && (
-          <div className={`alert ${alert.type}`}>
-            {alert.message}
-          </div>
-        )}
-
-        {/* TABLE */}
-        <div className="table-wrapper">
-          <table className="sales-table">
-
+        <div className="sales-table-wrapper">
+          <table className="sales-data-table">
             <thead>
               <tr>
                 <th>Invoice</th>
@@ -110,90 +112,86 @@ export default function ManageSalesPage() {
             <tbody>
               {sales.map((sale) => (
                 <React.Fragment key={sale._id}>
-
                   <tr>
                     <td>{sale.invoiceNumber}</td>
 
-                    <td>
-                      {new Date(sale.createdAt).toLocaleString()}
-                    </td>
+                    <td>{new Date(sale.createdAt).toLocaleString()}</td>
 
                     <td>
                       <input
+                        className="sales-amount-input"
                         type="number"
-                        value={sale.totalAmount}
-                        onChange={(e) =>
+                        min="0"
+                        value={sale.totalAmount ?? ""}
+                        onChange={(e) => {
+                          const value = e.target.value;
+
+                          /* block minus typing */
+                          if (Number(value) < 0) return;
+
                           setSales(
                             sales.map((s) =>
                               s._id === sale._id
                                 ? {
                                     ...s,
-                                    totalAmount: e.target.value,
+                                    totalAmount: value,
                                   }
                                 : s
                             )
-                          )
-                        }
+                          );
+                        }}
                       />
                     </td>
 
-                    <td className="actions">
-
-                      <button onClick={() => toggleExpand(sale._id)}>
+                    <td className="sales-action-buttons">
+                      <button
+                        className="sales-btn-view"
+                        onClick={() => toggleExpand(sale._id)}
+                      >
                         {expanded === sale._id ? "Hide" : "View"}
                       </button>
 
                       <button
-                        className="update"
+                        className="sales-btn-update"
                         onClick={() => updateSale(sale)}
                       >
                         Update
                       </button>
 
                       <button
-                        className="delete"
+                        className="sales-btn-delete"
                         onClick={() => deleteSale(sale._id)}
                       >
                         Delete
                       </button>
-
                     </td>
                   </tr>
 
-                  {/* EXPAND */}
                   {expanded === sale._id && (
-                    <tr className="expand-row">
+                    <tr className="sales-expand-row">
                       <td colSpan="4">
-
-                        <div className="expand-content">
-
+                        <div className="sales-expand-content">
                           {sale.items?.map((item, index) => (
-                            <div key={index} className="item-box">
-
+                            <div
+                              key={index}
+                              className="sales-item-box"
+                            >
                               <span>{item.itemId?.itemName}</span>
-
                               <span>Qty: {item.quantity}</span>
-
                               <span>
                                 Rs. {item.subtotal?.toLocaleString()}
                               </span>
-
                             </div>
                           ))}
-
                         </div>
-
                       </td>
                     </tr>
                   )}
-
                 </React.Fragment>
               ))}
             </tbody>
-
           </table>
         </div>
-
       </div>
     </div>
   );
