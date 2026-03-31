@@ -30,17 +30,14 @@ export default function AddStockPage() {
     const id = e.target.value;
     const item = items.find((i) => i._id === id);
 
-    setSelectedItem(item);
+    setSelectedItem(item || null);
     setFormData({ ...formData, itemId: id });
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // Prevent negative typing for quantity
-    if (name === "quantity") {
-      if (Number(value) < 0) return;
-    }
+    if (name === "quantity" && Number(value) < 0) return;
 
     setFormData({
       ...formData,
@@ -54,21 +51,13 @@ export default function AddStockPage() {
     const { itemId, quantity, arrivalDate } = formData;
     const qty = Number(quantity);
 
-    // ✅ Validation
     if (!itemId) {
       toast.error("Please select an item");
       return;
     }
 
-    if (!quantity || qty < 0) {
-      toast.error("Invalid quantity", {
-        description: "Quantity must be greater than 0",
-      });
-      return;
-    }
-
-    if (qty < 0) {
-      toast.error("Quantity cannot be negative");
+    if (!quantity || qty <= 0) {
+      toast.error("Quantity must be greater than 0");
       return;
     }
 
@@ -77,12 +66,9 @@ export default function AddStockPage() {
       return;
     }
 
-    // Optional: prevent future date
     const today = new Date().toISOString().split("T")[0];
     if (arrivalDate > today) {
-      toast.warning("Invalid date", {
-        description: "Arrival date cannot be in the future",
-      });
+      toast.warning("Arrival date cannot be in the future");
       return;
     }
 
@@ -97,7 +83,7 @@ export default function AddStockPage() {
           loading: "Adding stock...",
           success: "Stock added successfully!",
           error: "Failed to add stock",
-        },
+        }
       );
 
       setFormData({
@@ -111,16 +97,18 @@ export default function AddStockPage() {
   };
 
   return (
-    <div className="stk-wrapper">
-      <div className="stk-card">
-        {/* HEADER */}
-        <div className="stk-header">
-          <span className="stk-badge">STOCK</span>
+    <div className="add-stock-page-wrapper">
+      <div className="add-stock-page-card">
+
+        <div className="add-stock-page-header">
+          <span className="add-stock-page-badge">STOCK</span>
           <h1>Add Stock</h1>
         </div>
 
-        <form className="stk-form" onSubmit={handleSubmit}>
-          {/* SELECT */}
+        <form
+          className="add-stock-page-form"
+          onSubmit={handleSubmit}
+        >
           <select
             name="itemId"
             value={formData.itemId}
@@ -134,27 +122,34 @@ export default function AddStockPage() {
             ))}
           </select>
 
-          {/* DETAILS */}
           {selectedItem && (
-            <div className="stk-details">
-              <div className="stk-detail-box">
+            <div className="add-stock-page-details">
+              <div className="add-stock-page-detail-box">
                 <label>Category</label>
-                <input value={selectedItem.itemCategory} readOnly />
+                <input
+                  value={selectedItem.itemCategory}
+                  readOnly
+                />
               </div>
 
-              <div className="stk-detail-box">
+              <div className="add-stock-page-detail-box">
                 <label>Company</label>
-                <input value={selectedItem.itemCompany} readOnly />
+                <input
+                  value={selectedItem.itemCompany}
+                  readOnly
+                />
               </div>
 
-              <div className="stk-detail-box">
+              <div className="add-stock-page-detail-box">
                 <label>Distributor</label>
-                <input value={selectedItem.itemDistributor} readOnly />
+                <input
+                  value={selectedItem.itemDistributor}
+                  readOnly
+                />
               </div>
             </div>
           )}
 
-          {/* INPUTS */}
           <input
             type="number"
             name="quantity"
@@ -170,7 +165,9 @@ export default function AddStockPage() {
             onChange={handleChange}
           />
 
-          <button className="stk-btn">Add Stock</button>
+          <button className="add-stock-page-btn">
+            Add Stock
+          </button>
         </form>
       </div>
     </div>
