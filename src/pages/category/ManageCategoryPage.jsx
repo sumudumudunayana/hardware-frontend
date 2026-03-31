@@ -135,7 +135,7 @@ export default function ManageCategoryPage() {
                   <td>{cat.categoryDescription}</td>
                   <td className="actions">
                     <button onClick={() => openUpdateModal(cat)}>
-                      Edit
+                      Update
                     </button>
 
                     <button
