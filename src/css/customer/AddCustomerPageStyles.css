@@ -9,11 +9,11 @@
 /* Card */
 .add-customer-card {
   width: 100%;
-  max-width: 600px;
+  max-width: 800px;
   padding: 30px;
   border-radius: 26px;
 
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.55);
   border: 1px solid rgba(148, 163, 184, 0.25);
 
   backdrop-filter: blur(18px);
