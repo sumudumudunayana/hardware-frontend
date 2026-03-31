@@ -1,112 +1,105 @@
 /* WRAPPER */
-.stk-wrapper {
+.add-stock-page-wrapper {
+  height: 100%;
   display: flex;
   justify-content: center;
+  align-items: flex-start;
 }
 
 /* CARD */
-.stk-card {
-  width: 100%;
+.add-stock-page-card {
+   width: 100%;
+  max-width: 800px;
   padding: 30px;
-  border-radius: 24px;
+  border-radius: 26px;
 
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+
   backdrop-filter: blur(18px);
 
-  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.1);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
 }
 
 /* HEADER */
-.stk-header {
+.add-stock-page-header {
   margin-bottom: 20px;
 }
 
-.stk-badge {
- display: inline-block;
+.add-stock-page-badge {
+  display: inline-block;
   margin-bottom: 10px;
   padding: 6px 12px;
   border-radius: 999px;
-
   background: rgba(59, 130, 246, 0.12);
   border: 1px solid rgba(59, 130, 246, 0.2);
-
   color: #1d4ed8;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 1.3px;
 }
 
-.stk-header h1 {
+.add-stock-page-header h1 {
   font-size: 26px;
   font-weight: 800;
   margin: 5px 0;
   color: #0f172a;
 }
 
-.stk-header p {
-  color: #64748b;
-}
-
 /* FORM */
-.stk-form select,
-.stk-form input {
+.add-stock-page-form select,
+.add-stock-page-form input {
   width: 100%;
   padding: 12px;
   margin-bottom: 15px;
-
   border-radius: 12px;
   border: 1px solid rgba(148, 163, 184, 0.3);
-
   background: white;
   color: #0f172a;
 }
 
-/* SELECT DROPDOWN */
-.stk-form select option {
+/* SELECT OPTIONS */
+.add-stock-page-form select option {
   background: white;
   color: black;
 }
 
 /* DETAILS */
-.stk-details {
+.add-stock-page-details {
   display: flex;
   gap: 15px;
   margin-bottom: 15px;
 }
 
-.stk-detail-box {
+.add-stock-page-detail-box {
   flex: 1;
 }
 
-.stk-detail-box label {
+.add-stock-page-detail-box label {
   font-size: 12px;
   color: #64748b;
 }
 
-.stk-detail-box input {
+.add-stock-page-detail-box input {
   background: #f1f5f9;
   cursor: not-allowed;
 }
 
 /* BUTTON */
-.stk-btn {
+.add-stock-page-btn {
   width: 100%;
   padding: 14px;
-
   border-radius: 12px;
   border: none;
-
   background: #f59e0b;
   color: white;
-
   font-weight: 600;
   font-size: 15px;
   cursor: pointer;
-
   transition: 0.25s;
 }
 
-.stk-btn:hover {
+.add-stock-page-btn:hover {
   background: #d97706;
   transform: translateY(-1px);
 }
