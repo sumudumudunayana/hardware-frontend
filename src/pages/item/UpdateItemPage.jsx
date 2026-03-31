@@ -166,7 +166,7 @@ export default function UpdateItemPage() {
                         setShowUpdateModal(true);
                       }}
                     >
-                      Edit
+                      Update
                     </button>
 
                     <button
