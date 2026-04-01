@@ -69,7 +69,7 @@ export default function AddDistributorPage() {
     try {
       const payload = {
         ...formData,
-        distributorContactNumber: distributorContactNumber, // ✅ FIXED (STRING)
+        distributorContactNumber: distributorContactNumber,
       };
 
       await toast.promise(
