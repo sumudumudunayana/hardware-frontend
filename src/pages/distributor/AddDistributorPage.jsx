@@ -46,7 +46,7 @@ export default function AddDistributorPage() {
       errors.push("Description is required");
     }
 
-    // 🔴 Phone validation (SAFE)
+    // Phone validation (SAFE)
     if (!distributorContactNumber?.toString().trim()) {
       errors.push("Contact number is required");
     } else if (!/^\d{10}$/.test(distributorContactNumber)) {
