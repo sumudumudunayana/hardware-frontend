@@ -60,7 +60,7 @@
   transition: all 0.3s ease;
 }
 
-/* 🔥 glow effect */
+/* glow effect */
 .pov-card::before {
   content: "";
   position: absolute;
@@ -137,7 +137,7 @@
   gap: 16px;
 }
 
-/* 🔥 INSIGHT BOX (mini widgets) */
+/* INSIGHT BOX (mini widgets) */
 .pov-insight-box {
   padding: 18px;
   border-radius: 18px;
