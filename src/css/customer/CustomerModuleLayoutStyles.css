@@ -42,7 +42,7 @@
   margin-bottom: 20px;
 }
 
-/* 🔥 BACK BUTTON */
+/* BACK BUTTON */
 .customer-back-btn {
   border: none;
   background: #ffffff;
@@ -103,7 +103,7 @@
   margin-top: 10px;
 }
 
-/* 🔥 NAV BUTTONS */
+/*  NAV BUTTONS */
 .customer-link {
   text-decoration: none;
   color: #334155;
@@ -121,7 +121,7 @@
   border: 1px solid rgba(255, 255, 255, 0.6);
 }
 
-/* 🔥 HOVER */
+/* HOVER */
 .customer-link:hover {
   transform: translateX(6px) translateY(-2px);
 
@@ -131,7 +131,7 @@
     0 0 0 1.5px rgba(245, 158, 11, 0.2);
 }
 
-/* 🔥 ACTIVE */
+/* ACTIVE */
 .customer-link.active {
   color: #0f172a;
 
