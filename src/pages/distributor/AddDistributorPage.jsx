@@ -41,7 +41,7 @@ export default function AddDistributorPage() {
       errors.push("Supplier name must be at least 2 characters");
     }
 
-    // 🔴 Description validation
+    // Description validation
     if (!distributorDescription?.trim()) {
       errors.push("Description is required");
     }
