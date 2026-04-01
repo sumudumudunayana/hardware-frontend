@@ -104,7 +104,7 @@
   gap: 12px;
 }
 
-/* 🔥 NAV BUTTONS */
+/* NAV BUTTONS */
 .distributor-link {
   padding: 12px;
   border-radius: 14px;
@@ -122,7 +122,7 @@
   border: 1px solid rgba(255, 255, 255, 0.6);
 }
 
-/* 🔥 HOVER */
+/* HOVER */
 .distributor-link:hover {
   transform: translateX(6px) translateY(-2px);
 
@@ -132,7 +132,7 @@
     0 0 0 1.5px rgba(245, 158, 11, 0.2);
 }
 
-/* 🔥 ACTIVE */
+/* ACTIVE */
 .distributor-link.active {
   color: #0f172a;
 
