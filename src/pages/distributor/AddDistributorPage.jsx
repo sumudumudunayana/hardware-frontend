@@ -53,7 +53,7 @@ export default function AddDistributorPage() {
       errors.push("Contact number must be exactly 10 digits");
     }
 
-    // 🔴 Email validation
+    // Email validation
     if (!distributorEmail?.trim()) {
       errors.push("Email is required");
     } else if (!/^\S+@\S+\.\S+$/.test(distributorEmail)) {
