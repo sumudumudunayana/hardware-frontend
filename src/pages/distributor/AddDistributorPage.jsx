@@ -60,7 +60,7 @@ export default function AddDistributorPage() {
       errors.push("Invalid email address");
     }
 
-    // 🔴 Show all errors
+    // Show all errors
     if (errors.length > 0) {
       errors.forEach((err) => toast.error(err));
       return;
