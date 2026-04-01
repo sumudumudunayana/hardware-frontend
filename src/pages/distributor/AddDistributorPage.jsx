@@ -34,7 +34,7 @@ export default function AddDistributorPage() {
 
     const errors = [];
 
-    // 🔴 Name validation
+    // Name validation
     if (!distributorName?.trim()) {
       errors.push("Supplier name is required");
     } else if (distributorName.trim().length < 2) {
