@@ -1,0 +1,249 @@
+/* PAGE WRAPPER */
+.reports-wrapper {
+  padding: 0;
+  min-height: auto;
+  background: transparent;
+  display: block;
+}
+
+/* MAIN CARD */
+.reports-card {
+  width: 100%;
+  padding: 24px;
+  border-radius: 20px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+}
+
+/* HEADER */
+.reports-header {
+  margin-bottom: 28px;
+}
+
+.reports-badge {
+  display: inline-block;
+  width: fit-content;
+  padding: 6px 12px;
+  border-radius: 999px;
+
+  background: rgba(59, 130, 246, 0.12);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+
+  color: #1d4ed8;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  margin-top: 4px;
+  margin-bottom: 12px;
+}
+
+.reports-header h1 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+/* CHART GRID */
+.charts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: stretch;
+}
+
+/* CHART BOX */
+.chart-box {
+  background: rgba(248, 250, 252, 0.9);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: 22px;
+  padding: 22px;
+  min-height: 450px;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
+  transition: all 0.25s ease;
+}
+
+.chart-box:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 22px rgba(15, 23, 42, 0.08);
+}
+
+/* CHART TITLE */
+.chart-box h2 {
+  margin: 0 0 18px 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #334155;
+}
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-box {
+    min-height: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .reports-wrapper {
+    padding: 16px;
+  }
+
+  .reports-card {
+    padding: 20px;
+    border-radius: 18px;
+  }
+
+  .reports-header h1 {
+    font-size: 24px;
+  }
+
+  .chart-box {
+    padding: 16px;
+  }
+
+  .chart-box h2 {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .reports-header h1 {
+    font-size: 20px;
+  }
+
+  .reports-badge {
+    font-size: 11px;
+    padding: 5px 12px;
+  }
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.summary-box {
+  background: rgba(248, 250, 252, 0.95);
+  padding: 20px;
+  border-radius: 18px;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.04);
+}
+
+.summary-box h3 {
+  margin: 0 0 10px;
+  font-size: 16px;
+  color: #64748b;
+}
+
+.summary-box p {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.top-products-section {
+  margin-top: 28px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+.top-products-table-box {
+  background: rgba(248, 250, 252, 0.9);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: 22px;
+  padding: 22px;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
+}
+
+.top-products-table-box h2 {
+  margin-bottom: 18px;
+}
+
+.top-products-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.top-products-table th,
+.top-products-table td {
+  padding: 14px;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.top-products-table th {
+  background: #f8fafc;
+  font-weight: 600;
+}
+
+.top-products-table tr:hover {
+  background: #f8fafc;
+}
+
+.filter-bar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.filter-bar button {
+  padding: 10px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #334155;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.filter-bar button:hover {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.filter-bar button.active-filter {
+  background: #f59e0b;
+  color: #ffffff;
+  border-color: #f59e0b;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);
+  transform: translateY(-1px);
+}
+
+.filter-bar input {
+  padding: 10px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+}
+
+.report-actions {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.report-actions button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 10px;
+  background: #f59e0b;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.report-actions button:hover {
+  background: #d97706;
+}
