@@ -50,6 +50,10 @@ import SalesOverviewPage from "./pages/sales/SalesOverviewPage";
 import DistributorOverviewPage from "./pages/distributor/DistributorOverviewPage";
 import StockOverviewPage from "./pages/stock/StockOverviewPage";
 import PromotionOverviewPage from "./pages/promotion/PromotionOverviewPage";
+import SalesReportsPage from "./pages/sales/SalesReportsPage";
+import SalesInvoicesPage from "./pages/sales/SalesInvoicesPage";
+import LowStockAlertPage from "./pages/stock/LowStockAlertPage";
+import StockReportsPage from "./pages/stock/StockReportsPage";
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -90,8 +94,8 @@ function App() {
             <Route path="cart" element={<CartPage />} />
             <Route path="invoice/:id" element={<InvoicePage />} />
             <Route path="manage" element={<ManageSalesPage />} />
-            <Route path="reports" element={<div>Sales Reports</div>} />
-            <Route path="invoices" element={<div>Invoices</div>} />
+            <Route path="reports" element={<SalesReportsPage/>} />
+            <Route path="invoices" element={<SalesInvoicesPage />} />
           </Route>
 
           <Route path="/suppliers" element={<DistributorModuleLayout />}>
@@ -108,8 +112,8 @@ function App() {
             <Route index element={<StockOverviewPage/>} />
             <Route path="add" element={<AddStockPage />} />
             <Route path="manage" element={<ManageStockPage />} />
-            <Route path="low" element={<div>Low Stock Page</div>} />
-            <Route path="reports" element={<div>Stock Reports</div>} />
+            <Route path="low" element={<LowStockAlertPage />} />
+            <Route path="reports" element={<StockReportsPage />} />
           </Route>
 
           <Route path="/promotions" element={<PromotionModuleLayout />}>
