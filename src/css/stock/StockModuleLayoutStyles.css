@@ -172,5 +172,5 @@
     10px 10px 30px rgba(15, 23, 42, 0.12),
     -6px -6px 20px rgba(255, 255, 255, 0.6);
 
-  overflow-y: auto;
+  overflow-y: hidden;
 }
