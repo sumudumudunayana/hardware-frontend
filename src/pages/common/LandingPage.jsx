@@ -43,7 +43,7 @@ export default function LandingPage() {
               Launch Dashboard
             </button>
 
-            <button className="secondary-btn">View Analytics</button>
+            {/* <button className="secondary-btn">View Analytics</button> */}
           </div>
 
           <div className="hero-stats">
