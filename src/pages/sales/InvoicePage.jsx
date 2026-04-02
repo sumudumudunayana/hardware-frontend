@@ -31,12 +31,12 @@ export default function InvoicePage() {
     return <div className="invoice-wrapper">Loading...</div>;
   }
 
-  // 🔥 SAFETY
+  // SAFETY
   if (!sale) {
     return <div className="invoice-wrapper">Invoice not found</div>;
   }
 
-  // 🔥 CALCULATE SUBTOTAL
+  // CALCULATE SUBTOTAL
   const subtotal =
     sale.items?.reduce(
       (sum, item) =>
