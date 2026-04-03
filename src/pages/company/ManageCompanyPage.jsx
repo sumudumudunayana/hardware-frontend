@@ -13,8 +13,10 @@ export default function ManageCompanyPage() {
   const [editData, setEditData] = useState({
     _id: "",
     companyName: "",
+    companyDescription: "",
     companyAddress: "",
     companyContactNumber: "",
+    companyEmail: "",
   });
 
   const [deleteId, setDeleteId] = useState(null);
@@ -35,32 +37,53 @@ export default function ManageCompanyPage() {
 
   const autoSearch = (text) => {
     const key = text.toLowerCase();
-    if (!key.trim()) return setFiltered(companies);
+
+    if (!key.trim()) {
+      setFiltered(companies);
+      return;
+    }
 
     setFiltered(
       companies.filter(
-        (c) =>
-          c.companyName.toLowerCase().includes(key) ||
-          c.companyId.toString() === key,
+        (company) =>
+          company.companyName.toLowerCase().includes(key) ||
+          company.companyId?.toString() === key,
       ),
     );
   };
 
   const closeUpdateModal = () => setShowUpdateModal(false);
+
   const closeDeleteModal = () => setShowDeleteModal(false);
 
-  //  UPDATE WITH VALIDATION
+  // UPDATE
   const submitUpdate = async () => {
-    const { companyName, companyAddress, companyContactNumber } = editData;
+    const {
+      companyName,
+      companyDescription,
+      companyAddress,
+      companyContactNumber,
+      companyEmail,
+    } = editData;
 
-    // Validation
+    // validations
     if (!companyName?.trim()) {
       toast.error("Company name is required");
       return;
     }
 
-    if (companyName.length < 3) {
-      toast.warning("Name too short");
+    if (!/^[A-Za-z\s]+$/.test(companyName.trim())) {
+      toast.error("Company name can contain only letters and spaces");
+      return;
+    }
+
+    if (companyName.trim().length < 3) {
+      toast.error("Company name must be at least 3 characters");
+      return;
+    }
+
+    if (!companyDescription?.trim()) {
+      toast.error("Description is required");
       return;
     }
 
@@ -69,69 +92,78 @@ export default function ManageCompanyPage() {
       return;
     }
 
+    if (!/^[A-Za-z0-9\s,./-]+$/.test(companyAddress.trim())) {
+      toast.error("Address contains invalid symbols");
+      return;
+    }
+
     if (!/^\d{10}$/.test(companyContactNumber)) {
-      toast.error("Invalid contact number");
+      toast.error("Contact number must be exactly 10 digits");
+      return;
+    }
+
+    if (!/^\S+@\S+\.\S+$/.test(companyEmail)) {
+      toast.error("Invalid email address");
       return;
     }
 
     try {
-      await toast.promise(
-        api.put(`/companies/${editData._id}`, {
-          ...editData,
-          companyContactNumber: Number(companyContactNumber),
-        }),
-        {
-          loading: "Updating company...",
-          success: "Company updated successfully!",
-          error: "Update failed!",
-        },
-      );
+      const response = await api.put(`/companies/${editData._id}`, {
+        ...editData,
+        companyName: companyName.trim(),
+        companyDescription: companyDescription.trim(),
+        companyAddress: companyAddress.trim(),
+        companyContactNumber,
+        companyEmail: companyEmail.trim().toLowerCase(),
+      });
 
-      //  Update state manually
-      const updatedList = companies.map((c) =>
-        c._id === editData._id ? { ...editData } : c,
+      const updatedCompany = response.data;
+
+      const updatedList = companies.map((company) =>
+        company._id === updatedCompany._id ? updatedCompany : company,
       );
 
       setCompanies(updatedList);
       setFiltered(updatedList);
 
       setShowUpdateModal(false);
-    } catch (err) {}
+
+      toast.success("Company updated successfully!");
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Update failed!");
+    }
   };
 
-  //  DELETE WITH TOAST
+  // DELETE
   const confirmDelete = async () => {
     try {
-      await toast.promise(
-        api.delete(`/companies/${deleteId}`),
-        {
-          loading: "Deleting company...",
-          success: "Company deleted successfully!",
-          error: "Delete failed!",
-        },
-      );
+      await api.delete(`/companies/${deleteId}`);
 
-      //  Remove from state immediately
-      const updatedList = companies.filter((c) => c._id !== deleteId);
+      const updatedList = companies.filter(
+        (company) => company._id !== deleteId,
+      );
 
       setCompanies(updatedList);
       setFiltered(updatedList);
 
       setShowDeleteModal(false);
-    } catch (err) {}
+
+      toast.success("Company deleted successfully!");
+    } catch {
+      toast.error("Delete failed!");
+    }
   };
 
   return (
     <div className="cmp-wrapper">
       <div className="cmp-card">
-        {/* HEADER */}
         <div className="cmp-header">
           <span className="cmp-badge">COMPANY</span>
           <h1>Manage Companies</h1>
 
           <input
             className="cmp-search"
-            placeholder="Search..."
+            placeholder="Search by ID or company name..."
             value={search}
             onChange={(e) => {
               setSearch(e.target.value);
@@ -140,7 +172,6 @@ export default function ManageCompanyPage() {
           />
         </div>
 
-        {/* TABLE */}
         <table className="cmp-table">
           <thead>
             <tr>
@@ -148,23 +179,25 @@ export default function ManageCompanyPage() {
               <th>Name</th>
               <th>Address</th>
               <th>Contact</th>
+              <th>Email</th>
               <th>Action</th>
             </tr>
           </thead>
 
           <tbody>
-            {filtered.map((c) => (
-              <tr key={c._id}>
-                <td>{c.companyId}</td>
-                <td>{c.companyName}</td>
-                <td>{c.companyAddress}</td>
-                <td>{c.companyContactNumber}</td>
+            {filtered.map((company) => (
+              <tr key={company._id}>
+                <td>{company.companyId}</td>
+                <td>{company.companyName}</td>
+                <td>{company.companyAddress}</td>
+                <td>{company.companyContactNumber}</td>
+                <td>{company.companyEmail}</td>
 
                 <td className="cmp-actions">
                   <button
                     className="cmp-update"
                     onClick={() => {
-                      setEditData(c);
+                      setEditData(company);
                       setShowUpdateModal(true);
                     }}
                   >
@@ -174,7 +207,7 @@ export default function ManageCompanyPage() {
                   <button
                     className="cmp-delete"
                     onClick={() => {
-                      setDeleteId(c._id);
+                      setDeleteId(company._id);
                       setShowDeleteModal(true);
                     }}
                   >
@@ -193,34 +226,90 @@ export default function ManageCompanyPage() {
           <div className="cmp-modal-box">
             <h2>Update Company</h2>
 
-            <input
-              value={editData.companyName}
-              onChange={(e) =>
-                setEditData({ ...editData, companyName: e.target.value })
-              }
-              placeholder="Company Name"
-            />
+            <div className="cmp-form-group">
+              <label>Company Name</label>
+              <input
+                placeholder="Enter company name"
+                value={editData.companyName || ""}
+                onChange={(e) => {
+                  const value = e.target.value;
 
-            <input
-              value={editData.companyAddress}
-              onChange={(e) =>
-                setEditData({ ...editData, companyAddress: e.target.value })
-              }
-              placeholder="Address"
-            />
+                  if (!/^[A-Za-z\s]*$/.test(value)) {
+                    toast.error("Only letters and spaces allowed");
+                    return;
+                  }
 
-            <input
-              maxLength={10}
-              value={editData.companyContactNumber}
-              onChange={(e) => {
-                if (!/^\d*$/.test(e.target.value)) return;
-                setEditData({
-                  ...editData,
-                  companyContactNumber: e.target.value,
-                });
-              }}
-              placeholder="Contact Number"
-            />
+                  setEditData({
+                    ...editData,
+                    companyName: value,
+                  });
+                }}
+              />
+            </div>
+
+            <div className="cmp-form-group">
+              <label>Description</label>
+              <textarea
+                placeholder="Enter company description"
+                value={editData.companyDescription || ""}
+                onChange={(e) =>
+                  setEditData({
+                    ...editData,
+                    companyDescription: e.target.value,
+                  })
+                }
+              />
+            </div>
+
+            <div className="cmp-form-group">
+              <label>Address</label>
+              <input
+                placeholder="Enter company address"
+                value={editData.companyAddress || ""}
+                onChange={(e) =>
+                  setEditData({
+                    ...editData,
+                    companyAddress: e.target.value,
+                  })
+                }
+              />
+            </div>
+
+            <div className="cmp-form-group">
+              <label>Contact Number</label>
+              <input
+                placeholder="Enter contact number"
+                maxLength={10}
+                value={editData.companyContactNumber || ""}
+                onChange={(e) => {
+                  const value = e.target.value;
+
+                  if (!/^\d*$/.test(value)) {
+                    toast.error("Only numbers allowed");
+                    return;
+                  }
+
+                  setEditData({
+                    ...editData,
+                    companyContactNumber: value,
+                  });
+                }}
+              />
+            </div>
+
+            <div className="cmp-form-group">
+              <label>Email</label>
+              <input
+                placeholder="Enter company email"
+                value={editData.companyEmail || ""}
+                onChange={(e) =>
+                  setEditData({
+                    ...editData,
+                    companyEmail: e.target.value,
+                  })
+                }
+              />
+            </div>
 
             <div className="cmp-modal-actions">
               <button className="cmp-btn-cancel" onClick={closeUpdateModal}>
