@@ -23,96 +23,142 @@ export default function UpdateItemPage() {
   }, []);
 
   const loadItems = async () => {
-    const res = await api.get("/items");
-    setItems(res.data);
-    setFiltered(res.data);
+    try {
+      const res = await api.get("/items");
+      setItems(res.data);
+      setFiltered(res.data);
+    } catch {
+      toast.error("Failed to load items");
+    }
   };
 
   const loadDropdownData = async () => {
-    const [cat, com, dist] = await Promise.all([
-      api.get("/categories"),
-      api.get("/companies"),
-      api.get("/distributors"),
-    ]);
-    setCategories(cat.data);
-    setCompanies(com.data);
-    setDistributors(dist.data);
+    try {
+      const [cat, com, dist] = await Promise.all([
+        api.get("/categories"),
+        api.get("/companies"),
+        api.get("/distributors"),
+      ]);
+
+      setCategories(cat.data);
+      setCompanies(com.data);
+      setDistributors(dist.data);
+    } catch {
+      toast.error("Failed to load dropdown data");
+    }
   };
 
   const autoSearch = (text) => {
     const key = text.toLowerCase();
+
     setFiltered(
       key
         ? items.filter(
-            (i) =>
-              i.itemName.toLowerCase().includes(key) ||
-              i.itemId.toString() === key,
+            (item) =>
+              item.itemName.toLowerCase().includes(key) ||
+              item.itemId.toString() === key,
           )
         : items,
     );
   };
 
-  //  UPDATE WITH VALIDATION
+  // UPDATE VALIDATION
   const submitUpdate = async () => {
+    const itemName = editData.itemName?.trim();
     const cost = Number(editData.itemCostPrice);
     const selling = Number(editData.itemSellingPrice);
+    const labeled = Number(editData.itemLabeledPrice);
 
-    // Validation
-    if (!editData.itemName || !editData.itemName.trim()) {
+    // validations
+    if (!itemName) {
       toast.error("Item name is required");
       return;
     }
 
-    if (cost < 0 || selling < 0) {
-      toast.error("Invalid price", {
-        description: "Prices cannot be negative",
-      });
+    if (!/^[A-Za-z0-9\s]+$/.test(itemName)) {
+      toast.error("Item name can contain only letters, numbers, and spaces");
       return;
     }
 
-    if (selling < cost) {
-      toast.warning("Check pricing", {
-        description: "Selling price should be higher than cost price",
-      });
+    if (/^\d+$/.test(itemName)) {
+      toast.error("Item name cannot contain only numbers");
+      return;
+    }
+
+    if (!editData.itemCategory) {
+      toast.error("Please select a category");
+      return;
+    }
+
+    if (!editData.itemCompany) {
+      toast.error("Please select a company");
+      return;
+    }
+
+    if (!editData.itemDistributor) {
+      toast.error("Please select a supplier");
+      return;
+    }
+
+    if (cost < 0 || selling < 0 || labeled < 0) {
+      toast.error("Prices cannot be negative");
+      return;
+    }
+
+    if (selling <= cost) {
+      toast.error("Selling price must be greater than cost price");
+      return;
+    }
+
+    if (labeled <= selling || labeled <= cost) {
+      toast.error("Labeled price must be greater than selling and cost price");
       return;
     }
 
     try {
-      await toast.promise(
-        api.put(`/items/${editData._id}`, {
-          ...editData,
-          itemSellingPrice: selling,
-          itemCostPrice: cost,
-        }),
-        {
-          loading: "Updating item...",
-          success: "Item updated successfully!",
-          error: "Update failed!",
-        },
+      const response = await api.put(`/items/${editData._id}`, {
+        ...editData,
+        itemName,
+        itemCostPrice: cost,
+        itemSellingPrice: selling,
+        itemLabeledPrice: labeled,
+      });
+
+      const updatedItem = response.data;
+
+      const updatedList = items.map((item) =>
+        item._id === updatedItem._id ? updatedItem : item,
       );
 
-      loadItems();
+      setItems(updatedList);
+      setFiltered(updatedList);
+
       setShowUpdateModal(false);
+
+      toast.success("Item updated successfully!");
     } catch (err) {
-      // handled by toast.promise
+      toast.error(err.response?.data?.message || "Update failed!");
     }
   };
 
-  // DELETE WITH TOAST
+  // DELETE
   const confirmDelete = async () => {
     try {
-      await toast.promise(
-        api.delete(`/items/${deleteId}`),
-        {
-          loading: "Deleting item...",
-          success: "Item deleted successfully!",
-          error: "Delete failed!",
-        },
-      );
+      await toast.promise(api.delete(`/items/${deleteId}`), {
+        loading: "Deleting item...",
+        success: "Item deleted successfully!",
+        error: "Delete failed!",
+      });
 
-      loadItems();
+      const updatedList = items.filter((item) => item._id !== deleteId);
+
+      setItems(updatedList);
+      setFiltered(updatedList);
+
       setShowDeleteModal(false);
-    } catch (err) {}
+    } catch {
+      toast.error("Delete failed");
+    }
   };
 
   return (
@@ -186,36 +232,47 @@ export default function UpdateItemPage() {
         </div>
       </div>
 
-      {/* Update Modal */}
+      {/* UPDATE MODAL */}
       {showUpdateModal && (
-        <div className="modal-bg">
-          <div className="modal-box">
-            <div className="modal-header">
+        <div className="item-modal-bg">
+          <div className="item-modal-box">
+            <div className="item-modal-header">
               <h2>Edit Item</h2>
               <p>Update item details below</p>
             </div>
 
-            <div className="modal-form">
-              {/* Item Name */}
-              <div className="form-group">
+            <div className="item-modal-form">
+              <div className="item-form-group">
                 <label>Item Name</label>
                 <input
-                  name="itemName"
-                  placeholder="Enter item name"
+                  className="item-input"
                   value={editData.itemName || ""}
-                  onChange={(e) =>
-                    setEditData({ ...editData, itemName: e.target.value })
-                  }
+                  onChange={(e) => {
+                    const value = e.target.value;
+
+                    if (!/^[A-Za-z0-9\s]*$/.test(value)) {
+                      toast.error("Only letters, numbers, and spaces allowed");
+                      return;
+                    }
+
+                    setEditData({
+                      ...editData,
+                      itemName: value,
+                    });
+                  }}
                 />
               </div>
 
-              {/* Category */}
-              <div className="form-group">
+              <div className="item-form-group">
                 <label>Category</label>
                 <select
+                  className="item-select"
                   value={editData.itemCategory || ""}
                   onChange={(e) =>
-                    setEditData({ ...editData, itemCategory: e.target.value })
+                    setEditData({
+                      ...editData,
+                      itemCategory: e.target.value,
+                    })
                   }
                 >
                   <option value="">Select Category</option>
@@ -227,13 +284,68 @@ export default function UpdateItemPage() {
                 </select>
               </div>
 
-              {/* Selling Price */}
-              <div className="form-group">
+              <div className="item-form-group">
+                <label>Company</label>
+                <select
+                  className="item-select"
+                  value={editData.itemCompany || ""}
+                  onChange={(e) =>
+                    setEditData({
+                      ...editData,
+                      itemCompany: e.target.value,
+                    })
+                  }
+                >
+                  <option value="">Select Company</option>
+                  {companies.map((c) => (
+                    <option key={c._id} value={c.companyName}>
+                      {c.companyName}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="item-form-group">
+                <label>Supplier</label>
+                <select
+                  className="item-select"
+                  value={editData.itemDistributor || ""}
+                  onChange={(e) =>
+                    setEditData({
+                      ...editData,
+                      itemDistributor: e.target.value,
+                    })
+                  }
+                >
+                  <option value="">Select Supplier</option>
+                  {distributors.map((d) => (
+                    <option key={d._id} value={d.distributorName}>
+                      {d.distributorName}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="item-form-group">
+                <label>Cost Price</label>
+                <input
+                  className="item-input"
+                  type="number"
+                  value={editData.itemCostPrice || ""}
+                  onChange={(e) =>
+                    setEditData({
+                      ...editData,
+                      itemCostPrice: e.target.value,
+                    })
+                  }
+                />
+              </div>
+
+              <div className="item-form-group">
                 <label>Selling Price</label>
                 <input
+                  className="item-input"
                   type="number"
-                  min="0"
-                  placeholder="Enter selling price"
                   value={editData.itemSellingPrice || ""}
                   onChange={(e) =>
                     setEditData({
@@ -244,33 +356,31 @@ export default function UpdateItemPage() {
                 />
               </div>
 
-              {/* Cost Price */}
-              <div className="form-group">
-                <label>Cost Price</label>
+              <div className="item-form-group">
+                <label>Labeled Price</label>
                 <input
+                  className="item-input"
                   type="number"
-                  min="0"
-                  placeholder="Enter cost price"
-                  value={editData.itemCostPrice || ""}
+                  value={editData.itemLabeledPrice || ""}
                   onChange={(e) =>
                     setEditData({
                       ...editData,
-                      itemCostPrice: e.target.value,
+                      itemLabeledPrice: e.target.value,
                     })
                   }
                 />
               </div>
             </div>
 
-            <div className="modal-actions">
+            <div className="item-modal-actions">
               <button
-                className="btn-secondary"
+                className="item-btn-secondary"
                 onClick={() => setShowUpdateModal(false)}
               >
                 Cancel
               </button>
 
-              <button className="btn-primary" onClick={submitUpdate}>
+              <button className="item-btn-primary" onClick={submitUpdate}>
                 Save Changes
               </button>
             </div>
@@ -278,7 +388,7 @@ export default function UpdateItemPage() {
         </div>
       )}
 
-      {/* Delete Modal */}
+      {/* DELETE MODAL */}
       {showDeleteModal && (
         <div className="modal-bg">
           <div className="modal-box delete-modal">
