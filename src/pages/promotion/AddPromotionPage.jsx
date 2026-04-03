@@ -19,24 +19,39 @@ export default function AddPromotionPage() {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    const loadItems = async () => {
-      try {
-        const res = await api.get("/items");
-        setItems(res.data);
-      } catch {
-        toast.error("Failed to load items");
-      }
-    };
     loadItems();
   }, []);
+
+  const loadItems = async () => {
+    try {
+      const res = await api.get("/items");
+      setItems(res.data);
+    } catch {
+      toast.error("Failed to load items");
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    //  Prevent negative discount
-    if (name === "discountValue" && Number(value) < 0) return;
+    // Promotion name → letters + spaces only
+    if (name === "promotionName") {
+      if (!/^[A-Za-z\s]*$/.test(value)) {
+        toast.error("Promotion name can contain only letters and spaces");
+        return;
+      }
+    }
 
-    setFormData({ ...formData, [name]: value });
+    // Prevent negative discount
+    if (name === "discountValue" && Number(value) < 0) {
+      toast.error("Discount cannot be negative");
+      return;
+    }
+
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -55,26 +70,29 @@ export default function AddPromotionPage() {
 
     const discount = Number(discountValue);
 
-    //  Name validation
+    // Promotion name validation
     if (!promotionName.trim()) {
       toast.error("Promotion name is required");
       return;
     }
 
-    if (promotionName.length < 3) {
-      toast.warning("Name too short", {
-        description: "Must be at least 3 characters",
-      });
+    if (!/^[A-Za-z\s]+$/.test(promotionName.trim())) {
+      toast.error("Promotion name can contain only letters and spaces");
       return;
     }
 
-    //  Description validation
+    if (promotionName.trim().length < 3) {
+      toast.error("Promotion name must be at least 3 characters");
+      return;
+    }
+
+    // Description
     if (!promotionDescription.trim()) {
       toast.error("Description is required");
       return;
     }
 
-    //  Discount validation
+    // Discount validation
     if (discountValue === "") {
       toast.error("Discount value is required");
       return;
@@ -85,41 +103,21 @@ export default function AddPromotionPage() {
       return;
     }
 
-    // Percentage specific
     if (discountType === "percentage" && discount > 100) {
-      toast.error("Invalid discount", {
-        description: "Percentage cannot exceed 100%",
-      });
+      toast.error("Percentage cannot exceed 100%");
       return;
     }
 
-    // Fixed amount
-    if (discountType === "fixed" && discount === 0) {
-      toast.warning("Zero discount", {
-        description: "This promotion has no effect",
-      });
-    }
-
-    //  Date validation
     if (!startDate || !endDate) {
       toast.error("Please select start and end dates");
       return;
     }
 
     if (endDate < startDate) {
-      toast.error("Invalid date range", {
-        description: "End date must be after start date",
-      });
+      toast.error("End date must be after start date");
       return;
     }
 
-    // Optional: prevent past start date
-    const today = new Date().toISOString().split("T")[0];
-    if (startDate < today) {
-      toast.warning("Start date is in the past");
-    }
-
-    //  Apply to specific item validation
     if (applyTo === "specific" && !itemId) {
       toast.error("Please select an item");
       return;
@@ -129,12 +127,14 @@ export default function AddPromotionPage() {
       await toast.promise(
         api.post("/promotions", {
           ...formData,
+          promotionName: promotionName.trim(),
           discountValue: discount,
         }),
         {
           loading: "Creating promotion...",
           success: "Promotion created successfully!",
-          error: "Failed to create promotion",
+          error: (err) =>
+            err.response?.data?.message || "Failed to create promotion",
         },
       );
 
@@ -149,13 +149,14 @@ export default function AddPromotionPage() {
         itemId: "",
         status: "active",
       });
-    } catch (err) {}
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to create promotion");
+    }
   };
 
   return (
     <div className="prm-wrapper">
       <div className="prm-card">
-        {/* HEADER */}
         <div className="prm-header">
           <span className="prm-badge">PROMOTION</span>
           <h1>Add Promotion</h1>
