@@ -19,16 +19,21 @@ export default function ManageDistributorPage() {
   const loadDistributors = async () => {
     try {
       const res = await api.get("/distributors");
+
       setDistributors(res.data);
       setFiltered(res.data);
-    } catch (err) {
+    } catch {
       toast.error("Failed to load suppliers");
     }
   };
 
   const autoSearch = (text) => {
     const key = text.toLowerCase();
-    if (!key.trim()) return setFiltered(distributors);
+
+    if (!key.trim()) {
+      setFiltered(distributors);
+      return;
+    }
 
     setFiltered(
       distributors.filter(
@@ -39,7 +44,7 @@ export default function ManageDistributorPage() {
     );
   };
 
-  //  MULTI VALIDATION
+  // UPDATE
   const submitUpdate = async () => {
     const {
       distributorName,
@@ -48,72 +53,91 @@ export default function ManageDistributorPage() {
       distributorEmail,
     } = editData;
 
-    const errors = [];
-
+    // validation
     if (!distributorName?.trim()) {
-      errors.push("Supplier name is required");
-    } else if (distributorName.trim().length < 3) {
-      errors.push("Supplier name must be at least 3 characters");
+      toast.error("Supplier name is required");
+      return;
+    }
+
+    if (!/^[A-Za-z\s]+$/.test(distributorName.trim())) {
+      toast.error("Supplier name can contain only letters and spaces");
+      return;
+    }
+
+    if (distributorName.trim().length < 2) {
+      toast.error("Supplier name must be at least 2 characters");
+      return;
     }
 
     if (!distributorDescription?.trim()) {
-      errors.push("Description is required");
+      toast.error("Description is required");
+      return;
     }
 
     if (!distributorContactNumber) {
-      errors.push("Contact number is required");
-    } else if (!/^\d{10}$/.test(distributorContactNumber)) {
-      errors.push("Contact number must be exactly 10 digits");
+      toast.error("Contact number is required");
+      return;
+    }
+
+    if (!/^\d{10}$/.test(distributorContactNumber)) {
+      toast.error("Contact number must be exactly 10 digits");
+      return;
     }
 
     if (!distributorEmail?.trim()) {
-      errors.push("Email is required");
-    } else if (!/^\S+@\S+\.\S+$/.test(distributorEmail)) {
-      errors.push("Invalid email address");
+      toast.error("Email is required");
+      return;
     }
 
-    if (errors.length > 0) {
-      errors.forEach((err) => toast.error(err));
+    if (!/^\S+@\S+\.\S+$/.test(distributorEmail)) {
+      toast.error("Invalid email address");
       return;
     }
 
     try {
-      await toast.promise(
-        api.put(`/distributors/${editData._id}`, {
-          ...editData,
-          distributorContactNumber: Number(distributorContactNumber),
-        }),
-        {
-          loading: "Updating supplier...",
-          success: "Supplier updated successfully!",
-          error: "Update failed!",
-        },
+      const response = await api.put(`/distributors/${editData._id}`, {
+        ...editData,
+        distributorName: distributorName.trim(),
+        distributorDescription: distributorDescription.trim(),
+        distributorContactNumber: distributorContactNumber,
+        distributorEmail: distributorEmail.trim().toLowerCase(),
+      });
+
+      const updatedDistributor = response.data;
+
+      const updatedList = distributors.map((distributor) =>
+        distributor._id === updatedDistributor._id
+          ? updatedDistributor
+          : distributor,
       );
+
+      setDistributors(updatedList);
+      setFiltered(updatedList);
 
       setShowUpdateModal(false);
-      loadDistributors();
-    } catch (err) {}
+
+      toast.success("Supplier updated successfully!");
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Update failed!");
+    }
   };
 
+  // DELETE
   const confirmDelete = async () => {
     try {
-      await toast.promise(
-        api.delete(`/distributors/${deleteId}`),
-        {
-          loading: "Deleting supplier...",
-          success: "Supplier deleted successfully!",
-          error: "Delete failed!",
-        },
-      );
+      await api.delete(`/distributors/${deleteId}`);
 
-      // Remove from state immediately
       const updated = distributors.filter((d) => d._id !== deleteId);
 
       setDistributors(updated);
       setFiltered(updated);
 
       setShowDeleteModal(false);
-    } catch (err) {}
+
+      toast.success("Supplier deleted successfully!");
+    } catch {
+      toast.error("Delete failed!");
+    }
   };
 
   return (
@@ -150,11 +174,11 @@ export default function ManageDistributorPage() {
             <tbody>
               {filtered.map((d) => (
                 <tr key={d._id}>
-                  <td>{d.distributorId ?? "-"}</td>
-                  <td>{d.distributorName ?? "-"}</td>
-                  <td>{d.distributorDescription ?? "-"}</td>
-                  <td>{d.distributorContactNumber ?? "-"}</td>
-                  <td>{d.distributorEmail ?? "-"}</td>
+                  <td>{d.distributorId}</td>
+                  <td>{d.distributorName}</td>
+                  <td>{d.distributorDescription}</td>
+                  <td>{d.distributorContactNumber}</td>
+                  <td>{d.distributorEmail}</td>
 
                   <td className="actions">
                     <button
@@ -196,22 +220,27 @@ export default function ManageDistributorPage() {
               <div className="form-group">
                 <label>Supplier Name</label>
                 <input
-                  placeholder="Enter supplier name"
-                  value={editData.distributorName ?? ""}
-                  onChange={(e) =>
+                  value={editData.distributorName || ""}
+                  onChange={(e) => {
+                    const value = e.target.value;
+
+                    if (!/^[A-Za-z\s]*$/.test(value)) {
+                      toast.error("Only letters and spaces allowed");
+                      return;
+                    }
+
                     setEditData({
                       ...editData,
-                      distributorName: e.target.value,
-                    })
-                  }
+                      distributorName: value,
+                    });
+                  }}
                 />
               </div>
 
               <div className="form-group">
                 <label>Description</label>
                 <textarea
-                  placeholder="Enter description"
-                  value={editData.distributorDescription ?? ""}
+                  value={editData.distributorDescription || ""}
                   onChange={(e) =>
                     setEditData({
                       ...editData,
@@ -224,14 +253,19 @@ export default function ManageDistributorPage() {
               <div className="form-group">
                 <label>Contact Number</label>
                 <input
-                  placeholder="Enter 10-digit number"
                   maxLength={10}
-                  value={editData.distributorContactNumber ?? ""}
+                  value={editData.distributorContactNumber || ""}
                   onChange={(e) => {
-                    if (!/^\d*$/.test(e.target.value)) return;
+                    const value = e.target.value;
+
+                    if (!/^\d*$/.test(value)) {
+                      toast.error("Only numbers allowed");
+                      return;
+                    }
+
                     setEditData({
                       ...editData,
-                      distributorContactNumber: e.target.value,
+                      distributorContactNumber: value,
                     });
                   }}
                 />
@@ -240,8 +274,7 @@ export default function ManageDistributorPage() {
               <div className="form-group">
                 <label>Email</label>
                 <input
-                  placeholder="Enter email"
-                  value={editData.distributorEmail ?? ""}
+                  value={editData.distributorEmail || ""}
                   onChange={(e) =>
                     setEditData({
                       ...editData,
