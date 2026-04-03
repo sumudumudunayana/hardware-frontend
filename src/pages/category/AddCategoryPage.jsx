@@ -10,36 +10,72 @@ export default function AddCategoryPage() {
   });
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    // category name → letters and spaces only
+    if (name === "categoryName") {
+      if (!/^[A-Za-z\s]*$/.test(value)) {
+        toast.error(
+          "Category name can contain only letters and spaces"
+        );
+        return;
+      }
+    }
+
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Collect all errors
     const errors = [];
+    const categoryName = formData.categoryName.trim();
+    const categoryDescription =
+      formData.categoryDescription.trim();
 
-    if (!formData.categoryName.trim()) {
+    // name validation
+    if (!categoryName) {
       errors.push("Category name is required");
+    } else if (!/^[A-Za-z\s]+$/.test(categoryName)) {
+      errors.push(
+        "Category name can contain only letters and spaces"
+      );
+    } else if (categoryName.length < 3) {
+      errors.push(
+        "Category name must be at least 3 characters"
+      );
     }
 
-    if (!formData.categoryDescription.trim()) {
-      errors.push("Category description is required");
+    // description validation
+    if (!categoryDescription) {
+      errors.push(
+        "Category description is required"
+      );
     }
 
-    //  Show all errors at once
     if (errors.length > 0) {
-      errors.forEach((err) => toast.error(err));
+      errors.forEach((err) =>
+        toast.error(err)
+      );
       return;
     }
 
     try {
       await toast.promise(
-        api.post("/categories", formData),
+        api.post("/categories", {
+          categoryName,
+          categoryDescription,
+        }),
         {
           loading: "Adding category...",
-          success: "Category added successfully!",
-          error: "Failed to add category",
+          success:
+            "Category added successfully!",
+          error: (err) =>
+            err.response?.data?.message ||
+            "Failed to add category",
         }
       );
 
@@ -49,21 +85,27 @@ export default function AddCategoryPage() {
       });
 
     } catch (error) {
-      console.error(error);
+      toast.error(
+        error.response?.data?.message ||
+        "Failed to add category"
+      );
     }
   };
 
   return (
     <div className="add-category-wrapper">
       <div className="add-category-card">
-
         <div className="add-category-header">
-          <span className="add-category-badge">CATEGORY MODULE</span>
+          <span className="add-category-badge">
+            CATEGORY MODULE
+          </span>
           <h1>Add New Category</h1>
         </div>
 
-        <form className="add-category-form" onSubmit={handleSubmit}>
-
+        <form
+          className="add-category-form"
+          onSubmit={handleSubmit}
+        >
           <input
             type="text"
             name="categoryName"
@@ -75,14 +117,18 @@ export default function AddCategoryPage() {
           <textarea
             name="categoryDescription"
             placeholder="Category Description"
-            value={formData.categoryDescription}
+            value={
+              formData.categoryDescription
+            }
             onChange={handleChange}
           ></textarea>
 
-          <button type="submit" className="add-category-btn">
+          <button
+            type="submit"
+            className="add-category-btn"
+          >
             Add Category
           </button>
-
         </form>
       </div>
     </div>
