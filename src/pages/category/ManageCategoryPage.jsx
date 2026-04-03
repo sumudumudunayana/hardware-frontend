@@ -24,83 +24,111 @@ export default function ManageCategoryPage() {
   }, []);
 
   const loadCategories = async () => {
-    const res = await api.get("/categories");
-    setCategories(res.data);
-    setFiltered(res.data);
+    try {
+      const res = await api.get("/categories");
+
+      setCategories(res.data);
+      setFiltered(res.data);
+    } catch {
+      toast.error("Failed to load categories");
+    }
   };
 
   const autoSearch = (text) => {
     const key = text.toLowerCase();
-    if (!key.trim()) return setFiltered(categories);
+
+    if (!key.trim()) {
+      setFiltered(categories);
+      return;
+    }
 
     const result = categories.filter(
-      (c) =>
-        c.categoryName.toLowerCase().includes(key) ||
-        c._id.toString() === key
+      (category) =>
+        category.categoryName.toLowerCase().includes(key) ||
+        category._id.toString() === key,
     );
+
     setFiltered(result);
   };
 
-  const openUpdateModal = (cat) => {
-    setEditData(cat);
+  const openUpdateModal = (category) => {
+    setEditData(category);
     setShowUpdateModal(true);
   };
 
-  //  UPDATE WITH VALIDATION + SONNER
+  // UPDATE
   const submitUpdate = async () => {
-    const errors = [];
+    const categoryName = editData.categoryName?.trim();
+    const categoryDescription = editData.categoryDescription?.trim();
 
-    if (!editData.categoryName?.trim()) {
-      errors.push("Category name is required");
+    // validation
+    if (!categoryName) {
+      toast.error("Category name is required");
+      return;
     }
 
-    if (!editData.categoryDescription?.trim()) {
-      errors.push("Category description is required");
+    if (!/^[A-Za-z\s]+$/.test(categoryName)) {
+      toast.error("Category name can contain only letters and spaces");
+      return;
     }
 
-    if (errors.length > 0) {
-      errors.forEach((err) => toast.error(err));
+    if (categoryName.length < 3) {
+      toast.error("Category name must be at least 3 characters");
+      return;
+    }
+
+    if (!categoryDescription) {
+      toast.error("Category description is required");
       return;
     }
 
     try {
-      await toast.promise(
-        api.put(`/categories/${editData._id}`, editData),
-        {
-          loading: "Updating category...",
-          success: "Category updated successfully!",
-          error: "Update failed!",
-        }
+      const response = await api.put(`/categories/${editData._id}`, {
+        ...editData,
+        categoryName,
+        categoryDescription,
+      });
+
+      const updatedCategory = response.data;
+
+      const updatedList = categories.map((category) =>
+        category._id === updatedCategory._id ? updatedCategory : category,
       );
 
-      loadCategories();
+      setCategories(updatedList);
+      setFiltered(updatedList);
+
       setShowUpdateModal(false);
 
-    } catch (err) {}
+      toast.success("Category updated successfully!");
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Update failed!");
+    }
   };
 
-  //DELETE WITH SONNER
+  // DELETE
   const confirmDelete = async () => {
     try {
-      await toast.promise(
-        api.delete(`/categories/${deleteId}`),
-        {
-          loading: "Deleting category...",
-          success: "Category deleted successfully!",
-          error: "Delete failed!",
-        }
+      await api.delete(`/categories/${deleteId}`);
+
+      const updatedList = categories.filter(
+        (category) => category._id !== deleteId,
       );
 
-      loadCategories();
+      setCategories(updatedList);
+      setFiltered(updatedList);
+
       setShowDeleteModal(false);
 
-    } catch (err) {}
+      toast.success("Category deleted successfully!");
+    } catch {
+      toast.error("Delete failed!");
+    }
   };
 
   return (
     <div className="category-page-wrapper">
       <div className="category-card">
-
         <div className="category-header">
           <span className="category-badge">CATEGORY MODULE</span>
           <h1>Manage Categories</h1>
@@ -128,20 +156,20 @@ export default function ManageCategoryPage() {
             </thead>
 
             <tbody>
-              {filtered.map((cat) => (
-                <tr key={cat._id}>
-                  <td>{cat.categoryId}</td>
-                  <td>{cat.categoryName}</td>
-                  <td>{cat.categoryDescription}</td>
+              {filtered.map((category) => (
+                <tr key={category._id}>
+                  <td>{category.categoryId}</td>
+                  <td>{category.categoryName}</td>
+                  <td>{category.categoryDescription}</td>
                   <td className="actions">
-                    <button onClick={() => openUpdateModal(cat)}>
+                    <button onClick={() => openUpdateModal(category)}>
                       Update
                     </button>
 
                     <button
                       className="delete"
                       onClick={() => {
-                        setDeleteId(cat._id);
+                        setDeleteId(category._id);
                         setShowDeleteModal(true);
                       }}
                     >
@@ -159,25 +187,30 @@ export default function ManageCategoryPage() {
       {showUpdateModal && (
         <div className="modal-bg">
           <div className="modal-box">
-
             <div className="modal-header">
               <h2>Edit Category</h2>
               <p>Update category details</p>
             </div>
 
             <div className="modal-form">
-
               <div className="form-group">
                 <label>Category Name</label>
                 <input
                   placeholder="Enter category name"
                   value={editData.categoryName || ""}
-                  onChange={(e) =>
+                  onChange={(e) => {
+                    const value = e.target.value;
+
+                    if (!/^[A-Za-z\s]*$/.test(value)) {
+                      toast.error("Only letters and spaces allowed");
+                      return;
+                    }
+
                     setEditData({
                       ...editData,
-                      categoryName: e.target.value,
-                    })
-                  }
+                      categoryName: value,
+                    });
+                  }}
                 />
               </div>
 
@@ -194,28 +227,23 @@ export default function ManageCategoryPage() {
                   }
                 />
               </div>
-
             </div>
 
             <div className="modal-actions">
-              <button onClick={() => setShowUpdateModal(false)}>
-                Cancel
-              </button>
+              <button onClick={() => setShowUpdateModal(false)}>Cancel</button>
 
               <button className="primary" onClick={submitUpdate}>
                 Save Changes
               </button>
             </div>
-
           </div>
         </div>
       )}
 
-      {/*  DELETE MODAL */}
+      {/* DELETE MODAL */}
       {showDeleteModal && (
         <div className="modal-bg">
           <div className="modal-box">
-
             <div className="modal-header">
               <h2>Delete Category</h2>
               <p>This action cannot be undone</p>
@@ -226,15 +254,12 @@ export default function ManageCategoryPage() {
             </div>
 
             <div className="modal-actions">
-              <button onClick={() => setShowDeleteModal(false)}>
-                Cancel
-              </button>
+              <button onClick={() => setShowDeleteModal(false)}>Cancel</button>
 
               <button className="danger" onClick={confirmDelete}>
                 Delete
               </button>
             </div>
-
           </div>
         </div>
       )}
