@@ -17,7 +17,7 @@ export default function AddSalesPage() {
     loadCart();
   }, []);
 
-  // 🔥 LOAD ITEMS + STOCK (FIXED)
+  // LOAD ITEMS + STOCK (FIXED)
   const loadItems = async () => {
     try {
       const [itemRes, stockRes] = await Promise.all([
@@ -27,7 +27,7 @@ export default function AddSalesPage() {
 
       const stockMap = {};
 
-      // ✅ FIX: SUM stock quantities
+      // FIX: SUM stock quantities
       stockRes.data.forEach((stock) => {
         const id = stock.itemId?._id || stock.itemId;
 
@@ -51,7 +51,7 @@ export default function AddSalesPage() {
     }
   };
 
-  // 🔥 LOAD CART
+  // LOAD CART
   const loadCart = async () => {
     try {
       const res = await api.get("/cart");
@@ -80,7 +80,7 @@ export default function AddSalesPage() {
     const cartItem = cart.find((c) => c.itemId === product._id);
     const currentQty = cartItem ? cartItem.quantity : 0;
 
-    // ✅ Prevent exceeding stock
+    // Prevent exceeding stock
     if (currentQty >= product.quantity) {
       toast.warning("Stock limit reached");
       return;
@@ -159,19 +159,19 @@ export default function AddSalesPage() {
                 {product.itemCategory}
               </span>
 
-              {/* ✅ STOCK DISPLAY */}
+              {/* STOCK DISPLAY */}
               <div className="sales-page-qty">
                 Qty: {product.quantity}
               </div>
 
-              {/* ✅ LOW STOCK WARNING */}
+              {/* LOW STOCK WARNING */}
               {product.quantity > 0 && product.quantity <= 5 && (
                 <div style={{ color: "orange", fontSize: "12px" }}>
                   Low stock
                 </div>
               )}
 
-              {/* ✅ BUTTON */}
+              {/* BUTTON */}
               <button
                 disabled={product.quantity === 0}
                 onClick={() => handleAdd(product)}
