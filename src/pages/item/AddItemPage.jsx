@@ -31,7 +31,6 @@ export default function AddItemPage() {
         setCategories(catRes.data);
         setCompanies(comRes.data);
         setDistributors(distRes.data);
-
       } catch (error) {
         toast.error("Failed to load dropdown data");
       }
@@ -47,9 +46,7 @@ export default function AddItemPage() {
     if (name === "itemName") {
       // letters + numbers + spaces only
       if (!/^[A-Za-z0-9\s]*$/.test(value)) {
-        toast.error(
-          "Item name can contain only letters, numbers, and spaces"
-        );
+        toast.error("Item name can contain only letters, numbers, and spaces");
         return;
       }
     }
@@ -71,34 +68,26 @@ export default function AddItemPage() {
     if (!itemName) {
       errors.push("Item name is required");
     } else if (!/^[A-Za-z0-9\s]+$/.test(itemName)) {
-      errors.push(
-        "Item name can contain only letters, numbers, and spaces"
-      );
+      errors.push("Item name can contain only letters, numbers, and spaces");
     } else if (/^\d+$/.test(itemName)) {
       errors.push("Item name cannot contain only numbers");
     }
 
     // required fields
-    if (!formData.itemCategory)
-      errors.push("Please select a category");
+    if (!formData.itemCategory) errors.push("Please select a category");
 
     if (!formData.itemDescription.trim())
       errors.push("Item description is required");
 
-    if (!formData.itemCostPrice)
-      errors.push("Cost price is required");
+    if (!formData.itemCostPrice) errors.push("Cost price is required");
 
-    if (!formData.itemSellingPrice)
-      errors.push("Selling price is required");
+    if (!formData.itemSellingPrice) errors.push("Selling price is required");
 
-    if (!formData.itemLabeledPrice)
-      errors.push("Labeled price is required");
+    if (!formData.itemLabeledPrice) errors.push("Labeled price is required");
 
-    if (!formData.itemCompany)
-      errors.push("Please select a company");
+    if (!formData.itemCompany) errors.push("Please select a company");
 
-    if (!formData.itemDistributor)
-      errors.push("Please select a supplier");
+    if (!formData.itemDistributor) errors.push("Please select a supplier");
 
     if (errors.length > 0) {
       errors.forEach((err) => toast.error(err));
@@ -116,16 +105,12 @@ export default function AddItemPage() {
     }
 
     if (selling <= cost) {
-      toast.error(
-        "Selling price must be greater than cost price"
-      );
+      toast.error("Selling price must be greater than cost price");
       return;
     }
 
     if (labeled <= selling || labeled <= cost) {
-      toast.error(
-        "Labeled price must be greater than selling and cost price"
-      );
+      toast.error("Labeled price must be greater than selling and cost price");
       return;
     }
 
@@ -138,16 +123,11 @@ export default function AddItemPage() {
         itemLabeledPrice: labeled,
       };
 
-      await toast.promise(
-        api.post("/items", payload),
-        {
-          loading: "Adding item...",
-          success: "Item added successfully!",
-          error: (err) =>
-            err.response?.data?.message ||
-            "Failed to add item",
-        }
-      );
+      await toast.promise(api.post("/items", payload), {
+        loading: "Adding item...",
+        success: "Item added successfully!",
+        error: (err) => err.response?.data?.message || "Failed to add item",
+      });
 
       setFormData({
         itemName: "",
@@ -159,12 +139,8 @@ export default function AddItemPage() {
         itemCompany: "",
         itemDistributor: "",
       });
-
     } catch (error) {
-      toast.error(
-        error.response?.data?.message ||
-        "Failed to add item"
-      );
+      toast.error(error.response?.data?.message || "Failed to add item");
     }
   };
 
@@ -172,16 +148,11 @@ export default function AddItemPage() {
     <div className="add-item-wrapper">
       <div className="add-item-card">
         <div className="add-item-header">
-          <span className="add-item-badge">
-            PRODUCT MANAGEMENT
-          </span>
+          <span className="add-item-badge">PRODUCT MANAGEMENT</span>
           <h1>Add New Item</h1>
         </div>
 
-        <form
-          className="add-item-form"
-          onSubmit={handleSubmit}
-        >
+        <form className="add-item-form" onSubmit={handleSubmit}>
           <div className="form-row">
             <input
               type="text"
@@ -198,10 +169,7 @@ export default function AddItemPage() {
             >
               <option value="">Select Category</option>
               {categories.map((cat) => (
-                <option
-                  key={cat._id}
-                  value={cat.categoryName}
-                >
+                <option key={cat._id} value={cat.categoryName}>
                   {cat.categoryName}
                 </option>
               ))}
@@ -249,10 +217,7 @@ export default function AddItemPage() {
             >
               <option value="">Select Company</option>
               {companies.map((com) => (
-                <option
-                  key={com._id}
-                  value={com.companyName}
-                >
+                <option key={com._id} value={com.companyName}>
                   {com.companyName}
                 </option>
               ))}
@@ -263,24 +228,16 @@ export default function AddItemPage() {
               value={formData.itemDistributor}
               onChange={handleChange}
             >
-              <option value="">
-                Select Supplier
-              </option>
+              <option value="">Select Supplier</option>
               {distributors.map((dist) => (
-                <option
-                  key={dist._id}
-                  value={dist.distributorName}
-                >
+                <option key={dist._id} value={dist.distributorName}>
                   {dist.distributorName}
                 </option>
               ))}
             </select>
           </div>
 
-          <button
-            type="submit"
-            className="add-item-btn"
-          >
+          <button type="submit" className="add-item-btn">
             Add Item
           </button>
         </form>
