@@ -162,3 +162,75 @@
 .invoice-actions button:hover {
   background: #d97706;
 }
+
+
+
+
+
+
+
+@media print {
+  body {
+    background: white !important;
+  }
+
+  /* keep wrapper visible */
+  .invoice-wrapper,
+  .invoice-card {
+    display: block !important;
+    width: 100% !important;
+    background: white !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  /* hide normal page content */
+  .invoice-header,
+  .invoice-table-wrapper {
+    display: none !important;
+  }
+
+  /* print modal as full page */
+  .invoice-modal-bg {
+    position: static !important;
+    background: white !important;
+    backdrop-filter: none !important;
+    display: block !important;
+    padding: 0 !important;
+  }
+
+  .invoice-modal {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 20px !important;
+    margin: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: white !important;
+  }
+
+  /* hide buttons while printing */
+  .invoice-close-btn,
+  .invoice-actions {
+    display: none !important;
+  }
+
+  /* improve table */
+  .invoice-detail-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+  }
+
+  .invoice-detail-table th,
+  .invoice-detail-table td {
+    border: 1px solid #d1d5db !important;
+    padding: 10px !important;
+  }
+
+  .invoice-total {
+    margin-top: 20px !important;
+    font-size: 22px !important;
+    font-weight: 700 !important;
+  }
+}
