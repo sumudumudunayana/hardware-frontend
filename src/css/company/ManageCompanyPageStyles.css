@@ -2,6 +2,7 @@
 .cmp-wrapper {
   display: flex;
   justify-content: center;
+  width: 100%;
 }
 
 /* CARD */
@@ -44,13 +45,19 @@
 .cmp-search {
   width: 100%;
   padding: 12px 14px;
-  margin-bottom: 20px;
+  margin-bottom: 6px;
+  margin-top: 14px;
   border-radius: 12px;
   border: 1px solid rgba(100, 116, 139, 0.4);
   background: rgba(255, 255, 255, 0.95);
   color: #0f172a;
   outline: none;
   transition: 0.25s;
+  font-size: 14px;
+}
+
+.cmp-search::placeholder {
+  color: #94a3b8;
 }
 
 .cmp-search:focus {
@@ -157,79 +164,118 @@
 .cmp-modal-bg {
   position: fixed;
   inset: 0;
-  background: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(6px);
+  background: rgba(15, 23, 42, 0.18);
+  backdrop-filter: blur(8px);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 9999;
+  padding: 20px;
 }
 
 /* MODAL BOX */
 .cmp-modal-box {
-  width: 420px;
-  padding: 24px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.85);
-  border: 1px solid rgba(148, 163, 184, 0.3);
-  backdrop-filter: blur(16px);
-  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.2);
+  width: 100%;
+  max-width: 560px;
+  padding: 32px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 25px 50px rgba(15, 23, 42, 0.18);
   display: flex;
   flex-direction: column;
+}
+
+/* FORM GROUP */
+.cmp-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+/* LABEL */
+.cmp-form-group label {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1e293b;
 }
 
 /* INPUTS */
 .cmp-modal-box input,
 .cmp-modal-box textarea {
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 14px;
-  margin-bottom: 12px;
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  font-size: 15px;
+  background: rgba(255, 255, 255, 0.95);
+  color: #0f172a;
+  outline: none;
+  transition: all 0.25s ease;
 }
 
+/* PLACEHOLDER */
+.cmp-modal-box input::placeholder,
+.cmp-modal-box textarea::placeholder {
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+/* FOCUS */
 .cmp-modal-box input:focus,
 .cmp-modal-box textarea:focus {
-  border-color: #4f46e5;
-  outline: none;
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.15);
+}
+
+/* TEXTAREA */
+.cmp-modal-box textarea {
+  min-height: 90px;
+  resize: vertical;
 }
 
 /* MODAL ACTIONS */
 .cmp-modal-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
-  margin-top: 15px;
+  gap: 14px;
+  margin-top: 18px;
 }
 
 /* CANCEL */
 .cmp-btn-cancel {
   background: #e2e8f0;
   border: none;
-  padding: 10px 16px;
-  border-radius: 10px;
-  font-weight: 600;
+  padding: 14px 24px;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 700;
   cursor: pointer;
+  transition: 0.2s;
 }
 
 .cmp-btn-cancel:hover {
-  background: #cbd5f5;
+  background: #cbd5e1;
 }
 
 /* PRIMARY */
 .cmp-btn-primary {
   background: linear-gradient(135deg, #f59e0b, #fbbf24);
   border: none;
-  padding: 10px 16px;
-  border-radius: 10px;
+  padding: 14px 24px;
+  border-radius: 14px;
+  font-size: 15px;
   font-weight: 700;
   cursor: pointer;
   color: #0f172a;
+  transition: 0.25s;
 }
 
 .cmp-btn-primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 8px 15px rgba(245, 158, 11, 0.3);
+  box-shadow: 0 10px 18px rgba(245, 158, 11, 0.28);
 }
 
 /* DANGER */
@@ -237,8 +283,9 @@
   background: #ef4444;
   color: white;
   border: none;
-  padding: 10px 16px;
-  border-radius: 10px;
+  padding: 14px 24px;
+  border-radius: 14px;
+  font-size: 15px;
   font-weight: 700;
   cursor: pointer;
 }
