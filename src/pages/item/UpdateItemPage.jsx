@@ -390,26 +390,29 @@ export default function UpdateItemPage() {
 
       {/* DELETE MODAL */}
       {showDeleteModal && (
-        <div className="modal-bg">
-          <div className="modal-box delete-modal">
-            <div className="modal-header">
+        <div className="delete-confirm-overlay">
+          <div className="delete-confirm-box">
+            <div className="delete-confirm-header">
               <h2>Delete Item</h2>
               <p>This action cannot be undone</p>
             </div>
 
-            <div className="modal-delete-text">
-              Are you sure you want to delete this item?
+            <div className="delete-confirm-text">
+              Are you sure you want to permanently delete this item?
             </div>
 
-            <div className="modal-actions">
+            <div className="delete-confirm-actions">
               <button
-                className="btn-secondary"
+                className="delete-confirm-cancel-btn"
                 onClick={() => setShowDeleteModal(false)}
               >
                 Cancel
               </button>
 
-              <button className="btn-danger" onClick={confirmDelete}>
+              <button
+                className="delete-confirm-delete-btn"
+                onClick={confirmDelete}
+              >
                 Delete
               </button>
             </div>
