@@ -247,3 +247,56 @@
 .report-actions button:hover {
   background: #d97706;
 }
+
+
+@media print {
+  body {
+    background: white !important;
+  }
+
+  .reports-wrapper {
+    display: block !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .reports-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 20px !important;
+    margin: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: white !important;
+    backdrop-filter: none !important;
+  }
+
+  .report-actions,
+  .filter-bar {
+    display: none !important;
+  }
+
+  .charts-grid,
+  .top-products-section {
+    display: block !important;
+  }
+
+  .chart-box,
+  .top-products-table-box,
+  .summary-box {
+    width: 100% !important;
+    margin-bottom: 30px !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .recharts-responsive-container {
+    width: 100% !important;
+    height: 300px !important;
+  }
+
+  button {
+    display: none !important;
+  }
+}
