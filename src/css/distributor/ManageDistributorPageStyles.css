@@ -2,6 +2,7 @@
 .distributor-page-wrapper {
   display: flex;
   justify-content: center;
+  width: 100%;
 }
 
 /* CARD */
@@ -51,6 +52,11 @@
   color: #0f172a;
   outline: none;
   transition: 0.25s;
+  font-size: 14px;
+}
+
+.search::placeholder {
+  color: #94a3b8;
 }
 
 .search:focus {
@@ -64,6 +70,7 @@
   overflow-y: auto;
   border-radius: 16px;
   border: 1px solid rgba(148, 163, 184, 0.3);
+  background: rgba(255, 255, 255, 0.85);
 }
 
 /* TABLE */
@@ -97,19 +104,14 @@
   border-right: 1px solid rgba(148, 163, 184, 0.2);
 }
 
-/* ROW HOVER */
-.table tr:hover {
+/* HOVER */
+.table tbody tr:hover {
   background: rgba(245, 158, 11, 0.08);
 }
 
-/* ZEBRA ROWS */
-.table tr:nth-child(even) {
+/* ZEBRA */
+.table tbody tr:nth-child(even) {
   background: rgba(248, 250, 252, 0.7);
-}
-
-/* REMOVE LAST ROW BORDER */
-.table tr:last-child td {
-  border-bottom: none;
 }
 
 /* ACTION BUTTONS */
@@ -152,40 +154,43 @@
 .modal-bg {
   position: fixed;
   inset: 0;
-  background: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(6px);
+  background: rgba(15, 23, 42, 0.18);
+  backdrop-filter: blur(8px);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 9999;
+  padding: 20px;
 }
 
 /* MODAL BOX */
 .modal-box.light {
-  width: 420px;
-  padding: 24px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.85);
-  border: 1px solid rgba(148, 163, 184, 0.3);
-  backdrop-filter: blur(16px);
-  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.2);
+  width: 100%;
+  max-width: 560px;
+  padding: 32px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 25px 50px rgba(15, 23, 42, 0.18);
   display: flex;
   flex-direction: column;
 }
 
 /* MODAL HEADER */
 .modal-header {
-  margin-bottom: 15px;
+  margin-bottom: 18px;
 }
 
 .modal-header h2 {
-  font-size: 20px;
+  font-size: 28px;
   font-weight: 800;
   color: #0f172a;
+  margin-bottom: 6px;
 }
 
 .modal-header p {
-  font-size: 13px;
+  font-size: 14px;
   color: #64748b;
 }
 
@@ -193,77 +198,105 @@
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  margin-bottom: 12px;
+  gap: 8px;
+  margin-bottom: 16px;
 }
 
+/* LABELS */
 .form-group label {
-  font-size: 13px;
-  font-weight: 600;
-  color: #555;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1e293b;
 }
 
+/* INPUTS */
 .modal-form input,
 .modal-form textarea {
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  font-size: 15px;
+  background: rgba(255, 255, 255, 0.95);
+  color: #0f172a;
+  outline: none;
+  transition: all 0.25s ease;
+}
+
+/* TEXTAREA */
+.modal-form textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+/* PLACEHOLDER */
+.modal-form input::placeholder,
+.modal-form textarea::placeholder {
+  color: #94a3b8;
   font-size: 14px;
 }
 
+/* FOCUS */
 .modal-form input:focus,
 .modal-form textarea:focus {
-  border-color: #4f46e5;
-  outline: none;
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.15);
 }
 
 /* ACTIONS */
 .modal-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
-  margin-top: 15px;
+  gap: 14px;
+  margin-top: 18px;
 }
 
-/* BUTTONS */
+/* CANCEL BUTTON */
+.modal-actions button:not(.primary):not(.danger) {
+  background: #e2e8f0;
+  border: none;
+  padding: 14px 24px;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.modal-actions button:not(.primary):not(.danger):hover {
+  background: #cbd5e1;
+}
+
+/* PRIMARY */
 .primary {
   background: linear-gradient(135deg, #f59e0b, #fbbf24);
   border: none;
-  padding: 10px 16px;
-  border-radius: 10px;
+  padding: 14px 24px;
+  border-radius: 14px;
+  font-size: 15px;
   font-weight: 700;
   cursor: pointer;
   color: #0f172a;
+  transition: 0.25s;
 }
 
 .primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 8px 15px rgba(245, 158, 11, 0.3);
+  box-shadow: 0 10px 18px rgba(245, 158, 11, 0.28);
 }
 
+/* DANGER */
 .danger {
   background: #ef4444;
   color: white;
   border: none;
-  padding: 10px 16px;
-  border-radius: 10px;
+  padding: 14px 24px;
+  border-radius: 14px;
+  font-size: 15px;
   font-weight: 700;
   cursor: pointer;
 }
 
 .danger:hover {
   background: #dc2626;
-}
-
-.modal-actions button:not(.primary):not(.danger) {
-  background: #e2e8f0;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 10px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.modal-actions button:not(.primary):not(.danger):hover {
-  background: #cbd5f5;
 }
