@@ -14,6 +14,15 @@ export default function ManagePromotionPage() {
   const [editData, setEditData] = useState({});
   const [deleteId, setDeleteId] = useState(null);
 
+  const isExpired = (endDate) => {
+    if (!endDate) return false;
+
+    const end = new Date(endDate);
+    const now = new Date();
+
+    return end < now;
+  };
+
   const loadPromotions = async () => {
     try {
       const res = await api.get("/promotions");
@@ -26,19 +35,28 @@ export default function ManagePromotionPage() {
 
   useEffect(() => {
     loadPromotions();
+
+    const interval = setInterval(() => {
+      loadPromotions();
+    }, 60000); // refresh every 1 minute
+
+    return () => clearInterval(interval);
   }, []);
 
   const autoSearch = (text) => {
     const key = text.toLowerCase();
 
-    if (!key.trim()) return setFiltered(promotions);
+    if (!key.trim()) {
+      setFiltered(promotions);
+      return;
+    }
 
     setFiltered(
       promotions.filter(
-        (p) =>
-          p.promotionName.toLowerCase().includes(key) ||
-          p.promotionId?.toString() === key,
-      ),
+        (promo) =>
+          promo.promotionName.toLowerCase().includes(key) ||
+          promo.promotionId?.toString() === key
+      )
     );
   };
 
@@ -48,26 +66,36 @@ export default function ManagePromotionPage() {
       startDate: promo.startDate?.substring(0, 10),
       endDate: promo.endDate?.substring(0, 10),
     });
+
     setShowUpdateModal(true);
   };
 
   const closeUpdateModal = () => setShowUpdateModal(false);
 
-  //  UPDATE WITH VALIDATION
   const submitUpdate = async () => {
-    const { promotionName, discountValue, discountType, startDate, endDate } =
-      editData;
+    const {
+      promotionName,
+      discountValue,
+      discountType,
+      startDate,
+      endDate,
+      status,
+    } = editData;
 
     const discount = Number(discountValue);
 
-    // Validation
     if (!promotionName?.trim()) {
       toast.error("Promotion name is required");
       return;
     }
 
-    if (promotionName.length < 3) {
-      toast.warning("Name too short");
+    if (!/^[A-Za-z\s]+$/.test(promotionName.trim())) {
+      toast.error("Promotion name can contain only letters and spaces");
+      return;
+    }
+
+    if (promotionName.trim().length < 3) {
+      toast.error("Promotion name must be at least 3 characters");
       return;
     }
 
@@ -97,64 +125,60 @@ export default function ManagePromotionPage() {
     }
 
     try {
-      await toast.promise(
-        api.put(`/promotions/${editData._id}`, {
-          ...editData,
-          discountValue: discount,
-        }),
-        {
-          loading: "Updating promotion...",
-          success: "Promotion updated successfully!",
-          error: "Update failed",
-        },
-      );
+      const response = await api.put(`/promotions/${editData._id}`, {
+        ...editData,
+        promotionName: promotionName.trim(),
+        discountValue: discount,
+        status,
+      });
 
-      // Instant UI update
-      const updatedList = promotions.map((p) =>
-        p._id === editData._id ? { ...editData } : p,
+      const updatedPromotion = response.data;
+
+      const updatedList = promotions.map((promo) =>
+        promo._id === updatedPromotion._id ? updatedPromotion : promo
       );
 
       setPromotions(updatedList);
       setFiltered(updatedList);
 
       setShowUpdateModal(false);
-    } catch {}
+
+      toast.success("Promotion updated successfully!");
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Update failed");
+    }
   };
 
-  //  DELETE WITH TOAST
   const confirmDelete = async () => {
     try {
-      await toast.promise(
-        api.delete(`/promotions/${deleteId}`),
-        {
-          loading: "Deleting promotion...",
-          success: "Promotion deleted successfully!",
-          error: "Delete failed",
-        },
-      );
+      await api.delete(`/promotions/${deleteId}`);
 
-      const updatedList = promotions.filter((p) => p._id !== deleteId);
+      const updatedList = promotions.filter(
+        (promo) => promo._id !== deleteId
+      );
 
       setPromotions(updatedList);
       setFiltered(updatedList);
 
       setShowDeleteModal(false);
-    } catch {}
+
+      toast.success("Promotion deleted successfully!");
+    } catch {
+      toast.error("Delete failed");
+    }
   };
 
   return (
     <div className="prmm-wrapper">
       <div className="prmm-card">
-        {/* HEADER */}
         <div className="prmm-header">
           <span className="prmm-badge">PROMOTION</span>
           <h1>Manage Promotions</h1>
         </div>
 
-        {/* SEARCH */}
         <input
           className="prmm-search"
-          placeholder="Search..."
+          placeholder="Search by ID or promotion name..."
           value={search}
           onChange={(e) => {
             setSearch(e.target.value);
@@ -162,7 +186,6 @@ export default function ManagePromotionPage() {
           }}
         />
 
-        {/* TABLE */}
         <div className="prmm-table-wrapper">
           <table className="prmm-table">
             <thead>
@@ -178,47 +201,59 @@ export default function ManagePromotionPage() {
             </thead>
 
             <tbody>
-              {filtered.map((promo) => (
-                <tr key={promo._id}>
-                  <td>{promo.promotionId}</td>
+              {filtered.map((promo) => {
+                const expired = isExpired(promo.endDate);
 
-                  <td>{promo.promotionName}</td>
+                return (
+                  <tr key={promo._id}>
+                    <td>{promo.promotionId}</td>
+                    <td>{promo.promotionName}</td>
 
-                  <td>
-                    {promo.discountType === "percentage"
-                      ? `${promo.discountValue}%`
-                      : `Rs. ${promo.discountValue}`}
-                  </td>
+                    <td>
+                      {promo.discountType === "percentage"
+                        ? `${promo.discountValue}%`
+                        : `Rs. ${promo.discountValue}`}
+                    </td>
 
-                  <td>{new Date(promo.startDate).toLocaleDateString()}</td>
-                  <td>{new Date(promo.endDate).toLocaleDateString()}</td>
+                    <td>
+                      {new Date(promo.startDate).toLocaleDateString()}
+                    </td>
 
-                  <td>
-                    <span className={`prmm-status ${promo.status}`}>
-                      {promo.status}
-                    </span>
-                  </td>
+                    <td>
+                      {new Date(promo.endDate).toLocaleDateString()}
+                    </td>
 
-                  <td className="prmm-actions">
-                    <button
-                      className="prmm-update"
-                      onClick={() => openUpdateModal(promo)}
-                    >
-                      Update
-                    </button>
+                    <td>
+                      <span
+                        className={`prmm-status ${
+                          expired ? "inactive" : promo.status
+                        }`}
+                      >
+                        {expired ? "expired" : promo.status}
+                      </span>
+                    </td>
 
-                    <button
-                      className="prmm-delete"
-                      onClick={() => {
-                        setDeleteId(promo._id);
-                        setShowDeleteModal(true);
-                      }}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
+                    <td className="prmm-actions">
+                      <button
+                        className="prmm-update"
+                        onClick={() => openUpdateModal(promo)}
+                      >
+                        Update
+                      </button>
+
+                      <button
+                        className="prmm-delete"
+                        onClick={() => {
+                          setDeleteId(promo._id);
+                          setShowDeleteModal(true);
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
@@ -230,55 +265,98 @@ export default function ManagePromotionPage() {
           <div className="prmm-modal-box">
             <h2>Update Promotion</h2>
 
+            <label>Promotion Name</label>
             <input
-              value={editData.promotionName}
-              onChange={(e) =>
-                setEditData({ ...editData, promotionName: e.target.value })
-              }
-            />
-
-            <input
-              type="number"
-              min="0"
-              value={editData.discountValue}
+              placeholder="Enter promotion name"
+              value={editData.promotionName || ""}
               onChange={(e) => {
-                if (Number(e.target.value) < 0) return;
-                setEditData({ ...editData, discountValue: e.target.value });
+                const value = e.target.value;
+
+                if (!/^[A-Za-z\s]*$/.test(value)) {
+                  toast.error("Only letters and spaces allowed");
+                  return;
+                }
+
+                setEditData({
+                  ...editData,
+                  promotionName: value,
+                });
               }}
             />
 
+            <label>Discount Value</label>
+            <input
+              type="number"
+              min="0"
+              placeholder="Enter discount"
+              value={editData.discountValue || ""}
+              onChange={(e) => {
+                const value = e.target.value;
+
+                if (Number(value) < 0) return;
+
+                setEditData({
+                  ...editData,
+                  discountValue: value,
+                });
+              }}
+            />
+
+            <label>Start Date</label>
             <input
               type="date"
-              value={editData.startDate}
+              value={editData.startDate || ""}
               onChange={(e) =>
-                setEditData({ ...editData, startDate: e.target.value })
+                setEditData({
+                  ...editData,
+                  startDate: e.target.value,
+                })
               }
             />
 
+            <label>End Date</label>
             <input
               type="date"
-              value={editData.endDate}
+              value={editData.endDate || ""}
               onChange={(e) =>
-                setEditData({ ...editData, endDate: e.target.value })
+                setEditData({
+                  ...editData,
+                  endDate: e.target.value,
+                })
               }
             />
 
+            <label>Status</label>
             <select
-              value={editData.status}
+              value={editData.status || "active"}
               onChange={(e) =>
-                setEditData({ ...editData, status: e.target.value })
+                setEditData({
+                  ...editData,
+                  status: e.target.value,
+                })
               }
             >
-              <option value="active">Active</option>
+              <option
+                value="active"
+                disabled={isExpired(editData.endDate)}
+              >
+                Active
+              </option>
               <option value="inactive">Inactive</option>
             </select>
 
             <div className="prmm-modal-actions">
-              <button onClick={closeUpdateModal} className="prmm-btn-cancel">
+              <button
+                onClick={closeUpdateModal}
+                className="prmm-btn-cancel"
+              >
                 Cancel
               </button>
 
-              <button onClick={submitUpdate} className="prmm-btn-primary">
+              <button
+                onClick={submitUpdate}
+                className="prmm-btn-primary"
+              >
                 Update
               </button>
             </div>
@@ -302,7 +380,10 @@ export default function ManagePromotionPage() {
                 Cancel
               </button>
 
-              <button className="prmm-btn-danger" onClick={confirmDelete}>
+              <button
+                className="prmm-btn-danger"
+                onClick={confirmDelete}
+              >
                 Delete
               </button>
             </div>
