@@ -1,10 +1,15 @@
-/* WRAPPER */
+/* =========================
+   WRAPPER
+========================= */
 .stkmg-wrapper {
   display: flex;
   justify-content: center;
+  width: 100%;
 }
 
-/* CARD */
+/* =========================
+   CARD
+========================= */
 .stkmg-card {
   width: 100%;
   padding: 28px;
@@ -15,7 +20,9 @@
   box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
 }
 
-/* HEADER */
+/* =========================
+   HEADER
+========================= */
 .stkmg-header {
   margin-bottom: 20px;
 }
@@ -40,7 +47,9 @@
   color: #0f172a;
 }
 
-/* SEARCH */
+/* =========================
+   SEARCH
+========================= */
 .stkmg-search {
   width: 100%;
   padding: 12px 14px;
@@ -51,6 +60,11 @@
   color: #0f172a;
   outline: none;
   transition: 0.25s;
+  font-size: 14px;
+}
+
+.stkmg-search::placeholder {
+  color: #94a3b8;
 }
 
 .stkmg-search:focus {
@@ -58,21 +72,25 @@
   box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
 }
 
-/* TABLE WRAPPER */
+/* =========================
+   TABLE WRAPPER
+========================= */
 .stkmg-table-wrapper {
   height: 420px;
   overflow-y: auto;
   border-radius: 16px;
   border: 1px solid rgba(148, 163, 184, 0.3);
+  background: rgba(255, 255, 255, 0.85);
 }
 
-/* TABLE */
+/* =========================
+   TABLE
+========================= */
 .stkmg-table {
   width: 100%;
   border-collapse: collapse;
 }
 
-/* TABLE HEADER */
 .stkmg-table th {
   text-align: left;
   padding: 14px;
@@ -83,7 +101,6 @@
   border-bottom: 2px solid rgba(148, 163, 184, 0.4);
 }
 
-/* TABLE CELLS */
 .stkmg-table td {
   padding: 14px;
   font-size: 14px;
@@ -91,28 +108,31 @@
   border-bottom: 1px solid rgba(148, 163, 184, 0.3);
 }
 
-/* COLUMN SEPARATION */
 .stkmg-table th:not(:last-child),
 .stkmg-table td:not(:last-child) {
   border-right: 1px solid rgba(148, 163, 184, 0.2);
 }
 
-/* ROW HOVER */
-.stkmg-table tr:hover {
+.stkmg-table tbody tr:hover {
   background: rgba(245, 158, 11, 0.08);
 }
 
-/* ZEBRA ROWS */
-.stkmg-table tr:nth-child(even) {
+.stkmg-table tbody tr:nth-child(even) {
   background: rgba(248, 250, 252, 0.7);
 }
 
-/* REMOVE LAST BORDER */
-.stkmg-table tr:last-child td {
+.stkmg-table tbody tr:last-child td {
   border-bottom: none;
 }
 
-/* UPDATE BUTTON */
+/* =========================
+   ACTION BUTTONS
+========================= */
+.stkmg-actions {
+  display: flex;
+  gap: 8px;
+}
+
 .stkmg-update-btn {
   background: #3b82f6;
   color: white;
@@ -129,95 +149,158 @@
   background: #2563eb;
 }
 
-/* MODAL BACKGROUND */
+.stkmg-remove-btn {
+  background: #ef4444;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.stkmg-remove-btn:hover {
+  background: #dc2626;
+}
+
+/* =========================
+   MODAL BACKGROUND
+========================= */
 .stkmg-modal-bg {
   position: fixed;
   inset: 0;
-  background: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(6px);
+  background: rgba(15, 23, 42, 0.2);
+  backdrop-filter: blur(8px);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 9999;
+  padding: 20px;
+  overflow: hidden;
 }
 
-/* MODAL BOX */
+/* =========================
+   MODAL BOX
+========================= */
 .stkmg-modal-box {
-  width: 420px;
+  width: 100%;
+  max-width: 480px;
+  max-height: 80vh;
   padding: 24px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.85);
-  border: 1px solid rgba(148, 163, 184, 0.3);
-  backdrop-filter: blur(16px);
-  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.2);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 25px 50px rgba(15, 23, 42, 0.18);
+
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
 }
 
+/* SCROLLBAR */
+.stkmg-modal-box::-webkit-scrollbar {
+  width: 6px;
+}
+
+.stkmg-modal-box::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.5);
+  border-radius: 10px;
+}
+
+/* =========================
+   MODAL TITLE
+========================= */
 .stkmg-modal-box h2 {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 800;
   color: #0f172a;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   text-align: center;
 }
 
+/* ITEM NAME */
 .stkmg-item {
   font-size: 14px;
   color: #64748b;
-  margin-bottom: 14px;
+  margin-bottom: 18px;
   text-align: center;
+  font-weight: 600;
+}
+
+/* LABELS */
+.stkmg-modal-box label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #334155;
+  margin-bottom: 6px;
+  margin-top: 10px;
 }
 
 /* INPUT */
 .stkmg-modal-box input {
   width: 100%;
-  padding: 10px;
+  padding: 13px 14px;
   margin-bottom: 12px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
   font-size: 14px;
+  background: white;
+  outline: none;
+  transition: 0.25s;
+}
+
+.stkmg-modal-box input::placeholder {
+  color: #94a3b8;
 }
 
 .stkmg-modal-box input:focus {
-  border-color: #4f46e5;
-  outline: none;
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.15);
 }
 
-/* MODAL ACTIONS */
+/* =========================
+   MODAL ACTIONS
+========================= */
 .stkmg-modal-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
-  margin-top: 15px;
+  gap: 12px;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(226, 232, 240, 0.8);
 }
 
 /* CANCEL BUTTON */
 .stkmg-btn-cancel {
   background: #e2e8f0;
   border: none;
-  padding: 10px 16px;
-  border-radius: 10px;
-  font-weight: 600;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-weight: 700;
   cursor: pointer;
+  transition: 0.25s;
 }
 
 .stkmg-btn-cancel:hover {
-  background: #cbd5f5;
+  background: #cbd5e1;
 }
 
 /* PRIMARY BUTTON */
 .stkmg-btn-primary {
   background: linear-gradient(135deg, #f59e0b, #fbbf24);
   border: none;
-  padding: 10px 16px;
-  border-radius: 10px;
+  padding: 12px 20px;
+  border-radius: 12px;
   font-weight: 700;
   cursor: pointer;
   color: #0f172a;
+  transition: 0.25s;
 }
 
 .stkmg-btn-primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 8px 15px rgba(245, 158, 11, 0.3);
+  box-shadow: 0 10px 18px rgba(245, 158, 11, 0.28);
 }
