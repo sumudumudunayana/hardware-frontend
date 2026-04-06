@@ -41,20 +41,21 @@ export default function InvoicePage() {
     sale.items?.reduce(
       (sum, item) =>
         sum +
-        (Number(item.unitPrice || item.price || 0) *
-          Number(item.quantity || 0)),
+        Number(item.unitPrice || item.price || 0) *
+          Number(item.quantity || 0),
       0
     ) || 0;
 
-  const discount = sale.discountTotal || 0;
+  const discount = Number(sale.discountTotal || 0);
 
   const finalTotal =
-    sale.finalTotal || sale.totalAmount || subtotal - discount;
+    Number(sale.finalTotal) ||
+    Number(sale.totalAmount) ||
+    subtotal - discount;
 
   return (
     <div className="invoice-wrapper">
       <div className="invoice-card">
-
         {/* HEADER */}
         <div className="invoice-header">
           <span className="invoice-badge">INVOICE</span>
@@ -65,20 +66,22 @@ export default function InvoicePage() {
         {/* DETAILS */}
         <div className="invoice-info">
           <div>
-            <strong>Invoice No:</strong> {sale.invoiceNumber || "-"}
+            <strong>Invoice No:</strong>{" "}
+            {sale.invoiceNumber || "-"}
           </div>
 
           <div>
             <strong>Date:</strong>{" "}
             {sale.createdAt
-              ? new Date(sale.createdAt).toLocaleString()
+              ? new Date(
+                  sale.createdAt
+                ).toLocaleString()
               : "-"}
           </div>
         </div>
 
         {/* TABLE */}
         <div className="invoice-table">
-
           <div className="table-header">
             <span>Item</span>
             <span>Qty</span>
@@ -87,47 +90,95 @@ export default function InvoicePage() {
           </div>
 
           {sale.items?.map((item, index) => {
-            const price = Number(item.unitPrice || item.price || 0);
-            const qty = Number(item.quantity || 0);
+            const price = Number(
+              item.unitPrice || item.price || 0
+            );
+
+            const qty = Number(
+              item.quantity || 0
+            );
+
             const sub = price * qty;
 
             return (
-              <div key={index} className="table-row">
-                <span>{item.itemId?.itemName || "Item"}</span>
+              <div
+                key={index}
+                className="table-row"
+              >
+                <span>
+                  {item.itemId?.itemName ||
+                    "Item"}
+                </span>
                 <span>{qty}</span>
-                <span>Rs. {price.toLocaleString()}</span>
-                <span>Rs. {sub.toLocaleString()}</span>
+                <span>
+                  Rs. {price.toLocaleString()}
+                </span>
+                <span>
+                  Rs. {sub.toLocaleString()}
+                </span>
               </div>
             );
           })}
-
         </div>
 
         {/* SUMMARY */}
         <div className="invoice-summary">
-
           <div className="row">
             <span>Subtotal</span>
-            <span>Rs. {subtotal.toLocaleString()}</span>
+            <span>
+              Rs. {subtotal.toLocaleString()}
+            </span>
           </div>
 
+          {/* APPLIED PROMOTIONS */}
+          {sale.promotions?.map(
+            (promo, index) => (
+              <div
+                key={index}
+                className="row discount"
+              >
+                <span>
+                  {promo.name} (
+                  {promo.discountType ===
+                  "percentage"
+                    ? `${promo.discountValue}%`
+                    : `Rs. ${promo.discountValue}`}
+                  )
+                </span>
+
+                <span>
+                  - Rs.{" "}
+                  {Number(
+                    promo.amount
+                  ).toLocaleString()}
+                </span>
+              </div>
+            )
+          )}
+
+          {/* TOTAL DISCOUNT */}
           {discount > 0 && (
             <div className="row discount">
-              <span>Discount</span>
-              <span>- Rs. {discount.toLocaleString()}</span>
+              <span>
+                Total Discount
+              </span>
+              <span>
+                - Rs.{" "}
+                {discount.toLocaleString()}
+              </span>
             </div>
           )}
 
           <div className="row total">
             <span>Total</span>
-            <span>Rs. {finalTotal.toLocaleString()}</span>
+            <span>
+              Rs. {finalTotal.toLocaleString()}
+            </span>
           </div>
-
         </div>
 
         {/* ACTIONS */}
         <div className="invoice-actions">
-
           <button
             className="print-btn"
             onClick={() => window.print()}
@@ -137,13 +188,15 @@ export default function InvoicePage() {
 
           <button
             className="done-btn"
-            onClick={() => navigate("/sales/add", { replace: true })}
+            onClick={() =>
+              navigate("/sales/add", {
+                replace: true,
+              })
+            }
           >
             Done
           </button>
-
         </div>
-
       </div>
     </div>
   );
