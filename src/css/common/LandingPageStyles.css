@@ -273,7 +273,7 @@ body {
     inset -3px -3px 8px rgba(255, 255, 255, 0.35);
 }
 
-/* ─── STAT CARDS — SUNK ───────────────────────────────────────────────────── */
+/* STAT CARDS — SUNK */
 .hero-stats {
   display: flex;
   gap: 18px;
