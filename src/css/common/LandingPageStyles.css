@@ -186,7 +186,7 @@ body {
   animation: fadeSlideDown 0.8s ease both;
 }
 
-/* ─── BUTTONS ─────────────────────────────────────────────────────────────── */
+/* BUTTONS */
 .hero-buttons {
   display: flex;
   gap: 16px;
