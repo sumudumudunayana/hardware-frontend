@@ -2,40 +2,43 @@ import axios from "axios";
 import { toast } from "sonner";
 
 const api = axios.create({
-  baseURL: "http://localhost:5500/api"
+  baseURL: "http://localhost:5500/api",
+  timeout: 10000,
 });
 
 // REQUEST INTERCEPTOR
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token");
 
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
 
-  return config;
-});
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
-// 🔥 FLAG TO PREVENT MULTIPLE ALERTS
+// PREVENT MULTIPLE SESSION TOASTS
 let isSessionExpiredHandled = false;
 
-// ✅ RESPONSE INTERCEPTOR
+// RESPONSE INTERCEPTOR
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-
-    if (error.response?.status === 401 && !isSessionExpiredHandled) {
+    if (
+      error.response?.status === 401 &&
+      !isSessionExpiredHandled
+    ) {
       isSessionExpiredHandled = true;
 
       console.log("Token expired or invalid");
 
-      // 🔔 Show toast ONLY ONCE
       toast.error("Session expired. Please login again");
 
-      // ❌ Remove token
       localStorage.removeItem("token");
 
-      // 🔁 Delay redirect slightly (so user sees toast)
       setTimeout(() => {
         window.location.href = "/";
       }, 1500);
