@@ -13,6 +13,7 @@ export default function ManageStockPage() {
     _id: "",
     itemName: "",
     quantity: "",
+    updatedAt: "",
   });
 
   const loadStocks = async () => {
@@ -32,14 +33,17 @@ export default function ManageStockPage() {
   const autoSearch = (text) => {
     const key = text.toLowerCase();
 
-    if (!key.trim()) return setFiltered(stocks);
+    if (!key.trim()) {
+      setFiltered(stocks);
+      return;
+    }
 
     setFiltered(
       stocks.filter(
         (s) =>
           s.itemId?.itemName.toLowerCase().includes(key) ||
-          s.stockId.toString() === key,
-      ),
+          s.stockId.toString() === key
+      )
     );
   };
 
@@ -48,29 +52,31 @@ export default function ManageStockPage() {
       _id: stock._id,
       itemName: stock.itemId?.itemName,
       quantity: stock.quantity,
+      updatedAt: stock.updatedAt
+        ? new Date(stock.updatedAt).toISOString().split("T")[0]
+        : new Date().toISOString().split("T")[0],
     });
+
     setShowModal(true);
   };
 
   const closeModal = () => setShowModal(false);
 
   const handleChange = (e) => {
-    const value = e.target.value;
+    const { name, value } = e.target;
 
-    //  Prevent negative typing
-    if (Number(value) < 0) return;
+    if (name === "quantity" && Number(value) < 0) return;
 
     setEditData({
       ...editData,
-      quantity: value,
+      [name]: value,
     });
   };
 
-  //  UPDATE WITH VALIDATION + TOAST
+  // UPDATE STOCK
   const updateStock = async () => {
     const qty = Number(editData.quantity);
 
-    // Validation
     if (editData.quantity === "") {
       toast.error("Quantity is required");
       return;
@@ -81,26 +87,29 @@ export default function ManageStockPage() {
       return;
     }
 
-    // Optional UX
-    if (qty === 0) {
-      toast.warning("Stock set to zero", {
-        description: "Item will be marked as out of stock",
-      });
-    }
-
     try {
+      const payload = {
+        quantity: qty,
+        updatedAt: editData.updatedAt,
+      };
+
       await toast.promise(
-        api.put(`/stocks/${editData._id}`, { quantity: qty }),
+        api.put(`/stocks/${editData._id}`, payload),
         {
           loading: "Updating stock...",
           success: "Stock updated successfully!",
           error: "Stock update failed",
-        },
+        }
       );
 
-      //  Instant UI update (no reload delay)
       const updatedList = stocks.map((s) =>
-        s._id === editData._id ? { ...s, quantity: qty } : s,
+        s._id === editData._id
+          ? {
+              ...s,
+              quantity: qty,
+              updatedAt: editData.updatedAt,
+            }
+          : s
       );
 
       setStocks(updatedList);
@@ -110,16 +119,46 @@ export default function ManageStockPage() {
     } catch {}
   };
 
+  // REMOVE STOCK
+  const removeStock = async (stockId) => {
+    try {
+      const today = new Date().toISOString();
+
+      await toast.promise(
+        api.put(`/stocks/${stockId}`, {
+          quantity: 0,
+          updatedAt: today,
+        }),
+        {
+          loading: "Removing stock...",
+          success: "Stock removed successfully!",
+          error: "Failed to remove stock",
+        }
+      );
+
+      const updatedList = stocks.map((s) =>
+        s._id === stockId
+          ? {
+              ...s,
+              quantity: 0,
+              updatedAt: today,
+            }
+          : s
+      );
+
+      setStocks(updatedList);
+      setFiltered(updatedList);
+    } catch {}
+  };
+
   return (
     <div className="stkmg-wrapper">
       <div className="stkmg-card">
-        {/* HEADER */}
         <div className="stkmg-header">
           <span className="stkmg-badge">STOCK</span>
           <h1>Manage Stock</h1>
         </div>
 
-        {/* SEARCH */}
         <input
           className="stkmg-search"
           placeholder="Search by item or stock ID..."
@@ -130,7 +169,6 @@ export default function ManageStockPage() {
           }}
         />
 
-        {/* TABLE */}
         <div className="stkmg-table-wrapper">
           <table className="stkmg-table">
             <thead>
@@ -162,12 +200,19 @@ export default function ManageStockPage() {
                       : "N/A"}
                   </td>
 
-                  <td>
+                  <td className="stkmg-actions">
                     <button
                       className="stkmg-update-btn"
                       onClick={() => openModal(stock)}
                     >
                       Update
+                    </button>
+
+                    <button
+                      className="stkmg-remove-btn"
+                      onClick={() => removeStock(stock._id)}
+                    >
+                      Remove Stock
                     </button>
                   </td>
                 </tr>
@@ -185,11 +230,20 @@ export default function ManageStockPage() {
 
             <p className="stkmg-item">{editData.itemName}</p>
 
+            <label>Quantity</label>
             <input
               type="number"
               min="0"
               name="quantity"
               value={editData.quantity}
+              onChange={handleChange}
+            />
+
+            <label>Last Updated Date</label>
+            <input
+              type="date"
+              name="updatedAt"
+              value={editData.updatedAt}
               onChange={handleChange}
             />
 
