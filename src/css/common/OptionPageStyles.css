@@ -8,10 +8,14 @@
 }
 
 html,
-body {
+body,
+#root {
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 /* ─── BASE BACKGROUND ────────────────────────────────────────────────────── */
@@ -20,14 +24,16 @@ body {
 }
 
 .option-page-shell {
-  height: 100vh;
+  min-height: 100vh;
   width: 100%;
   position: relative;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
+  display: block;
+
   padding: 24px 32px;
+
+  overflow: visible;
+
   background:
     radial-gradient(
       circle at top left,
@@ -83,14 +89,21 @@ body {
 .option-page-panel {
   position: relative;
   z-index: 2;
+
   width: 100%;
   max-width: 1180px;
+
+  margin: 0 auto;
+
   padding: 30px;
   border-radius: 30px;
+
   background: rgba(255, 255, 255, 0.44);
   border: 1px solid rgba(148, 163, 184, 0.22);
+
   backdrop-filter: blur(22px);
   -webkit-backdrop-filter: blur(22px);
+
   box-shadow: 0 20px 50px rgba(15, 23, 42, 0.12);
 }
 
@@ -343,48 +356,25 @@ body {
 }
 
 /* ─── RESPONSIVE ─────────────────────────────────────────────────────────── */
-@media (max-width: 1100px) {
+@media (max-width: 768px) {
   .option-page-shell {
-    padding: 20px 22px;
+    padding: 16px;
+  }
+
+  .option-page-panel {
+    width: 100%;
+    padding: 20px;
+    border-radius: 20px;
+    margin: 0 auto 20px;
   }
 
   .option-page-header {
     flex-direction: column;
+    gap: 18px;
   }
 
   .option-page-title {
-    font-size: 38px;
-  }
-
-  .option-page-module-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 768px) {
-  html,
-  body {
-    overflow: auto;
-  }
-
-  .option-page-shell {
-    padding: 20px 16px;
-    overflow-y: auto;
-    align-items: flex-start;
-  }
-
-  .option-page-panel {
-    padding: 22px;
-    border-radius: 24px;
-    margin: 10px 0 20px;
-  }
-
-  .option-page-title {
-    font-size: 32px;
-  }
-
-  .option-page-subtitle {
-    font-size: 15px;
+    font-size: 30px;
   }
 
   .option-page-summary {
@@ -398,10 +388,5 @@ body {
 
   .option-page-module-grid {
     grid-template-columns: 1fr;
-  }
-
-  .option-page-module-status {
-    white-space: normal;
-    text-align: right;
   }
 }
