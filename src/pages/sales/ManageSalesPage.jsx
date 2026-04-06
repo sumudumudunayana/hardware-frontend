@@ -7,6 +7,9 @@ export default function ManageSalesPage() {
   const [sales, setSales] = useState([]);
   const [expanded, setExpanded] = useState(null);
 
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedSaleId, setSelectedSaleId] = useState(null);
+
   const loadSales = async () => {
     try {
       const res = await api.get("/sales");
@@ -25,31 +28,44 @@ export default function ManageSalesPage() {
     setExpanded(expanded === id ? null : id);
   };
 
-  const deleteSale = async (id) => {
-  try {
-    await toast.promise(api.delete(`/sales/${id}`), {
-      loading: "Deleting sale...",
-      success: "Sale deleted successfully!",
-      error: "Delete failed!",
-    });
+  const openDeleteModal = (id) => {
+    setSelectedSaleId(id);
+    setShowDeleteModal(true);
+  };
 
-    /* instant UI update */
-    const updatedSales = sales.filter((sale) => sale._id !== id);
-    setSales(updatedSales);
+  const closeDeleteModal = () => {
+    setShowDeleteModal(false);
+    setSelectedSaleId(null);
+  };
 
-    /* collapse expanded row if deleted */
-    if (expanded === id) {
-      setExpanded(null);
+  const deleteSale = async () => {
+    try {
+      await toast.promise(api.delete(`/sales/${selectedSaleId}`), {
+        loading: "Deleting sale...",
+        success: "Sale deleted successfully!",
+        error: "Delete failed!",
+      });
+
+      const updatedSales = sales.filter(
+        (sale) => sale._id !== selectedSaleId
+      );
+
+      setSales(updatedSales);
+
+      if (expanded === selectedSaleId) {
+        setExpanded(null);
+      }
+
+      closeDeleteModal();
+    } catch (err) {
+      console.error(err);
+      toast.error("Delete failed");
     }
-  } catch (err) {
-    console.error(err);
-  }
-};
+  };
 
   const updateSale = async (sale) => {
     const amount = Number(sale.totalAmount);
 
-    /* VALIDATION */
     if (
       sale.totalAmount === "" ||
       sale.totalAmount === null ||
@@ -87,7 +103,9 @@ export default function ManageSalesPage() {
       );
 
       loadSales();
-    } catch (err) {}
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -126,7 +144,6 @@ export default function ManageSalesPage() {
                         onChange={(e) => {
                           const value = e.target.value;
 
-                          /* block minus typing */
                           if (Number(value) < 0) return;
 
                           setSales(
@@ -160,7 +177,7 @@ export default function ManageSalesPage() {
 
                       <button
                         className="sales-btn-delete"
-                        onClick={() => deleteSale(sale._id)}
+                        onClick={() => openDeleteModal(sale._id)}
                       >
                         Delete
                       </button>
@@ -193,6 +210,38 @@ export default function ManageSalesPage() {
           </table>
         </div>
       </div>
+
+      {/* DELETE CONFIRMATION MODAL */}
+      {showDeleteModal && (
+        <div className="sales-delete-overlay">
+          <div className="sales-delete-modal">
+            <div className="sales-delete-header">
+              <h2>Delete Order</h2>
+              <p>This action cannot be undone</p>
+            </div>
+
+            <div className="sales-delete-text">
+              Are you sure you want to permanently delete this order?
+            </div>
+
+            <div className="sales-delete-actions">
+              <button
+                className="sales-delete-cancel-btn"
+                onClick={closeDeleteModal}
+              >
+                Cancel
+              </button>
+
+              <button
+                className="sales-delete-confirm-btn"
+                onClick={deleteSale}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
