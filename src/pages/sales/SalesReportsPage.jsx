@@ -160,6 +160,7 @@ export default function SalesReportsPage() {
 
   // EXPORT FUNCTIONS
   const printReport = () => {
+    document.title = "Sales Report";
     window.print();
   };
 
