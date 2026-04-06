@@ -516,7 +516,7 @@ body {
 .bar5 { height: 75px;  animation-delay: 0.33s; }
 .bar6 { height: 95px;  animation-delay: 0.40s; }
 
-/* ─── KEYFRAME ANIMATIONS ─────────────────────────────────────────────────── */
+/*  KEYFRAME ANIMATIONS  */
 @keyframes fadeSlideDown {
   from { opacity: 0; transform: translateY(-18px); }
   to   { opacity: 1; transform: translateY(0); }
