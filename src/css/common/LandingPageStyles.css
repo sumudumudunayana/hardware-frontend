@@ -130,7 +130,7 @@ body {
     inset -3px -3px 8px rgba(255, 255, 255, 0.35);
 }
 
-/* ─── HERO LAYOUT ─────────────────────────────────────────────────────────── */
+/* HERO LAYOUT */
 .hero-section {
   position: relative;
   z-index: 2;
