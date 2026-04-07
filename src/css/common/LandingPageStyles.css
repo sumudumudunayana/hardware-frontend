@@ -532,7 +532,7 @@ body {
   to   { transform: scaleY(1); opacity: 1; }
 }
 
-/* ─── RESPONSIVE ──────────────────────────────────────────────────────────── */
+/*  RESPONSIVE  */
 @media (max-width: 1100px) {
   .hero-section {
     grid-template-columns: 1fr;
