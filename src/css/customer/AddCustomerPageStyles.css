@@ -84,10 +84,8 @@
   border: none;
   background: linear-gradient(135deg, #f59e0b, #fbbf24);
   color: #0f172a;
-
   font-weight: 700;
   font-size: 15px;
-
   cursor: pointer;
   transition: all 0.25s ease;
 }
