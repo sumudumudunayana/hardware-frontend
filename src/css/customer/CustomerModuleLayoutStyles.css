@@ -12,7 +12,6 @@
   display: flex;
   gap: 20px;
   padding: 24px 32px;
-
   background:
     radial-gradient(circle at top left, rgba(255, 183, 3, 0.18), transparent 28%),
     radial-gradient(circle at bottom right, rgba(59, 130, 246, 0.16), transparent 30%),
