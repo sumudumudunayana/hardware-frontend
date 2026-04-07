@@ -161,7 +161,7 @@ body {
   flex-wrap: wrap;
 }
 
-/* ─── SUNK (INSET) METRIC CARDS ──────────────────────────────────────────── */
+/*  SUNK (INSET) METRIC CARDS  */
 .option-page-metric-card {
   min-width: 170px;
   padding: 18px 18px;
