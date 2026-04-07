@@ -355,7 +355,7 @@ body {
     inset -4px -4px 8px rgba(255, 255, 255, 0.75);
 }
 
-/* ─── RESPONSIVE ─────────────────────────────────────────────────────────── */
+/*  RESPONSIVE  */
 @media (max-width: 768px) {
   .option-page-shell {
     padding: 16px;
