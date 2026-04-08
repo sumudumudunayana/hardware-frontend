@@ -35,7 +35,7 @@
   letter-spacing: 1.4px;
 }
 
-/* ================= CARDS ================= */
+/*  CARDS  */
 .proov-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
