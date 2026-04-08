@@ -174,7 +174,7 @@
   color: #0f172a;
 }
 
-/* ================= RESPONSIVE ================= */
+/*  RESPONSIVE  */
 @media (max-width: 900px) {
   .cov-cards,
   .cov-insight-grid {
