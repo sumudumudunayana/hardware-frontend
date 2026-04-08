@@ -356,9 +356,7 @@
 
 
 
-/* =========================
-   DELETE CONFIRM OVERLAY
-========================= */
+/* DELETE CONFIRM OVERLAY */
 .delete-confirm-overlay {
   position: fixed;
   inset: 0;
