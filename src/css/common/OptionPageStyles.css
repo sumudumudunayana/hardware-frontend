@@ -27,13 +27,9 @@ body {
   min-height: 100vh;
   width: 100%;
   position: relative;
-
   display: block;
-
   padding: 24px 32px;
-
   overflow: visible;
-
   background:
     radial-gradient(
       circle at top left,
@@ -234,9 +230,9 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.6);
 
   box-shadow:
-    0 15px 30px rgba(15, 23, 42, 0.18),   /* main shadow */
-    0 5px 10px rgba(15, 23, 42, 0.08),    /* soft depth */
-    inset 0 1px 0 rgba(255, 255, 255, 0.7); /* light edge */
+    0 15px 30px rgba(15, 23, 42, 0.18),
+    /* main shadow */ 0 5px 10px rgba(15, 23, 42, 0.08),
+    /* soft depth */ inset 0 1px 0 rgba(255, 255, 255, 0.7); /* light edge */
 
   backdrop-filter: blur(10px);
 
@@ -263,7 +259,6 @@ body {
     inset 3px 3px 8px rgba(15, 23, 42, 0.15),
     inset -3px -3px 8px rgba(255, 255, 255, 0.8);
 }
-
 
 .option-page-module-top {
   display: flex;
