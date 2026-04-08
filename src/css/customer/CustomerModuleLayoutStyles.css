@@ -111,11 +111,9 @@
   font-weight: 600;
   transition: all 0.25s ease;
   background: #ffffff;
-
   box-shadow:
     5px 5px 12px rgba(148, 163, 184, 0.35),
     -4px -4px 10px rgba(255, 255, 255, 0.9);
-
   border: 1px solid rgba(255, 255, 255, 0.6);
 }
 
