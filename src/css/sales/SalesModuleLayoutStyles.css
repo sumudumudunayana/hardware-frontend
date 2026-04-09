@@ -5,7 +5,7 @@
   font-family: "Inter", sans-serif;
 }
 
-/* === MAIN SHELL === */
+/*  MAIN SHELL  */
 .sales-module-shell {
   height: 100vh;
   display: flex;
@@ -18,7 +18,7 @@
     linear-gradient(135deg, #edf3f9 0%, #dfe9f5 45%, #d7e3f0 100%);
 }
 
-/* === SIDEBAR === */
+/*  SIDEBAR  */
 .sales-module-sidebar {
   width: 260px;
   padding: 22px;
@@ -36,7 +36,7 @@
   flex-direction: column;
 }
 
-/* === TOP === */
+/*  TOP  */
 .sales-module-top {
   display: flex;
   flex-direction: column;
