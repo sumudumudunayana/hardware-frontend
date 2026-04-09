@@ -9,12 +9,9 @@
   width: 100%;
   padding: 26px;
   border-radius: 26px;
-
   background: rgba(255, 255, 255, 0.6);
   border: 1px solid rgba(148, 163, 184, 0.25);
-
   backdrop-filter: blur(18px);
-
   box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
 }
 
@@ -64,7 +61,6 @@
   border-radius: 6px;
   border: none;
   cursor: pointer;
-
   background: rgba(241, 245, 249, 0.8);
 }
 
