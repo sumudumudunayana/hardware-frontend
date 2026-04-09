@@ -35,7 +35,7 @@
   letter-spacing: 1.4px;
 }
 
-/* ================= CARDS ================= */
+/*  CARDS  */
 .sov-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -47,16 +47,12 @@
   border-radius: 22px;
   position: relative;
   overflow: hidden;
-
   background: rgba(255,255,255,0.7);
   border: 1px solid rgba(148,163,184,0.2);
-
   backdrop-filter: blur(14px);
-
   box-shadow:
     6px 6px 18px rgba(148, 163, 184, 0.35),
     -4px -4px 12px rgba(255,255,255,0.8);
-
   transition: all 0.3s ease;
 }
 
