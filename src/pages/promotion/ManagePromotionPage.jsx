@@ -55,8 +55,8 @@ export default function ManagePromotionPage() {
       promotions.filter(
         (promo) =>
           promo.promotionName.toLowerCase().includes(key) ||
-          promo.promotionId?.toString() === key
-      )
+          promo.promotionId?.toString() === key,
+      ),
     );
   };
 
@@ -135,7 +135,7 @@ export default function ManagePromotionPage() {
       const updatedPromotion = response.data;
 
       const updatedList = promotions.map((promo) =>
-        promo._id === updatedPromotion._id ? updatedPromotion : promo
+        promo._id === updatedPromotion._id ? updatedPromotion : promo,
       );
 
       setPromotions(updatedList);
@@ -153,9 +153,7 @@ export default function ManagePromotionPage() {
     try {
       await api.delete(`/promotions/${deleteId}`);
 
-      const updatedList = promotions.filter(
-        (promo) => promo._id !== deleteId
-      );
+      const updatedList = promotions.filter((promo) => promo._id !== deleteId);
 
       setPromotions(updatedList);
       setFiltered(updatedList);
@@ -215,13 +213,9 @@ export default function ManagePromotionPage() {
                         : `Rs. ${promo.discountValue}`}
                     </td>
 
-                    <td>
-                      {new Date(promo.startDate).toLocaleDateString()}
-                    </td>
+                    <td>{new Date(promo.startDate).toLocaleDateString()}</td>
 
-                    <td>
-                      {new Date(promo.endDate).toLocaleDateString()}
-                    </td>
+                    <td>{new Date(promo.endDate).toLocaleDateString()}</td>
 
                     <td>
                       <span
@@ -336,27 +330,18 @@ export default function ManagePromotionPage() {
                 })
               }
             >
-              <option
-                value="active"
-                disabled={isExpired(editData.endDate)}
-              >
+              <option value="active" disabled={isExpired(editData.endDate)}>
                 Active
               </option>
               <option value="inactive">Inactive</option>
             </select>
 
             <div className="prmm-modal-actions">
-              <button
-                onClick={closeUpdateModal}
-                className="prmm-btn-cancel"
-              >
+              <button onClick={closeUpdateModal} className="prmm-btn-cancel">
                 Cancel
               </button>
 
-              <button
-                onClick={submitUpdate}
-                className="prmm-btn-primary"
-              >
+              <button onClick={submitUpdate} className="prmm-btn-primary">
                 Update
               </button>
             </div>
@@ -380,10 +365,7 @@ export default function ManagePromotionPage() {
                 Cancel
               </button>
 
-              <button
-                className="prmm-btn-danger"
-                onClick={confirmDelete}
-              >
+              <button className="prmm-btn-danger" onClick={confirmDelete}>
                 Delete
               </button>
             </div>
