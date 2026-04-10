@@ -17,7 +17,7 @@ api.interceptors.request.use(
 
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 // PREVENT MULTIPLE SESSION TOASTS
@@ -27,10 +27,7 @@ let isSessionExpiredHandled = false;
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (
-      error.response?.status === 401 &&
-      !isSessionExpiredHandled
-    ) {
+    if (error.response?.status === 401 && !isSessionExpiredHandled) {
       isSessionExpiredHandled = true;
 
       console.log("Token expired or invalid");
@@ -45,7 +42,7 @@ api.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 export default api;
