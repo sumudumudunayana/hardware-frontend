@@ -62,7 +62,7 @@ export default function RegisterPage() {
           loading: "Creating account...",
           success: "Registration successful!",
           error: "Registration failed",
-        }
+        },
       );
       if (res?.data?.token) {
         localStorage.setItem("token", res.data.token);
@@ -74,11 +74,8 @@ export default function RegisterPage() {
       setTimeout(() => {
         navigate("/");
       }, 500);
-
     } catch (error) {
-      toast.error(
-        error.response?.data?.message || "Registration failed"
-      );
+      toast.error(error.response?.data?.message || "Registration failed");
     }
   };
 
