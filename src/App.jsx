@@ -9,7 +9,6 @@ import AddItemPage from "./pages/item/AddItemPage";
 import ViewItemPage from "./pages/item/ViewItemPage";
 import UpdateItemPage from "./pages/item/UpdateItemPage";
 
-
 import AddCompanyPage from "./pages/company/AddCompanyPage";
 import ManageCompanyPage from "./pages/company/ManageCompanyPage";
 
@@ -69,8 +68,6 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/OptionPage" element={<OptionPage />} />
 
-
-
           <Route path="/products" element={<ProductModuleLayout />}>
             <Route index element={<ProductOverviewPage />} />
             {/* Product */}
@@ -83,23 +80,23 @@ function App() {
           </Route>
 
           <Route path="/customers" element={<CustomerModuleLayout />}>
-            <Route index element={<CustomerOverviewPage/>} />
+            <Route index element={<CustomerOverviewPage />} />
             <Route path="add" element={<AddCustomerPage />} />
             <Route path="manage" element={<ManageCustomerPage />} />
           </Route>
 
           <Route path="/sales" element={<SalesModuleLayout />}>
-            <Route index element={<SalesOverviewPage/>} />
+            <Route index element={<SalesOverviewPage />} />
             <Route path="add" element={<AddSalesPage />} />
             <Route path="cart" element={<CartPage />} />
             <Route path="invoice/:id" element={<InvoicePage />} />
             <Route path="manage" element={<ManageSalesPage />} />
-            <Route path="reports" element={<SalesReportsPage/>} />
+            <Route path="reports" element={<SalesReportsPage />} />
             <Route path="invoices" element={<SalesInvoicesPage />} />
           </Route>
 
           <Route path="/suppliers" element={<DistributorModuleLayout />}>
-            <Route index element={<DistributorOverviewPage/>} />
+            <Route index element={<DistributorOverviewPage />} />
             {/* Supplier */}
             <Route path="add" element={<AddDistributorPage />} />
             <Route path="manage" element={<ManageDistributorPage />} />
@@ -109,7 +106,7 @@ function App() {
           </Route>
 
           <Route path="/stock" element={<StockModuleLayout />}>
-            <Route index element={<StockOverviewPage/>} />
+            <Route index element={<StockOverviewPage />} />
             <Route path="add" element={<AddStockPage />} />
             <Route path="manage" element={<ManageStockPage />} />
             <Route path="low" element={<LowStockAlertPage />} />
@@ -117,12 +114,11 @@ function App() {
           </Route>
 
           <Route path="/promotions" element={<PromotionModuleLayout />}>
-            <Route index element={<PromotionOverviewPage/>} />
+            <Route index element={<PromotionOverviewPage />} />
             <Route path="add" element={<AddPromotionPage />} />
             <Route path="view" element={<ViewPromotionPage />} />
             <Route path="manage" element={<ManagePromotionPage />} />
           </Route>
-
         </Route>
       </Routes>
     </HashRouter>
