@@ -7,10 +7,8 @@ export default function PromotionModuleLayout() {
 
   return (
     <div className="promotion-module-shell">
-
       {/* Sidebar */}
       <aside className="promotion-module-sidebar">
-
         <div className="promotion-module-top">
           <button
             className="promotion-back-btn"
@@ -24,7 +22,6 @@ export default function PromotionModuleLayout() {
         </div>
 
         <nav className="promotion-nav">
-
           {/* Overview */}
           <NavLink
             to="/promotions"
@@ -37,9 +34,7 @@ export default function PromotionModuleLayout() {
           </NavLink>
 
           {/* PROMOTION MANAGEMENT */}
-          <span className="promotion-section-title">
-            PROMOTION MANAGEMENT
-          </span>
+          <span className="promotion-section-title">PROMOTION MANAGEMENT</span>
 
           <NavLink
             to="/promotions/add"
@@ -67,7 +62,6 @@ export default function PromotionModuleLayout() {
           >
             Manage Promotions
           </NavLink>
-
         </nav>
       </aside>
 
@@ -75,7 +69,6 @@ export default function PromotionModuleLayout() {
       <main className="promotion-module-content">
         <Outlet />
       </main>
-
     </div>
   );
 }
