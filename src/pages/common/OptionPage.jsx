@@ -18,7 +18,6 @@ export default function OptionPage() {
       <div className="option-page-glow option-page-glow-right"></div>
 
       <div className="option-page-panel">
-
         {/* TOP BAR */}
         <div className="option-page-topbar">
           <button className="option-logout-btn" onClick={handleLogout}>
@@ -38,7 +37,6 @@ export default function OptionPage() {
           </div>
 
           <div className="option-page-summary">
-
             {/* SUNK CARDS */}
             <div className="option-page-metric-card option-page-metric-sunk">
               <span className="option-page-metric-label">Modules</span>
@@ -51,45 +49,63 @@ export default function OptionPage() {
               <h3>Live</h3>
               <p>Operational workspace</p>
             </div>
-
           </div>
         </div>
 
         {/* MODULE GRID */}
         <div className="option-page-module-grid">
-
           {/* 🔼 POP CARDS */}
-          <div className="option-page-module-card option-page-module-pop" onClick={() => navigate("/products")}>
+          <div
+            className="option-page-module-card option-page-module-pop"
+            onClick={() => navigate("/products")}
+          >
             <div className="option-page-module-top">
               <span className="option-page-module-icon">📦</span>
-              <span className="option-page-module-status">Inventory Active</span>
+              <span className="option-page-module-status">
+                Inventory Active
+              </span>
             </div>
             <h2>Product Management</h2>
             <p>Add, view, update, and organize all hardware inventory items.</p>
             <span className="option-page-module-link">Open Module →</span>
           </div>
 
-          <div className="option-page-module-card option-page-module-pop" onClick={() => navigate("/customers")}>
+          <div
+            className="option-page-module-card option-page-module-pop"
+            onClick={() => navigate("/customers")}
+          >
             <div className="option-page-module-top">
               <span className="option-page-module-icon">👥</span>
-              <span className="option-page-module-status">Customer Records</span>
+              <span className="option-page-module-status">
+                Customer Records
+              </span>
             </div>
             <h2>Customer Management</h2>
             <p>Manage customer profiles, account history, and interactions.</p>
             <span className="option-page-module-link">Open Module →</span>
           </div>
 
-          <div className="option-page-module-card option-page-module-pop" onClick={() => navigate("/sales")}>
+          <div
+            className="option-page-module-card option-page-module-pop"
+            onClick={() => navigate("/sales")}
+          >
             <div className="option-page-module-top">
               <span className="option-page-module-icon">🧾</span>
-              <span className="option-page-module-status">Sales Monitoring</span>
+              <span className="option-page-module-status">
+                Sales Monitoring
+              </span>
             </div>
             <h2>Order Management</h2>
-            <p>Handle sales flow, billing operations, and transaction records.</p>
+            <p>
+              Handle sales flow, billing operations, and transaction records.
+            </p>
             <span className="option-page-module-link">Open Module →</span>
           </div>
 
-          <div className="option-page-module-card option-page-module-pop" onClick={() => navigate("/suppliers")}>
+          <div
+            className="option-page-module-card option-page-module-pop"
+            onClick={() => navigate("/suppliers")}
+          >
             <div className="option-page-module-top">
               <span className="option-page-module-icon">🚚</span>
               <span className="option-page-module-status">Supply Network</span>
@@ -99,17 +115,25 @@ export default function OptionPage() {
             <span className="option-page-module-link">Open Module →</span>
           </div>
 
-          <div className="option-page-module-card option-page-module-pop" onClick={() => navigate("/stock")}>
+          <div
+            className="option-page-module-card option-page-module-pop"
+            onClick={() => navigate("/stock")}
+          >
             <div className="option-page-module-top">
               <span className="option-page-module-icon">📊</span>
-              <span className="option-page-module-status">Stock Intelligence</span>
+              <span className="option-page-module-status">
+                Stock Intelligence
+              </span>
             </div>
             <h2>Stock Management</h2>
             <p>Monitor stock levels, item movement, and restocking actions.</p>
             <span className="option-page-module-link">Open Module →</span>
           </div>
 
-          <div className="option-page-module-card option-page-module-pop" onClick={() => navigate("/promotions")}>
+          <div
+            className="option-page-module-card option-page-module-pop"
+            onClick={() => navigate("/promotions")}
+          >
             <div className="option-page-module-top">
               <span className="option-page-module-icon">🏷️</span>
               <span className="option-page-module-status">Campaign Tools</span>
@@ -118,7 +142,6 @@ export default function OptionPage() {
             <p>Create discount campaigns, offers, and promotional actions.</p>
             <span className="option-page-module-link">Open Module →</span>
           </div>
-
         </div>
       </div>
     </div>
