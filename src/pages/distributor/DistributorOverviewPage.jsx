@@ -29,9 +29,7 @@ export default function DistributorOverviewPage() {
   // use email + contact as active indicator
   const activeSuppliers = useMemo(() => {
     return distributors.filter(
-      (d) =>
-        d.distributorEmail?.trim() &&
-        d.distributorContactNumber?.trim()
+      (d) => d.distributorEmail?.trim() && d.distributorContactNumber?.trim(),
     ).length;
   }, [distributors]);
 
@@ -41,7 +39,7 @@ export default function DistributorOverviewPage() {
     if (!distributors.length) return "No data";
 
     const sorted = [...distributors].sort(
-      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
     );
 
     return sorted[0]?.distributorName || "No data";
@@ -51,7 +49,7 @@ export default function DistributorOverviewPage() {
     if (!distributors.length) return "No data";
 
     const sorted = [...distributors].sort(
-      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
     );
 
     return new Date(sorted[0].createdAt).toLocaleDateString();
@@ -71,9 +69,7 @@ export default function DistributorOverviewPage() {
     }).length;
 
     const percentage =
-      totalSuppliers > 0
-        ? ((thisMonth / totalSuppliers) * 100).toFixed(1)
-        : 0;
+      totalSuppliers > 0 ? ((thisMonth / totalSuppliers) * 100).toFixed(1) : 0;
 
     return `+${percentage}% this month`;
   }, [distributors, totalSuppliers]);
@@ -88,9 +84,7 @@ export default function DistributorOverviewPage() {
       <div className="dov-header">
         <span className="dov-badge">OVERVIEW</span>
         <h1>Supplier & Distributor Workspace</h1>
-        <p>
-          Manage suppliers, monitor supply flow, and maintain partnerships.
-        </p>
+        <p>Manage suppliers, monitor supply flow, and maintain partnerships.</p>
       </div>
 
       {/* STATS */}
