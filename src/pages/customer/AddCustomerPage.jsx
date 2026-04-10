@@ -35,11 +35,7 @@ export default function AddCustomerPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const {
-      customerName,
-      customerContactNumber,
-      customerEmail,
-    } = formData;
+    const { customerName, customerContactNumber, customerEmail } = formData;
 
     const errors = [];
 
@@ -84,7 +80,7 @@ export default function AddCustomerPage() {
           success: "Customer added successfully!",
           error: (err) =>
             err.response?.data?.message || "Failed to add customer",
-        }
+        },
       );
 
       // Reset form
@@ -93,11 +89,8 @@ export default function AddCustomerPage() {
         customerContactNumber: "",
         customerEmail: "",
       });
-
     } catch (error) {
-      toast.error(
-        error.response?.data?.message || "Something went wrong"
-      );
+      toast.error(error.response?.data?.message || "Something went wrong");
     }
   };
 
