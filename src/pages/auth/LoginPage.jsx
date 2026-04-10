@@ -42,7 +42,6 @@ export default function LoginPage() {
     }
 
     try {
-      
       const res = await api.post("/auth/login", {
         email: email.trim(),
         password: password.trim(),
@@ -61,11 +60,8 @@ export default function LoginPage() {
       setTimeout(() => {
         navigate("/LandingPage");
       }, 500);
-
     } catch (error) {
-      toast.error(
-        error.response?.data?.message || "Invalid credentials"
-      );
+      toast.error(error.response?.data?.message || "Invalid credentials");
     }
   };
 
@@ -119,10 +115,7 @@ export default function LoginPage() {
 
         <p className="register-link">
           Don't have an account?
-          <span onClick={() => navigate("/RegisterPage")}>
-            {" "}
-            Register
-          </span>
+          <span onClick={() => navigate("/RegisterPage")}> Register</span>
         </p>
       </div>
     </div>
