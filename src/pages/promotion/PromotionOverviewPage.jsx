@@ -29,9 +29,7 @@ export default function PromotionOverviewPage() {
     const today = new Date();
 
     return promotions.filter(
-      (promo) =>
-        promo.status === "active" &&
-        new Date(promo.endDate) >= today
+      (promo) => promo.status === "active" && new Date(promo.endDate) >= today,
     ).length;
   }, [promotions]);
 
@@ -39,9 +37,7 @@ export default function PromotionOverviewPage() {
     const today = new Date();
 
     return promotions.filter(
-      (promo) =>
-        new Date(promo.endDate) < today ||
-        promo.status === "inactive"
+      (promo) => new Date(promo.endDate) < today || promo.status === "inactive",
     ).length;
   }, [promotions]);
 
@@ -50,7 +46,7 @@ export default function PromotionOverviewPage() {
 
     const total = promotions.reduce(
       (sum, promo) => sum + Number(promo.discountValue || 0),
-      0
+      0,
     );
 
     return (total / promotions.length).toFixed(1);
@@ -60,7 +56,7 @@ export default function PromotionOverviewPage() {
     if (!promotions.length) return "No data";
 
     const sorted = [...promotions].sort(
-      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
     );
 
     return sorted[0]?.promotionName || "No data";
@@ -70,7 +66,7 @@ export default function PromotionOverviewPage() {
     if (!promotions.length) return "No data";
 
     const sorted = [...promotions].sort(
-      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
     );
 
     return sorted[0]?.createdAt
@@ -82,7 +78,7 @@ export default function PromotionOverviewPage() {
     if (!promotions.length) return "No data";
 
     const sorted = [...promotions].sort(
-      (a, b) => Number(b.discountValue) - Number(a.discountValue)
+      (a, b) => Number(b.discountValue) - Number(a.discountValue),
     );
 
     return sorted[0]?.promotionName || "No data";
@@ -98,9 +94,7 @@ export default function PromotionOverviewPage() {
       <div className="proov-header">
         <span className="proov-badge">OVERVIEW</span>
         <h1>Promotion Workspace</h1>
-        <p>
-          Manage discounts, campaigns, and promotional strategies.
-        </p>
+        <p>Manage discounts, campaigns, and promotional strategies.</p>
       </div>
 
       {/* STATS */}
