@@ -56,13 +56,13 @@ export default function CustomerOverviewPage() {
         const latestCustomer = customers.reduce((latest, current) =>
           new Date(current.createdAt) > new Date(latest.createdAt)
             ? current
-            : latest
+            : latest,
         );
 
         setTopCustomer(latestCustomer.customerName);
 
         setLastRegistered(
-          new Date(latestCustomer.createdAt).toLocaleDateString()
+          new Date(latestCustomer.createdAt).toLocaleDateString(),
         );
       }
     } catch (error) {
