@@ -12,10 +12,8 @@ export default function ProductModuleLayout() {
 
   return (
     <div className="product-module-shell">
-      
       {/* Sidebar */}
       <aside className="product-module-sidebar">
-
         <div className="product-module-sidebar-top">
           <button
             className="product-module-back-btn"
@@ -29,7 +27,6 @@ export default function ProductModuleLayout() {
         </div>
 
         <nav className="product-module-nav">
-
           {/* Overview */}
           <NavLink to="/products" end className={getLinkClass}>
             Overview
@@ -64,7 +61,6 @@ export default function ProductModuleLayout() {
           <NavLink to="/products/manage-category" className={getLinkClass}>
             Manage Category
           </NavLink>
-
         </nav>
       </aside>
 
