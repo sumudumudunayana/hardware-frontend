@@ -39,7 +39,7 @@ export default function ProductOverviewPage() {
       // Total stock quantity
       const totalQty = stocks.reduce(
         (sum, stock) => sum + Number(stock.quantity || 0),
-        0
+        0,
       );
       setStockGrowth(totalQty);
 
@@ -49,8 +49,7 @@ export default function ProductOverviewPage() {
       items.forEach((item) => {
         const category = item.itemCategory || "Unknown";
 
-        categoryCount[category] =
-          (categoryCount[category] || 0) + 1;
+        categoryCount[category] = (categoryCount[category] || 0) + 1;
       });
 
       let top = "-";
@@ -70,12 +69,10 @@ export default function ProductOverviewPage() {
         const latestStock = stocks.reduce((latest, current) =>
           new Date(current.updatedAt) > new Date(latest.updatedAt)
             ? current
-            : latest
+            : latest,
         );
 
-        setLastUpdate(
-          new Date(latestStock.updatedAt).toLocaleDateString()
-        );
+        setLastUpdate(new Date(latestStock.updatedAt).toLocaleDateString());
       }
     } catch (error) {
       console.error(error);
