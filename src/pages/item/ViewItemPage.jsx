@@ -29,9 +29,7 @@ export default function ViewItemPage() {
 
   return (
     <div className="view-page-wrapper">
-
       <div className="view-card">
-
         <div className="view-header">
           <span className="view-badge">PRODUCT INVENTORY</span>
           <h1>View Items</h1>
@@ -47,7 +45,6 @@ export default function ViewItemPage() {
 
         <div className="table-wrapper">
           <table className="item-table">
-
             <thead>
               <tr>
                 <th>ID</th>
@@ -81,10 +78,8 @@ export default function ViewItemPage() {
                 </tr>
               )}
             </tbody>
-
           </table>
         </div>
-
       </div>
     </div>
   );
