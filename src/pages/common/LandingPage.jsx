@@ -16,8 +16,6 @@ export default function LandingPage() {
           <div className="logo-icon">H</div>
           <span className="logo-text">HardwareMS</span>
         </div>
-
-       
       </header>
 
       <main className="hero-section">
