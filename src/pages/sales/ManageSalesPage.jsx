@@ -46,9 +46,7 @@ export default function ManageSalesPage() {
         error: "Delete failed!",
       });
 
-      const updatedSales = sales.filter(
-        (sale) => sale._id !== selectedSaleId
-      );
+      const updatedSales = sales.filter((sale) => sale._id !== selectedSaleId);
 
       setSales(updatedSales);
 
@@ -99,7 +97,7 @@ export default function ManageSalesPage() {
           loading: "Updating sale...",
           success: "Sale updated successfully!",
           error: "Update failed!",
-        }
+        },
       );
 
       loadSales();
@@ -153,8 +151,8 @@ export default function ManageSalesPage() {
                                     ...s,
                                     totalAmount: value,
                                   }
-                                : s
-                            )
+                                : s,
+                            ),
                           );
                         }}
                       />
@@ -189,15 +187,10 @@ export default function ManageSalesPage() {
                       <td colSpan="4">
                         <div className="sales-expand-content">
                           {sale.items?.map((item, index) => (
-                            <div
-                              key={index}
-                              className="sales-item-box"
-                            >
+                            <div key={index} className="sales-item-box">
                               <span>{item.itemId?.itemName}</span>
                               <span>Qty: {item.quantity}</span>
-                              <span>
-                                Rs. {item.subtotal?.toLocaleString()}
-                              </span>
+                              <span>Rs. {item.subtotal?.toLocaleString()}</span>
                             </div>
                           ))}
                         </div>
@@ -232,10 +225,7 @@ export default function ManageSalesPage() {
                 Cancel
               </button>
 
-              <button
-                className="sales-delete-confirm-btn"
-                onClick={deleteSale}
-              >
+              <button className="sales-delete-confirm-btn" onClick={deleteSale}>
                 Delete
               </button>
             </div>
