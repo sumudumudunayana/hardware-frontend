@@ -53,9 +53,8 @@ export default function CartPage() {
     const now = new Date();
 
     const subtotal = cart.reduce(
-      (sum, item) =>
-        sum + Number(item.price) * Number(item.quantity),
-      0
+      (sum, item) => sum + Number(item.price) * Number(item.quantity),
+      0,
     );
 
     let runningTotal = subtotal;
@@ -65,21 +64,20 @@ export default function CartPage() {
       (p) =>
         p.status === "active" &&
         new Date(p.startDate) <= now &&
-        new Date(p.endDate) >= now
+        new Date(p.endDate) >= now,
     );
 
     const percentagePromos = activePromotions.filter(
-      (p) => p.discountType === "percentage"
+      (p) => p.discountType === "percentage",
     );
 
     const fixedPromos = activePromotions.filter(
-      (p) => p.discountType === "fixed"
+      (p) => p.discountType === "fixed",
     );
 
     // percentage first
     percentagePromos.forEach((promo) => {
-      const amount =
-        (runningTotal * Number(promo.discountValue)) / 100;
+      const amount = (runningTotal * Number(promo.discountValue)) / 100;
 
       if (amount > 0) {
         runningTotal -= amount;
@@ -151,10 +149,8 @@ export default function CartPage() {
     if (value === "") {
       setCart((prev) =>
         prev.map((i) =>
-          i.itemId === item.itemId
-            ? { ...i, quantity: "" }
-            : i
-        )
+          i.itemId === item.itemId ? { ...i, quantity: "" } : i,
+        ),
       );
       return;
     }
@@ -165,10 +161,8 @@ export default function CartPage() {
 
     setCart((prev) =>
       prev.map((i) =>
-        i.itemId === item.itemId
-          ? { ...i, quantity: value }
-          : i
-      )
+        i.itemId === item.itemId ? { ...i, quantity: value } : i,
+      ),
     );
   };
 
@@ -196,24 +190,14 @@ export default function CartPage() {
 
   // CALCULATIONS
   const subtotal = useMemo(() => {
-    return cart.reduce(
-      (t, i) =>
-        t + Number(i.price) * Number(i.quantity),
-      0
-    );
+    return cart.reduce((t, i) => t + Number(i.price) * Number(i.quantity), 0);
   }, [cart]);
 
   const totalDiscount = useMemo(() => {
-    return appliedPromotions.reduce(
-      (s, p) => s + Number(p.amount),
-      0
-    );
+    return appliedPromotions.reduce((s, p) => s + Number(p.amount), 0);
   }, [appliedPromotions]);
 
-  const finalTotal = Math.max(
-    subtotal - totalDiscount,
-    0
-  );
+  const finalTotal = Math.max(subtotal - totalDiscount, 0);
 
   // GENERATE SALE
   const generateInvoice = async () => {
@@ -254,9 +238,7 @@ export default function CartPage() {
       navigate(`/sales/invoice/${id}`);
     } catch (err) {
       console.error(err);
-      toast.error(
-        err.response?.data?.message || "Sale failed"
-      );
+      toast.error(err.response?.data?.message || "Sale failed");
     }
 
     setLoading(false);
@@ -285,62 +267,41 @@ export default function CartPage() {
                 <div>{item.name}</div>
 
                 <div className="qty">
-                  <button onClick={() => decreaseQty(item)}>
-                    -
-                  </button>
+                  <button onClick={() => decreaseQty(item)}>-</button>
 
                   <input
                     type="number"
                     min="1"
                     className="qty-input"
                     value={item.quantity}
-                    onChange={(e) =>
-                      updateQtyInput(
-                        item,
-                        e.target.value
-                      )
-                    }
-                    onBlur={() =>
-                      saveQtyInput(item)
-                    }
+                    onChange={(e) => updateQtyInput(item, e.target.value)}
+                    onBlur={() => saveQtyInput(item)}
                   />
 
-                  <button onClick={() => increaseQty(item)}>
-                    +
-                  </button>
+                  <button onClick={() => increaseQty(item)}>+</button>
                 </div>
 
                 <div>
                   Rs.{" "}
                   {(
-                    Number(item.price) *
-                    Number(item.quantity)
+                    Number(item.price) * Number(item.quantity)
                   ).toLocaleString()}
                 </div>
               </div>
             ))}
 
             <div className="summary">
-              <div>
-                Subtotal: Rs.{" "}
-                {subtotal.toLocaleString()}
-              </div>
+              <div>Subtotal: Rs. {subtotal.toLocaleString()}</div>
 
               {appliedPromotions.map((promo, index) => (
-                <div
-                  key={index}
-                  className="discount"
-                >
+                <div key={index} className="discount">
                   {promo.promotionName} : - Rs.{" "}
-                  {Number(
-                    promo.amount
-                  ).toLocaleString()}
+                  {Number(promo.amount).toLocaleString()}
                 </div>
               ))}
 
               <div className="final">
-                Total: Rs.{" "}
-                {finalTotal.toLocaleString()}
+                Total: Rs. {finalTotal.toLocaleString()}
               </div>
             </div>
 
@@ -350,16 +311,10 @@ export default function CartPage() {
                 onClick={generateInvoice}
                 disabled={loading}
               >
-                {loading
-                  ? "Processing..."
-                  : "Complete Sale"}
+                {loading ? "Processing..." : "Complete Sale"}
               </button>
 
-              <button
-                onClick={() =>
-                  navigate("/sales/add")
-                }
-              >
+              <button onClick={() => navigate("/sales/add")}>
                 Continue Shopping
               </button>
             </div>
