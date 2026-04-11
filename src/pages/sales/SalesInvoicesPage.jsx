@@ -53,13 +53,13 @@ export default function SalesInvoicesPage() {
     doc.text(
       `Date: ${new Date(selectedInvoice.createdAt).toLocaleString()}`,
       14,
-      30
+      30,
     );
 
     doc.text(
       `Total Amount: Rs. ${selectedInvoice.totalAmount.toLocaleString()}`,
       14,
-      38
+      38,
     );
 
     autoTable(doc, {
@@ -100,12 +100,8 @@ export default function SalesInvoicesPage() {
               {invoices.map((invoice) => (
                 <tr key={invoice._id}>
                   <td>{invoice.invoiceNumber}</td>
-                  <td>
-                    {new Date(invoice.createdAt).toLocaleDateString()}
-                  </td>
-                  <td>
-                    Rs. {Number(invoice.totalAmount).toLocaleString()}
-                  </td>
+                  <td>{new Date(invoice.createdAt).toLocaleDateString()}</td>
+                  <td>Rs. {Number(invoice.totalAmount).toLocaleString()}</td>
                   <td>
                     <button
                       className="btn-view"
@@ -127,19 +123,13 @@ export default function SalesInvoicesPage() {
               <div className="invoice-modal-header">
                 <h2>{selectedInvoice.invoiceNumber}</h2>
 
-                <button
-                  className="invoice-close-btn"
-                  onClick={closeModal}
-                >
+                <button className="invoice-close-btn" onClick={closeModal}>
                   ✕
                 </button>
               </div>
 
               <p className="invoice-date">
-                Date:{" "}
-                {new Date(
-                  selectedInvoice.createdAt
-                ).toLocaleString()}
+                Date: {new Date(selectedInvoice.createdAt).toLocaleString()}
               </p>
 
               <table className="invoice-detail-table">
@@ -156,27 +146,20 @@ export default function SalesInvoicesPage() {
                     <tr key={index}>
                       <td>{item.itemId?.itemName}</td>
                       <td>{item.quantity}</td>
-                      <td>
-                        Rs. {item.subtotal.toLocaleString()}
-                      </td>
+                      <td>Rs. {item.subtotal.toLocaleString()}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
 
               <h3 className="invoice-total">
-                Total: Rs.{" "}
-                {selectedInvoice.totalAmount.toLocaleString()}
+                Total: Rs. {selectedInvoice.totalAmount.toLocaleString()}
               </h3>
 
               <div className="invoice-actions">
-                <button onClick={printInvoice}>
-                  Print Invoice
-                </button>
+                <button onClick={printInvoice}>Print Invoice</button>
 
-                <button onClick={downloadPDF}>
-                  Download PDF
-                </button>
+                <button onClick={downloadPDF}>Download PDF</button>
               </div>
             </div>
           </div>
