@@ -7,10 +7,8 @@ export default function SalesModuleLayout() {
 
   return (
     <div className="sales-module-shell">
-
       {/* Sidebar */}
       <aside className="sales-module-sidebar">
-
         <div className="sales-module-top">
           <button
             className="sales-back-btn"
@@ -24,7 +22,6 @@ export default function SalesModuleLayout() {
         </div>
 
         <nav className="sales-nav">
-
           <NavLink
             to="/sales"
             end
@@ -76,7 +73,6 @@ export default function SalesModuleLayout() {
           >
             Invoices
           </NavLink>
-
         </nav>
       </aside>
 
@@ -84,7 +80,6 @@ export default function SalesModuleLayout() {
       <main className="sales-module-content">
         <Outlet />
       </main>
-
     </div>
   );
 }
