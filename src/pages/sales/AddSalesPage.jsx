@@ -44,7 +44,6 @@ export default function AddSalesPage() {
       }));
 
       setProducts(mergedProducts);
-
     } catch (err) {
       console.error(err);
       toast.error("Failed to load items");
@@ -60,9 +59,8 @@ export default function AddSalesPage() {
       setCart(items);
 
       setCartCount(
-        items.reduce((sum, it) => sum + Number(it.quantity || 0), 0)
+        items.reduce((sum, it) => sum + Number(it.quantity || 0), 0),
       );
-
     } catch (err) {
       console.error(err);
       toast.error("Failed to load cart");
@@ -72,7 +70,7 @@ export default function AddSalesPage() {
   const categories = ["All", ...new Set(products.map((p) => p.itemCategory))];
 
   const filteredProducts = products.filter((p) =>
-    selectedCategory === "All" ? true : p.itemCategory === selectedCategory
+    selectedCategory === "All" ? true : p.itemCategory === selectedCategory,
   );
 
   // ADD TO CART (WITH STOCK LIMIT CHECK)
@@ -94,7 +92,6 @@ export default function AddSalesPage() {
       });
 
       loadCart();
-
     } catch (err) {
       console.error(err);
       toast.error("Failed to add item");
@@ -103,12 +100,11 @@ export default function AddSalesPage() {
 
   const totalPrice = cart.reduce(
     (total, item) => total + item.price * item.quantity,
-    0
+    0,
   );
 
   return (
     <div className="sales-page-wrapper">
-
       {/* CATEGORY PANEL */}
       <aside className="sales-page-sidebar">
         <h3>Categories</h3>
@@ -128,7 +124,6 @@ export default function AddSalesPage() {
 
       {/* MAIN CONTENT */}
       <div className="sales-page-main">
-
         <div className="sales-page-header">
           <h1>Add Order Items</h1>
 
@@ -147,22 +142,16 @@ export default function AddSalesPage() {
         </div>
 
         <div className="sales-page-grid">
-
           {filteredProducts.map((product) => (
             <div key={product._id} className="sales-page-card">
-
               <h3>{product.itemName}</h3>
 
               <p>Rs. {product.itemSellingPrice.toLocaleString()}</p>
 
-              <span className="sales-page-tag">
-                {product.itemCategory}
-              </span>
+              <span className="sales-page-tag">{product.itemCategory}</span>
 
               {/* STOCK DISPLAY */}
-              <div className="sales-page-qty">
-                Qty: {product.quantity}
-              </div>
+              <div className="sales-page-qty">Qty: {product.quantity}</div>
 
               {/* LOW STOCK WARNING */}
               {product.quantity > 0 && product.quantity <= 5 && (
@@ -178,10 +167,8 @@ export default function AddSalesPage() {
               >
                 {product.quantity === 0 ? "Out of Stock" : "Add"}
               </button>
-
             </div>
           ))}
-
         </div>
       </div>
     </div>
