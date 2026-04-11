@@ -25,7 +25,7 @@ export default function SalesOverviewPage() {
       // Revenue
       const totalRevenue = sales.reduce(
         (sum, sale) => sum + Number(sale.totalAmount || 0),
-        0
+        0,
       );
 
       setRevenue(totalRevenue);
@@ -43,8 +43,7 @@ export default function SalesOverviewPage() {
         const date = new Date(sale.createdAt);
 
         return (
-          date.getMonth() === currentMonth &&
-          date.getFullYear() === currentYear
+          date.getMonth() === currentMonth && date.getFullYear() === currentYear
         );
       });
 
@@ -84,12 +83,10 @@ export default function SalesOverviewPage() {
         const latestSale = sales.reduce((latest, current) =>
           new Date(current.createdAt) > new Date(latest.createdAt)
             ? current
-            : latest
+            : latest,
         );
 
-        setLastSale(
-          new Date(latestSale.createdAt).toLocaleDateString()
-        );
+        setLastSale(new Date(latestSale.createdAt).toLocaleDateString());
       }
     } catch (error) {
       console.error(error);
