@@ -7,10 +7,8 @@ export default function StockModuleLayout() {
 
   return (
     <div className="stock-module-shell">
-
       {/* Sidebar */}
       <aside className="stock-module-sidebar">
-
         <div className="stock-module-top">
           <button
             className="stock-back-btn"
@@ -24,7 +22,6 @@ export default function StockModuleLayout() {
         </div>
 
         <nav className="stock-nav">
-
           {/* Overview */}
           <NavLink
             to="/stock"
@@ -37,9 +34,7 @@ export default function StockModuleLayout() {
           </NavLink>
 
           {/* STOCK MANAGEMENT */}
-          <span className="stock-section-title">
-            STOCK MANAGEMENT
-          </span>
+          <span className="stock-section-title">STOCK MANAGEMENT</span>
 
           <NavLink
             to="/stock/add"
@@ -60,9 +55,7 @@ export default function StockModuleLayout() {
           </NavLink>
 
           {/* ANALYTICS */}
-          <span className="stock-section-title">
-            ANALYTICS
-          </span>
+          <span className="stock-section-title">ANALYTICS</span>
 
           <NavLink
             to="/stock/low"
@@ -81,7 +74,6 @@ export default function StockModuleLayout() {
           >
             Stock Reports
           </NavLink>
-
         </nav>
       </aside>
 
@@ -89,7 +81,6 @@ export default function StockModuleLayout() {
       <main className="stock-module-content">
         <Outlet />
       </main>
-
     </div>
   );
 }
