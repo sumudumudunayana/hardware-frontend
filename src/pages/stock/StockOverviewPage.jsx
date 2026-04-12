@@ -36,9 +36,7 @@ export default function StockOverviewPage() {
   // low stock items (<= 5)
   const lowStockItems = useMemo(() => {
     return stocks.filter(
-      (stock) =>
-        Number(stock.quantity) > 0 &&
-        Number(stock.quantity) <= 5
+      (stock) => Number(stock.quantity) > 0 && Number(stock.quantity) <= 5,
     ).length;
   }, [stocks]);
 
@@ -49,8 +47,7 @@ export default function StockOverviewPage() {
     return stocks
       .filter(
         (stock) =>
-          stock.createdAt &&
-          new Date(stock.createdAt).toDateString() === today
+          stock.createdAt && new Date(stock.createdAt).toDateString() === today,
       )
       .reduce((sum, stock) => sum + Number(stock.quantity || 0), 0);
   }, [stocks]);
@@ -60,7 +57,7 @@ export default function StockOverviewPage() {
     if (!stocks.length) return "No data";
 
     const sorted = [...stocks].sort(
-      (a, b) => Number(b.quantity) - Number(a.quantity)
+      (a, b) => Number(b.quantity) - Number(a.quantity),
     );
 
     return sorted[0]?.itemId?.itemName || "No data";
@@ -71,7 +68,7 @@ export default function StockOverviewPage() {
     if (!stocks.length) return "No data";
 
     const sorted = [...stocks].sort(
-      (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+      (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt),
     );
 
     return sorted[0]?.updatedAt
@@ -89,9 +86,7 @@ export default function StockOverviewPage() {
       <div className="stk-header">
         <span className="stk-badge">OVERVIEW</span>
         <h1>Stock Workspace</h1>
-        <p>
-          Monitor inventory levels, stock movements, and availability.
-        </p>
+        <p>Monitor inventory levels, stock movements, and availability.</p>
       </div>
 
       {/* STATS */}
