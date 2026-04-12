@@ -42,8 +42,8 @@ export default function ManageStockPage() {
       stocks.filter(
         (s) =>
           s.itemId?.itemName.toLowerCase().includes(key) ||
-          s.stockId.toString() === key
-      )
+          s.stockId.toString() === key,
+      ),
     );
   };
 
@@ -93,14 +93,11 @@ export default function ManageStockPage() {
         updatedAt: editData.updatedAt,
       };
 
-      await toast.promise(
-        api.put(`/stocks/${editData._id}`, payload),
-        {
-          loading: "Updating stock...",
-          success: "Stock updated successfully!",
-          error: "Stock update failed",
-        }
-      );
+      await toast.promise(api.put(`/stocks/${editData._id}`, payload), {
+        loading: "Updating stock...",
+        success: "Stock updated successfully!",
+        error: "Stock update failed",
+      });
 
       const updatedList = stocks.map((s) =>
         s._id === editData._id
@@ -109,7 +106,7 @@ export default function ManageStockPage() {
               quantity: qty,
               updatedAt: editData.updatedAt,
             }
-          : s
+          : s,
       );
 
       setStocks(updatedList);
@@ -133,7 +130,7 @@ export default function ManageStockPage() {
           loading: "Removing stock...",
           success: "Stock removed successfully!",
           error: "Failed to remove stock",
-        }
+        },
       );
 
       const updatedList = stocks.map((s) =>
@@ -143,7 +140,7 @@ export default function ManageStockPage() {
               quantity: 0,
               updatedAt: today,
             }
-          : s
+          : s,
       );
 
       setStocks(updatedList);
