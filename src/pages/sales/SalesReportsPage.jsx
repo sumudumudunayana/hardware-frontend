@@ -81,7 +81,7 @@ export default function SalesReportsPage() {
   const totalSales = useMemo(() => {
     return filteredSales.reduce(
       (sum, sale) => sum + Number(sale.totalAmount || 0),
-      0
+      0,
     );
   }, [filteredSales]);
 
@@ -103,7 +103,7 @@ export default function SalesReportsPage() {
       .sort(
         (a, b) =>
           new Date(a.date.split("/").reverse().join("-")) -
-          new Date(b.date.split("/").reverse().join("-"))
+          new Date(b.date.split("/").reverse().join("-")),
       );
   }, [filteredSales]);
 
