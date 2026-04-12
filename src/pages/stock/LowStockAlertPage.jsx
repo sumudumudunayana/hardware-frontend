@@ -34,9 +34,7 @@ export default function LowStockAlertPage() {
   const summary = useMemo(() => {
     return {
       low: stocks.filter(
-        (s) =>
-          s.quantity > CRITICAL_LIMIT &&
-          s.quantity <= LOW_STOCK_LIMIT,
+        (s) => s.quantity > CRITICAL_LIMIT && s.quantity <= LOW_STOCK_LIMIT,
       ).length,
 
       critical: stocks.filter(
@@ -45,9 +43,7 @@ export default function LowStockAlertPage() {
 
       outOfStock: stocks.filter((s) => s.quantity === 0).length,
 
-      reorderToday: stocks.filter(
-        (s) => s.quantity <= LOW_STOCK_LIMIT,
-      ).length,
+      reorderToday: stocks.filter((s) => s.quantity <= LOW_STOCK_LIMIT).length,
     };
   }, [stocks]);
 
@@ -143,9 +139,7 @@ export default function LowStockAlertPage() {
 
                       <td>
                         {stock.updatedAt
-                          ? new Date(
-                              stock.updatedAt,
-                            ).toLocaleDateString()
+                          ? new Date(stock.updatedAt).toLocaleDateString()
                           : "N/A"}
                       </td>
                     </tr>
