@@ -39,29 +39,19 @@ export default function StockReportsPage() {
     const totalItems = stocks.reduce((sum, s) => sum + s.quantity, 0);
 
     const totalValue = stocks.reduce(
-      (sum, s) =>
-        sum +
-        s.quantity * (s.itemId?.itemCostPrice || 0),
+      (sum, s) => sum + s.quantity * (s.itemId?.itemCostPrice || 0),
       0,
     );
 
     const lowStock = stocks.filter(
-      (s) =>
-        s.quantity > 0 &&
-        s.quantity <= LOW_STOCK_LIMIT,
+      (s) => s.quantity > 0 && s.quantity <= LOW_STOCK_LIMIT,
     ).length;
 
-    const outOfStock = stocks.filter(
-      (s) => s.quantity === 0,
-    ).length;
+    const outOfStock = stocks.filter((s) => s.quantity === 0).length;
 
-    const mostStock = [...stocks].sort(
-      (a, b) => b.quantity - a.quantity,
-    )[0];
+    const mostStock = [...stocks].sort((a, b) => b.quantity - a.quantity)[0];
 
-    const leastStock = [...stocks].sort(
-      (a, b) => a.quantity - b.quantity,
-    )[0];
+    const leastStock = [...stocks].sort((a, b) => a.quantity - b.quantity)[0];
 
     return {
       totalItems,
@@ -77,35 +67,25 @@ export default function StockReportsPage() {
     const grouped = {};
 
     stocks.forEach((stock) => {
-      const category =
-        stock.itemId?.itemCategory || "Unknown";
+      const category = stock.itemId?.itemCategory || "Unknown";
 
-      grouped[category] =
-        (grouped[category] || 0) + stock.quantity;
+      grouped[category] = (grouped[category] || 0) + stock.quantity;
     });
 
-    return Object.entries(grouped).map(
-      ([name, quantity]) => ({
-        name,
-        quantity,
-      }),
-    );
+    return Object.entries(grouped).map(([name, quantity]) => ({
+      name,
+      quantity,
+    }));
   }, [stocks]);
 
   const statusData = useMemo(() => {
-    const available = stocks.filter(
-      (s) => s.quantity > LOW_STOCK_LIMIT,
-    ).length;
+    const available = stocks.filter((s) => s.quantity > LOW_STOCK_LIMIT).length;
 
     const low = stocks.filter(
-      (s) =>
-        s.quantity > 0 &&
-        s.quantity <= LOW_STOCK_LIMIT,
+      (s) => s.quantity > 0 && s.quantity <= LOW_STOCK_LIMIT,
     ).length;
 
-    const out = stocks.filter(
-      (s) => s.quantity === 0,
-    ).length;
+    const out = stocks.filter((s) => s.quantity === 0).length;
 
     return [
       { name: "Available", value: available },
@@ -206,10 +186,7 @@ export default function StockReportsPage() {
                   label
                 >
                   {statusData.map((entry, index) => (
-                    <Cell
-                      key={index}
-                      fill={pieColors[index]}
-                    />
+                    <Cell key={index} fill={pieColors[index]} />
                   ))}
                 </Pie>
                 <Tooltip />
