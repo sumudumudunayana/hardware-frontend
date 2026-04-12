@@ -83,7 +83,7 @@ export default function AddStockPage() {
           loading: "Adding stock...",
           success: "Stock added successfully!",
           error: "Failed to add stock",
-        }
+        },
       );
 
       setFormData({
@@ -99,16 +99,12 @@ export default function AddStockPage() {
   return (
     <div className="add-stock-page-wrapper">
       <div className="add-stock-page-card">
-
         <div className="add-stock-page-header">
           <span className="add-stock-page-badge">STOCK</span>
           <h1>Add Stock</h1>
         </div>
 
-        <form
-          className="add-stock-page-form"
-          onSubmit={handleSubmit}
-        >
+        <form className="add-stock-page-form" onSubmit={handleSubmit}>
           <select
             name="itemId"
             value={formData.itemId}
@@ -126,26 +122,17 @@ export default function AddStockPage() {
             <div className="add-stock-page-details">
               <div className="add-stock-page-detail-box">
                 <label>Category</label>
-                <input
-                  value={selectedItem.itemCategory}
-                  readOnly
-                />
+                <input value={selectedItem.itemCategory} readOnly />
               </div>
 
               <div className="add-stock-page-detail-box">
                 <label>Company</label>
-                <input
-                  value={selectedItem.itemCompany}
-                  readOnly
-                />
+                <input value={selectedItem.itemCompany} readOnly />
               </div>
 
               <div className="add-stock-page-detail-box">
                 <label>Distributor</label>
-                <input
-                  value={selectedItem.itemDistributor}
-                  readOnly
-                />
+                <input value={selectedItem.itemDistributor} readOnly />
               </div>
             </div>
           )}
@@ -165,9 +152,7 @@ export default function AddStockPage() {
             onChange={handleChange}
           />
 
-          <button className="add-stock-page-btn">
-            Add Stock
-          </button>
+          <button className="add-stock-page-btn">Add Stock</button>
         </form>
       </div>
     </div>
