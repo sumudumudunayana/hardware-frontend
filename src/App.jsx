@@ -53,6 +53,8 @@ import SalesReportsPage from "./pages/sales/SalesReportsPage";
 import SalesInvoicesPage from "./pages/sales/SalesInvoicesPage";
 import LowStockAlertPage from "./pages/stock/LowStockAlertPage";
 import StockReportsPage from "./pages/stock/StockReportsPage";
+import DemandForecastingPage from "./pages/item/DemandForecastingPage";
+import SalesForecastingPage from "./pages/sales/SalesForecastingPage";
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -71,6 +73,7 @@ function App() {
           <Route path="/products" element={<ProductModuleLayout />}>
             <Route index element={<ProductOverviewPage />} />
             {/* Product */}
+            <Route path="demand-forecasting" element={<DemandForecastingPage />} />
             <Route path="add-item" element={<AddItemPage />} />
             <Route path="view-items" element={<ViewItemPage />} />
             <Route path="update-item" element={<UpdateItemPage />} />
@@ -87,6 +90,7 @@ function App() {
 
           <Route path="/sales" element={<SalesModuleLayout />}>
             <Route index element={<SalesOverviewPage />} />
+            <Route path="sales-forecast" element={<SalesForecastingPage/>} />
             <Route path="add" element={<AddSalesPage />} />
             <Route path="cart" element={<CartPage />} />
             <Route path="invoice/:id" element={<InvoicePage />} />
