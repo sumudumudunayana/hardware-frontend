@@ -26,10 +26,18 @@ export default function SalesModuleLayout() {
             to="/sales"
             end
             className={({ isActive }) =>
-              isActive ? "sales-link active" : "sales-link"
-            }
+              isActive ? "sales-link active" : "sales-link"}
           >
             Overview
+          </NavLink>
+
+          <NavLink
+            to="/sales/sales-forecast"
+            end
+            className={({ isActive }) =>
+              isActive ? "sales-link active" : "sales-link"}
+          >
+            Sales Forecast
           </NavLink>
 
           {/* SECTION */}
