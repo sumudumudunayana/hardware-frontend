@@ -32,6 +32,10 @@ export default function ProductModuleLayout() {
             Overview
           </NavLink>
 
+          <NavLink to="/products/demand-forecasting" end className={getLinkClass}>
+            Demand Forecast
+          </NavLink>
+
           {/* Product Section */}
           <span className="product-module-section-title">
             Product Management
