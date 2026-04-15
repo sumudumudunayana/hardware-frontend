@@ -5,28 +5,50 @@ import "../../css/item/DemandForecastingPageStyles.css";
 export default function DemandForecastingPage() {
   const [prediction, setPrediction] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [retraining, setRetraining] = useState(false);
+
+  const requestBody = {
+    product_id: "E001",
+    unit_price: 650,
+    quantity_sold: 10,
+    month: 5,
+    day: 1,
+    day_of_week: 3,
+    is_weekend: 0,
+    rolling_avg_qty: 8,
+    previous_qty: 9,
+  };
 
   const fetchPrediction = async () => {
     try {
       setLoading(true);
 
-      const response = await api.post("/ai/predict", {
-        product_id: "E001",
-        unit_price: 650,
-        quantity_sold: 10,
-        month: 5,
-        day: 1,
-        day_of_week: 3,
-        is_weekend: 0,
-        rolling_avg_qty: 8,
-        previous_qty: 9,
-      });
+      const response = await api.post("/ai/predict", requestBody);
 
       setPrediction(response.data);
     } catch (error) {
       console.error("Demand prediction error:", error);
+      alert("Failed to load demand forecast");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleRetrain = async () => {
+    try {
+      setRetraining(true);
+
+      const response = await api.post("/ai/retrain");
+
+      alert(response.data.message || "Models retrained successfully");
+
+      // Refresh prediction after retraining
+      fetchPrediction();
+    } catch (error) {
+      console.error("Retraining error:", error);
+      alert("Retraining failed");
+    } finally {
+      setRetraining(false);
     }
   };
 
@@ -38,9 +60,19 @@ export default function DemandForecastingPage() {
     <div className="demand-page">
       <div className="page-header">
         <h1>Demand Forecasting</h1>
-        <button onClick={fetchPrediction}>
-          {loading ? "Refreshing..." : "Refresh Forecast"}
-        </button>
+
+        <div className="page-actions">
+          <button onClick={fetchPrediction}>
+            {loading ? "Refreshing..." : "Refresh Forecast"}
+          </button>
+
+          <button
+            className="retrain-btn"
+            onClick={handleRetrain}
+          >
+            {retraining ? "Retraining..." : "Retrain AI Model"}
+          </button>
+        </div>
       </div>
 
       {prediction && (
