@@ -74,3 +74,17 @@
   margin-bottom: 10px;
   color: #4b5563;
 }
+
+.page-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.retrain-btn {
+  background: #dc2626;
+  color: white;
+}
+
+.retrain-btn:hover {
+  opacity: 0.9;
+}
