@@ -2,8 +2,8 @@ import axios from "axios";
 import { toast } from "sonner";
 
 const api = axios.create({
-  baseURL: "https://hardware-backend-express.onrender.com/api",
-  // baseURL: "http://localhost:5500/api",
+  // baseURL: "https://hardware-backend-express.onrender.com/api",
+  baseURL: "http://localhost:5100/api",
   timeout: 10000,
 });
 
