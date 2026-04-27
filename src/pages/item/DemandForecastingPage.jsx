@@ -1,6 +1,16 @@
 import React, { useEffect, useState } from "react";
 import api from "../../services/api";
 import "../../css/item/DemandForecastingPageStyles.css";
+import {
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+  Legend,
+} from "recharts";
 
 export default function DemandForecastingPage() {
   const [prediction, setPrediction] = useState(null);
@@ -24,7 +34,6 @@ export default function DemandForecastingPage() {
       setLoading(true);
 
       const response = await api.post("/ai/predict", requestBody);
-
       setPrediction(response.data);
     } catch (error) {
       console.error("Demand prediction error:", error);
@@ -42,7 +51,6 @@ export default function DemandForecastingPage() {
 
       alert(response.data.message || "Models retrained successfully");
 
-      // Refresh prediction after retraining
       fetchPrediction();
     } catch (error) {
       console.error("Retraining error:", error);
@@ -58,18 +66,23 @@ export default function DemandForecastingPage() {
 
   return (
     <div className="demand-page">
+      {/* HEADER */}
       <div className="page-header">
-        <h1>Demand Forecasting</h1>
+        <div>
+          <span className="demand-badge">AI FORECASTING</span>
+          <h1>Demand Forecasting</h1>
+          <p>
+            Monitor expected product demand, revenue forecasting, and smart
+            inventory planning.
+          </p>
+        </div>
 
         <div className="page-actions">
           <button onClick={fetchPrediction}>
             {loading ? "Refreshing..." : "Refresh Forecast"}
           </button>
 
-          <button
-            className="retrain-btn"
-            onClick={handleRetrain}
-          >
+          <button className="retrain-btn" onClick={handleRetrain}>
             {retraining ? "Retraining..." : "Retrain AI Model"}
           </button>
         </div>
@@ -77,29 +90,121 @@ export default function DemandForecastingPage() {
 
       {prediction && (
         <>
+          {/* CARDS */}
           <div className="forecast-cards">
             <div className="forecast-card">
-              <h3>Predicted Demand</h3>
-              <p>{prediction.predicted_demand} Units</p>
+              <div className="card-top">
+                <span className="card-icon">📦</span>
+                <span className="card-label">Predicted Demand</span>
+              </div>
+              <h2>{prediction.predicted_demand} Units</h2>
             </div>
 
-            <div className="forecast-card">
-              <h3>Predicted Revenue</h3>
-              <p>LKR {prediction.predicted_revenue}</p>
+            <div className="forecast-card success">
+              <div className="card-top">
+                <span className="card-icon">💰</span>
+                <span className="card-label">Predicted Revenue</span>
+              </div>
+              <h2>LKR {prediction.predicted_revenue}</h2>
             </div>
           </div>
 
-          <div className="top-products-card">
-            <h2>High Demand Product Alert</h2>
-            <p>
-              Product <strong>E001</strong> is expected to have high demand.
-            </p>
-            <p>
-              Suggested stock level:{" "}
-              <strong>
-                {Math.ceil(prediction.predicted_demand + 5)} units
-              </strong>
-            </p>
+          {/* INSIGHT */}
+          <div className="demand-insight">
+            <h3>High Demand Product Alert</h3>
+
+            <div className="insight-grid">
+              <div className="insight-box">
+                <p>🔥 Product</p>
+                <span>E001</span>
+              </div>
+
+              <div className="insight-box">
+                <p>📈 Expected Demand</p>
+                <span>{prediction.predicted_demand} Units</span>
+              </div>
+
+              <div className="insight-box">
+                <p>📦 Suggested Stock</p>
+                <span>{Math.ceil(prediction.predicted_demand + 5)} Units</span>
+              </div>
+            </div>
+          </div>
+
+          {/* CHART SECTION */}
+          <div className="demand-chart-grid">
+            {/* Top High-Demand Products */}
+            <div className="demand-chart-card">
+              <h3>Top High-Demand Products</h3>
+
+              <ResponsiveContainer width="100%" height={320}>
+                <BarChart
+                  layout="vertical"
+                  data={[
+                    { product: "nails", demand: 120 },
+                    { product: "brush", demand: 95 },
+                    { product: "cutter", demand: 80 },
+                    { product: "hammer", demand: 70 },
+                  ]}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis type="number" />
+                  <YAxis dataKey="product" type="category" />
+                  <Tooltip />
+                  <Legend />
+                  <Bar
+                    dataKey="demand"
+                    name="Predicted Demand"
+                    fill="#f97316"
+                  />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+
+            {/* Stock Recommendation */}
+            <div className="demand-chart-card">
+              <h3>Stock Recommendation</h3>
+
+              <ResponsiveContainer width="100%" height={320}>
+                <BarChart
+                  data={[
+                    {
+                      product: "brush",
+                      currentStock: 40,
+                      recommendedStock: 80,
+                    },
+                    {
+                      product: "cutter",
+                      currentStock: 35,
+                      recommendedStock: 70,
+                    },
+                    {
+                      product: "hammer",
+                      currentStock: 20,
+                      recommendedStock: 50,
+                    },
+                  ]}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="product" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+
+                  <Bar
+                    dataKey="currentStock"
+                    name="Current Stock"
+                    fill="#94a3b8"
+                  />
+
+                  <Bar
+                    dataKey="recommendedStock"
+                    name="Recommended Stock"
+                    fill="#f97316"
+                  />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
           </div>
         </>
       )}
