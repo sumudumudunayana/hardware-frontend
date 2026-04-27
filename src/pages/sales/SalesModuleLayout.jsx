@@ -17,7 +17,7 @@ export default function SalesModuleLayout() {
             ← Back
           </button>
 
-          <span className="sales-badge">SALES MODULE</span>
+          <span className="sales-module-badge">SALES MODULE</span>
           <h2 className="sales-title">Order Management</h2>
         </div>
 
