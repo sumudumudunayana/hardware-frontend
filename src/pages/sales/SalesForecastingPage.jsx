@@ -1,6 +1,18 @@
 import React, { useEffect, useState } from "react";
 import api from "../../services/api";
 import "../../css/sales/SalesForecastingPageStyles.css";
+import {
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+  Legend,
+  LineChart,
+  Line,
+} from "recharts";
 
 export default function SalesForecastingPage() {
   const [forecast, setForecast] = useState(null);
@@ -24,7 +36,6 @@ export default function SalesForecastingPage() {
       setLoading(true);
 
       const response = await api.post("/ai/predict", requestBody);
-
       setForecast(response.data);
     } catch (error) {
       console.error("Revenue forecast error:", error);
@@ -42,7 +53,6 @@ export default function SalesForecastingPage() {
 
       alert(response.data.message || "Models retrained successfully");
 
-      // Refresh forecast after retraining
       fetchForecast();
     } catch (error) {
       console.error("Retraining error:", error);
@@ -62,18 +72,23 @@ export default function SalesForecastingPage() {
 
   return (
     <div className="sales-forecast-page">
+      {/* HEADER */}
       <div className="sales-header">
-        <h1>Sales Revenue Forecast</h1>
+        <div>
+          <span className="sales-badge">AI FORECASTING</span>
+          <h1>Sales Revenue Forecast</h1>
+          <p>
+            Monitor predicted revenue, expected demand, and AI-powered sales
+            insights.
+          </p>
+        </div>
 
         <div className="sales-actions">
           <button onClick={fetchForecast}>
             {loading ? "Refreshing..." : "Refresh Forecast"}
           </button>
 
-          <button
-            className="retrain-btn"
-            onClick={handleRetrain}
-          >
+          <button className="retrain-btn" onClick={handleRetrain}>
             {retraining ? "Retraining..." : "Retrain AI Model"}
           </button>
         </div>
@@ -81,33 +96,87 @@ export default function SalesForecastingPage() {
 
       {forecast && (
         <>
+          {/* CARDS */}
           <div className="sales-cards">
             <div className="sales-card">
-              <h3>Predicted Revenue</h3>
-              <p>LKR {forecast.predicted_revenue}</p>
+              <div className="sales-card-top">
+                <span className="sales-icon">💰</span>
+                <span className="sales-label">Predicted Revenue</span>
+              </div>
+              <h2>LKR {forecast.predicted_revenue}</h2>
             </div>
 
-            <div className="sales-card">
-              <h3>Expected Demand</h3>
-              <p>{forecast.predicted_demand} Units</p>
+            <div className="sales-card success">
+              <div className="sales-card-top">
+                <span className="sales-icon">📦</span>
+                <span className="sales-label">Expected Demand</span>
+              </div>
+              <h2>{forecast.predicted_demand} Units</h2>
             </div>
 
-            <div className="sales-card">
-              <h3>Growth Estimate</h3>
-              <p>{growthPercentage}%</p>
+            <div className="sales-card warning">
+              <div className="sales-card-top">
+                <span className="sales-icon">📈</span>
+                <span className="sales-label">Growth Estimate</span>
+              </div>
+              <h2>{growthPercentage}%</h2>
             </div>
           </div>
 
-          <div className="insight-card">
-            <h2>Revenue Insight</h2>
-            <p>
-              Estimated revenue for the next forecast cycle is{" "}
-              <strong>LKR {forecast.predicted_revenue}</strong>.
-            </p>
-            <p>
-              Sales demand is projected at{" "}
-              <strong>{forecast.predicted_demand} units</strong>.
-            </p>
+          {/* INSIGHT */}
+          <div className="sales-insight">
+            <h3>Revenue Insight</h3>
+
+            <div className="sales-insight-grid">
+              <div className="sales-insight-box">
+                <p>💵 Forecast Revenue</p>
+                <span>LKR {forecast.predicted_revenue}</span>
+              </div>
+
+              <div className="sales-insight-box">
+                <p>📊 Sales Demand</p>
+                <span>{forecast.predicted_demand} Units</span>
+              </div>
+
+              <div className="sales-insight-box">
+                <p>🚀 Growth Rate</p>
+                <span>{growthPercentage}%</span>
+              </div>
+            </div>
+          </div>
+
+          {/* CHART SECTION */}
+          {/* 12 MONTH FORECAST CHART */}
+          <div className="sales-chart-full">
+            <div className="sales-chart-card">
+              <h3>12 Month Revenue Forecast</h3>
+
+              <ResponsiveContainer width="100%" height={380}>
+                <LineChart data={forecast?.monthly_forecast || []}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="month" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+
+                  <Line
+                    type="monotone"
+                    dataKey="lastYearRevenue"
+                    stroke="#94a3b8"
+                    strokeWidth={3}
+                    name="Last Year Revenue"
+                  />
+
+                  <Line
+                    type="monotone"
+                    dataKey="predictedRevenue"
+                    stroke="#f97316"
+                    strokeWidth={3}
+                    name="Predicted Revenue"
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
           </div>
         </>
       )}
