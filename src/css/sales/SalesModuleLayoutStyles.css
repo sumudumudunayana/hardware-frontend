@@ -44,7 +44,7 @@
   margin-bottom: 20px;
 }
 
-/* 🔥 BACK BUTTON */
+/* BACK BUTTON */
 .sales-back-btn {
   align-self: flex-start;
   border: none;
@@ -74,7 +74,7 @@
     inset -3px -3px 8px rgba(255, 255, 255, 0.9);
 }
 
-/* === BADGE === */
+/*  BADGE  */
 .sales-module-badge {
   display: inline-block;
   width: fit-content;
@@ -91,7 +91,7 @@
   margin-top: 6px;
 }
 
-/* === TITLE === */
+/*  TITLE  */
 .sales-title {
   font-size: 22px;
   font-weight: 800;
@@ -99,7 +99,7 @@
   margin-top: 4px;
 }
 
-/* === NAVIGATION === */
+/*  NAVIGATION  */
 .sales-nav {
   display: flex;
   flex-direction: column;
