@@ -1,11 +1,11 @@
-/* ================= WRAPPER ================= */
+/*  WRAPPER  */
 .manage-sales-wrapper {
   display: flex;
   justify-content: center;
   align-items: flex-start;
 }
 
-/* ================= MAIN CARD ================= */
+/*  MAIN CARD  */
 .manage-sales-card {
   width: 100%;
   padding: 28px;
@@ -16,7 +16,7 @@
   box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
 }
 
-/* ================= HEADER ================= */
+/*  HEADER  */
 .manage-sales-header {
   margin-bottom: 20px;
 }
@@ -40,7 +40,7 @@
   color: #0f172a;
 }
 
-/* ================= TABLE WRAPPER ================= */
+/*  TABLE WRAPPER  */
 .manage-sales-table-wrapper {
   max-height: 460px;
   overflow-y: auto;
