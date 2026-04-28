@@ -1,11 +1,11 @@
-/* ================= WRAPPER ================= */
+/* WRAPPER  */
 .sales-forecast-page {
   display: flex;
   flex-direction: column;
   gap: 28px;
 }
 
-/* ================= HEADER ================= */
+/*  HEADER  */
 .sales-header {
   display: flex;
   justify-content: space-between;
@@ -44,7 +44,7 @@
   font-size: 15px;
 }
 
-/* ================= BUTTONS ================= */
+/*  BUTTONS  */
 .sales-actions {
   display: flex;
   gap: 12px;
@@ -79,7 +79,7 @@
   color: black;
 }
 
-/* ================= CARDS ================= */
+/*  CARDS  */
 .sales-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
