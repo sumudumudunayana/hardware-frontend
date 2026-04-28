@@ -5,7 +5,7 @@ import { toast } from "sonner";
 
 export default function ManageSalesPage() {
   const [sales, setSales] = useState([]);
-  const [expanded, setExpanded] = useState(null);
+  const [expandedSaleId, setExpandedSaleId] = useState(null);
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedSaleId, setSelectedSaleId] = useState(null);
@@ -25,7 +25,7 @@ export default function ManageSalesPage() {
   }, []);
 
   const toggleExpand = (id) => {
-    setExpanded(expanded === id ? null : id);
+    setExpandedSaleId(expandedSaleId === id ? null : id);
   };
 
   const openDeleteModal = (id) => {
@@ -46,12 +46,14 @@ export default function ManageSalesPage() {
         error: "Delete failed!",
       });
 
-      const updatedSales = sales.filter((sale) => sale._id !== selectedSaleId);
+      const updatedSales = sales.filter(
+        (sale) => sale._id !== selectedSaleId
+      );
 
       setSales(updatedSales);
 
-      if (expanded === selectedSaleId) {
-        setExpanded(null);
+      if (expandedSaleId === selectedSaleId) {
+        setExpandedSaleId(null);
       }
 
       closeDeleteModal();
@@ -97,7 +99,7 @@ export default function ManageSalesPage() {
           loading: "Updating sale...",
           success: "Sale updated successfully!",
           error: "Update failed!",
-        },
+        }
       );
 
       loadSales();
@@ -107,15 +109,15 @@ export default function ManageSalesPage() {
   };
 
   return (
-    <div className="sales-page-wrapper">
-      <div className="sales-card">
-        <div className="sales-header">
-          <span className="sales-badge">ORDERS</span>
+    <div className="manage-sales-wrapper">
+      <div className="manage-sales-card">
+        <div className="manage-sales-header">
+          <span className="manage-sales-badge">ORDERS</span>
           <h1>Manage Orders</h1>
         </div>
 
-        <div className="sales-table-wrapper">
-          <table className="sales-data-table">
+        <div className="manage-sales-table-wrapper">
+          <table className="manage-sales-table">
             <thead>
               <tr>
                 <th>Invoice</th>
@@ -135,7 +137,7 @@ export default function ManageSalesPage() {
 
                     <td>
                       <input
-                        className="sales-amount-input"
+                        className="manage-sales-input"
                         type="number"
                         min="0"
                         value={sale.totalAmount ?? ""}
@@ -151,30 +153,30 @@ export default function ManageSalesPage() {
                                     ...s,
                                     totalAmount: value,
                                   }
-                                : s,
-                            ),
+                                : s
+                            )
                           );
                         }}
                       />
                     </td>
 
-                    <td className="sales-action-buttons">
+                    <td className="manage-sales-actions">
                       <button
-                        className="sales-btn-view"
+                        className="manage-sales-btn-view"
                         onClick={() => toggleExpand(sale._id)}
                       >
-                        {expanded === sale._id ? "Hide" : "View"}
+                        {expandedSaleId === sale._id ? "Hide" : "View"}
                       </button>
 
                       <button
-                        className="sales-btn-update"
+                        className="manage-sales-btn-update"
                         onClick={() => updateSale(sale)}
                       >
                         Update
                       </button>
 
                       <button
-                        className="sales-btn-delete"
+                        className="manage-sales-btn-delete"
                         onClick={() => openDeleteModal(sale._id)}
                       >
                         Delete
@@ -182,15 +184,20 @@ export default function ManageSalesPage() {
                     </td>
                   </tr>
 
-                  {expanded === sale._id && (
-                    <tr className="sales-expand-row">
+                  {expandedSaleId === sale._id && (
+                    <tr className="manage-sales-expand-row">
                       <td colSpan="4">
-                        <div className="sales-expand-content">
+                        <div className="manage-sales-expand-content">
                           {sale.items?.map((item, index) => (
-                            <div key={index} className="sales-item-box">
+                            <div
+                              key={index}
+                              className="manage-sales-item-box"
+                            >
                               <span>{item.itemId?.itemName}</span>
                               <span>Qty: {item.quantity}</span>
-                              <span>Rs. {item.subtotal?.toLocaleString()}</span>
+                              <span>
+                                Rs. {item.subtotal?.toLocaleString()}
+                              </span>
                             </div>
                           ))}
                         </div>
@@ -204,28 +211,30 @@ export default function ManageSalesPage() {
         </div>
       </div>
 
-      {/* DELETE CONFIRMATION MODAL */}
       {showDeleteModal && (
-        <div className="sales-delete-overlay">
-          <div className="sales-delete-modal">
-            <div className="sales-delete-header">
+        <div className="manage-sales-delete-overlay">
+          <div className="manage-sales-delete-modal">
+            <div className="manage-sales-delete-header">
               <h2>Delete Order</h2>
               <p>This action cannot be undone</p>
             </div>
 
-            <div className="sales-delete-text">
+            <div className="manage-sales-delete-text">
               Are you sure you want to permanently delete this order?
             </div>
 
-            <div className="sales-delete-actions">
+            <div className="manage-sales-delete-actions">
               <button
-                className="sales-delete-cancel-btn"
+                className="manage-sales-cancel-btn"
                 onClick={closeDeleteModal}
               >
                 Cancel
               </button>
 
-              <button className="sales-delete-confirm-btn" onClick={deleteSale}>
+              <button
+                className="manage-sales-confirm-btn"
+                onClick={deleteSale}
+              >
                 Delete
               </button>
             </div>
