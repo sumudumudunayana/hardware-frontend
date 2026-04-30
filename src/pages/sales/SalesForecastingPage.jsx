@@ -11,22 +11,18 @@ import {
   Tooltip,
   CartesianGrid,
   Legend,
-  LineChart,
-  Line,
 } from "recharts";
 
 export default function SalesForecastingPage() {
-  const [forecast, setForecast] = useState(null);
+  const [forecasts, setForecasts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [retraining, setRetraining] = useState(false);
 
   const fetchForecast = async () => {
     try {
       setLoading(true);
-
       const response = await api.post("/ai/predict");
-
-      setForecast(response.data);
+      setForecasts(response.data || []);
     } catch (error) {
       console.error("Revenue forecast error:", error);
       toast.error("Failed to load forecast");
@@ -38,13 +34,8 @@ export default function SalesForecastingPage() {
   const handleRetrain = async () => {
     try {
       setRetraining(true);
-
       const response = await api.post("/ai/retrain");
-
-      toast.success(
-        response.data.message || "Models retrained successfully"
-      );
-
+      toast.success(response.data.message || "Models retrained successfully");
       fetchForecast();
     } catch (error) {
       console.error("Retraining error:", error);
@@ -58,8 +49,15 @@ export default function SalesForecastingPage() {
     fetchForecast();
   }, []);
 
-  const growthPercentage = forecast
-    ? ((forecast.predicted_revenue / 5000) * 100).toFixed(1)
+  const topProduct =
+    forecasts.length > 0
+      ? [...forecasts].sort(
+          (a, b) => b.predicted_revenue - a.predicted_revenue
+        )[0]
+      : null;
+
+  const growthPercentage = topProduct
+    ? ((topProduct.predicted_revenue / 5000) * 100).toFixed(1)
     : 0;
 
   return (
@@ -69,8 +67,8 @@ export default function SalesForecastingPage() {
           <span className="sales-badge">AI FORECASTING</span>
           <h1>Sales Revenue Forecast</h1>
           <p>
-            Monitor predicted revenue, expected demand,
-            and AI-powered sales insights.
+            Monitor predicted revenue, expected demand, and AI-powered sales
+            insights.
           </p>
         </div>
 
@@ -78,178 +76,137 @@ export default function SalesForecastingPage() {
           <button onClick={fetchForecast}>
             {loading ? "Refreshing..." : "Refresh Forecast"}
           </button>
-
-          <button
-            className="retrain-btn"
-            onClick={handleRetrain}
-          >
+          <button className="retrain-btn" onClick={handleRetrain}>
             {retraining ? "Retraining..." : "Retrain AI Model"}
           </button>
         </div>
       </div>
 
-      {forecast && (
+      {forecasts.length > 0 && (
         <>
           {/* KPI CARDS */}
-          <div className="sales-cards">
-            <div className="sales-card">
-              <div className="sales-card-top">
-                <span className="sales-icon">💰</span>
-                <span className="sales-label">
-                  Predicted Revenue
-                </span>
+          {topProduct && (
+            <div className="sales-cards">
+              <div className="sales-card">
+                <div className="sales-card-top">
+                  <span className="sales-icon">🔥</span>
+                  <span className="sales-label">Top Product</span>
+                </div>
+                <h2>{topProduct.product_name}</h2>
               </div>
 
-              <h2>
-                LKR {forecast.predicted_revenue}
-              </h2>
-            </div>
-
-            <div className="sales-card success">
-              <div className="sales-card-top">
-                <span className="sales-icon">📦</span>
-                <span className="sales-label">
-                  Expected Demand
-                </span>
+              <div className="sales-card success">
+                <div className="sales-card-top">
+                  <span className="sales-icon">💰</span>
+                  <span className="sales-label">Predicted Revenue</span>
+                </div>
+                <h2>LKR {topProduct.predicted_revenue}</h2>
               </div>
 
-              <h2>
-                {forecast.predicted_demand} Units
-              </h2>
-            </div>
-
-            <div className="sales-card warning">
-              <div className="sales-card-top">
-                <span className="sales-icon">📈</span>
-                <span className="sales-label">
-                  Growth Estimate
-                </span>
+              <div className="sales-card warning">
+                <div className="sales-card-top">
+                  <span className="sales-icon">📈</span>
+                  <span className="sales-label">Growth Estimate</span>
+                </div>
+                <h2>{growthPercentage}%</h2>
               </div>
-
-              <h2>{growthPercentage}%</h2>
             </div>
-          </div>
+          )}
 
-          {/* INSIGHT */}
+          {/* ALL PRODUCTS LIST */}
           <div className="sales-insight">
-            <h3>Revenue Insight</h3>
+            <h3>All Product Forecasts</h3>
 
             <div className="sales-insight-grid">
-              <div className="sales-insight-box">
-                <p>🔥 Product</p>
-                <span>
-                  {forecast.product_name ||
-                    forecast.product_id}
-                </span>
-              </div>
+              {forecasts.map((item, index) => (
+                <div className="sales-insight-box" key={index}>
+                  <p className="sales-product-title">
+                    🔥 {item.product_name}
+                  </p>
 
-              <div className="sales-insight-box">
-                <p>💵 Forecast Revenue</p>
-                <span>
-                  LKR {forecast.predicted_revenue}
-                </span>
-              </div>
+                  {/* Main metric — Revenue */}
+                  <div className="sales-main-metric">
+                    <span className="sales-metric-label">Revenue</span>
+                    <div className="sales-metric-value">
+                      LKR {item.predicted_revenue}
+                    </div>
+                  </div>
 
-              <div className="sales-insight-box">
-                <p>📦 Current Stock</p>
-                <span>
-                  {forecast.current_stock} Units
-                </span>
-              </div>
+                  <div className="sales-metric-divider" />
 
-              <div className="sales-insight-box">
-                <p>✅ Recommended Stock</p>
-                <span>
-                  {forecast.recommended_stock} Units
-                </span>
-              </div>
+                  {/* Sub metrics */}
+                  <div className="sales-sub-metrics">
+                    <div className="sales-sub-item">
+                      <span className="sales-sub-label">Demand</span>
+                      <strong className="sales-sub-value">
+                        {item.predicted_demand}
+                      </strong>
+                    </div>
 
-              <div className="sales-insight-box">
-                <p>🚀 Growth Rate</p>
-                <span>{growthPercentage}%</span>
-              </div>
+                    <div className="sales-sub-item">
+                      <span className="sales-sub-label">Stock</span>
+                      <strong
+                        className={`sales-sub-value ${
+                          item.current_stock === 0 ? "danger" : ""
+                        }`}
+                      >
+                        {item.current_stock}
+                      </strong>
+                    </div>
+
+                    <div className="sales-sub-item">
+                      <span className="sales-sub-label">Recommended</span>
+                      <strong className="sales-sub-value highlight">
+                        {item.recommended_stock}
+                      </strong>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* MONTHLY FORECAST CHART */}
+          {/* REVENUE COMPARISON CHART */}
           <div className="sales-chart-full">
             <div className="sales-chart-card">
-              <h3>12 Month Revenue Forecast</h3>
-
-              <ResponsiveContainer
-                width="100%"
-                height={380}
-              >
-                <LineChart
-                  data={forecast.monthly_forecast || []}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="month" />
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
-
-                  <Line
-                    type="monotone"
-                    dataKey="lastYearRevenue"
-                    stroke="#94a3b8"
-                    strokeWidth={3}
-                    name="Last Year Revenue"
-                  />
-
-                  <Line
-                    type="monotone"
-                    dataKey="predictedRevenue"
-                    stroke="#f97316"
-                    strokeWidth={3}
-                    name="Predicted Revenue"
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-
-          {/* REAL STOCK RECOMMENDATION */}
-          <div className="sales-chart-full">
-            <div className="sales-chart-card">
-              <h3>Stock Recommendation</h3>
-
-              <ResponsiveContainer
-                width="100%"
-                height={320}
-              >
+              <h3>Revenue Comparison</h3>
+              <ResponsiveContainer width="100%" height={350}>
                 <BarChart
-                  data={[
-                    {
-                      product:
-                        forecast.product_name ||
-                        forecast.product_id,
-
-                      currentStock:
-                        forecast.current_stock || 0,
-
-                      recommendedStock:
-                        forecast.recommended_stock || 0,
-                    },
-                  ]}
+                  data={forecasts.map((item) => ({
+                    product: item.product_name,
+                    revenue: item.predicted_revenue,
+                  }))}
                 >
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="product" />
                   <YAxis />
                   <Tooltip />
                   <Legend />
+                  <Bar dataKey="revenue" name="Predicted Revenue" fill="#f97316" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
 
-                  <Bar
-                    dataKey="currentStock"
-                    name="Current Stock"
-                    fill="#94a3b8"
-                  />
-
-                  <Bar
-                    dataKey="recommendedStock"
-                    name="Recommended Stock"
-                    fill="#f97316"
-                  />
+          {/* STOCK COMPARISON */}
+          <div className="sales-chart-full">
+            <div className="sales-chart-card">
+              <h3>Stock Recommendation</h3>
+              <ResponsiveContainer width="100%" height={350}>
+                <BarChart
+                  data={forecasts.map((item) => ({
+                    product: item.product_name,
+                    currentStock: item.current_stock,
+                    recommendedStock: item.recommended_stock,
+                  }))}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="product" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Bar dataKey="currentStock" name="Current Stock" fill="#94a3b8" />
+                  <Bar dataKey="recommendedStock" name="Recommended Stock" fill="#f97316" />
                 </BarChart>
               </ResponsiveContainer>
             </div>
