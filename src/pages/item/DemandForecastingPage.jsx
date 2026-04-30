@@ -11,22 +11,18 @@ import {
   Tooltip,
   CartesianGrid,
   Legend,
-  LineChart,
-  Line,
 } from "recharts";
 
 export default function DemandForecastingPage() {
-  const [prediction, setPrediction] = useState(null);
+  const [predictions, setPredictions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [retraining, setRetraining] = useState(false);
 
   const fetchPrediction = async () => {
     try {
       setLoading(true);
-
       const response = await api.post("/ai/predict");
-
-      setPrediction(response.data);
+      setPredictions(response.data || []);
     } catch (error) {
       console.error("Demand prediction error:", error);
       toast.error("Failed to load demand forecast");
@@ -38,13 +34,8 @@ export default function DemandForecastingPage() {
   const handleRetrain = async () => {
     try {
       setRetraining(true);
-
       const response = await api.post("/ai/retrain");
-
-      toast.success(
-        response.data.message || "Models retrained successfully"
-      );
-
+      toast.success(response.data.message || "Models retrained successfully");
       fetchPrediction();
     } catch (error) {
       console.error("Retraining error:", error);
@@ -58,6 +49,13 @@ export default function DemandForecastingPage() {
     fetchPrediction();
   }, []);
 
+  const topProduct =
+    predictions.length > 0
+      ? [...predictions].sort(
+          (a, b) => b.predicted_demand - a.predicted_demand
+        )[0]
+      : null;
+
   return (
     <div className="demand-page">
       <div className="page-header">
@@ -65,8 +63,8 @@ export default function DemandForecastingPage() {
           <span className="demand-badge">AI FORECASTING</span>
           <h1>Demand Forecasting</h1>
           <p>
-            Monitor expected product demand, revenue forecasting,
-            and smart inventory planning.
+            Monitor expected product demand, revenue forecasting, and smart
+            inventory planning.
           </p>
         </div>
 
@@ -74,160 +72,113 @@ export default function DemandForecastingPage() {
           <button onClick={fetchPrediction}>
             {loading ? "Refreshing..." : "Refresh Forecast"}
           </button>
-
-          <button
-            className="retrain-btn"
-            onClick={handleRetrain}
-          >
+          <button className="retrain-btn" onClick={handleRetrain}>
             {retraining ? "Retraining..." : "Retrain AI Model"}
           </button>
         </div>
       </div>
 
-      {prediction && (
+      {predictions.length > 0 && (
         <>
           {/* KPI CARDS */}
-          <div className="forecast-cards">
-            <div className="forecast-card">
-              <div className="card-top">
-                <span className="card-icon">📦</span>
-                <span className="card-label">
-                  Predicted Demand
-                </span>
+          {topProduct && (
+            <div className="forecast-cards">
+              <div className="forecast-card">
+                <div className="card-top">
+                  <span className="card-icon">📦</span>
+                  <span className="card-label">Top Product</span>
+                </div>
+                <h2>{topProduct.product_name}</h2>
               </div>
 
-              <h2>
-                {prediction.predicted_demand} Units
-              </h2>
-            </div>
-
-            <div className="forecast-card success">
-              <div className="card-top">
-                <span className="card-icon">💰</span>
-                <span className="card-label">
-                  Predicted Revenue
-                </span>
+              <div className="forecast-card success">
+                <div className="card-top">
+                  <span className="card-icon">📈</span>
+                  <span className="card-label">Demand</span>
+                </div>
+                <h2>{topProduct.predicted_demand}</h2>
               </div>
 
-              <h2>
-                LKR {prediction.predicted_revenue}
-              </h2>
+              <div className="forecast-card warning">
+                <div className="card-top">
+                  <span className="card-icon">💰</span>
+                  <span className="card-label">Revenue</span>
+                </div>
+                <h2>LKR {topProduct.predicted_revenue}</h2>
+              </div>
             </div>
-          </div>
+          )}
 
-          {/* INSIGHT */}
+          {/* PRODUCT LIST */}
           <div className="demand-insight">
-            <h3>High Demand Product Alert</h3>
+            <h3>All Product Predictions</h3>
 
             <div className="insight-grid">
-              <div className="insight-box">
-                <p>🔥 Product</p>
-                <span>
-                  {prediction.product_name ||
-                    prediction.product_id}
-                </span>
-              </div>
+              {predictions.map((item, index) => (
+                <div className="insight-box" key={index}>
+                  <p className="product-title">🔥 {item.product_name}</p>
 
-              <div className="insight-box">
-                <p>📈 Expected Demand</p>
-                <span>
-                  {prediction.predicted_demand} Units
-                </span>
-              </div>
+                  {/* MAIN DEMAND */}
+                  <div className="main-metric">
+                    <span className="metric-label">Demand</span>
+                    <div className="metric-value">{item.predicted_demand}</div>
+                  </div>
 
-              <div className="insight-box">
-                <p>📦 Current Stock</p>
-                <span>
-                  {prediction.current_stock} Units
-                </span>
-              </div>
+                  <div className="metric-divider" />
 
-              <div className="insight-box">
-                <p>✅ Recommended Stock</p>
-                <span>
-                  {prediction.recommended_stock} Units
-                </span>
-              </div>
+                  {/* SUB METRICS */}
+                  <div className="sub-metrics">
+                    <div className="sub-metric-item">
+                      <span className="sub-label">Revenue</span>
+                      <strong className="sub-value">
+                        LKR {item.predicted_revenue}
+                      </strong>
+                    </div>
+
+                    <div className="sub-metric-item">
+                      <span className="sub-label">Stock</span>
+                      <strong
+                        className={`sub-value ${
+                          item.current_stock === 0 ? "danger" : ""
+                        }`}
+                      >
+                        {item.current_stock}
+                      </strong>
+                    </div>
+
+                    <div className="sub-metric-item">
+                      <span className="sub-label">Recommended</span>
+                      <strong className="sub-value highlight">
+                        {item.recommended_stock}
+                      </strong>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* CHARTS */}
-          <div className="demand-chart-grid">
-            {/* Monthly Revenue Forecast */}
-            <div className="demand-chart-card">
-              <h3>Monthly Revenue Forecast</h3>
+          {/* CHART */}
+          <div className="demand-chart-card">
+            <h3>Stock Recommendation</h3>
 
-              <ResponsiveContainer
-                width="100%"
-                height={320}
+            <ResponsiveContainer width="100%" height={350}>
+              <BarChart
+                data={predictions.map((item) => ({
+                  product: item.product_name,
+                  currentStock: item.current_stock,
+                  recommendedStock: item.recommended_stock,
+                }))}
               >
-                <LineChart
-                  data={prediction.monthly_forecast || []}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="month" />
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
-
-                  <Line
-                    type="monotone"
-                    dataKey="lastYearRevenue"
-                    name="Last Year Revenue"
-                  />
-
-                  <Line
-                    type="monotone"
-                    dataKey="predictedRevenue"
-                    name="Predicted Revenue"
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-
-            {/* Real Stock Recommendation */}
-            <div className="demand-chart-card">
-              <h3>Stock Recommendation</h3>
-
-              <ResponsiveContainer
-                width="100%"
-                height={320}
-              >
-                <BarChart
-                  data={[
-                    {
-                      product:
-                        prediction.product_name ||
-                        prediction.product_id,
-
-                      currentStock:
-                        prediction.current_stock || 0,
-
-                      recommendedStock:
-                        prediction.recommended_stock || 0,
-                    },
-                  ]}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="product" />
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
-
-                  <Bar
-                    dataKey="currentStock"
-                    name="Current Stock"
-                    fill="#94a3b8"
-                  />
-
-                  <Bar
-                    dataKey="recommendedStock"
-                    name="Recommended Stock"
-                    fill="#f97316"
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="product" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="currentStock" name="Current Stock" fill="#94a3b8" />
+                <Bar dataKey="recommendedStock" name="Recommended" fill="#f97316" />
+              </BarChart>
+            </ResponsiveContainer>
           </div>
         </>
       )}
