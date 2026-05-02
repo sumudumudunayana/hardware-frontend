@@ -7,13 +7,15 @@ export default function LowStockAlertPage() {
   const [stocks, setStocks] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // NEW STATE
+  const [statusFilter, setStatusFilter] = useState("ALL");
+
   const LOW_STOCK_LIMIT = 10;
   const CRITICAL_LIMIT = 5;
 
   const loadStocks = async () => {
     try {
       setLoading(true);
-
       const res = await api.get("/stocks");
       setStocks(res.data);
     } catch {
@@ -27,18 +29,44 @@ export default function LowStockAlertPage() {
     loadStocks();
   }, []);
 
-  const alertStocks = useMemo(() => {
-    return stocks.filter((stock) => stock.quantity <= LOW_STOCK_LIMIT);
-  }, [stocks]);
+  // STATUS HELPER
+  const getStatus = (qty) => {
+    if (qty === 0) return "OUT";
+    if (qty <= CRITICAL_LIMIT) return "CRITICAL";
+    return "LOW";
+  };
 
+  // FILTER + SORT LOGIC
+  const alertStocks = useMemo(() => {
+    let filtered = stocks.filter((stock) => stock.quantity <= LOW_STOCK_LIMIT);
+
+    if (statusFilter !== "ALL") {
+      filtered = filtered.filter(
+        (stock) => getStatus(stock.quantity) === statusFilter
+      );
+    }
+
+    // SORT BY SEVERITY
+    const priority = {
+      OUT: 1,
+      CRITICAL: 2,
+      LOW: 3,
+    };
+
+    return filtered.sort(
+      (a, b) => priority[getStatus(a.quantity)] - priority[getStatus(b.quantity)]
+    );
+  }, [stocks, statusFilter]);
+
+  // SUMMARY
   const summary = useMemo(() => {
     return {
       low: stocks.filter(
-        (s) => s.quantity > CRITICAL_LIMIT && s.quantity <= LOW_STOCK_LIMIT,
+        (s) => s.quantity > CRITICAL_LIMIT && s.quantity <= LOW_STOCK_LIMIT
       ).length,
 
       critical: stocks.filter(
-        (s) => s.quantity > 0 && s.quantity <= CRITICAL_LIMIT,
+        (s) => s.quantity > 0 && s.quantity <= CRITICAL_LIMIT
       ).length,
 
       outOfStock: stocks.filter((s) => s.quantity === 0).length,
@@ -47,14 +75,13 @@ export default function LowStockAlertPage() {
     };
   }, [stocks]);
 
-  const getStatus = (qty) => {
-    if (qty === 0) {
+  // STATUS STYLE
+  const getStatusStyle = (qty) => {
+    if (qty === 0)
       return { text: "Out of Stock", className: "status-out" };
-    }
 
-    if (qty <= CRITICAL_LIMIT) {
+    if (qty <= CRITICAL_LIMIT)
       return { text: "Critical", className: "status-critical" };
-    }
 
     return { text: "Low", className: "status-low" };
   };
@@ -68,7 +95,38 @@ export default function LowStockAlertPage() {
           <h1>Low Stock Alerts</h1>
         </div>
 
-        {/* SUMMARY CARDS */}
+        {/* FILTER BUTTONS */}
+<div className="lsa-filter-bar">
+  <button
+    className={`lsa-filter-btn ${statusFilter === "ALL" ? "active" : ""}`}
+    onClick={() => setStatusFilter("ALL")}
+  >
+    All
+  </button>
+
+  <button
+    className={`lsa-filter-btn ${statusFilter === "OUT" ? "active" : ""}`}
+    onClick={() => setStatusFilter("OUT")}
+  >
+    Out of Stock
+  </button>
+
+  <button
+    className={`lsa-filter-btn ${statusFilter === "CRITICAL" ? "active" : ""}`}
+    onClick={() => setStatusFilter("CRITICAL")}
+  >
+    Critical
+  </button>
+
+  <button
+    className={`lsa-filter-btn ${statusFilter === "LOW" ? "active" : ""}`}
+    onClick={() => setStatusFilter("LOW")}
+  >
+    Low
+  </button>
+</div>
+
+        {/* SUMMARY */}
         <div className="lsa-summary-grid">
           <div className="lsa-summary-box">
             <h3>{summary.low}</h3>
@@ -116,12 +174,12 @@ export default function LowStockAlertPage() {
               ) : alertStocks.length === 0 ? (
                 <tr>
                   <td colSpan="7" className="lsa-empty">
-                    No low stock alerts
+                    No matching items
                   </td>
                 </tr>
               ) : (
                 alertStocks.map((stock) => {
-                  const status = getStatus(stock.quantity);
+                  const status = getStatusStyle(stock.quantity);
 
                   return (
                     <tr key={stock._id}>
