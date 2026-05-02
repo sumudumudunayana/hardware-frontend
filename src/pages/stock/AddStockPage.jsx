@@ -37,8 +37,7 @@ export default function AddStockPage() {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    if (name === "quantity" && Number(value) < 0) return;
-
+    // Allow typing freely
     setFormData({
       ...formData,
       [name]: value,
@@ -56,8 +55,14 @@ export default function AddStockPage() {
       return;
     }
 
+    // 🚨 Validate quantity here (better UX)
     if (!quantity || qty <= 0) {
       toast.error("Quantity must be greater than 0");
+      return;
+    }
+
+    if (qty < 0) {
+      toast.error("Quantity cannot be negative");
       return;
     }
 
@@ -83,7 +88,7 @@ export default function AddStockPage() {
           loading: "Adding stock...",
           success: "Stock added successfully!",
           error: "Failed to add stock",
-        },
+        }
       );
 
       setFormData({
