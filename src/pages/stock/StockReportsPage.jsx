@@ -48,9 +48,7 @@ export default function StockReportsPage() {
     ).length;
 
     const outOfStock = stocks.filter((s) => s.quantity === 0).length;
-
     const mostStock = [...stocks].sort((a, b) => b.quantity - a.quantity)[0];
-
     const leastStock = [...stocks].sort((a, b) => a.quantity - b.quantity)[0];
 
     return {
