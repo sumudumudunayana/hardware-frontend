@@ -63,13 +63,10 @@ export default function StockReportsPage() {
 
   const categoryData = useMemo(() => {
     const grouped = {};
-
     stocks.forEach((stock) => {
       const category = stock.itemId?.itemCategory || "Unknown";
-
       grouped[category] = (grouped[category] || 0) + stock.quantity;
     });
-
     return Object.entries(grouped).map(([name, quantity]) => ({
       name,
       quantity,
