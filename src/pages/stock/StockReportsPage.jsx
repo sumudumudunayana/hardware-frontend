@@ -75,13 +75,10 @@ export default function StockReportsPage() {
 
   const statusData = useMemo(() => {
     const available = stocks.filter((s) => s.quantity > LOW_STOCK_LIMIT).length;
-
     const low = stocks.filter(
       (s) => s.quantity > 0 && s.quantity <= LOW_STOCK_LIMIT,
     ).length;
-
     const out = stocks.filter((s) => s.quantity === 0).length;
-
     return [
       { name: "Available", value: available },
       { name: "Low Stock", value: low },
