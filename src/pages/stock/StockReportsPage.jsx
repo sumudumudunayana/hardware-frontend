@@ -88,13 +88,11 @@ export default function StockReportsPage() {
 
   const movementData = useMemo(() => {
     const monthly = {};
-
     stocks.forEach((stock) => {
       const date = new Date(stock.updatedAt);
       const month = date.toLocaleString("default", {
         month: "short",
       });
-
       if (!monthly[month]) {
         monthly[month] = {
           month,
@@ -102,7 +100,6 @@ export default function StockReportsPage() {
           updated: 0,
         };
       }
-
       monthly[month].updated += stock.quantity;
     });
 
