@@ -102,7 +102,6 @@ export default function StockReportsPage() {
       }
       monthly[month].updated += stock.quantity;
     });
-
     return Object.values(monthly);
   }, [stocks]);
 
