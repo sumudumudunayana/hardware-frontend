@@ -12,7 +12,6 @@ export default function AddCustomerPage() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     // Phone number → digits only
     if (name === "customerContactNumber") {
       if (!/^\d*$/.test(value)) {
@@ -20,7 +19,6 @@ export default function AddCustomerPage() {
         return;
       }
     }
-
     // Customer name → letters and spaces only
     if (name === "customerName") {
       if (!/^[A-Za-z\s]*$/.test(value)) {
@@ -28,7 +26,6 @@ export default function AddCustomerPage() {
         return;
       }
     }
-
     setFormData({ ...formData, [name]: value });
   };
 
