@@ -66,16 +66,13 @@ export default function StockOverviewPage() {
   // latest updated date
   const lastUpdated = useMemo(() => {
     if (!stocks.length) return "No data";
-
     const sorted = [...stocks].sort(
       (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt),
     );
-
     return sorted[0]?.updatedAt
       ? new Date(sorted[0].updatedAt).toLocaleDateString()
       : "No data";
   }, [stocks]);
-
   if (loading) {
     return <div className="stk-wrapper">Loading stock data...</div>;
   }
